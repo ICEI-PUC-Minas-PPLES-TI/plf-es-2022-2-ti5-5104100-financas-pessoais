@@ -154,9 +154,30 @@ Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura 
 
 _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo do produto)._
 
-1. O sistema deve...
-2. O sistema deve...
-3. ...
+1.O sistema deve possibilitar o login do usuário na aplicativo
+
+2.O sistema deve possibilitar o cadastro do usuário na plataforma.
+
+3.O sistema deve possibilitar ao usuário inserir suas receitas e despesas do mês.
+
+4.O sistema deve possibilitar a visualização do balanço entre receita e despesas.
+
+5.O sistema deve possibilitar o usuário navegar pelos meses antecessores e futuros para estar visualizando as informações da receita, despesas e balanço.
+
+6.O sistema deve possibilitar ao usuário visualizar relatórios e gráficos da movimentação financeira mensal.
+
+7.O sistema deve possibilitar o usuário a inserir e visualizar a localização da compra no mapa.
+
+8.O sistema deve possibilitar ao usuário escolher a forma que a despesa foi feita (a vista, débito, crédito ou parcelado).
+
+9.O sistema deve possibilitar ao usuário cadastrar metas de despesas (alimentação, vestuário, viagem, lazer,.....).
+
+10.O sistema deve possibilitar ao usuário receber notificações de limite de despesa excedido.
+
+11.O sistema deve possibilitar o usuário cadastrar investimentos realizados e metas (investimento em tesouro direto, meta para compra de um carro,...).
+
+12.O sistema deve possibilitar a exclusão da conta caso o usuário deseje.
+
 
 Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os professores/orientadores do trabalho.
 
@@ -186,11 +207,11 @@ Exemplos de resumo de Casos de Uso:
 
 Exemplos de Histórias de Usuário:
 
-- Como Fulano eu quero poder convidar meus amigos para que a gente possa se reunir...
+- Como pai de família quero conseguir cadastrar metas financeiras, para que eu possa estar comprando um carro futuramente.
+- Como estagiário, quero poder analisar como está o fluxo de meu dinheiro, para que eu possa ter mais controle dos meus gastos.
+- Como dona de uma loja de bolos, desejo saber a localização dos comércios em que comprei os produtos para fabricação dos bolos, a fim de que ao realizar o fechamento  das contas do mês eu consiga identificar mais rapidamente quais foram os gastos.
+- Como noivo, precisa fazer um planejamento financeiro, para que consiga pagar o casório.
 
-- Como Cicrano eu quero poder organizar minhas tarefas diárias, para que...
-
-- Como gerente eu quero conseguir entender o progresso do trabalho do meu time, para que eu possa ter relatórios periódicos dos nossos acertos e falhas.
 
 ## 3.2. Visão Lógica
 
