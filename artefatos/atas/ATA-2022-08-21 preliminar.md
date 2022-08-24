@@ -32,7 +32,7 @@ Responsabilidades de cada membro | Pedro C. | Desenvolvedor Web |
 Responsabilidades de cada membro | Nataniel | Scrum Master |
 Responsabilidades de cada membro | Izabella | UX/UI Designer |
 Responsabilidades de cada membro | Helen | Desenvolvedor Mobile |
-Nome do projeto | Todos | - |
+Nome do projeto | Todos | WeBudget |
 Linguagem para o Back-end | Todos | C# |
 Banco de Dados | Todos | PostgreSQL |
 Hospedagem | Todos | Heroku |
