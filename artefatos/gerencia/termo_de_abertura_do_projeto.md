@@ -1,4 +1,4 @@
-# Termo de Abertura de Projeto (TAP) nº.: 0001
+# Termo de Abertura de Projeto (TAP) nº.: 1/2022
 
 **Nome da empresa:** WeBudget
 
@@ -53,7 +53,7 @@ Desenvolver um aplicativo que auxilie o usuário na organização da sua vida fi
 
 **1.6 Benefícios que justificam o projeto:**
 
-O projeto visa auxiliar os usuários no controle de metas de despesas, receitas e investimentos. Ele será capaz de gerir os objetivos financeiros de curto, médio e longo prazo. Visando um maior controle dos locais de gastos e/ou recebimentos, o usuário poderá salvar o local das compras realizadas com a utilização do GPS.
+O projeto visa auxiliar os usuários no controle de metas de despesas, receitas e investimentos. Ele será capaz de gerir os objetivos financeiros de curto, médio e longo prazo, além de poder registrar o local das movimentações financeiras pela funcionalidade de GPS.
 
 **1.7 Qualidade esperada do produto final (requisitos de qualidade):**
 
@@ -63,40 +63,52 @@ Confiabilidade, usabilidade, manutenibilidade.
 
 **2.1 O que será feito (escopo do projeto)**
 
+**Escopo do projeto**
+
 Item | Descrição
 ---- | ----
-1 | O usuário será capaz de realizar login no sistema
-2 | O usuário se cadastra no sistema
-3 | O usuário cadastra metas de despesa por tipo (alimentação, vestuário, viagem, lazer,.....)
-4 | O usuário informa o local da compra utilizando o GPS
-5 | O usuário cadastra as receitas auferidas no mês
-6 | O usuário visualiza relatórios e gráficos da movimentação financeira mensal
-7 | O usuário recebe notificações de limite de despesa excedido
-8 | O usuário cadastra os investimentos realizados
+1 | Levantamento de requisitos
+2 | Cronograma do projeto
+3 | Documentação
+4 | Desenvolvimento de software
+5 | Teste de software
+6 | Implantação do software
 
+**Escopo do produto**
+
+Item | Descrição
+---- | ----
+1 | Aplicação Mobile (Android) e Web
+2 | Utilização de API do Google Maps.
 
 **2.2 O que não será feito no projeto (contra-escopo)**
 
 Item | Descrição
 ---- | ----
-1 | A aplicação não será desenvolvido para IOS
-2 | A aplicação não terá integração com bancos
+1 | Controle de qualidade
+2 | Integração com instituições financeiras
+3 | Não será fornecida licença de softwares de terceiros
+4 | Prover HomeBroker ou interfaces análogas para investimentos
+5 | Treinamento para usuários
 
 **2.3 Resultados / serviços / produtos a serem entregues**
 
-| **1.** | Aplicação Mobile |
-| --- | --- |
-| **2.** | Site Web |
+Item | Descrição
+---- | ----
+| 1 | Aplicação Mobile |
+| 2 | Aplicaçação Web |
+| 3 | Documentação |
 
 **2.4 Condições para início do projeto**
 
 O escopo do projeto deve estar bem definido, e a equipe totalmente empenhada em cumprir com as responsabilidades individuais e de colaboração ao grupo.
+A equipe deverá estar treinada para utilização das principais tecnologias, a saber: Flutter e .Net.
 
 ## 3. ESTIMATIVA DE PRAZO
 
 **3.1 Prazo previsto (horas):**
 
-120h
+2500h
 
 **3.2 Data prevista de início:**
 
@@ -110,22 +122,18 @@ O escopo do projeto deve estar bem definido, e a equipe totalmente empenhada em 
 
 | Item de custo | Qtd. horas | Valor / hora  | Valor total |
 | --- | --- | --- | --- |
-| **4.1 Recursos Humanos** **(especifique):** | 80 |  |  |
-| **4.2 Hardware (especifique):** | 40 |  |  |
-| **4.3 Rede e serviços de hospedagem:** |  |  |  |
-| **4.4 Software de terceiros:** |  |  |  |
-| **4.5 Serviços e treinamento:** | 60 |  |  |
-| **4.6 Total Geral:** |  |  |  |
+| **4.1 Recursos Humanos** **(especifique):** | 2.500 | R$ 20,00 | R$ 50.000,00 |
+| **4.2 Hardware (especifique):** | N/A | N/A | R$ 20.000,00 |
+| **4.3 Rede e serviços de hospedagem:** | N/A | N/A | R$ 1.000,00 |
+| **4.4 Software de terceiros:** | N/A | N/A | N/A |
+| **4.5 Serviços e treinamento:** | N/A | N/A | R$ 5.000,00 |
+| **4.6 Total Geral:** | 2.500 | N/A | R$ 76.000,00 |
 
 ## 5. PARTES INTERESSADAS
 
 | Nome | Papel no projeto | Assinatura |
 | --- | --- | --- |
-| Pedro Henrique Gonçalves Barcelos | Dataviz |     |
 | Nataniel Geraldo Mendes Peixoto | Gerente do Projeto |     |
-| Izabella de Castro Lucas | UX/UI Designer |     |
-| Pedro Campos Miranda | Desenvolvedor Web |     |
-| Helen Camila de Oliveira Andrade | Desenvolvedor Mobile |     |
 | Persona - Investidor | Cliente |     |
 
 **Observações:**
