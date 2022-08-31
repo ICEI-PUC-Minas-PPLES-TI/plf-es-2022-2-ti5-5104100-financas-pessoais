@@ -45,7 +45,7 @@ Inicio do Projeto | Todos | 26/08/2022 |
 ## Ações e pendências
 | Feito (S/N)? | Item | Responsável | Data para solução |
 | ---- | ---- | ---- | ---- |
-| S | Aprovação do TAP | Todos | 21/02/2022 |
+| S | Aprovação do TAP | Todos | 21/08/2022 |
 | S | Criar ata de reunião | Pedro B. | 22/08/2022 |
 | S | Criar termo de abertura de projeto | Nataniel | 23/08/2022 |
 | S | Criar estrutura analítica do projeto (EAP) | Pedro C. | 21/08/2022 |
