@@ -1,19 +1,23 @@
-# TITULO DO PROJETO
+# WeBudget
 
 
-**Nome completo do Aluno 1, email do aluno 1**
+**Helen Camila de Oliveira Andrade, hcoandrade@sga.pucminas.br**
 
-**Nome completo do Aluno 2, email do aluno 2**
+**Izabella de Castro Lucas, iclucas@sga.pucminas.br**
 
-**Nome completo do Aluno 3, email do aluno 3**
+**Nataniel Geraldo Mendes Peixoto, nataniel.peixoto@sga.pucminas.br**
+
+**Pedro Campos Miranda, pcmiranda@sga.pucminas.br**
+
+**Pedro Henrique Gonçalves Barcelos, 1265406@sga.pucminas.br**
 
 ---
 
 Professores:
 
-**Prof. Nome do Prof 1**
+**Cleiton Silva Tavares**
 
-**Prof. Nome do Prof 2**
+**José Laerte Pires Xavier Junior**
 
 
 ---
@@ -33,7 +37,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
-| **[dd/mm/aaaa]** | [Nome do autor] | [Descrever as principais alterações realizadas no documento, evidenciando as seções ou capítulos alterados] | [X] |
+| **[31/08/2022]** | [Helen] | [Estruturação inicial da Apresentação e Requisitos do projeto] | [1.0.0] |
 | | | | |
 | | | | |
 
@@ -67,77 +71,92 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 <a name="apresentacao"></a>
 # 1. Apresentação
 
-_Faça uma introdução ao projeto, apresentando o contexto onde o projeto se situa. É importante deixar claro para o leitor os aspectos que configuram o problema que será apresentado na sequência. Apresente, se possível, números reais que demonstram a relevância do problema apresentado._
+_Muitas vezes a tarefa de coordenar as finanças pessoais é deixada de lado no Brasil, entre os motivos de problemas financeiros e até psicológicos, o descontrole financeiro é mais comum que parece._
+
+De acordo com pesquisas realizadas pelo SPC Brasil e pela Confederação Nacional de Dirigentes Lojistas (CNDL), seis em cada 10 brasileiros (58%) admitem nunca, ou somente as vezes, dedicam a atividades de controle da vida financeira.
+Esse controle financeiro é essencial para ter uma qualidade de vida. E com o mundo cada vez mais tecnológico, o smartphone se torna um elemento imprescindível nessa busca.
+
+A consulta de gastos, receitas e uma possível elaboração de um plano financeiro é restrito apenas ao extrato bancário, se tornando complexa e desorganizada. Diante desse contexto surge a necessidade de amparo que possam auxiliar de maneira prática as pessoas que buscam realizar o controle de suas próprias finanças.
 
 
 ## 1.1. Problema
 
-_Nesse momento você deve apresentar o problema que a sua aplicação deve resolver. No entanto, não é a hora de comentar sobre a aplicação._
+_Notícias que demonstram o descontrole financeiro presente na maior parte da população brasileira estão cada vez mais comuns, segundo o Mapa da Inadimplência da Serasa, em junho de 2022 haviam mais de 68 milhões de pessoas endividadas no Brasil. Esse endividamento traz vários problemas, não apenas financeiros, como também de qualidade de vida._
 
 ## 1.2. Objetivos do trabalho
 
-_Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é apresentar a descrição do projeto arquitetural da aplicação escolhida. Apresente também os objetivos específicos do projeto, descrevendo onde você vai concentrar sua atenção na descrição arquitetural, ou seja, os pontos onde você vai aprofundar no seu trabalho._
+_Utilizando de conhecimentos adquiridos nas disciplinas do curso de Engenharia de Software, tais como levantamentos de requisitos e programação, foi proposto o desenvolvimento de uma solução para o auxílio no controle, organização e planejamento financeiro. O objetivo geral é desenvolver um aplicativo que auxilie o usuário na organização da sua vida financeira._
+
+Os objetivos específicos do projeto são:
+
+- Auxiliar o usuário no controle de metas de despesas, receitas e investimentos;
+- Possibilitar o usuário a gestão de objetivos financeiros de curto, médio e longo prazo;
+- Possibilitar o usuário salvar o local das compras realizadas com a utilização do GPS.
 
 ## 1.3. Definições e Abreviaturas
 
-Coloque aqui as definições, siglas e abreviaturas utilizadas no trabalho._
+- Id: Identidade;
+- Api: Application Programming Interface (Interface de Programação de Aplicação);
+- SPC: Serviço de Proteção ao Crédito;
+- RF: Requisito Funcional;
+- RNF: Requisito Não Funcional;
+- HTML: Hypertext Markup Language;
+- CSS: Cascading Style Sheet (Folha de Estilo em Cascatas);
+- JS: Java Script.
 
 <a name="requisitos"></a>
 # 2. Requisitos
 
-_Esta seção descreve os requisitos comtemplados nesta descrição arquitetural, divididos em dois grupos: funcionais e não funcionais._
+_Visando auxiliar a definir quais são as funcionalidades de maior prioridade de serem feitas antes e quais possuem um maior nível de complexidade de se desenvolver foram desenvolvidas as tabelas abaixo._
 
 ## 2.1. Requisitos Funcionais
 
-_Enumere os requisitos funcionais previstos para a sua aplicação. Concentre-se nos requisitos funcionais que sejam críticos para a definição arquitetural. Lembre-se de listar todos os requisitos que são necessários para garantir cobertura arquitetural. Esta seção deve conter uma lista de requisitos ainda sem modelagem. Na coluna Prioridade utilize uma escala (do mais prioritário para o menos): Essencial, Desejável, Opcional._
 
 | **ID** | **Descrição** | **Prioridade** |
 | --- | --- | --- |
-| RF001 | | |
-| RF002 | | |
-| | | |
-| | | |
-| | | |
+| RF001 | O usuário realiza login no sistema. | Alta |
+| RF002 | O usuário se cadastra no sistema. | Alta |
+| RF003 | O usuário altera seus dados cadastrais. | Média |
+| RF004 | O usuário visualiza uma página inicial com o total de receitas e despesas do mês, bem como as últimas transações. | Alta |
+| RF005 | O usuário visualiza uma página com a relação de todas as movimentações financeiras do mês. | Alta |
+| RF006 | O usuário cadastra metas de despesa por tipo (alimentação, vestuário, viagem, lazer,.....). | Alta |
+| RF007 | O usuário cadastra as despesas do mês por categoria. | Alta |
+| RF008 | O usuário informa o local da compra utilizando o GPS. | Alta |
+| RF009 | O usuário cadastra as receitas auferidas no mês. | Alta |
+| RF010 | O usuário visualiza gráficos com as despesas separadas por categoria. | Alta |
+| RF011 | O usuário recebe notificações de limite de despesa excedido. | Alta |
+| RF012 | O usuário visualiza gráficos com a evolução das despesas no ano. | Alta |
 
-Obs: acrescente mais linhas, se necessário.
 
 ## 2.2. Requisitos Não-Funcionais
 
-_Enumere os requisitos não-funcionais previstos para a sua aplicação. Entre os requisitos não funcionais, inclua todos os requisitos que julgar importante do ponto de vista arquitetural ou seja os requisitos que terão impacto na definição da arquitetura. Os requisitos devem ser descritos de forma completa e preferencialmente quantitativa._
 
 | **ID** | **Descrição** |
 | --- | --- |
-| RNF001 | |
-| RNF002 | |
-| | |
-| | |
-| | |
+| RNF001 | O software deve ser compatível nas plataformas Android. |
+| RNF002 | O sistema deve prover serviços no ambiente web e móvel. |
 
-Obs: acrescente mais linhas, se necessário.
 
 ## 2.3. Restrições Arquiteturais
 
-_Enumere as restrições arquiteturais. Lembre-se de que as restrições arquiteturais geralmente não são consideradas requisitos uma vez que limitam a solução candidata. Os requisitos não impõem restrição, mas precisam ser satisfeitos._
+As restrições impostas ao projeto que afetam sua arquitetura são :
 
-As restrições impostas ao projeto que afetam sua arquitetura são (por exemplo):
-
-- O software deverá ser desenvolvido em Python/Django;
-- A comunicação da API deve seguir o padrão RESTful.
+- O Front-end da versão web será desenvolvido em HTML, CSS e JS;
+- O Front-end da versão mobile será desenvolvido em Flutter;
+- Os requisitos do Back-end serão desenvolvidos em C#- Microsoft .Net Core;
+- Para a persistência de dados deve ser utilizado o PostgreSQL;
+- Será utilizada a API da Hash.
 
 ## 2.4. Mecanismos Arquiteturais
 
-_Visão geral dos mecanismos que compõem a arquitetura do sosftware baseando-se em três estados: (1) análise, (2) design e (3) implementação. Em termos de Análise devem ser listados os aspectos gerais que compõem a arquitetura do software como: persistência, integração com sistemas legados, geração de logs do sistema, ambiente de front end, tratamento de exceções, formato dos testes, formato de distribuição/implantação (deploy), entre outros. Em Design deve-se identificar o padrão tecnológico a seguir para cada mecanismo identificado na análise. Em Implementação, deve-se identificar o produto a ser utilizado na solução.
- Ex: Análise (Persistência), Design (ORM), Implementação (Hibernate)._
-
 | **Análise** | **Design** | **Implementação** |
 | --- | --- | --- |
-| Persistência | | |
-| Front end | | |
-| Back end | | |
-| Integração | | |
-| Log do sistema | | |
-| Teste de Software | | |
-| Deploy | | |
+| Persistência | Relational SGBD | PostgreSQL |
+| Apresentação | Front-end web | HTML, CSS e JS |
+| Apresentação | Front-end mobile | Flutter |
+| Negócio | Back-end | C# |
+| Teste de Software |  | XUnit |
+| Deploy |  | Heroku |
 
 <a name="modelagem"></a>
 # 3. Modelagem e projeto arquitetural
@@ -151,8 +170,6 @@ _Apresente uma visão geral da solução proposta para o projeto e explique brev
 Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura é única).
 
 ## 3.1. Visão de Negócio (Funcionalidades)
-
-_Apresente uma lista simples com as funcionalidades previstas no projeto (escopo do produto)._
 
 1.O sistema deve possibilitar o login do usuário na aplicativo
 
@@ -179,7 +196,6 @@ _Apresente uma lista simples com as funcionalidades previstas no projeto (escopo
 12.O sistema deve possibilitar a exclusão da conta caso o usuário deseje.
 
 
-Obs: a quantidade e o escopo das funcionalidades deve ser negociado com os professores/orientadores do trabalho.
 
 ### Descrição resumida dos Casos de Uso / Histórias de Usuário
 
