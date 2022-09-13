@@ -108,7 +108,7 @@ A equipe deverá estar treinada para utilização das principais tecnologias, a 
 
 **3.1 Prazo previsto (horas):**
 
-2500h
+500h
 
 **3.2 Data prevista de início:**
 
@@ -122,12 +122,12 @@ A equipe deverá estar treinada para utilização das principais tecnologias, a 
 
 | Item de custo | Qtd. horas | Valor / hora  | Valor total |
 | --- | --- | --- | --- |
-| **4.1 Recursos Humanos** **(especifique):** | 2.500 | R$ 20,00 | R$ 50.000,00 |
+| **4.1 Recursos Humanos** **(especifique):** | 500 | R$ 20,00 | R$ 10.000,00 |
 | **4.2 Hardware (especifique):** | N/A | N/A | R$ 20.000,00 |
 | **4.3 Rede e serviços de hospedagem:** | N/A | N/A | R$ 1.000,00 |
 | **4.4 Software de terceiros:** | N/A | N/A | N/A |
 | **4.5 Serviços e treinamento:** | N/A | N/A | R$ 5.000,00 |
-| **4.6 Total Geral:** | 2.500 | N/A | R$ 76.000,00 |
+| **4.6 Total Geral:** | 2.500 | N/A | R$ 36.000,00 |
 
 ## 5. PARTES INTERESSADAS
 
