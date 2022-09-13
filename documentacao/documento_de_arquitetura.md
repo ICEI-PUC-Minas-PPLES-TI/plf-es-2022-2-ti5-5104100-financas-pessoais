@@ -135,6 +135,11 @@ _Visando auxiliar a definir quais são as funcionalidades de maior prioridade de
 | --- | --- |
 | RNF001 | O software deve ser compatível nas plataformas Android. |
 | RNF002 | O sistema deve prover serviços no ambiente web e móvel. |
+| RNF003 | O usuário deve estar autenticado. |
+| RNF004 | O sistema deve responder as requisições em até 500 milissegundos. |
+| RNF005 | O sistema deve ser aprovado em testes de integração. |
+| RNF006 | A parte mobile deve ter persistencia de dados local. |
+| RNF007 | O sistema deve estar disponível 98% do tempo. |
 
 
 ## 2.3. Restrições Arquiteturais
@@ -144,19 +149,21 @@ As restrições impostas ao projeto que afetam sua arquitetura são :
 - O Front-end da versão web será desenvolvido em HTML, CSS e JS;
 - O Front-end da versão mobile será desenvolvido em Flutter;
 - Os requisitos do Back-end serão desenvolvidos em C#- Microsoft .Net Core;
-- Para a persistência de dados deve ser utilizado o PostgreSQL;
-- Será utilizada a API da Hash.
+- Para a persistência de dados deve ser utilizado o SQL Server;
+- Será utilizada a Api do google Maps.
 
 ## 2.4. Mecanismos Arquiteturais
 
 | **Análise** | **Design** | **Implementação** |
 | --- | --- | --- |
-| Persistência | Relational SGBD | PostgreSQL |
+| Persistência Web | Banco de dados relacional | SQL server |
+| Persistência Mobile | Banco de dados relacional | SQLite |
 | Apresentação | Front-end web | HTML, CSS e JS |
 | Apresentação | Front-end mobile | Flutter |
 | Negócio | Back-end | C# |
-| Teste de Software |  | XUnit |
-| Deploy |  | Heroku |
+| Teste de Software | Framework | XUnit |
+| Deploy | API | Azure |
+| Integração | Rest | Heroku |
 
 <a name="modelagem"></a>
 # 3. Modelagem e projeto arquitetural
