@@ -49,7 +49,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 	1.3. Definições e Abreviaturas <br />
 
 2. [Requisitos](#requisitos "Requisitos") <br />
-'	2.1. Requisitos Funcionais <br />
+	2.1. Requisitos Funcionais <br />
 	2.2. Requisitos Não-Funcionais <br />
 	2.3. Restrições Arquiteturais <br />
 	2.4. Mecanismos Arquiteturais <br />
