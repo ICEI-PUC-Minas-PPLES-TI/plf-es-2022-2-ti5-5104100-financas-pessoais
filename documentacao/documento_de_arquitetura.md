@@ -208,27 +208,91 @@ Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura 
 
 _Nesta seção, os casos de uso devem ser resumidos. Esse detalhamento pode ser na forma de um texto sintético ou, alternativamente, você pode optar por descrever estórias de usuários seguindo os métodos ágeis. Neste caso a seção deve chamar &quot;Histórias de usuários&quot;. Lembre-se das características de qualidade das estórias de usuários, ou seja, o que é preciso para descrever boas histórias de usuários._
 
-Exemplos de resumo de Casos de Uso:
+Casos de Uso:
 
-#### UC01 – NOME DO CASO DE USO 01
+#### UC01 –  Acessar o aplicativo
 
-| **Descrição** | |
+| **Descrição** | Eu como usuário quero realizar o cadastro e o login no aplicativo |
 | --- | --- |
-| **Atores** | |
-| **Prioridade** | |
-| **Requisitos associados** | |
-| **Fluxo Principal** | |
+| **Atores** | Usuário |
+| **Prioridade** | Alta |
+| **Requisitos associados** | RF001 e RF002 |
+| **Fluxo Principal** |Entrar no aplicativo, realizar cadastro e realizar login. |
 
-#### UC02 – NOME DO CASO DE USO 02
+#### UC02 – Acessar as minhas receitas, despesas e transações
 
-| **Descrição** | |
+| **Descrição** | Eu como usuário quero poder estar visualizando a minha receita, despesas e transações cadastradas recentemente |
 | --- | --- |
-| **Atores** | |
-| **Prioridade** | |
-| **Requisitos associados** | |
-| **Fluxo Principal** | |
+| **Atores** | Usuário |
+| **Prioridade** | Alta |
+| **Requisitos associados** | RF004|
+| **Fluxo Principal** | Entrar no aplicativo e acessar o menu|
 
-Exemplos de Histórias de Usuário:
+#### UC03 – Editar cadastro
+
+| **Descrição** | Eu como usuário quero poder editar o meu cadastro |
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** | Média |
+| **Requisitos associados** | RF003 |
+| **Fluxo Principal** | Entrar no aplicativo, ir nas configurações e editar cadastro|
+
+#### UC04 – Acessar todas as transações 
+
+| **Descrição** | Eu como usuário quero poder visualizar todas as transações do mês|
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** | Alta |
+| **Requisitos associados** | RF005 |
+| **Fluxo Principal** | Entrar no aplicativo e acessar transações|
+
+#### UC05 – Cadastrar metas
+
+| **Descrição** | Eu como usuário quero poder cadastrar metas de despesa por tipo|
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** | Alta |
+| **Requisitos associados** | RF006 |
+| **Fluxo Principal** | Entrar no aplicativo, cadastrar conteúdo e inserir meta|
+
+#### UC06 – Cadastrar despesas e receitas
+
+| **Descrição** | Eu como usuário quero cadastrar minhas receitas e despesas|
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** | Alta |
+| **Requisitos associados** | RF007 e RF009 |
+| **Fluxo Principal** | Entrar no aplicativo, cadastrar conteúdo e inserir despesas ou receitas|
+
+#### UC07 – Acessar relatório
+
+| **Descrição** | Eu como usuário quero acessar relatórios |
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** | Média |
+| **Requisitos associados** | RF010 e  RF012 |
+| **Fluxo Principal** | Entrar no aplicativo e acessar os relatórios|
+
+#### UC08 – Recebimento de notificação
+
+| **Descrição** | Eu como usuário quero receber notificação quando bater o meu limite de despesa|
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** | Média|
+| **Requisitos associados** | RF011 |
+| **Fluxo Principal** | Entrar no aplicativo, entrar em configurações e  habilitar o recebimento de notificações|
+
+#### UC09 – Inserir localização de compra
+
+| **Descrição** | Eu como usuário desejo poder inserir juntamente com o meu gasto a localização da despesa|
+| --- | --- |
+| **Atores** | Usuário |
+| **Prioridade** |Alta|
+| **Requisitos associados** | RF008 |
+| **Fluxo Principal** | Entrar no aplicativo, cadastrar conteúdo, entrar em despesas ou receitas, selecionar opção despesa e inserir localização|
+
+
+ Histórias de Usuário:
 
 - Como pai de família quero conseguir cadastrar metas financeiras, para que eu possa estar comprando um carro futuramente.
 - Como estagiário, quero poder analisar como está o fluxo de meu dinheiro, para que eu possa ter mais controle dos meus gastos.
