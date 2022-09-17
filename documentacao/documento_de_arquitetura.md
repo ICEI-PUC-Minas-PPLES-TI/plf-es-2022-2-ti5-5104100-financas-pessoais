@@ -107,7 +107,7 @@ Os objetivos específicos do projeto são:
 <a name="requisitos"></a>
 # 2. Requisitos
 
-_Visando auxiliar a definir quais são as funcionalidades de maior prioridade de serem feitas antes e quais possuem um maior nível de complexidade de se desenvolver foram desenvolvidas as tabelas abaixo._
+Visando auxiliar a definir quais são as funcionalidades de maior prioridade de serem feitas antes e quais possuem um maior nível de complexidade de se desenvolver foram desenvolvidas as tabelas abaixo.
 
 ## 2.1. Requisitos Funcionais
 
