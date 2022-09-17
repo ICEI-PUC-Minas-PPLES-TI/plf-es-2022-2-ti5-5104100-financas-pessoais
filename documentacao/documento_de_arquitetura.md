@@ -114,18 +114,25 @@ Visando auxiliar a definir quais são as funcionalidades de maior prioridade de 
 
 | **ID** | **Descrição** | **Prioridade** |
 | --- | --- | --- |
-| RF001 | O usuário realiza login no sistema. | Alta |
-| RF002 | O usuário se cadastra no sistema. | Alta |
-| RF003 | O usuário altera seus dados cadastrais. | Média |
-| RF004 | O usuário visualiza uma página inicial com o total de receitas e despesas do mês, bem como as últimas transações. | Alta |
-| RF005 | O usuário visualiza uma página com a relação de todas as movimentações financeiras do mês. | Alta |
-| RF006 | O usuário cadastra metas de despesa por tipo (alimentação, vestuário, viagem, lazer,.....). | Alta |
-| RF007 | O usuário cadastra as despesas do mês por categoria. | Alta |
-| RF008 | O usuário informa o local da compra utilizando o GPS. | Alta |
-| RF009 | O usuário cadastra as receitas auferidas no mês. | Alta |
-| RF010 | O usuário visualiza gráficos com as despesas separadas por categoria. | Alta |
-| RF011 | O usuário recebe notificações de limite de despesa excedido. | Alta |
-| RF012 | O usuário visualiza gráficos com a evolução das despesas no ano. | Alta |
+| RF001 | O usuário realiza login no sistema com email e senha. | Alta |
+| RF002 | O usuário se cadastra no sistema, informando os dados de nome, email, senha e confirmação de senha. | Alta |
+| RF003 | O usuário poderá alterar o cadastro do seu email e senha. | Média |
+| RF004 | O usuário deverá visualizar no primeiro login do sistema as informações explicando as funcionalidades da aplicação. | Média |
+| RF005 | O usuário será capaz de recuperar a senha utilizando o email. | Média |
+| RF006 | O usuário visualiza uma página inicial com o total de receitas, despesas, saldo atual, situação financeira bem como as últimas transações. | Alta |
+| RF007 | O usuário visualiza uma página com a relação de todas as movimentações financeiras de determinado mês selecionado. | Alta |
+| RF008 | O usuário cadastra categorias de despesa informando nome e selecionando ícones previamente cadastrados | Alta |
+| RF009 | O usuário cadastra metas mensais de orçamento informando categoria e valor. | Alta |
+| RF010 | O usuário visualiza as metas cadastradas dos meses anteriores. | Alta |
+| RF011 | O usuário será capaz de excluir e editar do mês vigente. | Alta |
+| RF012 | O usuário cadastra transações financeiras informando categoria, nome, data, valor, forma de pagamento e localização. | Alta |
+| RF013 | O usuário pode informar o local da compra utilizando o GPS. | Alta |
+| RF014 | O usuário visualiza um gráfico de rosca com as despesas separadas por categoria do mês selecionado. | Alta |
+| RF015 | O usuário visualiza um gráfico de rosca com as receitas separadas por categoria do mês selecionado. | Alta |
+| RF016 | O usuário visualiza um gráfico de linha com a evolução dos receitas do mês selecionado. | Alta |
+| RF017 | O usuário visualiza um gráfico de linha com a evolução dos despesas do mês selecionado. | Alta |
+| RF018 | O usuário recebe notificação toda sexta-feira informando os gastos da semana. | Alta |
+| RF019 | O usuário recebe notificação toda 1º dia do mês informando que os relatórios do mês anterior estão prontos | Alta |
 
 
 ## 2.2. Requisitos Não-Funcionais
