@@ -168,13 +168,13 @@ As restrições impostas ao projeto que afetam sua arquitetura são :
 <a name="modelagem"></a>
 # 3. Modelagem e projeto arquitetural
 
-_Apresente uma visão geral da solução proposta para o projeto e explique brevemente esse diagrama de visão geral, de forma textual. Esse diagrama não precisa seguir os padrões da UML, e deve ser completo e tão simples quanto possível, apresentando a macroarquitetura da solução._
+![Diagrama sem nome drawio](https://user-images.githubusercontent.com/70148656/190859563-31ac5a52-f4dd-4db9-8f57-2b4275d578d4.png)
 
-![Visão Geral da Solução](imagens/visao.png "Visão Geral da Solução")
+**Figura 1 - Visão Geral da arquitetura de solução.**
 
-**Figura 1 - Visão Geral da Solução (fonte: https://medium.com)**
+No momento em que é realizado o acesso ao sistema, o cliente mobile irá receber a interface renderizada pelo Flutter e as informações armazenadas diretamente no SQLite através de uma requisição HTTP. Em contrapartida, o cliente web receberá a interface disponibilizada pelo HTML,CSS e JS por meio de uma requisição TCP/IP. 
 
-Obs: substitua esta imagem por outra, adequada ao seu projeto (cada arquitetura é única).
+A comunicação com o back-end é por meio de uma api RESTful programada em C#, testada por meio do framework XUnit.net e suas APIs armazenadas no Azure. Através do C#, a aplicação web realiza a conexão ao banco de dados SQL Server por meio do ORM. Todo o ambiente virtual será disponibilizado por meio do Azure.
 
 ## 3.1. Visão de Negócio (Funcionalidades)
 
