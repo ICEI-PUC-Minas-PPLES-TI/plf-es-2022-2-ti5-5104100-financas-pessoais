@@ -71,7 +71,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 <a name="apresentacao"></a>
 # 1. Apresentação
 
-_Muitas vezes a tarefa de coordenar as finanças pessoais é deixada de lado no Brasil, entre os motivos de problemas financeiros e até psicológicos, o descontrole financeiro é mais comum que parece._
+Muitas vezes a tarefa de coordenar as finanças pessoais é deixada de lado no Brasil, entre os motivos de problemas financeiros e até psicológicos, o descontrole financeiro é mais comum que parece.
 
 De acordo com pesquisas realizadas pelo SPC Brasil e pela Confederação Nacional de Dirigentes Lojistas (CNDL), seis em cada 10 brasileiros (58%) admitem nunca, ou somente as vezes, dedicam a atividades de controle da vida financeira.
 Esse controle financeiro é essencial para ter uma qualidade de vida. E com o mundo cada vez mais tecnológico, o smartphone se torna um elemento imprescindível nessa busca.
@@ -81,11 +81,11 @@ A consulta de gastos, receitas e uma possível elaboração de um plano financei
 
 ## 1.1. Problema
 
-_Notícias que demonstram o descontrole financeiro presente na maior parte da população brasileira estão cada vez mais comuns, segundo o Mapa da Inadimplência da Serasa, em junho de 2022 haviam mais de 68 milhões de pessoas endividadas no Brasil. Esse endividamento traz vários problemas, não apenas financeiros, como também de qualidade de vida._
+Notícias que demonstram o descontrole financeiro presente na maior parte da população brasileira estão cada vez mais comuns, segundo o Mapa da Inadimplência da Serasa, em junho de 2022 haviam mais de 68 milhões de pessoas endividadas no Brasil. Esse endividamento traz vários problemas, não apenas financeiros, como também de qualidade de vida.
 
 ## 1.2. Objetivos do trabalho
 
-_Utilizando de conhecimentos adquiridos nas disciplinas do curso de Engenharia de Software, tais como levantamentos de requisitos e programação, foi proposto o desenvolvimento de uma solução para o auxílio no controle, organização e planejamento financeiro. O objetivo geral é desenvolver um aplicativo que auxilie o usuário na organização da sua vida financeira._
+Utilizando de conhecimentos adquiridos nas disciplinas do curso de Engenharia de Software, tais como levantamentos de requisitos e programação, foi proposto o desenvolvimento de uma solução para o auxílio no controle, organização e planejamento financeiro. O objetivo geral é desenvolver um aplicativo que auxilie o usuário na organização da sua vida financeira.
 
 Os objetivos específicos do projeto são:
 
@@ -95,8 +95,8 @@ Os objetivos específicos do projeto são:
 
 ## 1.3. Definições e Abreviaturas
 
-- Id: Identidade;
-- Api: Application Programming Interface (Interface de Programação de Aplicação);
+- ID: Identidade;
+- API: Application Programming Interface (Interface de Programação de Aplicação);
 - SPC: Serviço de Proteção ao Crédito;
 - RF: Requisito Funcional;
 - RNF: Requisito Não Funcional;
