@@ -124,7 +124,7 @@ Visando auxiliar a definir quais são as funcionalidades de maior prioridade de 
 | RF008 | O usuário cadastra categorias de despesa informando nome e selecionando ícones previamente cadastrados | Alta |
 | RF009 | O usuário cadastra metas mensais de orçamento informando categoria e valor. | Alta |
 | RF010 | O usuário visualiza as metas cadastradas dos meses anteriores. | Alta |
-| RF011 | O usuário será capaz de excluir e editar do mês vigente. | Alta |
+| RF011 | O usuário será capaz de excluir e editar metas do mês vigente. | Alta |
 | RF012 | O usuário cadastra transações financeiras informando categoria, nome, data, valor, forma de pagamento e localização. | Alta |
 | RF012 | O usuário será capaz de editar e excluir as transações financeiras do mês corrente. | Alta |
 | RF013 | O usuário pode informar o local da compra utilizando o GPS. | Alta |
