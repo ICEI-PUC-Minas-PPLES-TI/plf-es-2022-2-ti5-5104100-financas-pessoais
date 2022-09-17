@@ -1,18 +1,25 @@
-# Nome do projeto
+# WeBudget
 
-Escreva um ou dois  parágrafo resumindo o objetivo do seu projeto.
+De acordo com pesquisas realizadas pelo SPC Brasil e pela Confederação Nacional de Dirigentes Lojistas (CNDL), seis em cada 10 brasileiros (58%) admitem nunca, ou somente as vezes, dedicam a atividades de controle da vida financeira. Esse controle financeiro é essencial para ter uma qualidade de vida. E com o mundo cada vez mais tecnológico, o smartphone se torna um elemento imprescindível nessa busca.
+
+Os objetivos específicos do projeto são:
+
+- Auxiliar o usuário no controle de metas de despesas, receitas e investimentos;
+- Possibilitar o usuário a gestão de objetivos financeiros de curto, médio e longo prazo;
+- Possibilitar o usuário salvar o local das compras realizadas com a utilização do GPS.
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* [Helen Camila de Oliveira Andrade](https://github.com/HelenAndrade10)
+* [Izabella de Castro Lucas](https://github.com/Izabella-Castro)
+* [Nataniel Geraldo Mendes Peixoto](https://github.com/Nataniel93)
+* [Pedro Campos Miranda](https://github.com/campos2504)
+* [Pedro Henrique Gonçalves Barcelos](https://github.com/pedrobarcelos)
 
 ## Orientadores
 
-* Nome completo do professor 1
-* Nome completo do professor 2
+* Cleiton Silva Tavares
+* José Laerte Pires Xavier Junior
 
 ## Instruções de utilização
 
