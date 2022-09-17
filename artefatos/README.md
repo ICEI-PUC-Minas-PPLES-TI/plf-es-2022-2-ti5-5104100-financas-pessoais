@@ -2,9 +2,9 @@
 # Artefatos do projeto
 
 * `/atas`
-        * **ATA-2022-08-21.md**: Ata de reunião de kick-off
-        * **ATA-2022-09-11.md**: Ata de reunião semanal 1
-* `/gerencia
+        * **ATA-2022-08-21.md** : Ata de reunião de kick-off**
+        * **ATA-2022-09-11.md** : Ata de reunião semanal 1**
+* `/gerencia`
         * **EAP Final.png**
         * **declaracao_de_escopo.md**
         * **partes_interessadas.md**
