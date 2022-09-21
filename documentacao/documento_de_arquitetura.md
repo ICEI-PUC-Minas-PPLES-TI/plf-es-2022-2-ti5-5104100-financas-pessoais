@@ -39,7 +39,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 | --- | --- | --- | --- |
 | **[31/08/2022]** | [Helen] | [Estruturação inicial da Apresentação e Requisitos do projeto] | [1.0.0] |
 | | | | |
-| | | | |
+| **[17/09/2022]** | [Izabella] | [Estruturação inicial da modelagem e projeto arquitetural] | [2.1.0] |
 
 ## SUMÁRIO
 
