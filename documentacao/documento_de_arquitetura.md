@@ -314,7 +314,7 @@ _Apresente os artefatos que serão utilizados descrevendo em linhas gerais as mo
 
 ### Diagrama de Classes
 
-![Diagrama de classes](imagens/classes.gif "Diagrama de classes")
+![Diagrama de classes](imagens/DiagramaDeClasses.png "Diagrama de classes")
 
 
 **Figura 2 – Diagrama de classes (exemplo). Fonte: o próprio autor.**
