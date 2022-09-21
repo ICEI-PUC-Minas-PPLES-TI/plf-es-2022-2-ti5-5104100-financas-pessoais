@@ -1,31 +1,29 @@
 cff-version: 1.0.1
 message: Please cite this software using these metadata.
-title: 
+title: WeBudget
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names:
+  - family-names: de Oliveira
+    given-names: Helen Camila 
+  - family-names: de Castro Lucas
+    given-names: Izabella 
+  - family-names: Campos Miranda  
+    given-names: Pedro 
+  - family-names: Mendes Peixoto
+    given-names: Nataniel Geraldo 
+  - family-names: Gonçalves Barcelos
+    given-names: Pedro Henrique
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Pires Xavier Junior
+    given-names: José Laerte
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Silva Tavares
+    given-names: Cleiton
 keywords:
-  - 
-  - 
-repository-code: 
+  - Controle
+  - Gastos
+repository-code: https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2022-2-ti5-5104100-financas-pessoais
 license: CC-BY-4.0
 version: 1.0.0
 date-released: 2022-07-14
