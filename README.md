@@ -35,6 +35,9 @@ A primeira versão do sistema ainda não está disponível. Assim que possível,
 
 * 1.0.0
     * Estruturação inicial da Apresentação e Requisitos do projeto
+* 1.x.x
+    * Add Diagrama de componentes
+
     
 ## Referências
 
