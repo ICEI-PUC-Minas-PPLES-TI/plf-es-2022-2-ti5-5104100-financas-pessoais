@@ -38,7 +38,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
 | **[31/08/2022]** | [Helen] | [Estruturação inicial da Apresentação e Requisitos do projeto] | [1.0.0] |
-| | | | |
+| **[14/09/2022]** | [Helen] | [Correções da Apresentação e Requisitos do projeto] | [2.0.0] |
 | **[17/09/2022]** | [Izabella] | [Estruturação inicial da modelagem e projeto arquitetural] | [2.1.0] |
 
 ## SUMÁRIO
@@ -73,7 +73,7 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 
 Muitas vezes a tarefa de coordenar as finanças pessoais é deixada de lado no Brasil, entre os motivos de problemas financeiros e até psicológicos, o descontrole financeiro é mais comum que parece.
 
-De acordo com pesquisas realizadas pelo SPC Brasil e pela Confederação Nacional de Dirigentes Lojistas (CNDL), seis em cada 10 brasileiros (58%) admitem nunca, ou somente as vezes, dedicam a atividades de controle da vida financeira.
+De acordo com pesquisas realizadas pelo SPC Brasil e pela Confederação Nacional de Dirigentes Lojistas (CNDL), "seis em cada 10 brasileiros (58%) admitem nunca, ou somente as vezes, dedicam a atividades de controle da vida financeira".(SOUZA, 2018)
 Esse controle financeiro é essencial para ter uma qualidade de vida. E com o mundo cada vez mais tecnológico, o smartphone se torna um elemento imprescindível nessa busca.
 
 A consulta de gastos, receitas e uma possível elaboração de um plano financeiro é restrito apenas ao extrato bancário, se tornando complexa e desorganizada. Diante desse contexto surge a necessidade de amparo que possam auxiliar de maneira prática as pessoas que buscam realizar o controle de suas próprias finanças.
@@ -81,7 +81,7 @@ A consulta de gastos, receitas e uma possível elaboração de um plano financei
 
 ## 1.1. Problema
 
-Notícias que demonstram o descontrole financeiro presente na maior parte da população brasileira estão cada vez mais comuns, segundo o Mapa da Inadimplência da Serasa, em junho de 2022 haviam mais de 68 milhões de pessoas endividadas no Brasil. Esse endividamento traz vários problemas, não apenas financeiros, como também de qualidade de vida.
+Notícias que demonstram o descontrole financeiro presente na maior parte da população brasileira estão cada vez mais comuns, segundo o Mapa da Inadimplência da Serasa, "em junho de 2022 haviam mais de 68 milhões de pessoas endividadas no Brasil".(Serasa,2022) Esse endividamento traz vários problemas, não apenas financeiros, como também de qualidade de vida.
 
 ## 1.2. Objetivos do trabalho
 
@@ -391,22 +391,10 @@ _Apresente imagens, descreva os testes de tal forma que se comprove a realizaç�
 <a name="referencias"></a>
 # 5. REFERÊNCIAS
 
-_Como um projeto da arquitetura de uma aplicação não requer revisão bibliográfica, a inclusão das referências não é obrigatória. No entanto, caso você deseje incluir referências relacionadas às tecnologias, padrões, ou metodologias que serão usadas no seu trabalho, relacione-as de acordo com a ABNT._
+**[1]** - _SOUZA, Ludmila. **Pesquisa revela que 58% dos brasileiros não se dedicam às próprias finanças**. São Paulo, c2018._
 
-Verifique no link abaixo como devem ser as referências no padrão ABNT:
+**[2]** - _SERASA. **Mapa da inadimplência e renegociação de dívidas no Brasil**. c2022._
 
-http://www.pucminas.br/imagedb/documento/DOC\_DSC\_NOME\_ARQUI20160217102425.pdf
-
-
-**[1]** - _ELMASRI, Ramez; NAVATHE, Sham. **Sistemas de banco de dados**. 7. ed. São Paulo: Pearson, c2019. E-book. ISBN 9788543025001._
-
-**[2]** - _COPPIN, Ben. **Inteligência artificial**. Rio de Janeiro, RJ: LTC, c2010. E-book. ISBN 978-85-216-2936-8._
-
-**[3]** - _CORMEN, Thomas H. et al. **Algoritmos: teoria e prática**. Rio de Janeiro, RJ: Elsevier, Campus, c2012. xvi, 926 p. ISBN 9788535236996._
-
-**[4]** - _SUTHERLAND, Jeffrey Victor. **Scrum: a arte de fazer o dobro do trabalho na metade do tempo**. 2. ed. rev. São Paulo, SP: Leya, 2016. 236, [4] p. ISBN 9788544104514._
-
-**[5]** - _RUSSELL, Stuart J.; NORVIG, Peter. **Inteligência artificial**. Rio de Janeiro: Elsevier, c2013. xxi, 988 p. ISBN 9788535237016._
 
 
 <a name="apendices"></a>
