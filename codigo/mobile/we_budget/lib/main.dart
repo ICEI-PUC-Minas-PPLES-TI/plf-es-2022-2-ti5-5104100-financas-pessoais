@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:we_budget/pages/init_page.dart';
+import 'package:provider/provider.dart';
+import 'package:we_budget/models/auth.dart';
+import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
@@ -12,16 +14,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => Auth(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.blueGrey,
+          ).copyWith(
+            secondary: Colors.amber,
+          ),
+        ),
+        debugShowCheckedModeBanner: false,
+        routes: {
+          AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
+          AppRoutes.login: (ctx) => const LoginPage(),
+        },
       ),
-      debugShowCheckedModeBanner: false,
-      routes: {
-        AppRoutes.home: (ctx) => const InitPage(),
-        AppRoutes.login: (ctx) => const LoginPage(),
-      },
     );
   }
 }
