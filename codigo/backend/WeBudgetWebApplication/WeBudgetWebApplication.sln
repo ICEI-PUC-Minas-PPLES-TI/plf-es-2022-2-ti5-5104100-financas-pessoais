@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeBudgetAPI", "WeBudgetAPI\WeBudgetAPI.csproj", "{CA932AD3-B988-42D0-8CF4-8090EB40D2B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeBudgetWebAPI", "WeBudgetWebAPI\WeBudgetWebAPI.csproj", "{C92A0192-135C-48ED-A60E-159BEEDB6908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CA932AD3-B988-42D0-8CF4-8090EB40D2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA932AD3-B988-42D0-8CF4-8090EB40D2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA932AD3-B988-42D0-8CF4-8090EB40D2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA932AD3-B988-42D0-8CF4-8090EB40D2B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
