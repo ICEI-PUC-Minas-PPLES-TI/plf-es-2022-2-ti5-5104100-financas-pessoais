@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/login_page.dart';
+import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
 void main() {
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
           AppRoutes.login: (ctx) => const LoginPage(),
+          AppRoutes.main: (ctx) => const MainPage(),
         },
       ),
     );

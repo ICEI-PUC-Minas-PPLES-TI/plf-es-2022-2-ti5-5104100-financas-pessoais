@@ -55,7 +55,7 @@ class _AuthFormState extends State<AuthForm> {
 
   Future<void> _submit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
-    print(_authData);
+
     if (!isValid) {
       return;
     }
@@ -102,8 +102,8 @@ class _AuthFormState extends State<AuthForm> {
       child: Card(
         elevation: 0,
         child: Container(
-          padding: const EdgeInsets.all(16),
-          height: _isLogin() ? 400 : 500,
+          padding: const EdgeInsets.all(10),
+          height: _isLogin() ? 400 : 480,
           width: deviceSize.width * 0.95,
           child: Form(
             key: _formKey,
@@ -211,7 +211,7 @@ class _AuthFormState extends State<AuthForm> {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                     child: Text(
-                      _isLogin() ? 'DESEJA REGISTRAR?' : 'JÁ POSSUI CONTA?',
+                      _isLogin() ? 'DESEJA CADASTRAR?' : 'JÁ POSSUI CONTA?',
                     ),
                   ),
                 ),

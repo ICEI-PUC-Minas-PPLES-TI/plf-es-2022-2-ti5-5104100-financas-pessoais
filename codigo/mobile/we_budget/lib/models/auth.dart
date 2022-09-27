@@ -63,12 +63,15 @@ class Auth with ChangeNotifier {
         ),
       );
 
-      Store.saveMap('userData', {
-        'token': _token,
-        'email': _email,
-        'userId': _userId,
-        'expiryDate': _expiryDate!.toIso8601String(),
-      });
+      Store.saveMap(
+        'userData',
+        {
+          'token': _token,
+          'email': _email,
+          'userId': _userId,
+          'expiryDate': _expiryDate!.toIso8601String(),
+        },
+      );
 
       _autoLogout();
       notifyListeners();

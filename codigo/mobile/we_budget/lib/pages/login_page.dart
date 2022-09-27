@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_budget/components/auth_form.dart';
+import 'package:we_budget/pages/init_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
                 height: deviceSize.height * 0.15,
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Container(
+                margin: const EdgeInsetsDirectional.only(top: 30.0),
                 child: const AuthForm(),
               ),
             ],

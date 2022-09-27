@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'login_page.dart';
+import 'package:we_budget/pages/first_page.dart';
+import 'package:we_budget/pages/login_page.dart';
+import 'package:we_budget/pages/main_page.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _InitPageState extends State<InitPage> {
         return Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const LoginPage(),
+            builder: (context) => const MainPage(),
           ),
         );
       },
