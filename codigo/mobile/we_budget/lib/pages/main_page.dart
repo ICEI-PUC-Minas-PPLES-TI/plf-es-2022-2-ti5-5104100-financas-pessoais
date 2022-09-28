@@ -24,7 +24,6 @@ class _MainPageState extends State<MainPage> {
         actionButton: CurvedActionBar(
             onTab: (value) {
               /// perform action here
-              print(value);
             },
             activeIcon: Container(
               padding: const EdgeInsets.all(8),

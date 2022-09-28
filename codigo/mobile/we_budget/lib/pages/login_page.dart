@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:we_budget/components/auth_form.dart';
-import 'package:we_budget/pages/init_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -20,27 +19,43 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.white,
           ),
         ),
-        SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: deviceSize.height * 0.15,
-                child: SizedBox.expand(
-                  child: Image.asset(
-                    'assets/bola.jpg',
-                    fit: BoxFit.fill,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: deviceSize.height * 0.26,
+                  width: 200,
+                  child: SizedBox.expand(
+                    child: Image.asset(
+                      'assets/imagem_fundo.jpeg',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Row(
+                children: const [
+                  Text(
+                    "Entrar",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                margin: const EdgeInsetsDirectional.only(top: 30.0),
-                child: const AuthForm(),
-              ),
-            ],
-          ),
+            ),
+            const AuthForm(),
+          ],
         ),
       ],
     );

@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:we_budget/models/store.dart';
+import 'package:we_budget/pages/auth_or_home_page.dart';
+import 'package:we_budget/pages/main_page.dart';
 
 import '../exceptions/auth_exception.dart';
-import '../utils/constants.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
@@ -34,32 +35,34 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticate(
       String name, String email, String password, String urlFragment) async {
-    final url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=${Constants.webApiKey}';
+    final url = 'http://localhost:5001/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
+      headers: {
+        'content-type': 'application/json',
+      },
       body: jsonEncode(
         {
-          'name': name,
           'email': email,
-          'password': password,
-          'returnSecureToken': true,
+          'senha': password,
+          //'senhaConfimacao': password,
         },
       ),
     );
-
     final body = jsonDecode(response.body);
-
-    if (body['error'] != null) {
-      throw AuthException(body['error']['message']);
+    if (body['sucesso'] != true) {
+      throw AuthException(body['erros'].toString());
     } else {
-      _token = body['idToken'];
+      _token = body['accessToken'];
       _email = body['email'];
-      _userId = body['localId'];
+      _userId = body['userId'];
+
+      print(body);
+      //var expireTeste = int.parse(body['expiresIn']);
 
       _expiryDate = DateTime.now().add(
-        Duration(
-          seconds: int.parse(body['expiresIn']),
+        const Duration(
+          seconds: 3600,
         ),
       );
 
@@ -79,17 +82,18 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signup(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'signUp');
+    return _authenticate(name, email, password, 'cadastro');
   }
 
   Future<void> login(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'signInWithPassword');
+    return _authenticate(name, email, password, 'login');
   }
 
   Future<void> tryAutoLogin() async {
     if (isAuth) return;
 
     final userData = await Store.getMap('userData');
+    print(userData);
 
     if (userData.isEmpty) return;
 
