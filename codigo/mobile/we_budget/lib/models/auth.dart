@@ -4,8 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:we_budget/models/store.dart';
-import 'package:we_budget/pages/auth_or_home_page.dart';
-import 'package:we_budget/pages/main_page.dart';
 
 import '../exceptions/auth_exception.dart';
 
@@ -62,7 +60,7 @@ class Auth with ChangeNotifier {
 
       _expiryDate = DateTime.now().add(
         const Duration(
-          seconds: 3600,
+          seconds: 3,
         ),
       );
 
@@ -129,7 +127,7 @@ class Auth with ChangeNotifier {
     _clearLogoutTimer();
     final timeToLogout = _expiryDate?.difference(DateTime.now()).inSeconds;
     _logoutTimer = Timer(
-      Duration(seconds: timeToLogout ?? 0),
+      Duration(seconds: 3),
       logout,
     );
   }

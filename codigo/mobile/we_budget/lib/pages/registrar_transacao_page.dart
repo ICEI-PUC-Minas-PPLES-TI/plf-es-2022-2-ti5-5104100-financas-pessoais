@@ -9,7 +9,6 @@ class TransacaoFormPage extends StatefulWidget {
 }
 
 class _TransacaoFormPageState extends State<TransacaoFormPage> {
-
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
 
@@ -60,9 +59,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   bool isValidImageUrl(String url) {
-    bool isValidUrl = Uri
-        .tryParse(url)
-        ?.hasAbsolutePath ?? false;
+    bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
     bool endsWithFile = url.toLowerCase().endsWith('.png') ||
         url.toLowerCase().endsWith('.jpg') ||
         url.toLowerCase().endsWith('.jpeg');
@@ -86,221 +83,197 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     Navigator.of(context).pop();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery
-        .of(context)
-        .size;
+    final deviceSize = MediaQuery.of(context).size;
     return Stack(
       children: [
-              Container(
-                  margin: const EdgeInsetsDirectional.only(top: 50.0), //
-                  child: Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Registrar Transação'),
-                      actions: [
-                        IconButton(
-                          onPressed: _submitForm,
-                          icon: const Icon(Icons.save),
-                        )
-                      ],
-                    ),
-                    body: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Form(
-                        key: _formKey,
-                        child: ListView(
-                          children: [
-                            TextFormField(
-                              initialValue: _formData['name']?.toString(),
-                              decoration: const InputDecoration(
-                                  labelText: 'Nome'),
-                              textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(
-                                    _priceFocus);
-                              },
-                              onSaved: (name) => _formData['name'] = name ?? '',
-                              validator: (_name) {
-                                final name = _name ?? '';
+        Container(
+            margin: const EdgeInsetsDirectional.only(top: 50.0), //
+            child: Scaffold(
+              appBar: AppBar(
+                title: const Text('Registrar Transação'),
+                actions: [
+                  IconButton(
+                    onPressed: _submitForm,
+                    icon: const Icon(Icons.save),
+                  )
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      TextFormField(
+                        initialValue: _formData['name']?.toString(),
+                        decoration: const InputDecoration(labelText: 'Nome'),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_priceFocus);
+                        },
+                        onSaved: (name) => _formData['name'] = name ?? '',
+                        validator: (_name) {
+                          final name = _name ?? '';
 
-                                if (name
-                                    .trim()
-                                    .isEmpty) {
-                                  return 'Nome é obrigatório.';
-                                }
+                          if (name.trim().isEmpty) {
+                            return 'Nome é obrigatório.';
+                          }
 
-                                if (name
-                                    .trim()
-                                    .length < 3) {
-                                  return 'Nome precisa no mínimo de 3 letras.';
-                                }
+                          if (name.trim().length < 3) {
+                            return 'Nome precisa no mínimo de 3 letras.';
+                          }
 
-                                return null;
-                              },
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _formData['price']?.toString(),
+                        decoration:
+                            const InputDecoration(labelText: 'Categoria'),
+                        textInputAction: TextInputAction.next,
+                        focusNode: _priceFocus,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                          signed: true,
+                        ),
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocus);
+                        },
+                        onSaved: (price) =>
+                            _formData['price'] = double.parse(price ?? '0'),
+                        validator: (_price) {
+                          final priceString = _price ?? '';
+                          final price = double.tryParse(priceString) ?? -1;
+
+                          if (price <= 0) {
+                            return 'Informe um preço válido.';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _formData['price']?.toString(),
+                        decoration: const InputDecoration(labelText: 'Data'),
+                        textInputAction: TextInputAction.next,
+                        focusNode: _priceFocus,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                          signed: true,
+                        ),
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocus);
+                        },
+                        onSaved: (price) =>
+                            _formData['price'] = double.parse(price ?? '0'),
+                        validator: (_price) {
+                          final priceString = _price ?? '';
+                          final price = double.tryParse(priceString) ?? -1;
+
+                          if (price <= 0) {
+                            return 'Informe um preço válido.';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _formData['price']?.toString(),
+                        decoration: const InputDecoration(labelText: 'Valor'),
+                        textInputAction: TextInputAction.next,
+                        focusNode: _priceFocus,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                          signed: true,
+                        ),
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocus);
+                        },
+                        onSaved: (price) =>
+                            _formData['price'] = double.parse(price ?? '0'),
+                        validator: (_price) {
+                          final priceString = _price ?? '';
+                          final price = double.tryParse(priceString) ?? -1;
+
+                          if (price <= 0) {
+                            return 'Informe um preço válido.';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _formData['price']?.toString(),
+                        decoration: const InputDecoration(
+                            labelText: 'Forma de pagamento'),
+                        textInputAction: TextInputAction.next,
+                        focusNode: _priceFocus,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                          signed: true,
+                        ),
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocus);
+                        },
+                        onSaved: (price) =>
+                            _formData['price'] = double.parse(price ?? '0'),
+                        validator: (_price) {
+                          final priceString = _price ?? '';
+                          final price = double.tryParse(priceString) ?? -1;
+
+                          if (price <= 0) {
+                            return 'Informe um preço válido.';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      Container(
+                        padding: EdgeInsetsDirectional.only(top: 20.0),
+                        child: ElevatedButton(
+                          // onPressed: _submit,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
-                            TextFormField(
-                              initialValue: _formData['price']?.toString(),
-                              decoration: const InputDecoration(
-                                  labelText: 'Categoria'),
-                              textInputAction: TextInputAction.next,
-                              focusNode: _priceFocus,
-                              keyboardType: const TextInputType
-                                  .numberWithOptions(
-                                decimal: true,
-                                signed: true,
-                              ),
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(
-                                    _descriptionFocus);
-                              },
-                              onSaved: (price) =>
-                              _formData['price'] = double.parse(price ?? '0'),
-                              validator: (_price) {
-                                final priceString = _price ?? '';
-                                final price = double.tryParse(priceString) ??
-                                    -1;
-
-                                if (price <= 0) {
-                                  return 'Informe um preço válido.';
-                                }
-
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: _formData['price']?.toString(),
-                              decoration: const InputDecoration(
-                                  labelText: 'Data'),
-                              textInputAction: TextInputAction.next,
-                              focusNode: _priceFocus,
-                              keyboardType: const TextInputType
-                                  .numberWithOptions(
-                                decimal: true,
-                                signed: true,
-                              ),
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(
-                                    _descriptionFocus);
-                              },
-                              onSaved: (price) =>
-                              _formData['price'] = double.parse(price ?? '0'),
-                              validator: (_price) {
-                                final priceString = _price ?? '';
-                                final price = double.tryParse(priceString) ??
-                                    -1;
-
-                                if (price <= 0) {
-                                  return 'Informe um preço válido.';
-                                }
-
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: _formData['price']?.toString(),
-                              decoration: const InputDecoration(
-                                  labelText: 'Valor'),
-                              textInputAction: TextInputAction.next,
-                              focusNode: _priceFocus,
-                              keyboardType: const TextInputType
-                                  .numberWithOptions(
-                                decimal: true,
-                                signed: true,
-                              ),
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(
-                                    _descriptionFocus);
-                              },
-                              onSaved: (price) =>
-                              _formData['price'] = double.parse(price ?? '0'),
-                              validator: (_price) {
-                                final priceString = _price ?? '';
-                                final price = double.tryParse(priceString) ??
-                                    -1;
-
-                                if (price <= 0) {
-                                  return 'Informe um preço válido.';
-                                }
-
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              initialValue: _formData['price']?.toString(),
-                              decoration: const InputDecoration(
-                                  labelText: 'Forma de pagamento'),
-                              textInputAction: TextInputAction.next,
-                              focusNode: _priceFocus,
-                              keyboardType: const TextInputType
-                                  .numberWithOptions(
-                                decimal: true,
-                                signed: true,
-                              ),
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context).requestFocus(
-                                    _descriptionFocus);
-                              },
-                              onSaved: (price) =>
-                              _formData['price'] = double.parse(price ?? '0'),
-                              validator: (_price) {
-                                final priceString = _price ?? '';
-                                final price = double.tryParse(priceString) ??
-                                    -1;
-
-                                if (price <= 0) {
-                                  return 'Informe um preço válido.';
-                                }
-
-                                return null;
-                              },
-                            ),
-                            Container(
-                              padding: EdgeInsetsDirectional.only(top: 20.0),
-                              child: ElevatedButton(
-                                // onPressed: _submit,
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 100,
-                                    vertical: 20,
-                                  ),
-                                  //backgroundColor: Theme.of(context).colorScheme.primary,
-                                ),
-                                onPressed: () {},
-                                child: Text('Buscar Localização'
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsetsDirectional.only(top: 15.0),
-                              child: ElevatedButton(
-                                // onPressed: _submit,
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 100,
-                                    vertical: 20,
-                                  ),
-                                  //backgroundColor: Theme.of(context).colorScheme.primary,
-                                ),
-                                onPressed: () {},
-                                child: Text('Registrar'
-                                ),
-                              ),
-                            ),
-                          ],
+                            fixedSize: const Size(290, 50),
+                            //backgroundColor: Theme.of(context).colorScheme.primary,
+                          ),
+                          onPressed: () {},
+                          child: Text('Buscar Localização'),
                         ),
                       ),
-                    ),
-                  )
+                      Container(
+                        padding: const EdgeInsetsDirectional.only(top: 15.0),
+                        child: ElevatedButton(
+                          // onPressed: _submit,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 100,
+                              vertical: 20,
+                            ),
+                            fixedSize: const Size(290, 50),
+                            //backgroundColor: Theme.of(context).colorScheme.primary,
+                          ),
+                          onPressed: () {},
+                          child: Text('Registrar'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
+            )),
+      ],
     );
   }
 }

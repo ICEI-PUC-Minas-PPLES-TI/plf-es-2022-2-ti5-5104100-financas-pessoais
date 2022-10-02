@@ -4,7 +4,8 @@ import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:we_budget/pages/first_page.dart';
 import 'package:we_budget/pages/lista_transacoes.dart';
-import 'package:we_budget/pages/registrar_valores.dart';
+import 'package:we_budget/pages/registrar_transacao_page.dart';
+//import 'package:we_budget/pages/registrar_valores.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -76,7 +77,7 @@ class _MainPageState extends State<MainPage> {
         bodyItems: [
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const RegistrarValores(),
+            child: const TransacaoFormPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
