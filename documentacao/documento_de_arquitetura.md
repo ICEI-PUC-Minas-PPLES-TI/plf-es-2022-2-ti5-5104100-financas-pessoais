@@ -311,7 +311,7 @@ Casos de Uso:
 
 ### Diagrama de Classes
 
-![Diagrama de classes](imagens/DiagramaDeClasses.png "Diagrama de classes")
+![Diagrama de classes](imagens/DiagramaDeClasses.jpg "Diagrama de classes")
 
 
 ### Diagrama de componentes
