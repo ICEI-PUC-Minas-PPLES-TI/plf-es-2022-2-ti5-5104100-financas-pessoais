@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/date_picker.dart';
+
 class TransacaoFormPage extends StatefulWidget {
   const TransacaoFormPage({Key? key}) : super(key: key);
 
@@ -17,9 +19,11 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
+  TextEditingController dateInput = TextEditingController();
 
   @override
   void initState() {
+    dateInput.text = ""; //set the initial value of text field
     super.initState();
     _imageUrlFocus.addListener(updateImage);
   }
@@ -155,32 +159,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        initialValue: _formData['price']?.toString(),
-                        decoration: const InputDecoration(labelText: 'Data'),
-                        textInputAction: TextInputAction.next,
-                        focusNode: _priceFocus,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                          signed: true,
-                        ),
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_descriptionFocus);
-                        },
-                        onSaved: (price) =>
-                            _formData['price'] = double.parse(price ?? '0'),
-                        validator: (_price) {
-                          final priceString = _price ?? '';
-                          final price = double.tryParse(priceString) ?? -1;
-
-                          if (price <= 0) {
-                            return 'Informe um preço válido.';
-                          }
-
-                          return null;
-                        },
-                      ),
+                      DatePicker(),
                       TextFormField(
                         initialValue: _formData['price']?.toString(),
                         decoration: const InputDecoration(labelText: 'Valor'),
