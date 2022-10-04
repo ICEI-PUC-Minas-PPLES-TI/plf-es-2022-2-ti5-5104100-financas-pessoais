@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/utils/app_routes.dart';
 
 import '../exceptions/auth_exception.dart';
 import '../models/auth.dart';
@@ -195,7 +196,10 @@ class _AuthFormState extends State<AuthForm> {
                   const CircularProgressIndicator()
                 else
                   ElevatedButton(
-                    onPressed: _submit,
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(AppRoutes.main);
+                    }, //ajustar
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),

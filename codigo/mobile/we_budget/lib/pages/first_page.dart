@@ -1,171 +1,151 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
+import '../components/card_main_page.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
   @override
-  State<FirstPage> createState() => _FirstPageState();
+  State<FirstPage> createState() => _FirtsPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _FirtsPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
-    final deviceSizeWidth = MediaQuery.of(context).size.width;
-    final deviceSizeHeight = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tela inicial"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              SizedBox(
-                width: deviceSizeWidth * 1.0,
-                height: deviceSizeHeight * 0.26,
-                child: Card(
-                  color: Colors.blueAccent,
-                  margin: EdgeInsetsDirectional.zero,
-                  elevation: 8,
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const <Widget>[
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFC84CF4),
+                    Color.fromARGB(255, 41, 19, 236),
+                    Color(0xFF923DF8),
+                  ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              width: double.infinity,
+              height: double.infinity,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: SizedBox(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: const [
                         Text(
                           "Olá, Fulano",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      children: const [
                         Text(
-                          "Bem-vindo de volta",
+                          "Bem-Vindo de volta",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      children: const [
                         Text(
                           "R\$ 3.000,00",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: 20,
                           ),
                         ),
-                        Text(
-                          "Saldo atual",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                          ),
-                        )
                       ],
                     ),
-                  ),
+                    Row(
+                      children: const [
+                        Text(
+                          "saldo atual",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Card(
-                elevation: 8,
-                child: Container(
-                  height: deviceSizeHeight * 0.13,
-                  width: deviceSizeWidth * 0.28,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const SizedBox(
+                  height: 180,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: size * 0.70,
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
+                    color: Color.fromARGB(255, 253, 253, 252),
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(20),
+                      topEnd: Radius.circular(20),
                     ),
-                    color: Colors.blueAccent,
-                  ),
-                  child: Column(
-                    children: const <Widget>[
-                      Text(
-                        "Receita",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 15,
+                        offset: Offset(0, 5),
+                      )
                     ],
                   ),
-                ),
-              ),
-              Card(
-                elevation: 8,
-                child: Container(
-                  height: deviceSizeHeight * 0.13,
-                  width: deviceSizeWidth * 0.28,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: Colors.blueAccent,
-                  ),
                   child: Column(
-                    children: const <Widget>[
-                      Text(
-                        "Despesa",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          CardMainPage(title: "Receita"),
+                          CardMainPage(title: "Despesa"),
+                          CardMainPage(title: "Balanço do mês"),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 8,
-                child: Container(
-                  height: deviceSizeHeight * 0.13,
-                  width: deviceSizeWidth * 0.28,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: Colors.blueAccent,
-                  ),
-                  child: Column(
-                    children: const <Widget>[
-                      Text(
-                        "Balanço",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
+                      Container(
+                        margin: const EdgeInsetsDirectional.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Últimas transações",
+                              style: TextStyle(
+                                fontSize: 22,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      )
                     ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: const EdgeInsetsDirectional.only(top: 30.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "Últimas transações",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontFamily: "Times New Roman",
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

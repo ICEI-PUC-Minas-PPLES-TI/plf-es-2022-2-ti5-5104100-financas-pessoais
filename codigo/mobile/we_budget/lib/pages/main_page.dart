@@ -23,32 +23,32 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: CurvedNavBar(
         actionButton: CurvedActionBar(
-            onTab: (value) {
-              /// perform action here
-            },
-            activeIcon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                  color: Colors.white, shape: BoxShape.circle),
-              child: const Icon(
-                Icons.circle,
-                size: 50,
-                color: Colors.blueAccent,
-              ),
+          onTab: (value) {
+            /// perform action here
+          },
+          activeIcon: Container(
+            padding: const EdgeInsets.all(0),
+            decoration: const BoxDecoration(
+                color: Colors.white, shape: BoxShape.circle),
+            child: const Icon(
+              Icons.circle,
+              size: 50,
+              color: Colors.blueAccent,
             ),
-            inActiveIcon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.white70,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.circle,
-                size: 50,
-                color: Colors.blueAccent,
-              ),
+          ),
+          inActiveIcon: Container(
+            padding: const EdgeInsets.all(0),
+            decoration: const BoxDecoration(
+              color: Colors.white70,
+              shape: BoxShape.circle,
             ),
-            text: "Início"),
+            child: const Icon(
+              Icons.circle,
+              size: 50,
+              color: Colors.blueAccent,
+            ),
+          ),
+        ),
         activeColor: Colors.white,
         navBarBackgroundColor: const Color.fromARGB(255, 7, 67, 117),
         inActiveColor: Colors.white,
@@ -62,7 +62,17 @@ class _MainPageState extends State<MainPage> {
                 Icons.home,
                 color: Colors.white,
               ),
-              text: 'Nova Transação'),
+              text: 'Transação'),
+          FABBottomAppBarItem(
+              activeIcon: const Icon(
+                Icons.wallet_giftcard,
+                color: Colors.yellow,
+              ),
+              inActiveIcon: const Icon(
+                Icons.money_off,
+                color: Colors.white,
+              ),
+              text: 'Metas'),
           FABBottomAppBarItem(
               activeIcon: const Icon(
                 Icons.wallet_giftcard,
@@ -72,7 +82,17 @@ class _MainPageState extends State<MainPage> {
                 Icons.wallet_giftcard,
                 color: Colors.white,
               ),
-              text: 'Lista Transações'),
+              text: 'Lista'),
+          FABBottomAppBarItem(
+              activeIcon: const Icon(
+                Icons.wallet_giftcard,
+                color: Colors.yellow,
+              ),
+              inActiveIcon: const Icon(
+                Icons.wallet_giftcard,
+                color: Colors.white,
+              ),
+              text: 'Gráfico'),
         ],
         bodyItems: [
           SizedBox(
@@ -82,7 +102,15 @@ class _MainPageState extends State<MainPage> {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             child: const ListaTransacoes(),
-          )
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: const ListaTransacoes(),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: const ListaTransacoes(),
+          ),
         ],
         actionBarView: SizedBox(
           height: MediaQuery.of(context).size.height,
