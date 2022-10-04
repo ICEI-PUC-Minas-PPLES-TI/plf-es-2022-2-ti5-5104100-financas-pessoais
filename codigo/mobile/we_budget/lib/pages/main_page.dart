@@ -3,7 +3,7 @@ import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:we_budget/pages/first_page.dart';
-import 'package:we_budget/pages/lista_transacoes.dart';
+import 'package:we_budget/pages/list_transations_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 //import 'package:we_budget/pages/registrar_valores.dart';
 
@@ -79,10 +79,10 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.yellow,
               ),
               inActiveIcon: const Icon(
-                Icons.wallet_giftcard,
+                Icons.list,
                 color: Colors.white,
               ),
-              text: 'Lista'),
+              text: 'Transações'),
           FABBottomAppBarItem(
               activeIcon: const Icon(
                 Icons.wallet_giftcard,
@@ -101,15 +101,15 @@ class _MainPageState extends State<MainPage> {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListaTransacoes(),
+            child: const ListTransationsPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListaTransacoes(),
+            child: const ListTransationsPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListaTransacoes(),
+            child: const ListTransationsPage(),
           ),
         ],
         actionBarView: SizedBox(

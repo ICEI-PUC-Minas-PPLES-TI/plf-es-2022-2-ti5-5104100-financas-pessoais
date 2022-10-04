@@ -34,6 +34,7 @@ dependencies:
   shared_preferences: ^2.0.15
   curved_nav_bar: ^0.0.2
   intl: ^0.17.0
+  toggle_switch: ^2.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
