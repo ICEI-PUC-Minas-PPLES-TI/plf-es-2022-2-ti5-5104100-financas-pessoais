@@ -105,7 +105,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Card(
         elevation: 0,
         child: Container(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(2),
           height: _isLogin() ? 400 : 460,
           width: deviceSize.width * 0.95,
           child: Form(
@@ -114,7 +114,7 @@ class _AuthFormState extends State<AuthForm> {
               children: [
                 if (_isSignup())
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: const EdgeInsets.all(2.0),
                     child: TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Nome',
@@ -132,7 +132,7 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'E-mail',
@@ -150,7 +150,7 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'Senha',
@@ -172,7 +172,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 if (_isSignup())
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: const EdgeInsets.all(2.0),
                     child: TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Confirmar Senha',
@@ -204,7 +204,7 @@ class _AuthFormState extends State<AuthForm> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      fixedSize: const Size(290, 50),
+                      fixedSize: const Size(290, 40),
                       backgroundColor: const Color.fromARGB(255, 102, 91, 196),
                     ),
                     child: Text(
@@ -220,7 +220,7 @@ class _AuthFormState extends State<AuthForm> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      fixedSize: const Size(290, 50),
+                      fixedSize: const Size(290, 40),
                       backgroundColor: const Color.fromARGB(255, 102, 91, 196),
                     ),
                     child: Text(

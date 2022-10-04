@@ -47,17 +47,18 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                           minWidth: 120.0,
                           minHeight: 25.0,
                           cornerRadius: 20.0,
-                          activeBgColors: [
+                          activeBgColors: const [
                             [Color.fromARGB(255, 67, 217, 255)],
                             [Color.fromARGB(255, 67, 217, 255)]
                           ],
                           borderWidth: 5,
                           activeFgColor: Colors.white,
-                          inactiveBgColor: Color.fromARGB(73, 158, 158, 158),
+                          inactiveBgColor:
+                              const Color.fromARGB(73, 158, 158, 158),
                           inactiveFgColor: Colors.white,
                           initialLabelIndex: 1,
                           totalSwitches: 2,
-                          labels: ['Despesa', 'Receita'],
+                          labels: const ['Despesa', 'Receita'],
                           radiusStyle: true,
                           onToggle: (index) {
                             print('switched to: $index');
@@ -70,7 +71,7 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                     width: 180,
                     height: 30,
                     decoration: BoxDecoration(
-                      color: Color(0xFFF4F4F4),
+                      color: const Color(0xFFF4F4F4),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -140,7 +141,7 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                             elevation: 0,
                             child: Container(
                               height: 60,
-                              width: 320,
+                              width: size.width * 0.9,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
@@ -227,7 +228,7 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                             elevation: 0,
                             child: Container(
                               height: 60,
-                              width: 320,
+                              width: size.width * 0.9,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
@@ -314,7 +315,7 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                             elevation: 0,
                             child: Container(
                               height: 60,
-                              width: 320,
+                              width: size.width * 0.9,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
@@ -401,7 +402,7 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                             elevation: 0,
                             child: Container(
                               height: 60,
-                              width: 330,
+                              width: size.width * 0.90,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),

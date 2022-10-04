@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: deviceSize.height * 0.26,
-                  width: 200,
+                  height: deviceSize.height * 0.22,
+                  width: 160,
                   child: SizedBox.expand(
                     child: Image.asset(
                       'assets/imagem_fundo.jpeg',

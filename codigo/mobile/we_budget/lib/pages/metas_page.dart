@@ -1,24 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class MetasPage extends StatefulWidget {
   const MetasPage({super.key});
 
-
   @override
   State<MetasPage> createState() => _MetasPage();
 }
 
 class _MetasPage extends State<MetasPage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
-        Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
         child: AppBar(
           backgroundColor: Colors.deepPurple,
           automaticallyImplyLeading: false,
@@ -113,11 +109,11 @@ class _MetasPage extends State<MetasPage> {
                 scrollDirection: Axis.vertical,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                        16, 12, 16, 12),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
                     child: Container(
                       width: 100,
-                      height: 150,
+                      height: 170,
                       decoration: BoxDecoration(
                         color: Colors.white70,
                         borderRadius: BorderRadius.circular(20),
@@ -130,22 +126,23 @@ class _MetasPage extends State<MetasPage> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 4),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsetsDirectional
-                                        .fromSTEB(
-                                        2, 2, 2, 2),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            2, 2, 2, 2),
                                     child: ElevatedButton(
                                       style: ButtonStyle(
                                         shape: MaterialStateProperty.all(
                                             CircleBorder()),
-                                        backgroundColor: MaterialStateProperty
-                                            .all(Colors.black),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.black),
                                       ),
                                       child: const Icon(
                                         Icons.edit_rounded,
@@ -160,15 +157,16 @@ class _MetasPage extends State<MetasPage> {
                                   Align(
                                     alignment: const AlignmentDirectional(0, 0),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional
-                                          .fromSTEB(
-                                          5, 5, 5, 5),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              5, 5, 5, 5),
                                       child: ElevatedButton(
                                         style: ButtonStyle(
                                           shape: MaterialStateProperty.all(
                                               CircleBorder()),
-                                          backgroundColor: MaterialStateProperty
-                                              .all(Colors.black),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
                                         ),
                                         child: const Icon(
                                           Icons.close_rounded,
@@ -181,7 +179,6 @@ class _MetasPage extends State<MetasPage> {
                                       ),
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
@@ -201,13 +198,11 @@ class _MetasPage extends State<MetasPage> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5, 0, 5, 0),
-                                  child: Text(
-                                      'Gasolina',
+                                  child: Text('Gasolina',
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 20,
-                                      )
-                                  ),
+                                      )),
                                 ),
                                 // Expanded(
                                 //   child: Align(
@@ -255,24 +250,24 @@ class _MetasPage extends State<MetasPage> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        5, 10, 5, 5),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            5, 10, 5, 5),
                                     child: LinearPercentIndicator(
-                                      width: MediaQuery.of(context).size.width - 80,
+                                      width: MediaQuery.of(context).size.width -
+                                          80,
                                       animation: true,
                                       lineHeight: 20.0,
                                       animationDuration: 2500,
                                       percent: 0.4,
                                       center: Text("160,00"),
                                       progressColor: Colors.green,
-                                    )
-                                ),
+                                    )),
                               ],
                             ),
                           ],
                         ),
                       ),
-
                     ),
                   ),
                 ],
