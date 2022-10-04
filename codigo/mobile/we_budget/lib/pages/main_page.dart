@@ -3,6 +3,8 @@ import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:we_budget/pages/first_page.dart';
+import 'package:we_budget/pages/lista_transacoes.dart';
+import 'package:we_budget/pages/metas_page.dart';
 import 'package:we_budget/pages/list_transations_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 //import 'package:we_budget/pages/registrar_valores.dart';
@@ -109,7 +111,8 @@ class _MainPageState extends State<MainPage> {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListTransationsPage(),
+            child: const MetasPage(),
+
           ),
         ],
         actionBarView: SizedBox(
