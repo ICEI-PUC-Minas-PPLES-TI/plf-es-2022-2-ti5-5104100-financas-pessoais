@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:we_budget/pages/first_page.dart';
 import 'package:we_budget/pages/lista_transacoes.dart';
 import 'package:we_budget/pages/metas_page.dart';
+import 'package:we_budget/pages/list_transations_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 //import 'package:we_budget/pages/registrar_valores.dart';
 
@@ -80,10 +81,10 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.yellow,
               ),
               inActiveIcon: const Icon(
-                Icons.wallet_giftcard,
+                Icons.list,
                 color: Colors.white,
               ),
-              text: 'Lista'),
+              text: 'Transações'),
           FABBottomAppBarItem(
               activeIcon: const Icon(
                 Icons.wallet_giftcard,
@@ -102,15 +103,16 @@ class _MainPageState extends State<MainPage> {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListaTransacoes(),
+            child: const ListTransationsPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListaTransacoes(),
+            child: const ListTransationsPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
             child: const MetasPage(),
+
           ),
         ],
         actionBarView: SizedBox(
