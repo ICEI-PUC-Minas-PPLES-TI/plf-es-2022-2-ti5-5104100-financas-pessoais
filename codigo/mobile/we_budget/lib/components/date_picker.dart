@@ -23,7 +23,7 @@ class _DatePicker extends State<DatePicker> {
                   controller: dateInput,
                   //editing controller of this TextField
                   decoration: InputDecoration(
-                      icon: Icon(Icons.calendar_today), //icon of text field
+                      //icon: Icon(Icons.calendar_today), //icon of text field
                       labelText: "Insira a data" //label text of field
                   ),
                   readOnly: true,

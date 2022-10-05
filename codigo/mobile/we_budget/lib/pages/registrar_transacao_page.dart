@@ -93,19 +93,17 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     return Stack(
       children: [
         Container(
+        padding: const EdgeInsets.only(left: 10.0, top: 0.0, right: 10.0, bottom: 0.0),
+            decoration: const BoxDecoration(
+              color: Colors.lightBlue,
+              //borderRadius: BorderRadius.all(Radius.circular(15)),
+            ),
+        child: Container(
             margin: const EdgeInsetsDirectional.only(top: 50.0), //
             child: Scaffold(
-              appBar: AppBar(
-                title: const Text('Registrar Transação'),
-                actions: [
-                  IconButton(
-                    onPressed: _submitForm,
-                    icon: const Icon(Icons.save),
-                  )
-                ],
-              ),
               body: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(30),
+
                 child: Form(
                   key: _formKey,
                   child: ListView(
@@ -218,11 +216,11 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         child: ElevatedButton(
                           // onPressed: _submit,
                           style: ElevatedButton.styleFrom(
+                            primary: Colors.grey,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
                             fixedSize: const Size(290, 50),
-                            //backgroundColor: Theme.of(context).colorScheme.primary,
                           ),
                           onPressed: () {},
                           child: Text('Buscar Localização'),
@@ -233,6 +231,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         child: ElevatedButton(
                           // onPressed: _submit,
                           style: ElevatedButton.styleFrom(
+                            primary: Colors.lightBlue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
@@ -251,7 +250,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   ),
                 ),
               ),
-            )),
+            ))),
       ],
     );
   }
