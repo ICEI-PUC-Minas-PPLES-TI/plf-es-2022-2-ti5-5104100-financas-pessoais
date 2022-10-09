@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import '../models/transations.dart';
 import '../utils/db_util.dart';
 
-class GreatTransations with ChangeNotifier {
+class transationsProviders with ChangeNotifier {
   List<Transation> _items = [];
 
-  Future<void> loadTransations() async {
+  Future<void> loadTransation() async {
     final dataList = await DbUtil.getData('Transations');
     _items = dataList
         .map(
