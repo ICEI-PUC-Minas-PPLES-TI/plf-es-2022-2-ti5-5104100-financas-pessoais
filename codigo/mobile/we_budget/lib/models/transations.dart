@@ -1,16 +1,21 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TransationLocation {
   final double latitude;
   final double longitude;
-  final String address;
+  final String? address;
 
   const TransationLocation({
     this.address,
     required this.latitude,
     required this.longitude,
   });
+
+  LatLng toLatLng() {
+    return LatLng(latitude, longitude);
+  }
 }
 
 class Transation {
