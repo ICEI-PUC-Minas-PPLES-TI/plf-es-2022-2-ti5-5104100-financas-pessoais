@@ -87,7 +87,6 @@ class _AuthFormState extends State<AuthForm> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
 
@@ -120,7 +119,8 @@ class _AuthFormState extends State<AuthForm> {
                         labelText: 'Nome',
                         hintText: "Digite aqui seu nome",
                       ),
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
                       onSaved: (name) => _authData['name'] = name ?? '',
                       validator: (_name) {
                         final name = _name ?? '';
@@ -139,6 +139,7 @@ class _AuthFormState extends State<AuthForm> {
                       hintText: "Digite aqui seu e-mail",
                     ),
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     onSaved: (email) => _authData['email'] = email ?? '',
                     validator: (_email) {
                       final email = _email ?? '';
@@ -158,12 +159,13 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                     keyboardType: TextInputType.emailAddress,
                     obscureText: true,
+                    textInputAction: TextInputAction.next,
                     controller: _passwordController,
                     onSaved: (password) =>
                         _authData['password'] = password ?? '',
                     validator: (_password) {
                       final password = _password ?? '';
-                      if (password.isEmpty || password.length < 5) {
+                      if (password.isEmpty || password.length < 3) {
                         return 'Informe uma senha válida';
                       }
                       return null;
@@ -196,10 +198,11 @@ class _AuthFormState extends State<AuthForm> {
                   const CircularProgressIndicator()
                 else
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: _submit,
+                    /*onPressed: () {
                       Navigator.of(context)
                           .pushReplacementNamed(AppRoutes.main);
-                    }, //ajustar
+                    }, //ajustar*/
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
