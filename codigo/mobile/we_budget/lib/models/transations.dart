@@ -1,27 +1,27 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 
-class PlaceLocation {
+class TransationLocation {
   final double latitude;
   final double longitude;
   final String address;
 
-  const PlaceLocation({
+  const TransationLocation({
     this.address,
     required this.latitude,
     required this.longitude,
   });
 }
 
-class Place {
+class Transation {
   final String id;
   final String name;
   final DateTime data;
   final double valor;
   final String formaPagamento;
-  final PlaceLocation location;
+  final TransationLocation location;
 
-  Place({
+  Transation({
     required this.id,
     required this.name,
     required this.data,

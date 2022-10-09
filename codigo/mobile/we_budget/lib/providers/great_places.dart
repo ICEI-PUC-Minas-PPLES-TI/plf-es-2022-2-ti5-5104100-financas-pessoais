@@ -1,23 +1,23 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../models/place.dart';
+import '../models/transations.dart';
 import '../utils/db_util.dart';
 
-class GreatPlaces with ChangeNotifier {
-  List<Place> _items = [];
+class GreatTransations with ChangeNotifier {
+  List<Transation> _items = [];
 
-  Future<void> loadPlaces() async {
-    final dataList = await DbUtil.getData('places');
+  Future<void> loadTransations() async {
+    final dataList = await DbUtil.getData('Transations');
     _items = dataList
         .map(
-          (item) => Place(
+          (item) => Transation(
             id: item['id'],
             name: item['name'],
             data: item['data'],
             valor: item['valor'],
             formaPagamento: item['formaPagamento'],
-            location: PlaceLocation(
+            location: TransationLocation(
               latitude: item['latitude'],
               longitude: item['longitude'],
               address: item['address'],
@@ -28,7 +28,7 @@ class GreatPlaces with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Place> get items {
+  List<Transation> get items {
     return [..._items];
   }
 
@@ -36,36 +36,36 @@ class GreatPlaces with ChangeNotifier {
     return _items.length;
   }
 
-  Place itemByIndex(int index) {
+  Transation itemByIndex(int index) {
     return _items[index];
   }
 
-  Future<void> addPlace(
+  Future<void> addTransation(
     String name,
     DateTime data,
     double valor,
     String formaPagamento,
   ) async {
-    final newPlace = Place(
+    final newTransation = Transation(
       id: Random().nextDouble().toString(),
       name: name,
       data: data,
       formaPagamento: formaPagamento,
       valor: valor,
-      location: PlaceLocation(
+      location: TransationLocation(
         latitude: position.latitude,
         longitude: position.longitude,
         address: address,
       ),
     );
 
-    _items.add(newPlace);
-    DbUtil.insert('places', {
-      'id': newPlace.id,
-      'name': newPlace.name,
-      'data': newPlace.data,
-      'valor': newPlace.valor,
-      'formaPagamento': newPlace.formaPagamento,
+    _items.add(newTransation);
+    DbUtil.insert('Transations', {
+      'id': newTransation.id,
+      'name': newTransation.name,
+      'data': newTransation.data,
+      'valor': newTransation.valor,
+      'formaPagamento': newTransation.formaPagamento,
       'latitude': position.latitude,
       'longitude': position.longitude,
       'address': address,
