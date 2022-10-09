@@ -12,52 +12,56 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
           ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(
-                  height: deviceSize.height * 0.22,
-                  width: 160,
-                  child: SizedBox.expand(
-                    child: Image.asset(
-                      'assets/imagem_fundo.jpeg',
-                      fit: BoxFit.cover,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: deviceSize.height * 0.22,
+                      width: 160,
+                      child: SizedBox.expand(
+                        child: Image.asset(
+                          'assets/imagem_fundo.jpeg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    children: const [
+                      Text(
+                        "Entrar",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                const AuthForm(),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: const [
-                  Text(
-                    "Entrar",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const AuthForm(),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
