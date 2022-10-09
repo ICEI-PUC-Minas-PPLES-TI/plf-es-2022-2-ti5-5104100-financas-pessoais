@@ -6,6 +6,8 @@ import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
+import 'pages/record_transactions_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
           AppRoutes.login: (ctx) => const LoginPage(),
           AppRoutes.main: (ctx) => const MainPage(),
+          AppRoutes.FORM_TRANSACTIONS: (ctx) => const TransacaoFormPage()
         },
       ),
     );

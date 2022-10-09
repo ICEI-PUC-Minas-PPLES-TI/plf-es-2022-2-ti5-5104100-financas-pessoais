@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:we_budget/pages/first_page.dart';
 import 'package:we_budget/pages/metas_page.dart';
 import 'package:we_budget/pages/list_transations_page.dart';
-import 'package:we_budget/pages/registrar_transacao_page.dart';
+import 'package:we_budget/pages/record_transactions_page.dart';
+
+import '../utils/app_routes.dart';
 //import 'package:we_budget/pages/registrar_valores.dart';
 
 class MainPage extends StatefulWidget {
@@ -43,10 +45,13 @@ class _MainPageState extends State<MainPage> {
               color: Colors.white70,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.circle,
-              size: 50,
+            child: IconButton(
+              icon: Icon(Icons.circle),
+              iconSize: 60,
               color: Colors.blueAccent,
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.FORM_TRANSACTIONS);
+              },
             ),
           ),
         ),
