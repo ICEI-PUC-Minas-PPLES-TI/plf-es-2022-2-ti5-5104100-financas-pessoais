@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/transations.dart';
 import '../utils/db_util.dart';
+import '../utils/location_util.dart';
 
 class GreatTransations with ChangeNotifier {
   List<Transation> _items = [];
@@ -45,7 +47,11 @@ class GreatTransations with ChangeNotifier {
     DateTime data,
     double valor,
     String formaPagamento,
+      LatLng position,
+
   ) async {
+
+    String address = await LocationUtil.getAddressFrom(position);
     final newTransation = Transation(
       id: Random().nextDouble().toString(),
       name: name,
