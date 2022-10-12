@@ -9,6 +9,7 @@ class AuthException implements Exception {
     'EMAIL_NOT_FOUND': 'E-mail não encontrado.',
     '[Usuário ou senha estão incorretos]': 'Senha informada não confere.',
     'USER_DISABLED': 'A conta do usuário foi desabilitada.',
+    'Connection timed out': 'Connection timed out',
   };
 
   final String key;

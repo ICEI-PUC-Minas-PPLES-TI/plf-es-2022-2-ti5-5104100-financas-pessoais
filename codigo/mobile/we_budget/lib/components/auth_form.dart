@@ -87,6 +87,7 @@ class _AuthFormState extends State<AuthForm> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
+      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
 
@@ -115,6 +116,9 @@ class _AuthFormState extends State<AuthForm> {
                   Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: TextFormField(
+                      key: const ValueKey('name'),
+                      initialValue: _authData['name'],
+                      onChanged: (name) => _authData['name'] = name,
                       decoration: const InputDecoration(
                         labelText: 'Nome',
                         hintText: "Digite aqui seu nome",
@@ -134,6 +138,9 @@ class _AuthFormState extends State<AuthForm> {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: TextFormField(
+                    key: const ValueKey('email'),
+                    initialValue: _authData['email'],
+                    onChanged: (email) => _authData['email'] = email,
                     decoration: const InputDecoration(
                       labelText: 'E-mail',
                       hintText: "Digite aqui seu e-mail",
@@ -153,6 +160,8 @@ class _AuthFormState extends State<AuthForm> {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: TextFormField(
+                    key: const ValueKey('password'),
+                    onChanged: (password) => _authData['password'] = password,
                     decoration: const InputDecoration(
                       labelText: 'Senha',
                       hintText: "Digite aqui sua senha",
@@ -176,6 +185,7 @@ class _AuthFormState extends State<AuthForm> {
                   Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: TextFormField(
+                      key: const ValueKey('confirmacaoSenha'),
                       decoration: const InputDecoration(
                         labelText: 'Confirmar Senha',
                         hintText: "Digite a confirmação da senha",

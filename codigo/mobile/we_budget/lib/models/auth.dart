@@ -37,6 +37,7 @@ class Auth with ChangeNotifier {
     final response = await http.post(
       Uri.parse(url),
       headers: {
+        'accept': 'application/json',
         'content-type': 'application/json',
       },
       body: jsonEncode(
@@ -47,7 +48,10 @@ class Auth with ChangeNotifier {
         },
       ),
     );
+    print("Response....");
+    print(response.body);
     final body = jsonDecode(response.body);
+    print(body);
     if (body['sucesso'] != true) {
       throw AuthException(body['erros'].toString());
     } else {
