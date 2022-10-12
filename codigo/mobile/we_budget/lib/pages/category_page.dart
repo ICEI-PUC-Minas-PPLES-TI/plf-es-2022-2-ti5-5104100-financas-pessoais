@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'package:provider/provider.dart';
+
+import '../exceptions/auth_exception.dart';
+import '../models/category.dart';
 
 class Categoria extends StatefulWidget {
   const Categoria({super.key});
@@ -16,7 +20,7 @@ class _CategoriaState extends State<Categoria> {
     'nameCategoria': '',
     'codeCategoria': '',
   };
-  int? codigoCategoria = 57522;
+  int? codigoCategoria = 984405;
 
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
@@ -28,6 +32,22 @@ class _CategoriaState extends State<Categoria> {
     });
   }
 
+  void _showErrorDialog(String msg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Ocorreo um Erro'),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Fechar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _submitCategoria() async {
     final isValid = _formKeyCategoria.currentState?.validate() ?? false;
 
@@ -35,29 +55,30 @@ class _CategoriaState extends State<Categoria> {
       return;
     }
     _formKeyCategoria.currentState?.save();
+    Category category = Provider.of(context, listen: false);
 
-    print("submit....");
-    print(_categoriaData['nameCategoria']);
-    print(_categoriaData['codeCategoria']);
-    //Auth auth = Provider.of(context, listen: false);
-
-    /*try {
-      await auth.login(
-        _authData['name']!,
-        _authData['email']!,
-        _authData['password']!,
+    try {
+      await category.cadastro(
+        _categoriaData['nameCategoria']!,
+        _categoriaData['codeCategoria']!,
       );
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
-    }*/
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Cadastro de categoria",
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 102, 91, 196),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -74,14 +95,14 @@ class _CategoriaState extends State<Categoria> {
                         key: const ValueKey('descricao'),
                         decoration: const InputDecoration(
                           labelText: 'Descrição',
-                          hintText: "Digite aqui sa descrição da categoria",
+                          hintText: "Digite aqui a descrição da categoria",
                         ),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         onSaved: (nameCategoria) =>
                             _categoriaData['nameCategoria'] = nameCategoria,
-                        validator: (_name) {
-                          final name = _name ?? '';
+                        validator: (validacao) {
+                          final name = validacao ?? '';
                           if (name.trim().isEmpty) {
                             return 'Dados inválidos';
                           }
@@ -91,7 +112,15 @@ class _CategoriaState extends State<Categoria> {
                     ),
                     ElevatedButton(
                       onPressed: _pickIcon,
-                      child: const Text('Clique aqui para Escolha o ícone'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 102, 91, 196),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        fixedSize: const Size(290, 43),
+                      ),
+                      child: const Text('Clique aqui para escolher o ícone'),
                     ),
                   ],
                 ),
@@ -100,18 +129,13 @@ class _CategoriaState extends State<Categoria> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Container(
-                    height: 79,
-                    width: 115,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.all(
-                        Radius.circular(15.0),
-                      ),
+                SizedBox(
+                  width: 120,
+                  height: 90,
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Icon(
                       IconData(codigoCategoria ?? 0,
@@ -124,20 +148,25 @@ class _CategoriaState extends State<Categoria> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: ElevatedButton(
-                onPressed: _submitCategoria,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: _submitCategoria,
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      fixedSize: const Size(290, 40),
+                      backgroundColor: const Color.fromARGB(255, 102, 91, 196),
+                    ),
+                    child: const Text(
+                      "Cadastrar",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  fixedSize: const Size(290, 40),
-                  backgroundColor: const Color.fromARGB(255, 102, 91, 196),
-                ),
-                child: const Text(
-                  "Cadastrar",
-                  textAlign: TextAlign.center,
-                ),
+                ],
               ),
             ),
           ],
