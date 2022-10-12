@@ -4,10 +4,10 @@ import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:we_budget/pages/first_page.dart';
 import 'package:we_budget/pages/metas_page.dart';
-import 'package:we_budget/pages/list_transations_page.dart';
 import 'package:we_budget/pages/record_transactions_page.dart';
 
 import '../utils/app_routes.dart';
+import 'list_transactions_page.dart';
 //import 'package:we_budget/pages/registrar_valores.dart';
 
 class MainPage extends StatefulWidget {
@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              icon: Icon(Icons.circle),
+              icon: const Icon(Icons.circle),
               iconSize: 60,
               color: Colors.blueAccent,
               onPressed: () {
@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
                 Icons.home,
                 color: Colors.white,
               ),
-              text: 'Transação'),
+              text: 'Tela Inicial'),
           FABBottomAppBarItem(
               activeIcon: const Icon(
                 Icons.wallet_giftcard,
@@ -103,7 +103,7 @@ class _MainPageState extends State<MainPage> {
         bodyItems: [
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const TransacaoFormPage(),
+            child: const FirstPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
@@ -111,7 +111,7 @@ class _MainPageState extends State<MainPage> {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const ListTransationsPage(),
+            child: const ListTransactionsPage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,

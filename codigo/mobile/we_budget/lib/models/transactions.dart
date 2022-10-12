@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class TransationLocation {
+class TransactionLocation {
   final double latitude;
   final double longitude;
   final String? address;
 
-  const TransationLocation({
+  const TransactionLocation({
     this.address,
     required this.latitude,
     required this.longitude,
@@ -18,17 +18,19 @@ class TransationLocation {
   }
 }
 
-class Transation {
+class Transaction {
   final String id;
   final String name;
-  final DateTime data;
+  final String categoria;
+  final String data;
   final double valor;
   final String formaPagamento;
-  final TransationLocation location;
+  final TransactionLocation location;
 
-  Transation({
+  Transaction({
     required this.id,
     required this.name,
+    required this.categoria,
     required this.data,
     required this.valor,
     required this.formaPagamento,
