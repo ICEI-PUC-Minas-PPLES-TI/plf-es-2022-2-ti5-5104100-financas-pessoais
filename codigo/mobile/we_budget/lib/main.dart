@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/models/auth.dart';
+import 'package:we_budget/models/category.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Auth(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Category(),
         ),
       ],
       child: MaterialApp(
