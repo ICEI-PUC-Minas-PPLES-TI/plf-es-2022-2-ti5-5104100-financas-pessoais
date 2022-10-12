@@ -33,18 +33,17 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticate(
       String name, String email, String password, String urlFragment) async {
-    final url = 'http://localhost:5001/api/User/$urlFragment';
+    final url = 'http://192.168.73.1/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
       headers: {
-        'accept': 'application/json',
         'content-type': 'application/json',
       },
       body: jsonEncode(
         {
           'email': email,
           'senha': password,
-          //'senhaConfimacao': password,
+          'senhaConfimacao': password,
         },
       ),
     );

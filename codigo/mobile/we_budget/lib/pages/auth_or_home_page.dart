@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import '../models/auth.dart';
+import 'category_page.dart';
 import 'list_transactions_page.dart';
 import 'map_screen.dart';
 
@@ -22,7 +24,7 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const MainPage() : const MainPage();
+          return auth.isAuth ? const MainPage() : const Categoria();
         }
       },
     );
