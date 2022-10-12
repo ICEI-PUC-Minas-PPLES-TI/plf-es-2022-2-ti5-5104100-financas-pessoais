@@ -132,13 +132,13 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
               ),
               child: FutureBuilder(
                 future:
-                    Provider.of<transationsProviders>(context, listen: false)
+                    Provider.of<TransationsProviders>(context, listen: false)
                         .loadTransation(),
                 builder: (ctx, snapshot) => snapshot.connectionState ==
                         ConnectionState.waiting
-                    ? Center(child: CircularProgressIndicator())
-                    : Consumer<transationsProviders>(
-                        child: Center(
+                    ? const Center(child: CircularProgressIndicator())
+                    : Consumer<TransationsProviders>(
+                        child: const Center(
                           child: Text('Nenhuma transação cadastrada!'),
                         ),
                         builder: (ctx, transationsProviders, ch) =>
@@ -146,7 +146,7 @@ class _ListTransationsPageState extends State<ListTransationsPage> {
                                 ? ListView.builder(
                                     itemCount: transationsProviders.itemsCount,
                                     itemBuilder: (ctx, i) => ListTile(
-                                      leading: Icon(
+                                      leading: const Icon(
                                         Icons.arrow_forward,
                                         color: Color(0xFF1B1C30),
                                         size: 20,
