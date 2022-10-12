@@ -80,9 +80,11 @@ class _CategoriaState extends State<Categoria> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 102, 91, 196),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        padding: const EdgeInsetsDirectional.only(top: 50),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -134,7 +136,7 @@ class _CategoriaState extends State<Categoria> {
                   width: 120,
                   height: 90,
                   child: Card(
-                    elevation: 8,
+                    elevation: 10,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
