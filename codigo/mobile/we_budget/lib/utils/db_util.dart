@@ -5,10 +5,10 @@ class DbUtil {
   static Future<sql.Database> database() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
-      path.join(dbPath, 'places.db'),
+      path.join(dbPath, 'transactions.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE places (id TEXT PRIMARY KEY, name TEXT, categoria TEXT, data DATE, valor NUMERIC, fomaPagamento TEXT, latitude REAL, longitude REAL, address TEXT)');
+            'CREATE TABLE transactions (id TEXT PRIMARY KEY, name TEXT, categoria TEXT, data DATE, valor NUMERIC, formaPagamento TEXT, latitude REAL, longitude REAL, address TEXT)');
       },
       version: 1,
     );
@@ -16,6 +16,7 @@ class DbUtil {
 
   static Future<void> insert(String table, Map<String, Object> data) async {
     final db = await DbUtil.database();
+
     await db.insert(
       table,
       data,
@@ -25,6 +26,7 @@ class DbUtil {
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DbUtil.database();
+    print(db.query(table));
     return db.query(table);
   }
 }

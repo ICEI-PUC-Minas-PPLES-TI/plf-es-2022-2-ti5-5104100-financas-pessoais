@@ -6,10 +6,10 @@ import '../models/transations.dart';
 import '../utils/db_util.dart';
 import '../utils/location_util.dart';
 
-class GreatTransations with ChangeNotifier {
+class TransationsProviders with ChangeNotifier {
   List<Transation> _items = [];
 
-  Future<void> loadTransations() async {
+  Future<void> loadTransation() async {
     final dataList = await DbUtil.getData('Transations');
     _items = dataList
         .map(
@@ -47,11 +47,9 @@ class GreatTransations with ChangeNotifier {
     DateTime data,
     double valor,
     String formaPagamento,
-      LatLng position,
-
+    position,
   ) async {
-
-    String address = await LocationUtil.getAddressFrom(position);
+    var address = await LocationUtil.getAddressFrom(position);
     final newTransation = Transation(
       id: Random().nextDouble().toString(),
       name: name,
@@ -66,16 +64,29 @@ class GreatTransations with ChangeNotifier {
     );
 
     _items.add(newTransation);
-    DbUtil.insert('Transations', {
-      'id': newTransation.id,
-      'name': newTransation.name,
-      'data': newTransation.data,
-      'valor': newTransation.valor,
-      'formaPagamento': newTransation.formaPagamento,
-      'latitude': position.latitude,
-      'longitude': position.longitude,
-      'address': address,
+
+    DbUtil.insert('transactions', {
+      'id': "1",
+      'name': "Teste 1",
+      'data': 2022 - 11 - 20,
+      'valor': 80.00,
+      'formaPagamento': "1",
+      'latitude': 37.419857,
+      'longitude': -122.078827,
+      'address': "",
     });
+
+    // DbUtil.insert('Transations', {
+    //   'id': newTransation.id,
+    //   'name': newTransation.name,
+    //   'data': newTransation.data,
+    //   'valor': newTransation.valor,
+    //   'formaPagamento': newTransation.formaPagamento,
+    //   'latitude': position.latitude,
+    //   'longitude': position.longitude,
+    //   'address': address,
+    // });
     notifyListeners();
+    print(DbUtil.getData('transactions'));
   }
 }
