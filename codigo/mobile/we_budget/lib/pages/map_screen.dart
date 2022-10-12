@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../models/transations.dart';
+import '../models/transactions.dart';
 
 class MapScreen extends StatefulWidget {
-  final TransationLocation initialLocation;
+  final TransactionLocation initialLocation;
   final bool isReadOnly;
 
   const MapScreen(
-      {this.initialLocation = const TransationLocation(
+      {this.initialLocation = const TransactionLocation(
         latitude: 37.419857,
         longitude: -122.078827,
       ),

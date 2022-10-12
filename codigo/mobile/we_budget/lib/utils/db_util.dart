@@ -8,13 +8,13 @@ class DbUtil {
       path.join(dbPath, 'transactions.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE transactions (id TEXT PRIMARY KEY, name TEXT, categoria TEXT, data DATE, valor NUMERIC, formaPagamento TEXT, latitude REAL, longitude REAL, address TEXT)');
+            'CREATE TABLE transactions (id TEXT PRIMARY KEY, name TEXT, categoria TEXT, data TEXT, valor REAL, formaPagamento TEXT, latitude REAL, longitude REAL, address TEXT)');
       },
       version: 1,
     );
   }
 
-  static Future<void> insert(String table, Map<String, Object> data) async {
+  static Future<void> insert(String table, Map<String, dynamic> data) async {
     final db = await DbUtil.database();
 
     await db.insert(
@@ -24,9 +24,14 @@ class DbUtil {
     );
   }
 
+  static Future<void> deletar(String table) async {
+    final db = await DbUtil.database();
+
+    await db.delete('transactions');
+  }
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DbUtil.database();
-    print(db.query(table));
     return db.query(table);
   }
 }
