@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:we_budget/utils/app_routes.dart';
 
 import '../exceptions/auth_exception.dart';
 import '../models/auth.dart';
@@ -42,7 +41,7 @@ class _AuthFormState extends State<AuthForm> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Ocorreo um Erro'),
+        title: const Text('Ocorreu um Erro'),
         content: Text(msg),
         actions: [
           TextButton(
@@ -87,7 +86,7 @@ class _AuthFormState extends State<AuthForm> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Error.....");
+      print("Erro....");
       print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }

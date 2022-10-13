@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:provider/provider.dart';
-import 'package:we_budget/utils/db_util.dart';
 
 import '../exceptions/auth_exception.dart';
 import '../models/category.dart';

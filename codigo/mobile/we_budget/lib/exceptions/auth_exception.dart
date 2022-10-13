@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class AuthException implements Exception {
   static const Map<String, String> errors = {
     'EMAIL_EXISTS': 'E-mail já cadastrado.',
@@ -18,7 +16,6 @@ class AuthException implements Exception {
 
   @override
   String toString() {
-    print(key);
     return errors[key] ?? 'Ocorreu um erro no processo de autenticação.';
   }
 }

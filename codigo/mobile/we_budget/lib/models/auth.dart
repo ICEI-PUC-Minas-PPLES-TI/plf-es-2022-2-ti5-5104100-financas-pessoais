@@ -33,23 +33,23 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticate(
       String name, String email, String password, String urlFragment) async {
-    final url = 'http://192.168.73.1/api/User/$urlFragment';
+    final url = 'http://localhost:5001/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
       headers: {
-        'content-type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: jsonEncode(
         {
           'email': email,
           'senha': password,
-          'senhaConfimacao': password,
+          //'senhaConfimacao': password,
         },
       ),
     );
-    print("Response....");
-    print(response.body);
+
     final body = jsonDecode(response.body);
+    print("Response....");
     print(body);
     if (body['sucesso'] != true) {
       throw AuthException(body['erros'].toString());
@@ -58,12 +58,9 @@ class Auth with ChangeNotifier {
       _email = body['email'];
       _userId = body['userId'];
 
-      print(body);
-      //var expireTeste = int.parse(body['expiresIn']);
-
       _expiryDate = DateTime.now().add(
-        const Duration(
-          seconds: 3,
+        Duration(
+          seconds: body['expiresIn'],
         ),
       );
 
@@ -130,7 +127,7 @@ class Auth with ChangeNotifier {
     _clearLogoutTimer();
     final timeToLogout = _expiryDate?.difference(DateTime.now()).inSeconds;
     _logoutTimer = Timer(
-      Duration(seconds: 3),
+      Duration(seconds: timeToLogout ?? 0),
       logout,
     );
   }
