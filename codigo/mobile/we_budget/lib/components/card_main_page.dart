@@ -10,16 +10,18 @@ class CardMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
-      margin: const EdgeInsetsDirectional.only(top: 31),
+      margin: const EdgeInsetsDirectional.only(top: 30),
       child: Card(
         elevation: 8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Container(
-          height: 79,
-          width: 115,
+          height: height * 0.11,
+          width: width * 0.30,
           decoration: const BoxDecoration(
             borderRadius: BorderRadiusDirectional.all(
               Radius.circular(15.0),

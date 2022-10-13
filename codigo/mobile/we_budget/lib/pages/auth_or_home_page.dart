@@ -24,7 +24,7 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const MainPage() : const Categoria();
+          return auth.isAuth ? const MainPage() : const MainPage();
         }
       },
     );

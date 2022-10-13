@@ -2,10 +2,8 @@ import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:we_budget/pages/first_page.dart';
+import 'package:we_budget/pages/welcome_page.dart';
 import 'package:we_budget/pages/metas_page.dart';
-import 'package:we_budget/pages/record_transactions_page.dart';
-
 import '../utils/app_routes.dart';
 import 'list_transactions_page.dart';
 //import 'package:we_budget/pages/registrar_valores.dart';
@@ -103,7 +101,7 @@ class _MainPageState extends State<MainPage> {
         bodyItems: [
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const FirstPage(),
+            child: const WelcomePage(),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
@@ -122,7 +120,7 @@ class _MainPageState extends State<MainPage> {
         ],
         actionBarView: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: const FirstPage(),
+          child: const WelcomePage(),
         ),
       ),
     );
