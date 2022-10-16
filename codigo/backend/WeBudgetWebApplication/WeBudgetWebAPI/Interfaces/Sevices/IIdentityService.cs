@@ -1,7 +1,5 @@
 using WeBudgetWebAPI.DTOs;
 
-
-
 namespace WeBudgetWebAPI.Interfaces.Sevices;
 
 public interface IIdentityService
