@@ -5,10 +5,9 @@ import 'package:we_budget/models/category.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
+import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
-
-import 'pages/record_transactions_page.dart';
 
 void main() {
   runApp(const MyApp());
