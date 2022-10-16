@@ -12,13 +12,11 @@ class WelcomeSaldo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        "$texto",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: size,
-        ),
+    return Text(
+      "$texto",
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: size,
       ),
     );
   }

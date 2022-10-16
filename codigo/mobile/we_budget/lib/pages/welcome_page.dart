@@ -50,7 +50,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
                         WelcomeSaldo(
                           texto: "Olá Fulano",
@@ -59,7 +59,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
                         WelcomeSaldo(
                           texto: "Bem-vindo de volta",
@@ -71,20 +71,20 @@ class _WelcomePageState extends State<WelcomePage> {
                       height: 20,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
                         WelcomeSaldo(
                           texto: "R\$ 3.000,00",
-                          size: 20,
+                          size: 22,
                         )
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
                         WelcomeSaldo(
                           texto: "Saldo atual",
-                          size: 20,
+                          size: 22,
                         )
                       ],
                     ),
