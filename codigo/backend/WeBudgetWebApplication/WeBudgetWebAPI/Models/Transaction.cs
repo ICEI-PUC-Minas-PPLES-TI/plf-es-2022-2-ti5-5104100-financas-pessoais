@@ -11,8 +11,10 @@ public class Transaction
     public int Id { get; set; }
     [Column("TransactionDescription")]
     public string Description { get; set; }
+    [Column("PaymentValue")]
+    public double PaymentValue { get; set; }
     [Column("PaymentType")]
-    public double PaymentType { get; set; }
+    public string PaymentType { get; set; }
     [Column("TansactionType")]
     public TansactionType  TansactionType{ get; set; }
     [Column("TansactionDate")]
