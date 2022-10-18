@@ -1,9 +1,17 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WeBudgetWebAPI.Data;
+using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Services;
 using WeBudgetWebAPI.Extencao;
+using WeBudgetWebAPI.Interfaces;
+using WeBudgetWebAPI.Interfaces.Generics;
+using WeBudgetWebAPI.Models;
+using WeBudgetWebAPI.Repository;
+using WeBudgetWebAPI.Repository.Generics;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,8 +33,24 @@ builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<IdentityDataContext>()
     .AddDefaultTokenProviders();
 //Escopo
+builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddScoped<IIdentityService,IdentityServer>();
+builder.Services.AddSingleton<ICategory, RepositoryCategory>();
+builder.Services.AddSingleton<IBudget, RepositoryBudget>();
+builder.Services.AddSingleton<ITransaction, RepositoryTransaction>();
 
+//AutoMapper
+var config = new AutoMapper.MapperConfiguration(cfg =>
+{
+    //request
+    cfg.CreateMap<CategoryRequest, Category>();
+    cfg.CreateMap<BudgetRequest, Budget>();
+    cfg.CreateMap<TransactionRequest, Transaction>();
+    //response
+    cfg.CreateMap<Category, CategoryReponse>();
+});
+IMapper mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

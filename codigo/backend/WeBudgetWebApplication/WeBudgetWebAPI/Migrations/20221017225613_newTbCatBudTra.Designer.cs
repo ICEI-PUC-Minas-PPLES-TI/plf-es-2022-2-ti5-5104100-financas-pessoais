@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WeBudgetWebAPI.Data;
@@ -11,9 +12,10 @@ using WeBudgetWebAPI.Data;
 namespace WeBudgetWebAPI.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    partial class IdentityDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221017225613_newTbCatBudTra")]
+    partial class newTbCatBudTra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,14 +322,9 @@ namespace WeBudgetWebAPI.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("Longitude");
 
-                    b.Property<string>("PaymentType")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("PaymentType");
-
-                    b.Property<double>("PaymentValue")
+                    b.Property<double>("PaymentType")
                         .HasColumnType("double precision")
-                        .HasColumnName("PaymentValue");
+                        .HasColumnName("PaymentType");
 
                     b.Property<DateTime>("TansactionDate")
                         .HasColumnType("timestamp with time zone")

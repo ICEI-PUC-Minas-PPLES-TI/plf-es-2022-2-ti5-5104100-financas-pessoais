@@ -16,12 +16,13 @@ public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
             _OptionsBuilder = new DbContextOptions<IdentityDataContext>();
         }
 
-        public async Task Add(T Objeto)
+        public async Task<T> Add(T Objeto)
         {
             using (var data = new IdentityDataContext(_OptionsBuilder))
             {
-                await data.Set<T>().AddAsync(Objeto);
+                var entityEntry = await data.Set<T>().AddAsync(Objeto);
                 await data.SaveChangesAsync();
+                return entityEntry.Entity;
             }
         }
 
@@ -50,12 +51,14 @@ public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
             }
         }
 
-        public async Task Update(T Objeto)
+        public async Task<T> Update(T Objeto)
         {
             using (var data = new IdentityDataContext(_OptionsBuilder))
             {
-                data.Set<T>().Update(Objeto);
+                var entityEntry = data.Set<T>().Update(Objeto); 
                 await data.SaveChangesAsync();
+                return entityEntry.Entity;
+
             }
         }
 
