@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:we_budget/providers/Transactions_providers.dart';
+import 'package:we_budget/Repository/transaction_repository.dart';
 
 class ListTransactionsPage extends StatefulWidget {
   const ListTransactionsPage({super.key});
@@ -83,12 +83,12 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
         ),
       ),
       body: FutureBuilder(
-        future: Provider.of<TransactionsProviders>(context, listen: false)
-            .loadTransaction(),
+        future: Provider.of<RepositoryTransaction>(context, listen: false)
+            .loadTransactionRepository(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? const Center(child: CircularProgressIndicator())
-            : Consumer<TransactionsProviders>(
+            : Consumer<RepositoryTransaction>(
                 child: const Center(
                   child: Text('Nenhum dado cadastrado!'),
                 ),

@@ -7,7 +7,7 @@ import '../utils/db_util.dart';
 import '../utils/location_util.dart';
 
 class TransactionsProviders with ChangeNotifier {
-  List<Transaction> _items = [];
+  List<TransactionModel> _items = [];
 
   void _carregarDados() {
     DbUtil.deletar('transactions');
@@ -74,13 +74,14 @@ class TransactionsProviders with ChangeNotifier {
     final dataList = await DbUtil.getData('transactions');
     _items = dataList
         .map(
-          (item) => Transaction(
-            id: item['id'],
+          (item) => TransactionModel(
+            idTransaction: item['id'],
             name: item['name'],
             categoria: item['categoria'],
             data: item['data'],
             valor: item['valor'],
             formaPagamento: item['formaPagamento'],
+            tipoTransacao: item['tipoTransacao'],
             location: TransactionLocation(
               latitude: item['latitude'],
               longitude: item['longitude'],
@@ -92,7 +93,7 @@ class TransactionsProviders with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Transaction> get items {
+  List<TransactionModel> get items {
     return [..._items];
   }
 
@@ -100,7 +101,7 @@ class TransactionsProviders with ChangeNotifier {
     return _items.length;
   }
 
-  Transaction itemByIndex(int index) {
+  TransactionModel itemByIndex(int index) {
     return _items[index];
   }
 
@@ -110,15 +111,17 @@ class TransactionsProviders with ChangeNotifier {
     String data,
     double valor,
     String formaPagamento,
+    String tipoTransacao,
     position,
   ) async {
     var address = await LocationUtil.getAddressFrom(position);
-    final newTransation = Transaction(
-      id: Random().nextDouble().toString(),
+    final newTransation = TransactionModel(
+      idTransaction: Random().nextDouble().toString(),
       name: name,
       data: data,
       categoria: categoria,
       formaPagamento: formaPagamento,
+      tipoTransacao: tipoTransacao,
       valor: valor,
       location: TransactionLocation(
         latitude: position.latitude,
@@ -132,7 +135,7 @@ class TransactionsProviders with ChangeNotifier {
     DbUtil.insert(
       'transactions',
       {
-        'id': newTransation.id,
+        'id': newTransation.idTransaction,
         'name': newTransation.name,
         'categoria': newTransation.categoria,
         'data': newTransation.data,
