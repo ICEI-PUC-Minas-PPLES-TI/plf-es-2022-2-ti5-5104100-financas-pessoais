@@ -24,7 +24,7 @@ class _DatePicker extends State<DatePicker> {
                   //editing controller of this TextField
                   decoration: InputDecoration(labelText: "Insira a data",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
+                      borderSide: BorderSide(width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
                       borderRadius: BorderRadius.circular(50.0),
                     ),
                   ),
