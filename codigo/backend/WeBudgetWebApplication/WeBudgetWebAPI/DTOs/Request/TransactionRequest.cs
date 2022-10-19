@@ -9,7 +9,9 @@ public class TransactionRequest
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     public string Description { get; set; }
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    public double PaymentType { get; set; }
+    public double PaymentValue { get; set; }
+    [Required(ErrorMessage = "O campo {0} é obrigatório")]
+    public string PaymentType { get; set; }
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     public TansactionType  TansactionType{ get; set; }
     [Required(ErrorMessage = "O campo {0} é obrigatório")]

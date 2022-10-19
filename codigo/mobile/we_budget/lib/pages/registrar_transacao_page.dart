@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/components/categoria_dropdown.dart';
 
 import '../components/date_picker.dart';
@@ -92,27 +93,40 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        Container(
-        padding: const EdgeInsets.only(left: 10.0, top: 0.0, right: 10.0, bottom: 0.0),
-            decoration: const BoxDecoration(
-              color: Colors.blueAccent,
-              //borderRadius: BorderRadius.all(Radius.circular(15)),
-            ),
-        child: Container(
-            margin: const EdgeInsetsDirectional.only(top: 50.0), //
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-            ),
-            child: Scaffold(
+    return Scaffold(
+              appBar: AppBar(
+                title: Text('Registrar transação'),
+                backgroundColor: Colors.blueAccent,
+              ),
               body: Padding(
                 padding: const EdgeInsets.all(30),
-
                 child: Form(
                   key: _formKey,
                   child: ListView(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 74.0, top: 0.0, right: 74.0, bottom: 20.0),
+                        child: ToggleSwitch(
+                          minWidth: 140.0,
+                          minHeight: 25.0,
+                          cornerRadius: 20.0,
+                          activeBgColors: const [
+                            [Colors.blueAccent],
+                            [Colors.blueAccent],
+                          ],
+                          borderWidth: 5,
+                          activeFgColor: Colors.white,
+                          inactiveBgColor: Colors.grey,
+                          inactiveFgColor: Colors.white,
+                          initialLabelIndex: 1,
+                          totalSwitches: 2,
+                          labels: const ['Despesa', 'Receita'],
+                          radiusStyle: true,
+                          onToggle: (index) {
+                            print('switched to: $index');
+                          },
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 1.0, top: 0.0, right: 1.0, bottom: 0.0),
                         child: TextFormField(
@@ -228,8 +242,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   ),
                 ),
               ),
-            ))),
-      ],
     );
   }
 }
