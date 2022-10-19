@@ -16,22 +16,30 @@ class TransactionLocation {
   }
 }
 
-class Transaction {
-  final String id;
+class TransactionModel {
+  final String idTransaction;
   final String name;
   final String categoria;
   final String data;
   final double valor;
   final String formaPagamento;
+  final String tipoTransacao;
   final TransactionLocation location;
 
-  Transaction({
-    required this.id,
+  TransactionModel({
+    required this.idTransaction,
     required this.name,
     required this.categoria,
     required this.data,
     required this.valor,
     required this.formaPagamento,
     required this.location,
+    required this.tipoTransacao,
   });
+
+  @override
+  String toString() {
+    String result = "$idTransaction - $name";
+    return result.toString();
+  }
 }

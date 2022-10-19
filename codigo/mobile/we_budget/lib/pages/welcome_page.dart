@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/list_transactions_page.dart';
 
@@ -150,12 +151,12 @@ class _WelcomePageState extends State<WelcomePage> {
               padding: const EdgeInsets.only(top: 380),
               child: FutureBuilder(
                 future:
-                    Provider.of<TransactionsProviders>(context, listen: false)
-                        .loadTransaction(),
+                    Provider.of<RepositoryTransaction>(context, listen: false)
+                        .loadTransactionRepository(),
                 builder: (ctx, snapshot) => snapshot.connectionState ==
                         ConnectionState.waiting
                     ? const Center(child: CircularProgressIndicator())
-                    : Consumer<TransactionsProviders>(
+                    : Consumer<RepositoryTransaction>(
                         child: const Center(
                           child: Text('Nenhum dado cadastrado!'),
                         ),
@@ -166,7 +167,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             : ListView.builder(
                                 itemCount: trasactionList.itemsCount > 3
                                     ? trasactionList.itemsCount
-                                    : 3,
+                                    : 2,
                                 itemBuilder: (ctx, i) => ListTile(
                                   leading: const Icon(Icons.coffee),
                                   title:
