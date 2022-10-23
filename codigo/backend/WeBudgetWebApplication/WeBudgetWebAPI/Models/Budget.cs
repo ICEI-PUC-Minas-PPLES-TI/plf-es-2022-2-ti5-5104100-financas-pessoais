@@ -11,6 +11,8 @@ public class Budget
     public int Id { get; set; }
     [Column("BudgetValue")]
     public double BudgetValue { get; set; }
+    [Column("BudgetValueUsed")]
+    public double BudgetValueUsed { get; set; }
     [Column("BudgetDate")]
     public DateTime BudgetDate{ get; set; }
     [Column("Active")]

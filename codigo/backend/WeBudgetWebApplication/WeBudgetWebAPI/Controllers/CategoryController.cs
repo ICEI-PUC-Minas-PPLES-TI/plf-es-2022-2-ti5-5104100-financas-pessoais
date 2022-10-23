@@ -27,9 +27,10 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<CategoryReponse>> Add(CategoryRequest request)
     {
         var category = _iMapper.Map<Category>(request);
+        
         var savedCategory = await _iCategory.Add(category);
         var response = _iMapper.Map<CategoryReponse>(savedCategory);
-        return Ok(Response);
+        return Ok(response);
     }
 
     [Authorize]
@@ -60,10 +61,10 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult> Update(CategoryRequest request)
     {
         var categoria = _iMapper.Map<Category>(request);
-        var savedcategoria = _iCategory.Update(categoria);
-        if (savedcategoria == null)
+        var savedCategoria =await _iCategory.Update(categoria);
+        if (savedCategoria == null)
             return NoContent();
-        var response = _iMapper.Map<CategoryReponse>(savedcategoria);
+        var response = _iMapper.Map<CategoryReponse>(savedCategoria);
         return Ok(response);
 
     }
