@@ -38,6 +38,7 @@ builder.Services.AddScoped<IIdentityService,IdentityServer>();
 builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();
 builder.Services.AddSingleton<ITransaction, RepositoryTransaction>();
+builder.Services.AddSingleton<ITransactionService, TransactionService>();
 
 //AutoMapper
 var config = new AutoMapper.MapperConfiguration(cfg =>
@@ -48,6 +49,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<TransactionRequest, Transaction>();
     //response
     cfg.CreateMap<Category, CategoryReponse>();
+    cfg.CreateMap<Budget, BudgetResponse>();
+    cfg.CreateMap<Transaction, TransactionResponse>();
 });
 IMapper mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
