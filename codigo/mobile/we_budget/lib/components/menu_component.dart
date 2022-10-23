@@ -41,7 +41,7 @@ class MenuPrincipal extends StatelessWidget {
             iconSize: 40,
             color: Colors.blueAccent,
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.FORM_TRANSACTIONS);
+              Navigator.of(context).pushNamed(AppRoutes.formTransaction);
             },
           ),
         ),

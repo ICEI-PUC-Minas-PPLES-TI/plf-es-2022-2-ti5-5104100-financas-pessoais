@@ -66,7 +66,6 @@ class RepositoryTransaction with ChangeNotifier {
   }
 
   Future<void> loadTransactionRepository() async {
-    print("Entrou load....");
     Database db = await DBHelper.instance.database;
     List<Map> dataList =
         await db.rawQuery("SELECT * FROM ${DBHelper.tableTransaction}");

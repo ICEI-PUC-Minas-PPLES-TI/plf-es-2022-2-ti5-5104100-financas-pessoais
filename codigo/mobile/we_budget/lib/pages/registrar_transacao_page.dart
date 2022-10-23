@@ -5,6 +5,7 @@ import 'package:we_budget/components/categoria_dropdown.dart';
 
 import '../components/date_picker.dart';
 import '../components/forma_pagamento_dropdown.dart';
+import '../utils/app_routes.dart';
 
 class TransacaoFormPage extends StatefulWidget {
   const TransacaoFormPage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
+  final _categoryController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
@@ -93,6 +95,9 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    String? _categorySelected =
+        ModalRoute.of(context)!.settings.arguments.toString();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Registrar transação'),
@@ -167,9 +172,25 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
-                child: DropdownButtonExample(),
+                padding: const EdgeInsets.only(
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
+                child: TextFormField(
+                  initialValue: _categorySelected,
+                  decoration: InputDecoration(
+                    labelText: 'Categoria',
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          width: 0.8, color: Colors.grey), //<-- SEE HERE
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                  ),
+                  textInputAction: TextInputAction.next,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutes.listCategory);
+                  },
+                  onSaved: (categorySelected) =>
+                      _formData['categorySelected'] = categorySelected ?? '',
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -191,7 +212,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     ),
                   ),
                   textInputAction: TextInputAction.next,
-                  focusNode: FocusNode(),
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                     signed: true,
@@ -214,12 +234,12 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   },
                 ),
               ),
-              Padding(
-                  padding: const EdgeInsets.only(
+              const Padding(
+                  padding: EdgeInsets.only(
                       left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                   child: DropdownButtonPagamentoExample()),
               Container(
-                padding: EdgeInsetsDirectional.only(top: 20.0),
+                padding: const EdgeInsetsDirectional.only(top: 20.0),
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(

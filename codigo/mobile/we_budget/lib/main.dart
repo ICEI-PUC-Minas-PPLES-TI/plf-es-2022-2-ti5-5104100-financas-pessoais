@@ -7,6 +7,8 @@ import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/models/categoria_model.dart';
 import 'package:we_budget/models/category.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
+import 'package:we_budget/pages/category_page.dart';
+import 'package:we_budget/pages/list_category_page.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
@@ -21,9 +23,9 @@ void main() {
 class MyApp extends StatelessWidget {
   void carregaBanco() async {
     Database db = await DBHelper.instance.database;
-    await db.delete(DBHelper.tableCategoria);
-    await db.delete(DBHelper.tableTransaction);
-    await RepositoryCategoria().selectCategoria();
+    /*await db.delete(DBHelper.tableCategoria);
+    await db.delete(DBHelper.tableTransaction);*/
+    await RepositoryCategory().selectCategoria();
     await RepositoryTransaction().selectTransaction();
   }
 
@@ -46,6 +48,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => RepositoryTransaction(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RepositoryCategory(),
         )
       ],
       child: MaterialApp(
@@ -62,7 +67,9 @@ class MyApp extends StatelessWidget {
           AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
           AppRoutes.login: (ctx) => const LoginPage(),
           AppRoutes.main: (ctx) => const MainPage(),
-          AppRoutes.FORM_TRANSACTIONS: (ctx) => const TransacaoFormPage()
+          AppRoutes.formTransaction: (ctx) => const TransacaoFormPage(),
+          AppRoutes.listCategory: (ctx) => const ListCategoryPage(),
+          AppRoutes.createCategory: (ctx) => const CreateCategory(),
         },
       ),
     );
