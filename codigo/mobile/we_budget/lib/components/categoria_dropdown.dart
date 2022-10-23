@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_budget/utils/app_routes.dart';
 
 const List<String> list = <String>['Categoria', 'Two', 'Three', 'Four'];
 
@@ -14,6 +15,10 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
 
   @override
   Widget build(BuildContext context) {
+    Object? data = ModalRoute.of(context)!.settings.arguments;
+    print("Categoria selecioanda");
+    print(data);
+
     return InputDecorator(
       decoration: InputDecoration(
         contentPadding:
@@ -41,12 +46,10 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
             // height: 2,
             //color: Colors.deepPurpleAccent,
             //),
-            onChanged: (String? value) {
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
+            onChanged: (String? value) {},
+            onTap: (() {
+              Navigator.of(context).pushNamed(AppRoutes.listCategory);
+            }),
             items: list.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

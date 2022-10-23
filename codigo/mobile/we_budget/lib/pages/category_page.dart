@@ -5,28 +5,28 @@ import 'package:provider/provider.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/category.dart';
 
-class Categoria extends StatefulWidget {
-  const Categoria({super.key});
+class CreateCategory extends StatefulWidget {
+  const CreateCategory({super.key});
 
   @override
-  State<Categoria> createState() => _CategoriaState();
+  State<CreateCategory> createState() => _CreateCategoryState();
 }
 
-class _CategoriaState extends State<Categoria> {
-  final _formKeyCategoria = GlobalKey<FormState>();
-  final Map<String, dynamic> _categoriaData = {
-    'nameCategoria': '',
-    'codeCategoria': '',
+class _CreateCategoryState extends State<CreateCategory> {
+  final _formKeyCreateCategory = GlobalKey<FormState>();
+  final Map<String, dynamic> _CreateCategoryData = {
+    'nameCreateCategory': '',
+    'codeCreateCategory': '',
   };
-  int? codigoCategoria = 984405;
+  int? codigoCreateCategory = 984405;
 
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
         iconPackModes: [IconPack.material]);
 
     setState(() {
-      codigoCategoria = icon?.codePoint;
-      _categoriaData['codeCategoria'] = codigoCategoria!;
+      codigoCreateCategory = icon?.codePoint;
+      _CreateCategoryData['codeCreateCategory'] = codigoCreateCategory!;
     });
   }
 
@@ -46,19 +46,19 @@ class _CategoriaState extends State<Categoria> {
     );
   }
 
-  Future<void> _submitCategoria() async {
-    final isValid = _formKeyCategoria.currentState?.validate() ?? false;
+  Future<void> _submitCreateCategory() async {
+    final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
 
     if (!isValid) {
       return;
     }
-    _formKeyCategoria.currentState?.save();
+    _formKeyCreateCategory.currentState?.save();
     Category category = Provider.of(context, listen: false);
 
     try {
       await category.cadastro(
-        _categoriaData['nameCategoria']!,
-        _categoriaData['codeCategoria']!,
+        _CreateCategoryData['nameCreateCategory']!,
+        _CreateCategoryData['codeCreateCategory']!,
       );
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
@@ -71,6 +71,25 @@ class _CategoriaState extends State<Categoria> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.05),
+        child: AppBar(
+          elevation: 0,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Color(0xFFC84CF4),
+                    Color.fromARGB(255, 41, 19, 236),
+                    Color(0xFF923DF8),
+                  ]),
+            ),
+          ),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -84,7 +103,7 @@ class _CategoriaState extends State<Categoria> {
           ),
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsetsDirectional.only(top: 10),
+          padding: const EdgeInsetsDirectional.only(top: 0),
           child: Container(
             height: height * 1,
             margin: const EdgeInsetsDirectional.all(10),
@@ -105,7 +124,7 @@ class _CategoriaState extends State<Categoria> {
                 Column(
                   children: const [
                     Text(
-                      "Cadastrar Categoria",
+                      "Cadastrar CreateCategory",
                       style: TextStyle(
                         fontFamily: 'Arial',
                         fontSize: 28,
@@ -118,7 +137,7 @@ class _CategoriaState extends State<Categoria> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Form(
-                    key: _formKeyCategoria,
+                    key: _formKeyCreateCategory,
                     child: Column(
                       children: [
                         Container(
@@ -128,12 +147,14 @@ class _CategoriaState extends State<Categoria> {
                             key: const ValueKey('descricao'),
                             decoration: const InputDecoration(
                               labelText: 'Descrição',
-                              hintText: "Digite aqui a descrição da categoria",
+                              hintText:
+                                  "Digite aqui a descrição da CreateCategory",
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,
-                            onSaved: (nameCategoria) =>
-                                _categoriaData['nameCategoria'] = nameCategoria,
+                            onSaved: (nameCreateCategory) =>
+                                _CreateCategoryData['nameCreateCategory'] =
+                                    nameCreateCategory,
                             validator: (validacao) {
                               final name = validacao ?? '';
                               if (name.trim().isEmpty) {
@@ -176,7 +197,7 @@ class _CategoriaState extends State<Categoria> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: Icon(
-                          IconData(codigoCategoria ?? 0,
+                          IconData(codigoCreateCategory ?? 0,
                               fontFamily: 'MaterialIcons'),
                           size: 50,
                           color: const Color.fromARGB(255, 102, 91, 196),
@@ -194,7 +215,7 @@ class _CategoriaState extends State<Categoria> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: _submitCategoria,
+                        onPressed: _submitCreateCategory,
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
