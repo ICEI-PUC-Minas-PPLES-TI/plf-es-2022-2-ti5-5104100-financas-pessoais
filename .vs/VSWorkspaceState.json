@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\codigo",
+    "\\codigo\\backend",
+    "\\codigo\\backend\\WeBudgetWebApplication",
+    "\\codigo\\backend\\WeBudgetWebApplication\\WeBudgetWebAPI",
+    "\\codigo\\backend\\WeBudgetWebApplication\\WeBudgetWebAPI\\Configurations",
+    "\\codigo\\backend\\WeBudgetWebApplication\\WeBudgetWebAPI\\Controllers"
+  ],
+  "SelectedNode": "\\codigo\\backend\\WeBudgetWebApplication\\WeBudgetWebAPI\\Controllers\\UserController.cs",
+  "PreviewInSolutionExplorer": false
+}
