@@ -14,20 +14,21 @@
             <img src="img/Logo.png" width="500" height="500" class="margin-right-200" />
         </div>
 			<div class="wrap-login">
-				<form class="login-form">
+				<div class="login-form">
 					<span class="login-form-title">
 						Bem vindo ao
 					</span>
                     <span class="login-form-title2">
                         We Budget!
                     </span>
+					<!-- <form onsubmit="UsuarioLoginRequest(event)" class="form"> -->
 					<div class="wrap-input margin-top-35 margin-bottom-35">
-						<input class="input-form" type="text" name="email" autocomplete="off">
+						<input id="email" class="input-form" type="text" name="email" autocomplete="off">
 						<span class="focus-input-form" data-placeholder="E-mail"></span>
 					</div>
 
 					<div class="wrap-input margin-bottom-35">
-						<input class="input-form" type="password" name="password">
+						<input id="senha" class="input-form" type="password" name="password">
 						<span class="focus-input-form" data-placeholder="Senha"></span>
 					</div>
 							<span class="text1">
@@ -37,19 +38,15 @@
 								senha?
 							</a>
                     <div class="container-login-form-btn">
-						<button class="login-form-btn">
+						<button onclick="realizarLogin()" id="botaoEntrar" class="login-form-btn">
 							Entrar
 						</button>
 					</div>
-				</form>
+				<!-- </form> -->
 			</div>
 			
 		</div>
 	</div>
-	
-
 <script src="../JS/login.js"></script>
-
-
 </body>
 </html>

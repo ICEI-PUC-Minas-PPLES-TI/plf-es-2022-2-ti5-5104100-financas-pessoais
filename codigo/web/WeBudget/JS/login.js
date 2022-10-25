@@ -1,30 +1,21 @@
-const realizarLogin = (event) => {
-    event.preventDefault();
-  
-    const renamedData = {
-      email: document.querySelector('#email').value,
-      senha: document.querySelector('#senha').value,
-    }
-  
-    const xhr = new XMLHttpRequest();
-  
-    xhr.open('POST', '', true);
-    xhr.setRequestHeader("Content-type", "application/json");
-  
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200) {
-          let tokenUsuario = JSON.parse(xhr.responseText);
-          if (tokenUsuario) {
-            localStorage.setItem('userToken', JSON.stringify(tokenUsuario.data));
-            window.location.href = 'modulos.html';
-          }
-        }
-        else {
-          console.log(xhr.responseText);
-        }
-      }
-    }
-  
-    xhr.send(JSON.stringify(renamedData));
+function realizarLogin(event){
+  var url="http://localhost:5001/api/User/login";
+  var data={
+    "email": document.querySelector("#email").value,
+    "senha": document.querySelector("#senha").value
   }
+  fetch(url,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:
+    JSON.stringify(data)
+  })
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+}
+console.log(document.querySelector("#email").value);
+
+
+//document.querySelector("#botaoEntrar").addEventListener("click",()=>{})
