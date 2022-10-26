@@ -51,7 +51,7 @@ class DBHelper {
   Future<void> _criarBanco(Database db, int novaVersao) async {
     List<String> queryes = [
       "CREATE TABLE $tableCategoria ($id TEXT PRIMARY KEY, $codeCategoria TEXT, $nameCategoria);",
-      "CREATE TABLE $tableTransaction ($idTransaction TEXT PRIMARY KEY, $name TEXT, $categoria TEXT, $data TEXT, $valor DOUBLE, $formaPagamento TEXT, $tipoTransacao TEXT, $latitude DOUBLE, $longitude DOUBLE, $address TEXT);",
+      "CREATE TABLE $tableTransaction ($idTransaction TEXT PRIMARY KEY, $name TEXT, $categoria TEXT, $data TEXT, $valor DOUBLE, $formaPagamento TEXT, $tipoTransacao INT, $latitude DOUBLE, $longitude DOUBLE, $address TEXT);",
     ];
 
     for (String query in queryes) {

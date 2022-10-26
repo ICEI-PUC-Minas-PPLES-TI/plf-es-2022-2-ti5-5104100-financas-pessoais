@@ -26,7 +26,7 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const MainPage() : const MainPage();
+          return auth.isAuth ? const MainPage() : const ListTransactionsPage();
         }
       },
     );

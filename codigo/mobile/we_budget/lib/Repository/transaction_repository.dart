@@ -87,6 +87,36 @@ class RepositoryTransaction with ChangeNotifier {
           ),
         )
         .toList();
+
+    notifyListeners();
+  }
+
+  Future<void> loadTransactionRepository2(int typeTransaction) async {
+    Database db = await DBHelper.instance.database;
+    List<Map> dataList =
+        await db.rawQuery("SELECT * FROM ${DBHelper.tableTransaction}");
+    _items = dataList
+        .map(
+          (item) => TransactionModel(
+            idTransaction: item['idTransaction'],
+            name: item['name'],
+            categoria: item['categoria'],
+            data: item['data'],
+            valor: item['valor'],
+            formaPagamento: item['formaPagamento'],
+            tipoTransacao: item['tipoTransacao'],
+            location: TransactionLocation(
+              latitude: item['latitude'],
+              longitude: item['longitude'],
+              address: item['address'],
+            ),
+          ),
+        )
+        .toList();
+
+    _items = _items
+        .where((element) => element.tipoTransacao == typeTransaction)
+        .toList();
     notifyListeners();
   }
 
@@ -106,7 +136,7 @@ class RepositoryTransaction with ChangeNotifier {
       data: "2022-10-10",
       valor: 28,
       formaPagamento: "Dinheiro",
-      tipoTransacao: "Despesa",
+      tipoTransacao: 0,
       location: const TransactionLocation(
         latitude: 37.419857,
         longitude: -122.078827,
@@ -121,7 +151,7 @@ class RepositoryTransaction with ChangeNotifier {
       data: "2022-10-15",
       valor: 35,
       formaPagamento: "Dinheiro",
-      tipoTransacao: "Despesa",
+      tipoTransacao: 1,
       location: const TransactionLocation(
         latitude: 37.419857,
         longitude: -122.078827,

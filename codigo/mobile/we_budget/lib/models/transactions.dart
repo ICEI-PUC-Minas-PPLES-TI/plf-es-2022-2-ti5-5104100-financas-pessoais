@@ -23,7 +23,7 @@ class TransactionModel {
   final String data;
   final double valor;
   final String formaPagamento;
-  final String tipoTransacao;
+  final int tipoTransacao;
   final TransactionLocation location;
 
   TransactionModel({

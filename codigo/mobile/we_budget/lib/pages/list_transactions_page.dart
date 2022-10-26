@@ -1,8 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
+import 'dart:developer';
 
 class ListTransactionsPage extends StatefulWidget {
   const ListTransactionsPage({super.key});
@@ -11,9 +14,12 @@ class ListTransactionsPage extends StatefulWidget {
 }
 
 class _ListTransactionsPageState extends State<ListTransactionsPage> {
+  int tipoTransferencia = 0;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: size * 0.15,
@@ -38,7 +44,11 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                 labels: const ['Despesa', 'Receita'],
                 radiusStyle: true,
                 onToggle: (index) {
-                  print('switched to: $index');
+                  setState(() {
+                    tipoTransferencia = index!;
+                  });
+                  //tipoTransferencia = index;
+                  print('switched to: $tipoTransferencia');
                 },
               ),
               Container(
@@ -82,38 +92,56 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
           ),
         ),
       ),
-      body: FutureBuilder(
-        future: Provider.of<RepositoryTransaction>(context, listen: false)
-            .loadTransactionRepository(),
-        builder: (ctx, snapshot) => snapshot.connectionState ==
-                ConnectionState.waiting
-            ? const Center(child: CircularProgressIndicator())
-            : Consumer<RepositoryTransaction>(
-                child: const Center(
-                  child: Text('Nenhum dado cadastrado!'),
-                ),
-                builder: (ctx, trasactionList, ch) =>
-                    trasactionList.itemsCount == 0
-                        ? ch!
-                        : ListView.builder(
-                            itemCount: trasactionList.itemsCount,
-                            itemBuilder: (ctx, i) => ListTile(
-                              leading: const Icon(Icons.coffee),
-                              title: Text(trasactionList.itemByIndex(i).name),
-                              onTap: () {},
-                              subtitle: Text(
-                                DateFormat("dd/MM/yyyy").format(
-                                  DateTime.parse(
-                                      trasactionList.itemByIndex(i).data),
-                                ),
-                              ),
-                              trailing: Text(
-                                trasactionList.itemByIndex(i).valor.toString(),
+      body: Filter(tipoTransferencia: tipoTransferencia),
+    );
+  }
+}
+
+class Filter extends StatefulWidget {
+  const Filter({
+    Key? key,
+    required this.tipoTransferencia,
+  }) : super(key: key);
+
+  final int tipoTransferencia;
+
+  @override
+  State<Filter> createState() => _FilterState();
+}
+
+class _FilterState extends State<Filter> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Provider.of<RepositoryTransaction>(context, listen: false)
+          .loadTransactionRepository2(widget.tipoTransferencia),
+      builder: (ctx, snapshot) => snapshot.connectionState ==
+              ConnectionState.waiting
+          ? const Center(child: CircularProgressIndicator())
+          : Consumer<RepositoryTransaction>(
+              child: const Center(
+                child: Text('Nenhum dado cadastrado!'),
+              ),
+              builder: (ctx, trasactionList, ch) => trasactionList.itemsCount ==
+                      0
+                  ? ch!
+                  : ListView.builder(
+                      itemCount: trasactionList.itemsCount,
+                      itemBuilder: (ctx, i) => ListTile(
+                            leading: const Icon(Icons.coffee),
+                            title: Text(trasactionList.itemByIndex(i).name),
+                            onTap: () {},
+                            subtitle: Text(
+                              DateFormat("dd/MM/yyyy").format(
+                                DateTime.parse(
+                                    trasactionList.itemByIndex(i).data),
                               ),
                             ),
-                          ),
-              ),
-      ),
+                            trailing: Text(
+                              trasactionList.itemByIndex(i).valor.toString(),
+                            ),
+                          )),
+            ),
     );
   }
 }
