@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/components/categoria_dropdown.dart';
@@ -24,6 +25,17 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
+
+ Map<String, Object> _transactionData = {
+    'TransactionType' : 'receita',
+    'Longitude' : 0.0,
+    'Address' : '',
+    'CategoryId' : 0,
+  };
+
+  static const List<String> list = <String>['Crédito', 'Débito', 'Cheque', 'Pix', 'Dinheiro'];
+  String dropdownValue = list.first;
+
   TextEditingController dateInput = TextEditingController();
 
   @override
@@ -132,7 +144,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       labels: const ['Despesa', 'Receita'],
                       radiusStyle: true,
                       onToggle: (index) {
-                        print('switched to: $index');
+                        print(index);
+                        if(index ==  1){
+                          print("oi");
+                          _transactionData['TransactionType'] = 'receita';
+                        }else{
+                          _transactionData['TransactionType'] = 'despesa';
+                        }
                       },
                     ),
                   ],
@@ -142,6 +160,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 0.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
+                  key: const ValueKey('Description'),
+                  onChanged: (Description) => _transactionData['Description'] = Description,
                   initialValue: _formData['name']?.toString(),
                   decoration: InputDecoration(
                     labelText: 'Nome',
@@ -175,6 +195,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
+                  key: const ValueKey('CategoryId'),
+                  onChanged: (CategoryId) => _transactionData['CategoryId'] = CategoryId,
                   initialValue: _categorySelected,
                   decoration: InputDecoration(
                     labelText: 'Categoria',
@@ -195,12 +217,47 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
-                child: DatePicker(),
+                child: TextFormField(
+                  controller: dateInput,
+                  //editing controller of this TextField
+                  decoration: InputDecoration(labelText: "Insira a data",
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                  ),
+                  readOnly: true,
+                  //set it true, so that user will not able to edit text
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1950),
+                        //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2100));
+
+                    if (pickedDate != null) {
+                      print(
+                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                      DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(
+                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                      setState(() {
+                        dateInput.text =
+                            formattedDate;
+                        _transactionData['TransactionDate'] = formattedDate;//set output date to TextField value.
+                      });
+                    } else {}
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
+                  key: const ValueKey('PaymentValue'),
+                  onChanged: (PaymentValue) => _transactionData['valor'] = PaymentValue,
                   autofocus: false,
                   initialValue: _formData['price']?.toString(),
                   decoration: InputDecoration(
@@ -234,10 +291,46 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   },
                 ),
               ),
-              const Padding(
+               Padding(
                   padding: EdgeInsets.only(
                       left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
-                  child: DropdownButtonPagamentoExample()),
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 7.0),
+                      labelText: ('Forma de pagamento'),
+                      border: OutlineInputBorder(
+                        borderSide:  BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        key: const ValueKey('PaymentType'),
+                        value: dropdownValue,
+                        //icon: const Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        //style: const TextStyle(color: Colors.deepPurple),
+                        //underline: Container(
+                        // height: 2,
+                        //color: Colors.deepPurpleAccent,
+                        //),
+                        onChanged: (PaymentType){
+                          // This is called when the user selects an item.
+                          setState(() {
+                            dropdownValue = PaymentType!;
+                            _transactionData['PaymentType'] = PaymentType!;
+                          });
+                        },
+                        items: list.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  )),
               Container(
                 padding: const EdgeInsetsDirectional.only(top: 20.0),
                 child: ElevatedButton(
@@ -269,7 +362,10 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     fixedSize: const Size(290, 50),
                     //backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    print(_transactionData);
+                    print(dateInput.text);
+                  },
                   child: Text('Registrar'),
                 ),
               ),
