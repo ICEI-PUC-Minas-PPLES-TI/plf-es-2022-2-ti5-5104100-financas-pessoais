@@ -3,6 +3,7 @@ function realizarLogin(event){
   var data={
     "email": document.querySelector("#email").value,
     "senha": document.querySelector("#senha").value
+
   }
   fetch(url,{
     method:"POST",
@@ -13,8 +14,17 @@ function realizarLogin(event){
     JSON.stringify(data)
   })
   .then((response) => response.json())
-  .then((data) => console.log(data));
-}
+  .then((data) => {
+    console.log(data.sucesso)
+    if(data.sucesso){
+      window.location.href="/codigo/web/WeBudget/HTML/index.html"
+    }else{
+      alert("email ou senha inválidos");
+    }
+  }).catch((e) =>console.log(e));
+
+  }
+
 console.log(document.querySelector("#email").value);
 
 
