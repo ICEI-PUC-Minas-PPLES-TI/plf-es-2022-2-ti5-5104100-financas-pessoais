@@ -26,14 +26,20 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
 
- Map<String, Object> _transactionData = {
-    'TransactionType' : 'receita',
-    'Longitude' : 0.0,
-    'Address' : '',
-    'CategoryId' : 0,
+  Map<String, Object> _transactionData = {
+    'TransactionType': 'receita',
+    'Longitude': 0.0,
+    'Address': '',
+    'CategoryId': '',
   };
 
-  static const List<String> list = <String>['Crédito', 'Débito', 'Cheque', 'Pix', 'Dinheiro'];
+  static const List<String> list = <String>[
+    'Crédito',
+    'Débito',
+    'Cheque',
+    'Pix',
+    'Dinheiro'
+  ];
   String dropdownValue = list.first;
 
   TextEditingController dateInput = TextEditingController();
@@ -109,6 +115,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     final deviceSize = MediaQuery.of(context).size;
     String? _categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
+    print(_categorySelected);
 
     return Scaffold(
       appBar: AppBar(
@@ -145,10 +152,10 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       radiusStyle: true,
                       onToggle: (index) {
                         print(index);
-                        if(index ==  1){
+                        if (index == 1) {
                           print("oi");
                           _transactionData['TransactionType'] = 'receita';
-                        }else{
+                        } else {
                           _transactionData['TransactionType'] = 'despesa';
                         }
                       },
@@ -161,7 +168,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     left: 1.0, top: 0.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('Description'),
-                  onChanged: (Description) => _transactionData['Description'] = Description,
+                  onChanged: (Description) =>
+                      _transactionData['Description'] = Description,
                   initialValue: _formData['name']?.toString(),
                   decoration: InputDecoration(
                     labelText: 'Nome',
@@ -196,7 +204,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('CategoryId'),
-                  onChanged: (CategoryId) => _transactionData['CategoryId'] = CategoryId,
+                  onChanged: (CategoryId) =>
+                      _transactionData['CategoryId'] = CategoryId,
                   initialValue: _categorySelected,
                   decoration: InputDecoration(
                     labelText: 'Categoria',
@@ -211,7 +220,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     Navigator.of(context).pushNamed(AppRoutes.listCategory);
                   },
                   onSaved: (categorySelected) =>
-                      _formData['categorySelected'] = categorySelected ?? '',
+                      _transactionData['CategoryId'] = _categorySelected,
                 ),
               ),
               Padding(
@@ -220,9 +229,11 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: TextFormField(
                   controller: dateInput,
                   //editing controller of this TextField
-                  decoration: InputDecoration(labelText: "Insira a data",
+                  decoration: InputDecoration(
+                    labelText: "Insira a data",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
+                      borderSide: BorderSide(
+                          width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
                       borderRadius: BorderRadius.circular(50.0),
                     ),
                   ),
@@ -240,13 +251,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       print(
                           pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
-                      DateFormat('yyyy-MM-dd').format(pickedDate);
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
                       print(
                           formattedDate); //formatted date output using intl package =>  2021-03-16
                       setState(() {
-                        dateInput.text =
-                            formattedDate;
-                        _transactionData['TransactionDate'] = formattedDate;//set output date to TextField value.
+                        dateInput.text = formattedDate;
+                        _transactionData['TransactionDate'] =
+                            formattedDate; //set output date to TextField value.
                       });
                     } else {}
                   },
@@ -257,7 +268,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('PaymentValue'),
-                  onChanged: (PaymentValue) => _transactionData['valor'] = PaymentValue,
+                  onChanged: (PaymentValue) =>
+                      _transactionData['PaymentValue'] = PaymentValue,
                   autofocus: false,
                   initialValue: _formData['price']?.toString(),
                   decoration: InputDecoration(
@@ -277,8 +289,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   //   FocusScope.of(context)
                   //       .requestFocus(_descriptionFocus);
                   // },
-                  onSaved: (price) =>
-                      _formData['price'] = double.parse(price ?? '0'),
+                  onSaved: (price) => _transactionData['PaymentValue'] =
+                      double.parse(price ?? '0'),
                   validator: (_price) {
                     final priceString = _price ?? '';
                     final price = double.tryParse(priceString) ?? -1;
@@ -291,16 +303,17 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   },
                 ),
               ),
-               Padding(
+              Padding(
                   padding: EdgeInsets.only(
                       left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                   child: InputDecorator(
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 7.0),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
                       labelText: ('Forma de pagamento'),
                       border: OutlineInputBorder(
-                        borderSide:  BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
+                        borderSide: BorderSide(
+                            width: 0.8, color: Colors.grey), //<-- SEE HERE
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                     ),
@@ -315,14 +328,15 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         // height: 2,
                         //color: Colors.deepPurpleAccent,
                         //),
-                        onChanged: (PaymentType){
+                        onChanged: (PaymentType) {
                           // This is called when the user selects an item.
                           setState(() {
                             dropdownValue = PaymentType!;
                             _transactionData['PaymentType'] = PaymentType!;
                           });
                         },
-                        items: list.map<DropdownMenuItem<String>>((String value) {
+                        items:
+                            list.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -342,7 +356,9 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     ),
                     fixedSize: const Size(290, 50),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(AppRoutes.placeForm);
+                  },
                   child: Text('Buscar Localização'),
                 ),
               ),
@@ -366,7 +382,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     print(_transactionData);
                     print(dateInput.text);
                   },
-                  child: Text('Registrar'),
+                  child: const Text('Registrar'),
                 ),
               ),
             ],
