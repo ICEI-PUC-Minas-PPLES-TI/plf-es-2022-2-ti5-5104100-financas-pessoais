@@ -34,7 +34,7 @@ class _MetasPage extends State<MetasPage> {
               padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
               child: ElevatedButton(
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all(CircleBorder()),
+                  shape: MaterialStateProperty.all(const CircleBorder()),
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
                 child: const Icon(
@@ -139,7 +139,7 @@ class _MetasPage extends State<MetasPage> {
                                     child: ElevatedButton(
                                       style: ButtonStyle(
                                         shape: MaterialStateProperty.all(
-                                            CircleBorder()),
+                                            const CircleBorder()),
                                         backgroundColor:
                                             MaterialStateProperty.all(
                                                 Colors.black),
@@ -163,7 +163,7 @@ class _MetasPage extends State<MetasPage> {
                                       child: ElevatedButton(
                                         style: ButtonStyle(
                                           shape: MaterialStateProperty.all(
-                                              CircleBorder()),
+                                              const CircleBorder()),
                                           backgroundColor:
                                               MaterialStateProperty.all(
                                                   Colors.black),
@@ -260,7 +260,7 @@ class _MetasPage extends State<MetasPage> {
                                       lineHeight: 20.0,
                                       animationDuration: 2500,
                                       percent: 0.4,
-                                      center: Text("160,00"),
+                                      center: const Text("160,00"),
                                       progressColor: Colors.green,
                                     )),
                               ],

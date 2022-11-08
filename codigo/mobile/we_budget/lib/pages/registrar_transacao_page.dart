@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
 
-import '../components/date_picker.dart';
-import '../components/forma_pagamento_dropdown.dart';
 import '../utils/app_routes.dart';
 
 class TransacaoFormPage extends StatefulWidget {
@@ -26,11 +23,11 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
 
-  Map<String, Object> _transactionData = {
+  final Map<String, Object> _transactionData = {
     'TransactionType': 'receita',
     'Longitude': 0.0,
     'Address': '',
-    'CategoryId': '',
+    'CategoryId': 0,
   };
 
   static const List<String> list = <String>[
@@ -113,13 +110,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    String? _categorySelected =
+    String _categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
     print(_categorySelected);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registrar transação'),
+        title: const Text('Registrar transação'),
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
@@ -232,7 +229,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   decoration: InputDecoration(
                     labelText: "Insira a data",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                           width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -304,15 +301,15 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                   child: InputDecorator(
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 7.0),
                       labelText: ('Forma de pagamento'),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                             width: 0.8, color: Colors.grey), //<-- SEE HERE
                         borderRadius: BorderRadius.circular(50.0),
                       ),
@@ -332,7 +329,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                           // This is called when the user selects an item.
                           setState(() {
                             dropdownValue = PaymentType!;
-                            _transactionData['PaymentType'] = PaymentType!;
+                            _transactionData['PaymentType'] = PaymentType;
                           });
                         },
                         items:
@@ -350,7 +347,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey,
+                    backgroundColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -359,7 +356,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(AppRoutes.placeForm);
                   },
-                  child: Text('Buscar Localização'),
+                  child: const Text('Buscar Localização'),
                 ),
               ),
               Container(
@@ -367,7 +364,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blueAccent,
+                    backgroundColor: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
