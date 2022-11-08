@@ -25,8 +25,21 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: size * 0.17,
+        preferredSize: size * 0.18,
+
         child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF923DF8),
+                Color(0xFF4C94F8),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
           margin: const EdgeInsetsDirectional.only(top: 20.0),
           child: Column(
             children: [
@@ -35,14 +48,15 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                 minHeight: 26.0,
                 cornerRadius: 20.0,
                 activeBgColors: const [
-                  [Color.fromARGB(255, 67, 217, 255)],
-                  [Color.fromARGB(255, 67, 217, 255)]
+                  [Color(0xFF1B1C30)],
+                  [Color(0xFF1B1C30)]
                 ],
                 borderWidth: 5,
                 activeFgColor: Colors.white,
                 inactiveBgColor: const Color.fromARGB(73, 158, 158, 158),
                 inactiveFgColor: Colors.white,
                 initialLabelIndex: tipoTransferencia,
+                fontSize: 15,
                 totalSwitches: 2,
                 labels: const ['Despesa', 'Receita'],
                 radiusStyle: true,
@@ -59,7 +73,7 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                     left: 1.0, top: 0.0, right: 1.0, bottom: 0.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: const Color(0xFF1B1C30),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -91,14 +105,36 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                       print(formattedDate);
                     }
                   },
-                  child: const Text('Filtrar Data'),
+                  child: const Text(
+                    'Filtrar Data',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
-      body: Filter(tipoTransferencia: tipoTransferencia),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 253, 253, 252),
+          borderRadius: BorderRadiusDirectional.only(
+            topStart: Radius.circular(20),
+            topEnd: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 15,
+              offset: Offset(0, 5),
+            )
+          ],
+        ),
+        child: Filter(tipoTransferencia: tipoTransferencia),
+      ),
     );
   }
 }

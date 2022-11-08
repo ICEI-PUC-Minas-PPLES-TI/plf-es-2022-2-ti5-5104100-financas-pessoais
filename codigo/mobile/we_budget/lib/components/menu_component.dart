@@ -27,19 +27,19 @@ class MenuPrincipal extends StatelessWidget {
           child: const Icon(
             Icons.circle,
             size: 50,
-            color: Colors.blueAccent,
+            color: const Color(0xFF5B4BF8),
           ),
         ),
         inActiveIcon: Container(
           padding: const EdgeInsets.all(0),
           decoration: const BoxDecoration(
-            color: Colors.blueAccent,
+            color: const Color(0xFF5B4BF8),
             shape: BoxShape.circle,
           ),
           child: IconButton(
             icon: const Icon(Icons.circle),
             iconSize: 40,
-            color: Colors.blueAccent,
+            color: const Color(0xFF5B4BF8),
             onPressed: () {
               Navigator.of(context).pushNamed(AppRoutes.formTransaction);
             },
@@ -47,13 +47,13 @@ class MenuPrincipal extends StatelessWidget {
         ),
       ),
       activeColor: Colors.white,
-      navBarBackgroundColor: const Color.fromARGB(255, 7, 67, 117),
+      navBarBackgroundColor: const Color(0xFF1B1C30),
       inActiveColor: Colors.white,
       appBarItems: [
         FABBottomAppBarItem(
             activeIcon: const Icon(
               Icons.home,
-              color: Colors.yellow,
+              color: const Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
               Icons.home,
@@ -63,7 +63,7 @@ class MenuPrincipal extends StatelessWidget {
         FABBottomAppBarItem(
             activeIcon: const Icon(
               Icons.wallet_giftcard,
-              color: Colors.yellow,
+              color: const Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
               Icons.money_off,
@@ -73,7 +73,7 @@ class MenuPrincipal extends StatelessWidget {
         FABBottomAppBarItem(
             activeIcon: const Icon(
               Icons.wallet_giftcard,
-              color: Colors.yellow,
+              color: const Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
               Icons.list,
@@ -83,7 +83,7 @@ class MenuPrincipal extends StatelessWidget {
         FABBottomAppBarItem(
             activeIcon: const Icon(
               Icons.wallet_giftcard,
-              color: Colors.yellow,
+              color: const Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
               Icons.wallet_giftcard,
