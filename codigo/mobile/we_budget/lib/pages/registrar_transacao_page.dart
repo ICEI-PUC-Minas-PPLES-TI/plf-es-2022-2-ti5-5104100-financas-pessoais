@@ -27,7 +27,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     'TransactionType': 'receita',
     'Longitude': 0.0,
     'Address': '',
-    'CategoryId': 0,
+    'CategoryId': '',
   };
 
   static const List<String> list = <String>[
@@ -112,6 +112,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     final deviceSize = MediaQuery.of(context).size;
     String _categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
+    print(_categorySelected);
 
     return Scaffold(
       appBar: AppBar(
@@ -216,7 +217,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     Navigator.of(context).pushNamed(AppRoutes.listCategory);
                   },
                   onSaved: (categorySelected) =>
-                      _formData['categorySelected'] = categorySelected ?? '',
+                      _transactionData['CategoryId'] = _categorySelected,
                 ),
               ),
               Padding(
@@ -228,7 +229,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   decoration: InputDecoration(
                     labelText: "Insira a data",
                     border: OutlineInputBorder(
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                           width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -265,7 +266,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: TextFormField(
                   key: const ValueKey('PaymentValue'),
                   onChanged: (PaymentValue) =>
-                      _transactionData['valor'] = PaymentValue,
+                      _transactionData['PaymentValue'] = PaymentValue,
                   autofocus: false,
                   initialValue: _formData['price']?.toString(),
                   decoration: InputDecoration(
@@ -285,8 +286,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   //   FocusScope.of(context)
                   //       .requestFocus(_descriptionFocus);
                   // },
-                  onSaved: (price) =>
-                      _formData['price'] = double.parse(price ?? '0'),
+                  onSaved: (price) => _transactionData['PaymentValue'] =
+                      double.parse(price ?? '0'),
                   validator: (_price) {
                     final priceString = _price ?? '';
                     final price = double.tryParse(priceString) ?? -1;
@@ -300,15 +301,15 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                       left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                   child: InputDecorator(
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 7.0),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
                       labelText: ('Forma de pagamento'),
                       border: OutlineInputBorder(
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                             width: 0.8, color: Colors.grey), //<-- SEE HERE
                         borderRadius: BorderRadius.circular(50.0),
                       ),
@@ -355,7 +356,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(AppRoutes.placeForm);
                   },
-                  child: const Text('Buscar Localização'),
+                  child: Text('Buscar Localização'),
                 ),
               ),
               Container(

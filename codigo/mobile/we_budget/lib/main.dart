@@ -16,7 +16,6 @@ import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
 import 'package:we_budget/utils/db_util_novo.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,7 +63,7 @@ class MyApp extends StatelessWidget {
             secondary: Colors.amber,
           ),
         ),
-        localizationsDelegates: [
+        localizationsDelegates: const [
           MonthYearPickerLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
