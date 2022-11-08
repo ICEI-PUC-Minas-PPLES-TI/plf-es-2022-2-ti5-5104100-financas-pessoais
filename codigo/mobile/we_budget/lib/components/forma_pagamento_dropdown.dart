@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 
-const List<String> list = <String>['Saúde', 'Transporte', 'Alimentação', 'Lazer'];
+const List<String> list = <String>[
+  'Saúde',
+  'Transporte',
+  'Alimentação',
+  'Lazer'
+];
 
 class DropdownButtonPagamentoExample extends StatefulWidget {
   const DropdownButtonPagamentoExample({super.key});
 
   @override
-  State<DropdownButtonPagamentoExample> createState() => _DropdownButtonPagamentoExample();
+  State<DropdownButtonPagamentoExample> createState() =>
+      _DropdownButtonPagamentoExample();
 }
 
-class _DropdownButtonPagamentoExample extends State<DropdownButtonPagamentoExample> {
+class _DropdownButtonPagamentoExample
+    extends State<DropdownButtonPagamentoExample> {
   String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
     return InputDecorator(
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-            horizontal: 20.0, vertical: 7.0),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
         labelText: ('Forma de pagamento'),
         border: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
+          borderSide:
+              const BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
       ),

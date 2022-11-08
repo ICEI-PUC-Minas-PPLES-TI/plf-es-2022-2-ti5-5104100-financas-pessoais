@@ -25,7 +25,8 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
             const EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
         labelText: ('Categoria'),
         border: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
+          borderSide:
+              const BorderSide(width: 0.8, color: Colors.grey), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
       ),

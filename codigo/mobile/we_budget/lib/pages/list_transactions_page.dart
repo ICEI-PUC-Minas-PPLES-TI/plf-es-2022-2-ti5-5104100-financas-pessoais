@@ -1,11 +1,11 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-import 'dart:developer';
+import 'package:month_year_picker/month_year_picker.dart';
 
 class ListTransactionsPage extends StatefulWidget {
   const ListTransactionsPage({super.key});
@@ -19,17 +19,20 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    TextEditingController dateInput = TextEditingController();
+    String formattedDate = '01/01/2022';
+    DateTime? pickedDate;
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: size * 0.15,
+        preferredSize: size * 0.17,
         child: Container(
           margin: const EdgeInsetsDirectional.only(top: 20.0),
           child: Column(
             children: [
               ToggleSwitch(
                 minWidth: 140.0,
-                minHeight: 25.0,
+                minHeight: 26.0,
                 cornerRadius: 20.0,
                 activeBgColors: const [
                   [Color.fromARGB(255, 67, 217, 255)],
@@ -39,53 +42,56 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                 activeFgColor: Colors.white,
                 inactiveBgColor: const Color.fromARGB(73, 158, 158, 158),
                 inactiveFgColor: Colors.white,
-                initialLabelIndex: 1,
+                initialLabelIndex: tipoTransferencia,
                 totalSwitches: 2,
                 labels: const ['Despesa', 'Receita'],
                 radiusStyle: true,
                 onToggle: (index) {
+                  tipoTransferencia = index!;
+                  //tipoTransferencia = index
                   setState(() {
-                    tipoTransferencia = index!;
+                    print('switched to: $tipoTransferencia');
                   });
-                  //tipoTransferencia = index;
-                  print('switched to: $tipoTransferencia');
                 },
               ),
-              Container(
-                width: 180,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF4F4F4),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Color(0xFF1B1C30),
-                        size: 20,
-                      ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 1.0, top: 0.0, right: 1.0, bottom: 0.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    Text(
-                      'Outubro - 2022',
-                      style: TextStyle(
-                        color: Color(0xFF1B1C30),
-                        fontSize: 12,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Color(0xFF1B1C30),
-                        size: 20,
-                      ),
-                    ),
-                  ],
+                    fixedSize: const Size(200, 10),
+                  ),
+                  onPressed: () async {
+                    print("entrei");
+                    pickedDate = await showMonthYearPicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                      builder: (context, child) {
+                        return SizedBox(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: const ColorScheme.light(),
+                              textButtonTheme: TextButtonThemeData(
+                                  style: TextButton.styleFrom()),
+                            ),
+                            child: child!,
+                          ),
+                        );
+                      },
+                    );
+                    if (pickedDate != null) {
+                      formattedDate =
+                          DateFormat("dd/MM/yyyy").format(pickedDate!);
+                      print(formattedDate);
+                    }
+                  },
+                  child: const Text('Filtrar Data'),
                 ),
               ),
             ],
