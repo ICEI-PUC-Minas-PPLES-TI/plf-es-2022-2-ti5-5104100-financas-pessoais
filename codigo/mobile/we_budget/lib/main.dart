@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
@@ -12,6 +13,7 @@ import 'package:we_budget/pages/list_category_page.dart';
 import 'package:we_budget/pages/location_form.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
+import 'package:we_budget/pages/map_screen.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';

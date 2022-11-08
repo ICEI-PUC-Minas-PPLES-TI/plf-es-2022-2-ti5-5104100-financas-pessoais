@@ -112,6 +112,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     final deviceSize = MediaQuery.of(context).size;
     String _categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
+    print(_categorySelected);
 
     return Scaffold(
       appBar: AppBar(
@@ -216,7 +217,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     Navigator.of(context).pushNamed(AppRoutes.listCategory);
                   },
                   onSaved: (categorySelected) =>
-                      _formData['categorySelected'] = categorySelected ?? '',
+                      _transactionData['CategoryId'] = _categorySelected,
                 ),
               ),
               Padding(
@@ -265,7 +266,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: TextFormField(
                   key: const ValueKey('PaymentValue'),
                   onChanged: (PaymentValue) =>
-                      _transactionData['valor'] = PaymentValue,
+                      _transactionData['PaymentValue'] = PaymentValue,
                   autofocus: false,
                   initialValue: _formData['price']?.toString(),
                   decoration: InputDecoration(
@@ -285,8 +286,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   //   FocusScope.of(context)
                   //       .requestFocus(_descriptionFocus);
                   // },
-                  onSaved: (price) =>
-                      _formData['price'] = double.parse(price ?? '0'),
+                  onSaved: (price) => _transactionData['PaymentValue'] =
+                      double.parse(price ?? '0'),
                   validator: (_price) {
                     final priceString = _price ?? '';
                     final price = double.tryParse(priceString) ?? -1;
