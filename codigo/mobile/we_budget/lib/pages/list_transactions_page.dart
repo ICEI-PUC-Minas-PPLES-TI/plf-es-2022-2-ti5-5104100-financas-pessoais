@@ -26,6 +26,7 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: size * 0.18,
+
         child: Container(
           width: double.infinity,
           height: double.infinity,

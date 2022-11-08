@@ -27,7 +27,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     'TransactionType': 'receita',
     'Longitude': 0.0,
     'Address': '',
-    'CategoryId': '',
+    'CategoryId': 0,
   };
 
   static const List<String> list = <String>[
@@ -229,7 +229,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   decoration: InputDecoration(
                     labelText: "Insira a data",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                           width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -301,15 +301,15 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                   child: InputDecorator(
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 7.0),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 7.0),
                       labelText: ('Forma de pagamento'),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                             width: 0.8, color: Colors.grey), //<-- SEE HERE
                         borderRadius: BorderRadius.circular(50.0),
                       ),
@@ -356,7 +356,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(AppRoutes.placeForm);
                   },
-                  child: Text('Buscar Localização'),
+                  child: const Text('Buscar Localização'),
                 ),
               ),
               Container(
