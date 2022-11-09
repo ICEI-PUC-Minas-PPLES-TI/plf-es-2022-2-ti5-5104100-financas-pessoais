@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:we_budget/utils/app_routes.dart';
 
 class MetasPage extends StatefulWidget {
   const MetasPage({super.key});
@@ -51,7 +52,7 @@ class _MetasPage extends State<MetasPage> {
                     size: 25,
                   ),
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    Navigator.of(context).pushNamed(AppRoutes.createMeta);
                   },
                 ),
               ),
