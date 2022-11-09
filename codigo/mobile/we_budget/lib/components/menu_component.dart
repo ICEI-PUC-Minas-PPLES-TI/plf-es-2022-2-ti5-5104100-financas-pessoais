@@ -2,11 +2,16 @@ import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:we_budget/components/pie_chart_widget.dart';
+import 'package:we_budget/components/price_point.dart';
+import 'package:we_budget/components/sector.dart';
 
 import '../pages/list_transactions_page.dart';
 import '../pages/metas_page.dart';
 import '../pages/welcome_page.dart';
 import '../utils/app_routes.dart';
+import 'bar_chart_widget.dart';
+import 'line_chart_widget.dart';
 
 class MenuPrincipal extends StatelessWidget {
   const MenuPrincipal({
@@ -106,15 +111,79 @@ class MenuPrincipal extends StatelessWidget {
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: const Center(
-            child: Text("Em desenvolvimento"),
-          ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30.0, top: 30.0, right: 30.0, bottom: 100.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Despesas por categoria',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    PieChartWidget(industrySectors),
+                    Column(
+                      children: industrySectors
+                          .map<Widget>((sector) => SectorRow(sector))
+                          .toList(),
+                    ),
+                    Text(
+                      'Receitas por mês',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10)),
+                    LineChartWidget(pricePoints),
+                    const Padding(padding: EdgeInsets.all(20)),
+                    Text(
+                      'Despesas por mês',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10)),
+                    BarChartWidget(points: pricePoints),
+                  ],
+                ),
+              ),
+            )
+
+
         ),
       ],
       actionBarView: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: const WelcomePage(),
       ),
+    );
+
+  }
+
+}
+
+class SectorRow extends StatelessWidget {
+  const SectorRow(this.sector, {Key? key}) : super(key: key);
+  final Sector sector;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 16,
+          child: CircleAvatar(
+            backgroundColor: sector.color,
+          ),
+        ),
+        const Spacer(),
+        Text(sector.title),
+      ],
     );
   }
 }
