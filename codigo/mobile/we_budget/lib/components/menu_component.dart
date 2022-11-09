@@ -10,6 +10,7 @@ import '../pages/list_transactions_page.dart';
 import '../pages/metas_page.dart';
 import '../pages/welcome_page.dart';
 import '../utils/app_routes.dart';
+import 'bar_chart_widget.dart';
 import 'line_chart_widget.dart';
 
 class MenuPrincipal extends StatelessWidget {
@@ -130,13 +131,24 @@ class MenuPrincipal extends StatelessWidget {
                           .toList(),
                     ),
                     Text(
-                      'Receitas',
+                      'Receitas por mês',
                       style: TextStyle(
                         fontSize: 24.0,
                         fontFamily: 'Poppins',
                       ),
                     ),
+                    const Padding(padding: EdgeInsets.all(10)),
                     LineChartWidget(pricePoints),
+                    const Padding(padding: EdgeInsets.all(20)),
+                    Text(
+                      'Despesas por mês',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10)),
+                    BarChartWidget(points: pricePoints),
                   ],
                 ),
               ),
