@@ -12,8 +12,8 @@ using WeBudgetWebAPI.Data;
 namespace WeBudgetWebAPI.Migrations
 {
     [DbContext(typeof(IdentityDataContext))]
-    [Migration("20221018010105_transactionsChanges")]
-    partial class transactionsChanges
+    [Migration("20221109000109_innitialMigration")]
+    partial class innitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -244,6 +244,10 @@ namespace WeBudgetWebAPI.Migrations
                     b.Property<double>("BudgetValue")
                         .HasColumnType("double precision")
                         .HasColumnName("BudgetValue");
+
+                    b.Property<double>("BudgetValueUsed")
+                        .HasColumnType("double precision")
+                        .HasColumnName("BudgetValueUsed");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");

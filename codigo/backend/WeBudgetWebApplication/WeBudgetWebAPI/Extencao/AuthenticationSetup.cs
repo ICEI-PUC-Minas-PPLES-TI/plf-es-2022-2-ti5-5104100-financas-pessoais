@@ -34,17 +34,17 @@ public static class AuthenticationSetup
 
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidIssuer = configuration.GetSection("JwtOptions:Issuer").Value,
 
-                ValidateAudience = true,
+                ValidateAudience = false,
                 ValidAudience = configuration.GetSection("JwtOptions:Audience").Value,
 
-                ValidateIssuerSigningKey = true,
+                ValidateIssuerSigningKey = false,
                 IssuerSigningKey = securityKey,
 
-                RequireExpirationTime = true,
-                ValidateLifetime = true,
+                RequireExpirationTime = false,
+                ValidateLifetime = false,
 
                 ClockSkew = TimeSpan.Zero
             };
