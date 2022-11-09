@@ -37,7 +37,8 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
+        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
+        var userId = User.FindFirst("idUsuario").Value;
         var categoriaLista = await _iCategory.ListByUser(userId);
         if(categoriaLista.Count == 0)
             return NotFound("Categoria não encontrada");

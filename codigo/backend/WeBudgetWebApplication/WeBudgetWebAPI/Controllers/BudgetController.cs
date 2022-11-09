@@ -36,7 +36,8 @@ public class BudgetController:ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
+        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
+        var userId = User.FindFirst("idUsuario").Value;
         var orcamentoLista = await _iBudget.ListByUser(userId);
         if(orcamentoLista.Count == 0)
             return NotFound("Orçamentos não encontrada");

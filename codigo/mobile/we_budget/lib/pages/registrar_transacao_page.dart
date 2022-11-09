@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -10,6 +11,7 @@ import 'package:we_budget/models/transactions.dart';
 import '../Repository/transaction_repository.dart';
 import '../components/date_picker.dart';
 import '../components/forma_pagamento_dropdown.dart';
+
 import '../utils/app_routes.dart';
 
 class TransacaoFormPage extends StatefulWidget {
@@ -332,7 +334,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey,
+                    backgroundColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -349,7 +351,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blueAccent,
+                    backgroundColor: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),

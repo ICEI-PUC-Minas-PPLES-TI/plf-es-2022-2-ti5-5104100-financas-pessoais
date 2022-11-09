@@ -33,11 +33,13 @@ public class TransactionController:ControllerBase
         var response = _iMapper.Map<TransactionResponse>(savedTrasation);
         return Ok(response);
     }
+    
     [Authorize]
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
+        var userId = User.FindFirst("idUsuario").Value;
+        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
         var transactionList = await _iTransaction.ListByUser(userId);
         if(transactionList.Count == 0)
             return NotFound("Transacões não encontradas");

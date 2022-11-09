@@ -17,7 +17,6 @@ public class IdentityServer:IIdentityService
 
     public IdentityServer(SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, IOptions<JwtOptions> jwOptions)
-
     {
         _signInManager = signInManager;
         _userManager = userManager;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/models/auth.dart';
-import 'package:we_budget/models/categoria_model.dart';
 import 'package:we_budget/models/category.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/category_page.dart';
@@ -14,11 +14,11 @@ import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/location_form.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
-import 'package:we_budget/pages/map_screen.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
 import 'package:we_budget/utils/db_util_novo.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,6 +66,9 @@ class MyApp extends StatelessWidget {
             secondary: Colors.amber,
           ),
         ),
+        localizationsDelegates: const [
+          MonthYearPickerLocalizations.delegate,
+        ],
         debugShowCheckedModeBanner: false,
         routes: {
           AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
