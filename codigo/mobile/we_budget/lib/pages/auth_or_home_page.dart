@@ -8,6 +8,7 @@ import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import '../models/auth.dart';
+import 'mqtt.dart';
 
 class AuthOrHomePage extends StatelessWidget {
   const AuthOrHomePage({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const MainPage() : const LoginPage();
+          return auth.isAuth ? const MainPage() : const MainPage();
         }
       },
     );
