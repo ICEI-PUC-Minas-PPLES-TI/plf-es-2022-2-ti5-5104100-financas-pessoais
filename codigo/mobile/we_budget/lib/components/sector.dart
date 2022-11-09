@@ -26,29 +26,29 @@ List<Sector> get industrySectors {
     Sector(
         color: Colors.redAccent,
         value: randomNumbers[0],
-        title: 'Information Technology'),
+        title: 'Alimentação'),
     Sector(
         color: Colors.blueGrey,
         value: randomNumbers[1],
-        title: 'Automobile'),
+        title: 'Gasolina'),
     Sector(
         color: Colors.deepPurpleAccent,
         value: randomNumbers[2],
-        title: 'Food'),
+        title: 'Lazer'),
     Sector(
         color: Colors.yellow,
         value: randomNumbers[3],
-        title: 'Finance'),
+        title: 'Contas básicas'),
     Sector(
         color: Colors.green,
         value: randomNumbers[4],
-        title: 'Energy'),
+        title: 'Pets'),
     Sector(
         color: Colors.orange,
         value: randomNumbers[5],
-        title: 'Agriculture'),
+        title: 'Saúde'),
     Sector(color: Colors.teal,
         value: randomNumbers[6],
-        title: 'Pharma'),
+        title: 'Imposto'),
   ];
 }
