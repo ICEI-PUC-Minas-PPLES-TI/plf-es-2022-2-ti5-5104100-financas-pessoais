@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/category.dart';
 
-class CreateCategory extends StatefulWidget {
-  const CreateCategory({super.key});
+class CreateMeta extends StatefulWidget {
+  const CreateMeta({super.key});
 
   @override
-  State<CreateCategory> createState() => _CreateCategoryState();
+  State<CreateMeta> createState() => _CreateCategoryState();
 }
 
-class _CreateCategoryState extends State<CreateCategory> {
+class _CreateCategoryState extends State<CreateMeta> {
   final _formKeyCreateCategory = GlobalKey<FormState>();
   final Map<String, dynamic> _CreateCategoryData = {
     'nameCreateCategory': '',
@@ -24,10 +24,12 @@ class _CreateCategoryState extends State<CreateCategory> {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
         iconPackModes: [IconPack.material]);
 
-    setState(() {
-      codigoCreateCategory = icon?.codePoint;
-      _CreateCategoryData['codeCreateCategory'] = codigoCreateCategory!;
-    });
+    setState(
+      () {
+        codigoCreateCategory = icon?.codePoint;
+        _CreateCategoryData['codeCreateCategory'] = codigoCreateCategory!;
+      },
+    );
   }
 
   void _showErrorDialog(String msg) {
@@ -147,8 +149,7 @@ class _CreateCategoryState extends State<CreateCategory> {
                             key: const ValueKey('descricao'),
                             decoration: const InputDecoration(
                               labelText: 'Descrição',
-                              hintText:
-                                  "Digite aqui a descrição da CreateCategory",
+                              hintText: "Digite aqui a descrição da CreateMeta",
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,

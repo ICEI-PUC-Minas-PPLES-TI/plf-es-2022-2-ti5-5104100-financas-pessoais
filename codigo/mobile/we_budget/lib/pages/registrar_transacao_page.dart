@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:we_budget/components/categoria_dropdown.dart';
+import 'package:we_budget/models/categoria_model.dart';
+import 'package:we_budget/models/category.dart';
+import 'package:we_budget/models/transactions.dart';
+
+import '../Repository/transaction_repository.dart';
+import '../components/date_picker.dart';
+import '../components/forma_pagamento_dropdown.dart';
 
 import '../utils/app_routes.dart';
 
@@ -13,21 +22,18 @@ class TransacaoFormPage extends StatefulWidget {
 }
 
 class _TransacaoFormPageState extends State<TransacaoFormPage> {
-  final _priceFocus = FocusNode();
-  final _descriptionFocus = FocusNode();
-
-  final _imageUrlFocus = FocusNode();
-  final _imageUrlController = TextEditingController();
-  final _categoryController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
-  final _formData = <String, Object>{};
 
   final Map<String, Object> _transactionData = {
-    'TransactionType': 'receita',
-    'Longitude': 0.0,
+    'Category': '',
+    'TransactionType': '0',
+    'Description': '',
+    'TransactionDate': '',
+    'PaymentValue': '',
+    'PaymentType': '',
+    'Longitude': '20.15',
+    'Latitude': '20.15',
     'Address': '',
-    'CategoryId': 0,
   };
 
   static const List<String> list = <String>[
@@ -45,49 +51,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   void initState() {
     dateInput.text = ""; //set the initial value of text field
     super.initState();
-    _imageUrlFocus.addListener(updateImage);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // if (_formData.isEmpty) {
-    //   final arg = ModalRoute.of(context)?.settings.arguments;
-    //
-    //   if (arg != null) {
-    //     final product = arg as Product;
-    //     _formData['id'] = product.id;
-    //     _formData['name'] = product.name;
-    //     _formData['price'] = product.price;
-    //     _formData['description'] = product.description;
-    //     _formData['imageUrl'] = product.imageUrl;
-    //
-    //     _imageUrlController.text = product.imageUrl;
-    //   }
-    // }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _priceFocus.dispose();
-    _descriptionFocus.dispose();
-
-    _imageUrlFocus.removeListener(updateImage);
-    _imageUrlFocus.dispose();
-  }
-
-  void updateImage() {
-    setState(() {});
-  }
-
-  bool isValidImageUrl(String url) {
-    bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
-    bool endsWithFile = url.toLowerCase().endsWith('.png') ||
-        url.toLowerCase().endsWith('.jpg') ||
-        url.toLowerCase().endsWith('.jpeg');
-    return isValidUrl && endsWithFile;
   }
 
   void _submitForm() {
@@ -98,21 +61,37 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     }
 
     _formKey.currentState?.save();
-    //
-    // Provider.of<ProductList>(
-    //   context,
-    //   listen: false,
-    // ).saveProduct(_formData);
 
-    Navigator.of(context).pop();
+    Provider.of<RepositoryTransaction>(
+      context,
+      listen: false,
+    ).insertTransacao(
+      TransactionModel(
+        idTransaction: '11',
+        name: _transactionData['Description'].toString(),
+        categoria: _transactionData['Category'].toString(),
+        data: _transactionData['TransactionDate'].toString(),
+        valor: double.parse(_transactionData['PaymentValue'].toString()),
+        formaPagamento: _transactionData['PaymentType'].toString(),
+        tipoTransacao:
+            int.parse(_transactionData['TransactionType'].toString()),
+        location: TransactionLocation(
+            latitude: double.parse(_transactionData['Longitude'].toString()),
+            longitude: double.parse(_transactionData['Latitude'].toString()),
+            address: _transactionData['Address'].toString()),
+      ),
+    );
+
+    Navigator.of(context).pushNamed(AppRoutes.main);
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    String _categorySelected =
+    String? categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
-    print(_categorySelected);
+    print("----->");
+    print(categorySelected.toString() == 'null');
+    _transactionData['Category'] = categorySelected;
 
     return Scaffold(
       appBar: AppBar(
@@ -148,26 +127,71 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       labels: const ['Despesa', 'Receita'],
                       radiusStyle: true,
                       onToggle: (index) {
-                        print(index);
                         if (index == 1) {
-                          print("oi");
-                          _transactionData['TransactionType'] = 'receita';
+                          _transactionData['TransactionType'] = '1';
                         } else {
-                          _transactionData['TransactionType'] = 'despesa';
+                          _transactionData['TransactionType'] = '0';
                         }
                       },
                     ),
                   ],
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //       left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
+              //   child: TextField(
+              //     key: const ValueKey('Category'),
+              //     onChanged: (category) {
+              //       _transactionData['Category'] = category;
+              //     },
+              //     decoration: InputDecoration(
+              //       labelText: 'Categoria',
+              //       border: OutlineInputBorder(
+              //         borderSide: const BorderSide(
+              //             width: 0.8, color: Colors.grey), //<-- SEE HERE
+              //         borderRadius: BorderRadius.circular(50.0),
+              //       ),
+              //     ),
+              //     textInputAction: TextInputAction.next,
+              //     onTap: () {
+              //       Navigator.of(context).pushNamed(AppRoutes.listCategory);
+              //     },
+              //   ),
+              // ),
+              TextButton(
+                onPressed: () => {
+                  Navigator.of(context).pushNamed(AppRoutes.listCategory),
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                child: const Text(
+                  "Selecionar categoria",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Text(
+                categorySelected == 'null'
+                    ? "Categoria a definir..."
+                    : categorySelected,
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 25,
+                ),
+                textAlign: TextAlign.center,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 0.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 9.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('Description'),
-                  onChanged: (Description) =>
-                      _transactionData['Description'] = Description,
-                  initialValue: _formData['name']?.toString(),
+                  onChanged: (description) =>
+                      _transactionData['Description'] = description,
+                  initialValue: _transactionData['Description']?.toString(),
                   decoration: InputDecoration(
                     labelText: 'Nome',
                     border: OutlineInputBorder(
@@ -177,10 +201,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     ),
                   ),
                   textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_priceFocus);
-                  },
-                  onSaved: (name) => _formData['name'] = name ?? '',
+                  onSaved: (description) =>
+                      _transactionData['Description'] = description!,
                   validator: (_name) {
                     final name = _name ?? '';
 
@@ -194,30 +216,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
                     return null;
                   },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
-                child: TextFormField(
-                  key: const ValueKey('CategoryId'),
-                  onChanged: (CategoryId) =>
-                      _transactionData['CategoryId'] = CategoryId,
-                  initialValue: _categorySelected,
-                  decoration: InputDecoration(
-                    labelText: 'Categoria',
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          width: 0.8, color: Colors.grey), //<-- SEE HERE
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                  ),
-                  textInputAction: TextInputAction.next,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.listCategory);
-                  },
-                  onSaved: (categorySelected) =>
-                      _transactionData['CategoryId'] = _categorySelected,
                 ),
               ),
               Padding(
@@ -245,17 +243,11 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         lastDate: DateTime(2100));
 
                     if (pickedDate != null) {
-                      print(
-                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                      String formattedDate =
-                          DateFormat('yyyy-MM-dd').format(pickedDate);
-                      print(
-                          formattedDate); //formatted date output using intl package =>  2021-03-16
-                      setState(() {
-                        dateInput.text = formattedDate;
-                        _transactionData['TransactionDate'] =
-                            formattedDate; //set output date to TextField value.
-                      });
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(
+                          pickedDate); //formatted date output using intl package =>  2021-03-16
+                      dateInput.text = formattedDate;
+                      _transactionData['TransactionDate'] =
+                          formattedDate; //set output date to TextField value.
                     } else {}
                   },
                 ),
@@ -265,10 +257,10 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('PaymentValue'),
-                  onChanged: (PaymentValue) =>
-                      _transactionData['PaymentValue'] = PaymentValue,
+                  onChanged: (paymentValue) =>
+                      _transactionData['PaymentValue'] = paymentValue,
                   autofocus: false,
-                  initialValue: _formData['price']?.toString(),
+                  initialValue: _transactionData['price']?.toString(),
                   decoration: InputDecoration(
                     labelText: 'R\$ 00,00',
                     border: OutlineInputBorder(
@@ -282,10 +274,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     decimal: true,
                     signed: true,
                   ),
-                  // onFieldSubmitted: (_) {
-                  //   FocusScope.of(context)
-                  //       .requestFocus(_descriptionFocus);
-                  // },
                   onSaved: (price) => _transactionData['PaymentValue'] =
                       double.parse(price ?? '0'),
                   validator: (_price) {
@@ -325,20 +313,19 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         // height: 2,
                         //color: Colors.deepPurpleAccent,
                         //),
-                        onChanged: (PaymentType) {
+                        onChanged: (paymentType) {
                           // This is called when the user selects an item.
-                          setState(() {
-                            dropdownValue = PaymentType!;
-                            _transactionData['PaymentType'] = PaymentType;
-                          });
+                          dropdownValue = paymentType!;
+                          _transactionData['PaymentType'] = paymentType;
                         },
-                        items:
-                            list.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                        items: list.map<DropdownMenuItem<String>>(
+                          (String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          },
+                        ).toList(),
                       ),
                     ),
                   )),
@@ -376,8 +363,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     //backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: () {
-                    print(_transactionData);
-                    print(dateInput.text);
+                    print(_transactionData.toString());
+                    _submitForm();
                   },
                   child: const Text('Registrar'),
                 ),

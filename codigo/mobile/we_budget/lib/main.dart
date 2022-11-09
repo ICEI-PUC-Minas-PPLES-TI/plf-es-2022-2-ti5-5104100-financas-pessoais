@@ -10,6 +10,7 @@ import 'package:we_budget/models/category.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/list_category_page.dart';
+import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/location_form.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.listCategory: (ctx) => const ListCategoryPage(),
           AppRoutes.createCategory: (ctx) => const CreateCategory(),
           AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
+          AppRoutes.listTransactions: (ctx) => const ListTransactionsPage(),
         },
       ),
     );
