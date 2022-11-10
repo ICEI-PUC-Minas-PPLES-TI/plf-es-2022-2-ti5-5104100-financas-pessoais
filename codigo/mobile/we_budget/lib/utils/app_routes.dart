@@ -9,4 +9,5 @@ class AppRoutes {
   static const createCategory = 'create-category';
   static const placeForm = 'place-form';
   static const listTransactions = 'transaction-page';
+  static const createMeta = 'create-meta';
 }

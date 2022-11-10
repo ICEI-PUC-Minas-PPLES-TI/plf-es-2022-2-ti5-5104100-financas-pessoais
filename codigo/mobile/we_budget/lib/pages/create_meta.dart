@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../exceptions/auth_exception.dart';
 import '../models/category.dart';
+import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
   const CreateMeta({super.key});
@@ -13,12 +14,12 @@ class CreateMeta extends StatefulWidget {
 }
 
 class _CreateCategoryState extends State<CreateMeta> {
-  final _formKeyCreateCategory = GlobalKey<FormState>();
-  final Map<String, dynamic> _CreateCategoryData = {
-    'nameCreateCategory': '',
-    'codeCreateCategory': '',
+  final _formKeyCreateMeta = GlobalKey<FormState>();
+  final Map<String, dynamic> createCategoryData = {
+    'categoryMeta': '',
+    'valueMeta': '',
   };
-  int? codigoCreateCategory = 984405;
+  int? codeCreateMeta = 984405;
 
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
@@ -26,8 +27,8 @@ class _CreateCategoryState extends State<CreateMeta> {
 
     setState(
       () {
-        codigoCreateCategory = icon?.codePoint;
-        _CreateCategoryData['codeCreateCategory'] = codigoCreateCategory!;
+        codeCreateMeta = icon?.codePoint;
+        createCategoryData['valueMeta'] = codeCreateMeta!;
       },
     );
   }
@@ -48,19 +49,19 @@ class _CreateCategoryState extends State<CreateMeta> {
     );
   }
 
-  Future<void> _submitCreateCategory() async {
-    final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
+  Future<void> _submitCreateMeta() async {
+    final isValid = _formKeyCreateMeta.currentState?.validate() ?? false;
 
     if (!isValid) {
       return;
     }
-    _formKeyCreateCategory.currentState?.save();
+    _formKeyCreateMeta.currentState?.save();
     Category category = Provider.of(context, listen: false);
 
     try {
       await category.cadastro(
-        _CreateCategoryData['nameCreateCategory']!,
-        _CreateCategoryData['codeCreateCategory']!,
+        createCategoryData['categoryMeta']!,
+        createCategoryData['valueMeta']!,
       );
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
@@ -72,6 +73,12 @@ class _CreateCategoryState extends State<CreateMeta> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
+    String? categorySelected =
+        ModalRoute.of(context)!.settings.arguments.toString();
+    print("----->");
+    print(categorySelected.toString() == 'null');
+    createCategoryData['categoryMeta'] = categorySelected;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
@@ -126,7 +133,7 @@ class _CreateCategoryState extends State<CreateMeta> {
                 Column(
                   children: const [
                     Text(
-                      "Cadastrar Categoria",
+                      "Cadastro de Meta",
                       style: TextStyle(
                         fontFamily: 'Arial',
                         fontSize: 28,
@@ -139,23 +146,50 @@ class _CreateCategoryState extends State<CreateMeta> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Form(
-                    key: _formKeyCreateCategory,
+                    key: _formKeyCreateMeta,
                     child: Column(
                       children: [
+                        TextButton(
+                          onPressed: () => {
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.listCategory),
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromARGB(255, 102, 91, 196)),
+                          ),
+                          child: const Text(
+                            "Selecionar categoria",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          categorySelected == 'null' ? "" : categorySelected,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 102, 91, 196),
+                            fontSize: 25,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 70,
+                        ),
                         Container(
                           margin:
                               const EdgeInsetsDirectional.only(bottom: 30.0),
                           child: TextFormField(
-                            key: const ValueKey('descricao'),
+                            key: const ValueKey('valor'),
                             decoration: const InputDecoration(
-                              labelText: 'Descrição',
-                              hintText: "Digite aqui a descrição da CreateMeta",
+                              labelText: 'Valor da Meta',
+                              hintText: "Digite aqui o valor da meta",
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,
-                            onSaved: (nameCreateCategory) =>
-                                _CreateCategoryData['nameCreateCategory'] =
-                                    nameCreateCategory,
+                            onSaved: (categoryMeta) =>
+                                createCategoryData['categoryMeta'] =
+                                    categoryMeta,
                             validator: (validacao) {
                               final name = validacao ?? '';
                               if (name.trim().isEmpty) {
@@ -165,47 +199,9 @@ class _CreateCategoryState extends State<CreateMeta> {
                             },
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: _pickIcon,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 102, 91, 196),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            fixedSize: const Size(290, 43),
-                          ),
-                          child: const Text(
-                            'Clique aqui para escolher o ícone',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 120,
-                      height: 90,
-                      child: Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Icon(
-                          IconData(codigoCreateCategory ?? 0,
-                              fontFamily: 'MaterialIcons'),
-                          size: 50,
-                          color: const Color.fromARGB(255, 102, 91, 196),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
                 const SizedBox(
                   height: 70,
@@ -216,7 +212,7 @@ class _CreateCategoryState extends State<CreateMeta> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: _submitCreateCategory,
+                        onPressed: _submitCreateMeta,
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),

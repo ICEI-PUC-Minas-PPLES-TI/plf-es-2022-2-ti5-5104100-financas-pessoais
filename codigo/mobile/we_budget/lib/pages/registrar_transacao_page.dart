@@ -175,9 +175,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 ),
               ),
               Text(
-                categorySelected == 'null'
-                    ? "Categoria a definir..."
-                    : categorySelected,
+                categorySelected == 'null' ? "" : categorySelected,
                 style: const TextStyle(
                   color: Colors.blue,
                   fontSize: 25,
