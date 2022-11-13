@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:we_budget/pages/category_page.dart';
-import 'package:we_budget/pages/list_transactions_page.dart';
 
 import '../components/card_main_page.dart';
 import '../components/welcome_saldo.dart';
-import '../providers/Transactions_providers.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -32,12 +28,11 @@ class _WelcomePageState extends State<WelcomePage> {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFFC84CF4),
-                    Color.fromARGB(255, 41, 19, 236),
                     Color(0xFF923DF8),
+                    Color(0xFF4C94F8),
                   ],
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
                 ),
               ),
               width: double.infinity,

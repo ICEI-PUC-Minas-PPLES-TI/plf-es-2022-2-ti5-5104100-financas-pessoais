@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
-import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
 class ListCategoryPage extends StatefulWidget {

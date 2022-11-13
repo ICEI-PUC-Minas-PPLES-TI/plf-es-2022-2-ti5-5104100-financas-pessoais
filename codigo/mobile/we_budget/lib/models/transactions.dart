@@ -39,7 +39,7 @@ class TransactionModel {
 
   @override
   String toString() {
-    String result = "$idTransaction - $name";
+    String result = "$idTransaction - $name - $categoria - $data - $valor";
     return result.toString();
   }
 }
