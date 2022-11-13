@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces;
+using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
 
 namespace WeBudgetWebAPI.Controllers;
@@ -13,21 +14,22 @@ namespace WeBudgetWebAPI.Controllers;
 public class BudgetController:ControllerBase
 {
     private readonly IMapper _iMapper;
-    private readonly IBudget _iBudget;
-    
-    public BudgetController(IMapper iMapper, IBudget iBudget)
+    private readonly IBudgetService _budgetService;
+
+
+    public BudgetController(IMapper iMapper, IBudgetService budgetService)
     {
         _iMapper = iMapper;
-        _iBudget = iBudget;
+        _budgetService = budgetService;
     }
-    
+
     [Authorize]
     [Produces("application/json")]
     [HttpPost("Add")]
     public async Task<ActionResult<Budget>> Add(BudgetRequest request)
     {
         var budget = _iMapper.Map<Budget>(request);
-        var savedBudget = await _iBudget.Add(budget);
+        var savedBudget = await _budgetService.Add(budget);
         var response = _iMapper.Map<BudgetResponse>(savedBudget);
         return Ok(response);
     }
@@ -36,20 +38,24 @@ public class BudgetController:ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
-        var userId = User.FindFirst("idUsuario").Value;
-        var orcamentoLista = await _iBudget.ListByUser(userId);
-        if(orcamentoLista.Count == 0)
-            return NotFound("Orçamentos não encontrada");
-        var response = _iMapper.Map<BudgetResponse>(orcamentoLista);
-        return Ok(response);
+        var userId = User.FindFirst("idUsuario")?.Value;
+        if (userId != null)
+        {
+            var orcamentoLista = await _budgetService.ListByUser(userId);
+            if(orcamentoLista.Count == 0)
+                return NotFound("Orçamentos não encontrada");
+            var response = _iMapper.Map<BudgetResponse>(orcamentoLista);
+            return Ok(response);
+        }
+
+        return Problem("Um problema com o token em encontrar o usuario id");
     }
 
     [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var orcamento = await _iBudget.GetEntityById(id);
+        var orcamento = await _budgetService.GetEntityById(id);
         if(orcamento==null)
             return NotFound("Orçamento não encontrado");
         var response = _iMapper.Map<BudgetResponse>(orcamento);
@@ -60,11 +66,12 @@ public class BudgetController:ControllerBase
     [HttpPut]
     public async Task<ActionResult> Update(BudgetRequest request)
     {
-        var orcamento = _iMapper.Map<Budget>(request);
-        var savedOrcamento = await _iBudget.Update(orcamento);
-        if (savedOrcamento == null)
-            return NoContent();
-        var response = _iMapper.Map<BudgetResponse>(savedOrcamento);
+        var budget = _iMapper.Map<Budget>(request);
+        var savedBudget = await _budgetService.GetEntityById(budget.Id);
+        if (savedBudget == null)
+            return NotFound("Orçamento não encontrada");
+        var updatedBudget = await _budgetService.Update(budget);
+        var response = _iMapper.Map<BudgetResponse>(updatedBudget);
         return Ok(response);
 
     }
@@ -73,10 +80,10 @@ public class BudgetController:ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var budget = await _iBudget.GetEntityById(id);
+        var budget = await _budgetService.GetEntityById(id);
         if(budget==null)
             return NotFound("Orçamento não encontrada");
-        await _iBudget.Delete(budget);
+        await _budgetService.Delete(budget);
         return NoContent();
     }
 

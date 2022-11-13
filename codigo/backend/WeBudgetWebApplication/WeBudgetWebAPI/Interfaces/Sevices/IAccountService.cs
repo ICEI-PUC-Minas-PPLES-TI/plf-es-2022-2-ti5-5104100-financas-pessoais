@@ -1,4 +1,3 @@
-using WeBudgetWebAPI.Interfaces.Generics;
 using WeBudgetWebAPI.Models;
 
 namespace WeBudgetWebAPI.Interfaces.Sevices;

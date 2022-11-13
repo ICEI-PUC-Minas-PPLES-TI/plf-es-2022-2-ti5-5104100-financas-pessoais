@@ -8,15 +8,15 @@ namespace WeBudgetWebAPI.Repository;
 
 public class RepositoryCategory:RepositoryGenerics<Category>,ICategory
 {
-    private readonly DbContextOptions<IdentityDataContext> _OptionsBuilder;
+    private readonly DbContextOptions<IdentityDataContext> _optionsBuilder;
 
     public RepositoryCategory()
     {
-        _OptionsBuilder = new DbContextOptions<IdentityDataContext>();
+        _optionsBuilder = new DbContextOptions<IdentityDataContext>();
     }
     public async Task<List<Category>> ListByUser(string userId)
     {
-        using (var data = new IdentityDataContext(_OptionsBuilder))
+        using (var data = new IdentityDataContext(_optionsBuilder))
         {
             return await data.Set<Category>().Where(x => x.UserId == userId).ToListAsync();
         }

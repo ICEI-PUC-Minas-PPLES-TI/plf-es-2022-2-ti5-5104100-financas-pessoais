@@ -8,7 +8,6 @@ using WeBudgetWebAPI.Data;
 using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Services;
-using WeBudgetWebAPI.Extencao;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Generics;
 using WeBudgetWebAPI.Models;
@@ -38,7 +37,7 @@ builder.Services.AddDbContext<IdentityDataContext>(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDataContext>();
 
-// JWT
+#region "JWT Config"
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
     {
@@ -68,8 +67,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
+#endregion
 
-//Escopo
+#region "Escopo"
 builder.Services.AddSingleton(typeof(IGeneric<>),
     typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton(typeof(IMessageBrokerService<>),
@@ -79,11 +79,13 @@ builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();
 builder.Services.AddSingleton<ITransaction, RepositoryTransaction>();
 builder.Services.AddSingleton<IAccount, RepositoryAccount>();
+builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IBudgetService, BudgetService>();
 builder.Services.AddSingleton<IAccountService, AccountService>();
 builder.Services.AddSingleton<ITransactionService, TransactionService>();
+#endregion
 
-//AutoMapper
+#region "AutoMapper"
 var config = new AutoMapper.MapperConfiguration(cfg =>
 {
     //request
@@ -97,6 +99,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
 });
 IMapper mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

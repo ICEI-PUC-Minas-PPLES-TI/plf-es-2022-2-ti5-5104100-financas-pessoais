@@ -8,17 +8,17 @@ namespace WeBudgetWebAPI.Repository;
 
 public class RepositoryBudget:RepositoryGenerics<Budget>,IBudget
 {
-    private readonly DbContextOptions<IdentityDataContext> _OptionsBuilder;
+    private readonly DbContextOptions<IdentityDataContext> _optionsptionsBuilder;
 
     public RepositoryBudget()
     {
-        _OptionsBuilder = new DbContextOptions<IdentityDataContext>();
+        _optionsptionsBuilder = new DbContextOptions<IdentityDataContext>();
     }
 
 
     public async Task<List<Budget>> ListByUser(string userId)
     {
-        using (var data = new IdentityDataContext(_OptionsBuilder))
+        using (var data = new IdentityDataContext(_optionsptionsBuilder))
         {
             return await data.Set<Budget>().Where(x => x.UserId == userId).ToListAsync();
         }
@@ -26,7 +26,7 @@ public class RepositoryBudget:RepositoryGenerics<Budget>,IBudget
 
     public async Task<List<Budget>> ListByUserAndTime(string userId, DateTime dateTime)
     {
-        using (var data = new IdentityDataContext(_OptionsBuilder))
+        using (var data = new IdentityDataContext(_optionsptionsBuilder))
         {
             return await data.Set<Budget>()
                 .Where(x => x.UserId == userId
@@ -36,16 +36,16 @@ public class RepositoryBudget:RepositoryGenerics<Budget>,IBudget
         }
     }
 
-    public async Task<Budget> ListByUserTimeAndCategory(string userId, DateTime dateTime, int categoryId)
+    public async Task<Budget?> GetByUserTimeAndCategory(string userId, DateTime dateTime, int categoryId)
     {
-        using (var data = new IdentityDataContext(_OptionsBuilder))
+        using (var data = new IdentityDataContext(_optionsptionsBuilder))
         {
             return await data.Set<Budget>()
                 .Where(x => x.UserId == userId
                             && x.BudgetDate.Month == dateTime.Month
                             && x.BudgetDate.Year == dateTime.Year
                             && x.CategoryId == categoryId)
-                .FirstAsync();
+                .FirstOrDefaultAsync();;
         }
     }
 }

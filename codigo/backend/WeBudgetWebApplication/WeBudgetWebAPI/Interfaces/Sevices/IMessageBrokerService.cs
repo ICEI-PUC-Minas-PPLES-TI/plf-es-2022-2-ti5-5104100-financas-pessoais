@@ -4,6 +4,6 @@ namespace WeBudgetWebAPI.Interfaces.Sevices;
 
 public interface IMessageBrokerService<T> where T:class
 {
-    public Task SendMenssage(MenssageResponse<T> mesageResponse);
+    public Task<T> SendMenssage(MenssageResponse<T> mesageResponse);
 }
 
