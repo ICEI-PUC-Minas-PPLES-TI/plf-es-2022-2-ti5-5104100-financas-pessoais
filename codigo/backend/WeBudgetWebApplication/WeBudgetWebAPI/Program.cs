@@ -15,7 +15,6 @@ using WeBudgetWebAPI.Repository;
 using WeBudgetWebAPI.Repository.Generics;
 
 var builder = WebApplication.CreateBuilder(args);
-Publisher.publish();
 
 // Add services to the container.
 
@@ -75,7 +74,7 @@ builder.Services.AddSingleton(typeof(IGeneric<>),
     typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton(typeof(IMessageBrokerService<>),
     typeof(MenssageBrokerService<>));
-builder.Services.AddScoped<IIdentityService,IdentityServer>();
+builder.Services.AddScoped<IIdentityService,IdentityService>();
 builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();
 builder.Services.AddSingleton<ITransaction, RepositoryTransaction>();
