@@ -80,11 +80,11 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signup(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'cadastrar');
+    return _authenticate(name, email, password, 'cadastro');
   }
 
   Future<void> login(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'logar');
+    return _authenticate(name, email, password, 'login');
   }
 
   Future<void> tryAutoLogin() async {

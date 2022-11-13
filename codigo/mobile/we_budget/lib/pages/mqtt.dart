@@ -3,22 +3,23 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:provider/provider.dart';
 import 'package:we_budget/pages/publish_mqtt.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+import '../components/menu_component.dart';
+import '../models/auth.dart';
 
-  final String title;
+class Mqtt extends StatefulWidget {
+  const Mqtt({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Mqtt> createState() => _MqttState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MqttState extends State<Mqtt> {
   int port = 1883;
   String username = 'mfkdedri:mfkdedri';
   String passwd = 't87XD1FFJHT-Yow3qYnOb3GHqbKIPhyL';
-  String clientIdentifier = 'Nataniel';
 
   MqttServerClient? client = MqttServerClient('moose.rmq.cloudamqp.com', '');
   late MqttConnectionState connectionState;
@@ -27,42 +28,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _subscribeToTopic(String topic) {
     if (connectionState == MqttConnectionState.connected) {
-      print('[MQTT 31 client] Subscribing to ${topic.trim()}');
+      // print('[MQTT 31 client] Subscribing to ${topic.trim()}');
       client!.subscribe(topic, MqttQos.exactlyOnce);
     }
   }
 
   @override
+  void initState() {
+    _connect();
+    super.initState();
+  }
+
+  String? userId;
+  @override
   Widget build(BuildContext context) {
+    Auth auth = Provider.of(context);
+    userId = auth.userId;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Tela inicial"),
       ),
-      body: const Center(
-        child: SizedBox(
-          child: Text("Teste"),
-        ),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: _connect,
-            tooltip: 'Play',
-            child: Icon(Icons.play_arrow),
-          ),
-        ],
-      ),
+      bottomNavigationBar: const MenuPrincipal(),
     );
   }
 
   void _connect() async {
+    print("Entrou connect");
     client!.port = port;
     client!.logging(on: true);
     client!.keepAlivePeriod = 300;
     client!.onDisconnected = _onDisconnected;
     final MqttConnectMessage connMess = MqttConnectMessage()
-        .withClientIdentifier(clientIdentifier)
+        .withClientIdentifier(userId ?? '')
         .startClean() // Non persistent session for testing
         .withWillQos(MqttQos.atMostOnce);
     client!.connectionMessage = connMess;
