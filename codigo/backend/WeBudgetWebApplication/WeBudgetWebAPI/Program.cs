@@ -71,7 +71,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 //Escopo
-builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
+builder.Services.AddSingleton(typeof(IGeneric<>),
+    typeof(RepositoryGenerics<>));
+builder.Services.AddSingleton(typeof(IMessageBrokerService<>),
+    typeof(MenssageBrokerService<>));
 builder.Services.AddScoped<IIdentityService,IdentityServer>();
 builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();
