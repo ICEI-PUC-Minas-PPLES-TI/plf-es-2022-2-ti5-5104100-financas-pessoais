@@ -8,13 +8,13 @@ using WeBudgetWebAPI.Interfaces.Sevices;
 
 namespace WeBudgetWebAPI.Services;
 
-public class IdentityServer:IIdentityService
+public class IdentityService:IIdentityService
 {
 
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
 
-    public IdentityServer(SignInManager<IdentityUser> signInManager,
+    public IdentityService(SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, IOptions<JwtOptions> jwOptions)
     {
         _signInManager = signInManager;
