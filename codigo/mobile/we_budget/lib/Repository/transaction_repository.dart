@@ -91,7 +91,9 @@ class RepositoryTransaction with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadTransactionRepository2(int typeTransaction) async {
+  Future<void> loadTransactionRepository2(
+      int typeTransaction, String filterDate) async {
+    print("data: $filterDate");
     Database db = await DBHelper.instance.database;
     List<Map> dataList =
         await db.rawQuery("SELECT * FROM ${DBHelper.tableTransaction}");
@@ -119,7 +121,7 @@ class RepositoryTransaction with ChangeNotifier {
         .toList();
 
     _items = _items
-        .where((element) => element.data.substring(5, 7) == '10')
+        .where((element) => element.data.substring(0, 7) == filterDate)
         .toList();
     notifyListeners();
   }
@@ -141,7 +143,7 @@ class RepositoryTransaction with ChangeNotifier {
       idTransaction: "1",
       name: "Café",
       categoria: "Alimentação",
-      data: "2022-10-10",
+      data: "2021-10-10",
       valor: 28,
       formaPagamento: "Dinheiro",
       tipoTransacao: 0,

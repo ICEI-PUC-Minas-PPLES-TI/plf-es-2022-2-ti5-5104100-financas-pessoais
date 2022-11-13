@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:we_budget/utils/app_routes.dart';
 
 class ListTransactionsPage extends StatefulWidget {
   const ListTransactionsPage({super.key});
@@ -15,18 +16,16 @@ class ListTransactionsPage extends StatefulWidget {
 
 class _ListTransactionsPageState extends State<ListTransactionsPage> {
   int tipoTransferencia = 0;
+  String formattedDate = "2022-10";
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    TextEditingController dateInput = TextEditingController();
-    String formattedDate = '01/01/2022';
     DateTime? pickedDate;
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: size * 0.18,
-
         child: Container(
           width: double.infinity,
           height: double.infinity,
@@ -100,8 +99,10 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                       },
                     );
                     if (pickedDate != null) {
-                      formattedDate =
-                          DateFormat("dd/MM/yyyy").format(pickedDate!);
+                      setState(() {
+                        formattedDate =
+                            DateFormat("yyyy-MM").format(pickedDate!);
+                      });
                       print(formattedDate);
                     }
                   },
@@ -133,7 +134,10 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
             )
           ],
         ),
-        child: Filter(tipoTransferencia: tipoTransferencia),
+        child: Filter(
+          tipoTransferencia: tipoTransferencia,
+          filtroData: formattedDate,
+        ),
       ),
     );
   }
@@ -143,9 +147,11 @@ class Filter extends StatefulWidget {
   const Filter({
     Key? key,
     required this.tipoTransferencia,
+    required this.filtroData,
   }) : super(key: key);
 
   final int tipoTransferencia;
+  final String filtroData;
 
   @override
   State<Filter> createState() => _FilterState();
@@ -156,7 +162,8 @@ class _FilterState extends State<Filter> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Provider.of<RepositoryTransaction>(context, listen: false)
-          .loadTransactionRepository2(widget.tipoTransferencia),
+          .loadTransactionRepository2(
+              widget.tipoTransferencia, widget.filtroData),
       builder: (ctx, snapshot) => snapshot.connectionState ==
               ConnectionState.waiting
           ? const Center(child: CircularProgressIndicator())
@@ -164,25 +171,101 @@ class _FilterState extends State<Filter> {
               child: const Center(
                 child: Text('Nenhum dado cadastrado!'),
               ),
-              builder: (ctx, trasactionList, ch) => trasactionList.itemsCount ==
-                      0
-                  ? ch!
-                  : ListView.builder(
-                      itemCount: trasactionList.itemsCount,
-                      itemBuilder: (ctx, i) => ListTile(
-                            leading: const Icon(Icons.coffee),
-                            title: Text(trasactionList.itemByIndex(i).name),
-                            onTap: () {},
-                            subtitle: Text(
-                              DateFormat("dd/MM/yyyy").format(
-                                DateTime.parse(
-                                    trasactionList.itemByIndex(i).data),
+              builder: (ctx, trasactionList, ch) =>
+                  trasactionList.itemsCount == 0
+                      ? ch!
+                      : ListView.builder(
+                          itemCount: trasactionList.itemsCount,
+                          itemBuilder: (ctx, i) => Dismissible(
+                            background: Container(
+                              color: Colors.green,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const <Widget>[
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Text(
+                                      " Editar",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            trailing: Text(
-                              trasactionList.itemByIndex(i).valor.toString(),
+                            secondaryBackground: Container(
+                              color: Colors.red,
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: const <Widget>[
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Text(
+                                      " Excluir",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          )),
+                            onDismissed: (direction) async {
+                              if (direction == DismissDirection.endToStart) {
+                                Provider.of(context, listen: false)
+                                    .removeTransaction(trasactionList
+                                        .itemByIndex(i)
+                                        .idTransaction);
+                              } else {
+                                setState(() {
+                                  Navigator.of(context).pushNamed(
+                                    AppRoutes.formTransaction,
+                                    arguments: trasactionList.itemByIndex(i),
+                                  );
+                                });
+                              }
+                            },
+                            key: ValueKey(
+                                trasactionList.itemByIndex(i).idTransaction),
+                            child: ListTile(
+                              leading: const Icon(Icons.coffee),
+                              title: Text(trasactionList.itemByIndex(i).name),
+                              onTap: () {},
+                              subtitle: Text(
+                                DateFormat("dd/MM/yyyy").format(
+                                  DateTime.parse(
+                                      trasactionList.itemByIndex(i).data),
+                                ),
+                              ),
+                              trailing: Text(
+                                trasactionList.itemByIndex(i).valor.toString(),
+                              ),
+                            ),
+                          ),
+                        ),
             ),
     );
   }
