@@ -85,13 +85,27 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     Navigator.of(context).pushNamed(AppRoutes.main);
   }
 
+  void _loadFormData(TransactionModel transferencia) {
+    _transactionData['Description'] = transferencia.name;
+    _transactionData['Category'] = transferencia.categoria;
+    _transactionData['PaymentValue'] = transferencia.valor;
+    _transactionData['TransactionDate'] = transferencia.data;
+    _transactionData['PaymentType'] = transferencia.formaPagamento;
+    _transactionData['TransactionType'] = transferencia.tipoTransacao;
+  }
+
   @override
   Widget build(BuildContext context) {
-    String? categorySelected =
-        ModalRoute.of(context)!.settings.arguments.toString();
-    print("----->");
-    print(categorySelected.toString() == 'null');
-    _transactionData['Category'] = categorySelected;
+    String? categorySelected = 'teste';
+    if (_transactionData.isEmpty) {
+      final transaction =
+          ModalRoute.of(context)?.settings.arguments as TransactionModel;
+      
+      _loadFormData(transaction);
+    } else {
+      categorySelected = ModalRoute.of(context)!.settings.arguments.toString();
+      _transactionData['Category'] = categorySelected;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -186,10 +200,10 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 9.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
+                  initialValue: _transactionData['Description']?.toString(),
                   key: const ValueKey('Description'),
                   onChanged: (description) =>
                       _transactionData['Description'] = description,
-                  initialValue: _transactionData['Description']?.toString(),
                   decoration: InputDecoration(
                     labelText: 'Nome',
                     border: OutlineInputBorder(
@@ -220,6 +234,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
+                  //initialValue: _transactionData['TransactionDate']?.toString(),
                   controller: dateInput,
                   //editing controller of this TextField
                   decoration: InputDecoration(
@@ -258,7 +273,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   onChanged: (paymentValue) =>
                       _transactionData['PaymentValue'] = paymentValue,
                   autofocus: false,
-                  initialValue: _transactionData['price']?.toString(),
+                  initialValue: _transactionData['PaymentValue']?.toString(),
                   decoration: InputDecoration(
                     labelText: 'R\$ 00,00',
                     border: OutlineInputBorder(
