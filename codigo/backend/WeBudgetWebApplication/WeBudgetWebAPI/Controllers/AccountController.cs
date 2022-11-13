@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces;
+using WeBudgetWebAPI.Interfaces.Sevices;
 
 namespace WeBudgetWebAPI.Controllers;
 
@@ -10,31 +11,35 @@ namespace WeBudgetWebAPI.Controllers;
 [Route("api/[controller]")]
 public class AccountController: ControllerBase
 {
-    private readonly IAccount _iAccount;
-
-    public AccountController(IAccount iAccount)
+    private readonly IAccountService _accountService;
+    public AccountController(IAccountService accountService)
     {
-        _iAccount = iAccount;
+        _accountService = accountService;
     }
+
     [Authorize]
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
-        var userId = User.FindFirst("idUsuario").Value;
-        var accountList = await _iAccount.ListByUser(userId);
-        if (accountList.Count == 0)
-            return NotFound("Contas não encontrada");
-        return Ok(accountList);
+        var userId = User.FindFirst("idUsuario")?.Value;
+        if (userId != null)
+        {
+            var accountList = await _accountService.ListByUser(userId);
+            if (accountList.Count == 0)
+                return NotFound("Contas não encontrada");
+            return Ok(accountList);
+        }
+
+        return Problem("Um problema com o token em encontrar o usuario id ");
     }
 
     [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var conta = await _iAccount.GetEntityById(id);
-        if(conta==null)
+        var account = await _accountService.GetEntityById(id);
+        if(account==null)
             return NotFound("Conta não encontrado");
-        return Ok(conta);
+        return Ok(account);
     }
 }

@@ -15,7 +15,7 @@ class TransactionsProviders with ChangeNotifier {
         'id': "1",
         'name': "Almoço",
         'categoria': "Comida",
-        'data': '2022-10-12',
+        'data': '2021-10-12',
         'valor': 100.01,
         'tipoTransacao': 1,
         'formaPagamento': "2",
@@ -105,6 +105,11 @@ class TransactionsProviders with ChangeNotifier {
 
   TransactionModel itemByIndex(int index) {
     return _items[index];
+  }
+
+  void removeTransaction(String transactionId) {
+    _items.remove(transactionId);
+    return notifyListeners();
   }
 
   Future<void> addTransaction(

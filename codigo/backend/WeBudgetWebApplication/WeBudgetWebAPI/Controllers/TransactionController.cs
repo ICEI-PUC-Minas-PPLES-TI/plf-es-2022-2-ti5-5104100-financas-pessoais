@@ -14,15 +14,14 @@ namespace WeBudgetWebAPI.Controllers;
 public class TransactionController:ControllerBase
 {
     private readonly IMapper _iMapper;
-    private readonly ITransaction _iTransaction;
     private readonly ITransactionService _iTransactionService;
 
-    public TransactionController(IMapper iMapper, ITransaction iTransaction, ITransactionService iTransactionService)
+    public TransactionController(IMapper iMapper, ITransactionService iTransactionService)
     {
         _iMapper = iMapper;
-        _iTransaction = iTransaction;
         _iTransactionService = iTransactionService;
     }
+    
     [Authorize]
     [Produces("application/json")]
     [HttpPost("Add")]
@@ -40,7 +39,7 @@ public class TransactionController:ControllerBase
     {
         var userId = User.FindFirst("idUsuario").Value;
         //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
-        var transactionList = await _iTransaction.ListByUser(userId);
+        var transactionList = await _iTransactionService.ListByUser(userId);
         if(transactionList.Count == 0)
             return NotFound("Transacões não encontradas");
         var response = _iMapper.Map<TransactionResponse>(transactionList);
@@ -51,7 +50,7 @@ public class TransactionController:ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var transaction = await _iTransaction.GetEntityById(id);
+        var transaction = await _iTransactionService.GetEntityById(id);
         if(transaction==null)
             return NotFound("Transacão não encontrada");
         var response = _iMapper.Map<TransactionResponse>(transaction);
@@ -62,9 +61,10 @@ public class TransactionController:ControllerBase
     public async Task<ActionResult> Update(TransactionRequest request)
     {
         var transaction = _iMapper.Map<Transaction>(request);
-        var savedTransaction = await _iTransactionService.Update(transaction);
+        var savedTransaction = await _iTransactionService.GetEntityById(transaction.Id);
         if (savedTransaction == null)
             return NoContent();
+        var updatedTransaction = await _iTransactionService.Update(transaction);
         var response = _iMapper.Map<TransactionResponse>(savedTransaction);
         return Ok(response);
 
@@ -73,7 +73,7 @@ public class TransactionController:ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var transaction = await _iTransaction.GetEntityById(id);
+        var transaction = await _iTransactionService.GetEntityById(id);
         if(transaction==null)
             return NotFound("Categoria não encontrada");
         await _iTransactionService.Delete(transaction);
