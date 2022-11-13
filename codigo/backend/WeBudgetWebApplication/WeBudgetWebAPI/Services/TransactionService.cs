@@ -9,17 +9,23 @@ public class TransactionService : ITransactionService
 {
     private readonly IBudget _iBudget;
     private readonly ITransaction _iTransaction;
+    private readonly IAccount _iAccount;
 
-    public TransactionService(IBudget iBudget, ITransaction iTransaction)
+    public TransactionService(IBudget iBudget, ITransaction iTransaction, IAccount iAccount)
     {
         _iBudget = iBudget;
         _iTransaction = iTransaction;
+        _iAccount = iAccount;
     }
 
     public async Task<Transaction> Add(Transaction transaction)
     {
         //TO-DO validation
-        //TO-DO account
+        var savedAccount = await _iAccount.ListByUserAndTime(transaction.UserId, transaction.TansactionDate);
+        if (savedAccount == null)
+        {
+            savedAccount = await AccountCreator(transaction);
+        }
         if (transaction.TansactionType == TansactionType.Expenses)
         {
             var budget = await _iBudget
@@ -34,9 +40,8 @@ public class TransactionService : ITransactionService
     public async Task<Transaction> Update(Transaction transaction)
     {
         //TO-DO validation
-        //TO-DO account
+        var savedAccount = await _iAccount.ListByUserAndTime(transaction.UserId, transaction.TansactionDate);
         var savedTrasacton = await _iTransaction.GetEntityById(transaction.Id);
-
         if (transaction.TansactionType == TansactionType.Expenses)
         {
             var budget = await _iBudget
@@ -52,7 +57,7 @@ public class TransactionService : ITransactionService
     public async Task Delete(Transaction transaction)
     {
         //TO-DO validation
-        //TO-DO account
+        var savedAccount = await _iAccount.ListByUserAndTime(transaction.UserId, transaction.TansactionDate);
         if (transaction.TansactionType == TansactionType.Expenses)
         {
             var budget = await _iBudget
@@ -63,4 +68,16 @@ public class TransactionService : ITransactionService
 
         await _iTransaction.Delete(transaction);
     }
+
+    private async Task<Account> AccountCreator(Transaction transaction)
+    {
+        var newAccount = await _iAccount.Add(new Account()
+        {
+            AccountBalance = 0.0,
+            AccountDateTime = transaction.TansactionDate,
+            UserId = transaction.UserId
+        });
+        return await _iAccount.Add(newAccount);
+    }
+    
 }

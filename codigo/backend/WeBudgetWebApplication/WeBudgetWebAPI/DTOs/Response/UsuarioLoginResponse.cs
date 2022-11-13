@@ -8,9 +8,7 @@ public class UsuarioLoginResponse
         
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string AccessToken { get; private set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string RefreshToken { get; private set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ExpiresIn { get; private set; }
     
@@ -22,10 +20,9 @@ public class UsuarioLoginResponse
     public UsuarioLoginResponse() =>
         Erros = new List<string>();
 
-    public UsuarioLoginResponse(bool sucesso, string accessToken, string refreshToken, int expiresIn, string userId) : this()
+    public UsuarioLoginResponse(bool sucesso, string accessToken, int expiresIn, string userId) : this()
     {
         AccessToken = accessToken;
-        RefreshToken = refreshToken;
         ExpiresIn = expiresIn;
         UserId = userId;
     }
