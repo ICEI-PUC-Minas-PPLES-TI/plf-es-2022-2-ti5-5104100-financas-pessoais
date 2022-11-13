@@ -21,5 +21,15 @@ public class RepositoryAccount:RepositoryGenerics<Account>,IAccount
             return await data.Set<Account>().Where(x => x.UserId == userId).ToListAsync();
         }
     }
+
+    public async Task<Account> ListByUserAndTime(string userId, DateTime dateTime)
+    {
+        using (var data = new IdentityDataContext(_OptionsBuilder))
+        {
+            return await data.Set<Account>().Where(x => x.UserId == userId 
+                   && x.AccountDateTime.Month == dateTime.Month
+                   && x.AccountDateTime.Year == dateTime.Year).FirstAsync();
+        }
+    }
     
 }
