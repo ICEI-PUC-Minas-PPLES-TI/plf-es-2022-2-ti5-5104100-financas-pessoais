@@ -15,7 +15,6 @@ import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/location_form.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
-import 'package:we_budget/pages/mqtt.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => RepositoryCategory(),
-        ),
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

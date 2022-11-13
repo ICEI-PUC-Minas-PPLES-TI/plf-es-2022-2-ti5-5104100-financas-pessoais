@@ -114,11 +114,11 @@ class _MqttState extends State<Mqtt> {
 
     switch (tabela) {
       case 'Transaction':
-        if (operacao == "POST") {
+        if (operacao == "Create") {
           //chamada insert
-        } else if (operacao == "PUT") {
+        } else if (operacao == "Update") {
           //chama update
-        } else if (operacao == "DELETE") {
+        } else if (operacao == "Delete") {
           //chama delete
         } else {
           print("Tipo transação não encontrada");
