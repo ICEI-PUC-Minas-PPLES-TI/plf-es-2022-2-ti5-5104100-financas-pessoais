@@ -9,10 +9,10 @@ public class TransactionService : ITransactionService
 {
     private readonly ITransaction _iTransaction;
     private readonly IAccountService _accountService;
-    private readonly BudgetService _budgetService;
+    private readonly IBudgetService _budgetService;
 
 
-    public TransactionService(ITransaction iTransaction, IAccountService accountService, BudgetService budgetService)
+    public TransactionService(ITransaction iTransaction, IAccountService accountService, IBudgetService budgetService)
     {
         _iTransaction = iTransaction;
         _accountService = accountService;

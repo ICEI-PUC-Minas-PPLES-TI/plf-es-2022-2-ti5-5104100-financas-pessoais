@@ -75,9 +75,11 @@ builder.Services.AddScoped<IIdentityService,IdentityServer>();
 builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();
 builder.Services.AddSingleton<ITransaction, RepositoryTransaction>();
-builder.Services.AddSingleton<ITransactionService, TransactionService>();
+builder.Services.AddSingleton<IAccount, RepositoryAccount>();
 builder.Services.AddSingleton<IBudgetService, BudgetService>();
 builder.Services.AddSingleton<IAccountService, AccountService>();
+builder.Services.AddSingleton<ITransactionService, TransactionService>();
+
 //AutoMapper
 var config = new AutoMapper.MapperConfiguration(cfg =>
 {
