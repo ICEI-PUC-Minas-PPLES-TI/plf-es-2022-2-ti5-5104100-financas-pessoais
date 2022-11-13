@@ -41,6 +41,7 @@
       <Compile Remove="Interfaces\Generics\In.cs" />
       <Compile Remove="Interfaces\Budget.cs" />
       <Compile Remove="Interfaces\Generics\IGenericService.cs" />
+      <Compile Remove="Services\Publisher.cs" />
     </ItemGroup>
 
     <ItemGroup>
