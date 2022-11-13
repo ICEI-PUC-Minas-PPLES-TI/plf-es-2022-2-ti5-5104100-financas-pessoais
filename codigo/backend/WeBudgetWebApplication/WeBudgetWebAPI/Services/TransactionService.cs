@@ -7,77 +7,74 @@ namespace WeBudgetWebAPI.Services;
 
 public class TransactionService : ITransactionService
 {
-    private readonly IBudget _iBudget;
     private readonly ITransaction _iTransaction;
-    private readonly IAccount _iAccount;
+    private readonly IAccountService _accountService;
+    private readonly BudgetService _budgetService;
 
-    public TransactionService(IBudget iBudget, ITransaction iTransaction, IAccount iAccount)
+
+    public TransactionService(ITransaction iTransaction, IAccountService accountService, BudgetService budgetService)
     {
-        _iBudget = iBudget;
         _iTransaction = iTransaction;
-        _iAccount = iAccount;
+        _accountService = accountService;
+        _budgetService = budgetService;
     }
 
     public async Task<Transaction> Add(Transaction transaction)
     {
         //TO-DO validation
-        var savedAccount = await _iAccount.ListByUserAndTime(transaction.UserId, transaction.TansactionDate);
-        if (savedAccount == null)
-        {
-            savedAccount = await AccountCreator(transaction);
-        }
+        var value = 0.0;
         if (transaction.TansactionType == TansactionType.Expenses)
         {
-            var budget = await _iBudget
-                .ListByUserTimeAndCategory(transaction.UserId, transaction.TansactionDate, transaction.CategoryId);
-            budget.BudgetValueUsed += transaction.PaymentValue;
-            await _iBudget.Update(budget);
+            value = -1 * transaction.PaymentValue;
         }
-
+        else
+        {
+            value = transaction.PaymentValue;
+        }
+        await _accountService.UpdateBalance(transaction.TansactionDate,
+            value ,transaction.UserId);
+        await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
+            transaction.CategoryId, value);
         return await _iTransaction.Add(transaction);
     }
 
     public async Task<Transaction> Update(Transaction transaction)
     {
-        //TO-DO validation
-        var savedAccount = await _iAccount.ListByUserAndTime(transaction.UserId, transaction.TansactionDate);
+        var value = 0.0;
         var savedTrasacton = await _iTransaction.GetEntityById(transaction.Id);
         if (transaction.TansactionType == TansactionType.Expenses)
         {
-            var budget = await _iBudget
-                .ListByUserTimeAndCategory(transaction.UserId, transaction.TansactionDate, transaction.CategoryId);
-            budget.BudgetValueUsed += transaction.PaymentValue;
-            budget.BudgetValueUsed -= savedTrasacton.PaymentValue;
-            await _iBudget.Update(budget);
+            value = (-1 * transaction.PaymentValue)+savedTrasacton.PaymentValue;
         }
-
+        else
+        {
+            value = (-1 * savedTrasacton.PaymentValue)+transaction.PaymentValue;
+        }
+        await _accountService.UpdateBalance(transaction.TansactionDate,
+            value ,transaction.UserId);
+        await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
+            transaction.CategoryId, value);
         return await _iTransaction.Update(transaction);
     }
 
     public async Task Delete(Transaction transaction)
     {
         //TO-DO validation
-        var savedAccount = await _iAccount.ListByUserAndTime(transaction.UserId, transaction.TansactionDate);
+        var value = 0.0;
         if (transaction.TansactionType == TansactionType.Expenses)
         {
-            var budget = await _iBudget
-                .ListByUserTimeAndCategory(transaction.UserId, transaction.TansactionDate, transaction.CategoryId);
-            budget.BudgetValueUsed -= transaction.PaymentValue;
-            await _iBudget.Update(budget);
+            value = transaction.PaymentValue;
         }
+        else
+        {
+            value = -1 * transaction.PaymentValue;
+        }
+        await _accountService.UpdateBalance(transaction.TansactionDate,
+            value ,transaction.UserId);
+        await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
+            transaction.CategoryId, value);
 
         await _iTransaction.Delete(transaction);
     }
 
-    private async Task<Account> AccountCreator(Transaction transaction)
-    {
-        var newAccount = await _iAccount.Add(new Account()
-        {
-            AccountBalance = 0.0,
-            AccountDateTime = transaction.TansactionDate,
-            UserId = transaction.UserId
-        });
-        return await _iAccount.Add(newAccount);
-    }
-    
 }
