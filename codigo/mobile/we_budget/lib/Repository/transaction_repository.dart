@@ -130,6 +130,11 @@ class RepositoryTransaction with ChangeNotifier {
     return _items.length;
   }
 
+  void removeTransaction(String transactionId) {
+    _items.remove(transactionId);
+    return notifyListeners();
+  }
+
   TransactionModel itemByIndex(int index) {
     return _items[index];
   }

@@ -26,7 +26,11 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const Mqtt() : const LoginPage();
+          return auth.isAuth
+              ? Mqtt(
+                  userId: auth.userId!,
+                )
+              : const MainPage();
         }
       },
     );

@@ -13,6 +13,9 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
   String? _categorySelect;
   @override
   Widget build(BuildContext context) {
+    String qualPaginaChamou =
+        ModalRoute.of(context)?.settings.arguments as String;
+    print(qualPaginaChamou);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -63,9 +66,18 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
                                     trasactionList.itemByIndex(i).nameCategoria;
                               },
                             );
-                            Navigator.pushNamed(
-                                context, AppRoutes.formTransaction,
-                                arguments: _categorySelect);
+                            Map<String, dynamic> arguments = {
+                              'page': 'category',
+                              'itemByIndex': _categorySelect,
+                            };
+                            if (qualPaginaChamou == "CreateMeta") {
+                              Navigator.pushNamed(context, AppRoutes.createMeta,
+                                  arguments: _categorySelect);
+                            } else {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.formTransaction,
+                                  arguments: arguments);
+                            }
                           },
                         ),
                       ),

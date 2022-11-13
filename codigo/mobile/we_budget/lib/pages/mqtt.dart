@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/pages/publish_mqtt.dart';
 
 import '../components/menu_component.dart';
 import '../models/auth.dart';
 
 class Mqtt extends StatefulWidget {
-  const Mqtt({Key? key}) : super(key: key);
+  const Mqtt({Key? key, required this.userId}) : super(key: key);
+
+  final String userId;
 
   @override
   State<Mqtt> createState() => _MqttState();
@@ -35,15 +38,16 @@ class _MqttState extends State<Mqtt> {
 
   @override
   void initState() {
-    _connect();
+    // _connect();
     super.initState();
   }
 
   String? userId;
   @override
   Widget build(BuildContext context) {
-    Auth auth = Provider.of(context);
-    userId = auth.userId;
+    // Auth auth = Provider.of(context);
+    // userId = auth.userId;
+    // print("User id $userId");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tela inicial"),
@@ -53,13 +57,16 @@ class _MqttState extends State<Mqtt> {
   }
 
   void _connect() async {
-    print("Entrou connect");
+    // print("Entrou connect $userId");
+    // Auth auth = Provider.of(context);
+    // userId = auth.userId;
+    // print(userId);
     client!.port = port;
     client!.logging(on: true);
     client!.keepAlivePeriod = 300;
     client!.onDisconnected = _onDisconnected;
     final MqttConnectMessage connMess = MqttConnectMessage()
-        .withClientIdentifier(userId ?? '')
+        .withClientIdentifier(widget.userId)
         .startClean() // Non persistent session for testing
         .withWillQos(MqttQos.atMostOnce);
     client!.connectionMessage = connMess;
@@ -109,38 +116,58 @@ class _MqttState extends State<Mqtt> {
     String rawJson = message;
 
     Map<String, dynamic> map = jsonDecode(rawJson); // import 'dart:convert';
-    String tabela = map['tipoTabela'];
-    String operacao = map['operacao'];
+    int tabela = map['Table'];
+    int operacao = map['Operation'];
+    String object = map['Object'].toString();
+
+    // ******Operation******
+    // Create = 0
+    // Update = 1
+    // Delete = 2
+
+    // ******Table******
+    // Account = 0
+    // Budget = 1
+    // Transaction = 2
+    // Category = 3
 
     switch (tabela) {
-      case 'Transaction':
-        if (operacao == "Create") {
+      case 2: //Table transaction
+        if (operacao == 0) {
           //chamada insert
-        } else if (operacao == "Update") {
+          print("Table Transaction, operation of create");
+        } else if (operacao == 1) {
           //chama update
-        } else if (operacao == "Delete") {
+          print("Table Transaction, operation of update");
+        } else if (operacao == 2) {
           //chama delete
         } else {
-          print("Tipo transação não encontrada");
+          print("Table Transaction, operation of delete");
         }
         break;
-      case 'Category':
-        if (operacao == "POST") {
+      case 3: //Table category
+        if (operacao == 0) {
           //chamada insert
-        } else if (operacao == "PUT") {
+          print("Table Category, operation of create");
+        } else if (operacao == 1) {
           //chama update
-        } else if (operacao == "DELETE") {
+          // Provider.of<RepositoryTransaction>(context, listen: false)
+          //     .removeTransaction(transactionId);
+        } else if (operacao == 2) {
           //chama delete
         } else {
-          print("Tipo transação não encontrada");
+          print("Table Category, operation of delete");
         }
         break;
-      case 'Meta':
-        if (operacao == "POST") {
+      case 1: //Table Budget (Orçamento)
+        if (operacao == 0) {
+          print("Table Budget, operation of create");
           //chamada insert
-        } else if (operacao == "PUT") {
+        } else if (operacao == 1) {
+          print("Table Budget, operation of update");
           //chama update
-        } else if (operacao == "DELETE") {
+        } else if (operacao == 2) {
+          print("Table Budget, operation of delete");
           //chama delete
         } else {
           print("Tipo transação não encontrada");

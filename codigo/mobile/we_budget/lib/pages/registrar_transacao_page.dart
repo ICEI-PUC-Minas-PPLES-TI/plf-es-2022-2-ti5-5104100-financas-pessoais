@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
@@ -97,15 +99,23 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   @override
   Widget build(BuildContext context) {
     String? categorySelected = 'teste';
-    if (_transactionData.isEmpty) {
-      final transaction =
-          ModalRoute.of(context)?.settings.arguments as TransactionModel;
-      
-      _loadFormData(transaction);
-    } else {
-      categorySelected = ModalRoute.of(context)!.settings.arguments.toString();
-      _transactionData['Category'] = categorySelected;
+
+    Map<String, dynamic> argument =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    print(argument);
+
+    String page = argument['page'] as String;
+
+    Object data = argument['itemByIndex'];
+    print(data as TransacaoFormPage);
+
+    if (page == 'listTransaction') {
+      _loadFormData(data as TransactionModel);
     }
+
+    // else if (page == 'category') {
+    //   _transactionData['Category'] = data as String;
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -175,7 +185,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               // ),
               TextButton(
                 onPressed: () => {
-                  Navigator.of(context).pushNamed(AppRoutes.listCategory),
+                  Navigator.of(context).pushNamed(AppRoutes.listCategory,
+                      arguments: "CreateTransaction"),
                 },
                 style: ButtonStyle(
                   backgroundColor:

@@ -152,8 +152,9 @@ class _CreateCategoryState extends State<CreateMeta> {
                       children: [
                         TextButton(
                           onPressed: () => {
-                            Navigator.of(context)
-                                .pushNamed(AppRoutes.listCategory),
+                            Navigator.of(context).pushNamed(
+                                AppRoutes.listCategory,
+                                arguments: "CreateMeta"),
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
