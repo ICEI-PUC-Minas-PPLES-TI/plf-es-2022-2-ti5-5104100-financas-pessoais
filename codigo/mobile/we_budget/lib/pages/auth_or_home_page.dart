@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:we_budget/pages/category_page.dart';
-import 'package:we_budget/pages/init_page.dart';
-import 'package:we_budget/pages/list_category_page.dart';
-import 'package:we_budget/pages/login_page.dart';
-import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/main_page.dart';
-import 'package:we_budget/pages/registrar_transacao_page.dart';
+import 'package:we_budget/pages/metas_page.dart';
 import '../models/auth.dart';
+import 'create_meta.dart';
+import 'mqtt.dart';
 
 class AuthOrHomePage extends StatelessWidget {
   const AuthOrHomePage({Key? key}) : super(key: key);
@@ -26,7 +23,7 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const MainPage() : const LoginPage();
+          return auth.isAuth ? const MainPage() : const MainPage();
         }
       },
     );

@@ -117,6 +117,10 @@ class RepositoryTransaction with ChangeNotifier {
     _items = _items
         .where((element) => element.tipoTransacao == typeTransaction)
         .toList();
+
+    _items = _items
+        .where((element) => element.data.substring(5, 7) == '10')
+        .toList();
     notifyListeners();
   }
 
@@ -126,6 +130,10 @@ class RepositoryTransaction with ChangeNotifier {
 
   TransactionModel itemByIndex(int index) {
     return _items[index];
+  }
+
+  List<TransactionModel> getAll() {
+    return _items;
   }
 
   Future<void> _carregaTabela() async {

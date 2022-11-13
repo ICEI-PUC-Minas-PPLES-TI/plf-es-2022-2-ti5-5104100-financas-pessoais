@@ -15,6 +15,7 @@ using WeBudgetWebAPI.Repository;
 using WeBudgetWebAPI.Repository.Generics;
 
 var builder = WebApplication.CreateBuilder(args);
+Publisher.publish();
 
 // Add services to the container.
 
