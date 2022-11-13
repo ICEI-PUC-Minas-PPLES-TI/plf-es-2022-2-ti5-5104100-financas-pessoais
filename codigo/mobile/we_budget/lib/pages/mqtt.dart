@@ -112,8 +112,45 @@ class _MyHomePageState extends State<MyHomePage> {
     String rawJson = message;
 
     Map<String, dynamic> map = jsonDecode(rawJson); // import 'dart:convert';
+    String tabela = map['tipoTabela'];
+    String operacao = map['operacao'];
 
-    print(map['Id']);
-    print(map['Description']);
+    switch (tabela) {
+      case 'Transaction':
+        if (operacao == "POST") {
+          //chamada insert
+        } else if (operacao == "PUT") {
+          //chama update
+        } else if (operacao == "DELETE") {
+          //chama delete
+        } else {
+          print("Tipo transação não encontrada");
+        }
+        break;
+      case 'Category':
+        if (operacao == "POST") {
+          //chamada insert
+        } else if (operacao == "PUT") {
+          //chama update
+        } else if (operacao == "DELETE") {
+          //chama delete
+        } else {
+          print("Tipo transação não encontrada");
+        }
+        break;
+      case 'Meta':
+        if (operacao == "POST") {
+          //chamada insert
+        } else if (operacao == "PUT") {
+          //chama update
+        } else if (operacao == "DELETE") {
+          //chama delete
+        } else {
+          print("Tipo transação não encontrada");
+        }
+        break;
+      default:
+        print("Tabela não encontrada");
+    }
   }
 }
