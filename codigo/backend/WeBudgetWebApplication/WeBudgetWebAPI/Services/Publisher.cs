@@ -1,6 +1,9 @@
-﻿using RabbitMQ.Client;
+﻿using Newtonsoft.Json;
+using RabbitMQ.Client;
 using System;
 using System.Text;
+using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.Models;
 
 namespace WeBudgetWebAPI.Services
 {
@@ -23,17 +26,20 @@ namespace WeBudgetWebAPI.Services
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
             // ensure that the queue exists before we publish to it
-            var queueName = "queue1";
-            bool durable = false;
+            var queueName = "mqtt-subscription-Natanielqos1";
+            bool durable = true;
             bool exclusive = false;
             bool autoDelete = true;
 
             channel.QueueDeclare(queueName, durable, exclusive, autoDelete, null);
 
             // read message from input
-            var message = Console.ReadLine();
+            var salvarCategoria = new CategoryReponse(1, "C#", 123);
+            var mensagem = JsonConvert.SerializeObject(salvarCategoria);
+
+            mensagem = JsonConvert.SerializeObject(new Resposta<String>("Categoria", "Post", "1"));
             // the data put on the queue must be a byte array
-            var data = Encoding.UTF8.GetBytes(message);
+            var data = Encoding.UTF8.GetBytes(mensagem);
             // publish to the "default exchange", with the queue name as the routing key
             var exchangeName = "";
             var routingKey = queueName;

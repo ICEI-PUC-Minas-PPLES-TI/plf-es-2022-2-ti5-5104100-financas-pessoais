@@ -43,7 +43,7 @@ class Auth with ChangeNotifier {
         {
           'email': email,
           'senha': password,
-          //'senhaConfimacao': password,
+          'senhaConfimacao': password,
         },
       ),
     );
@@ -80,11 +80,11 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signup(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'cadastro');
+    return _authenticate(name, email, password, 'cadastrar');
   }
 
   Future<void> login(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'login');
+    return _authenticate(name, email, password, 'logar');
   }
 
   Future<void> tryAutoLogin() async {
