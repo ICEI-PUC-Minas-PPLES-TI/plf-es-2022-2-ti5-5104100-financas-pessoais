@@ -40,6 +40,7 @@
       <Compile Remove="Models\Goal.cs" />
       <Compile Remove="Interfaces\Generics\In.cs" />
       <Compile Remove="Interfaces\Budget.cs" />
+      <Compile Remove="Interfaces\Generics\IGenericService.cs" />
     </ItemGroup>
 
     <ItemGroup>

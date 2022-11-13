@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces;
+using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
 
 namespace WeBudgetWebAPI.Controllers;
@@ -12,12 +13,13 @@ namespace WeBudgetWebAPI.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly IMapper _iMapper;
-    private readonly ICategory _iCategory;
+    private readonly ICategoryService _categoryService;
 
-    public CategoryController(IMapper iMapper, ICategory iCategory)
+
+    public CategoryController(IMapper iMapper, ICategoryService categoryService)
     {
         _iMapper = iMapper;
-        _iCategory = iCategory;
+        _categoryService = categoryService;
     }
 
     [Authorize]
@@ -26,8 +28,7 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<CategoryReponse>> Add(CategoryRequest request)
     {
         var category = _iMapper.Map<Category>(request);
-        
-        var savedCategory = await _iCategory.Add(category);
+        var savedCategory = await _categoryService.Add(category);
         var response = _iMapper.Map<CategoryReponse>(savedCategory);
         return Ok(response);
     }
@@ -36,12 +37,9 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
         var userId = User.FindFirst("idUsuario").Value;
-        var categoriaLista = await _iCategory.ListByUser(userId);
-        if(categoriaLista.Count == 0)
-            return NotFound("Categoria não encontrada");
-        var response = _iMapper.Map<List<CategoryReponse>>(categoriaLista);
+        var categoryList = await _categoryService.ListByUser(userId);
+        var response = _iMapper.Map<List<CategoryReponse>>(categoryList);
         return Ok(response);
     }
 
@@ -49,22 +47,23 @@ public class CategoryController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var categoria = await _iCategory.GetEntityById(id);
-        if(categoria==null)
+        var category = await _categoryService.GetEntityById(id);
+        if(category==null)
             return NotFound("Categoria não encontrada");
-        var response = _iMapper.Map<CategoryReponse>(categoria);
-        return Ok(categoria);
+        var response = _iMapper.Map<CategoryReponse>(category);
+        return Ok(response);
     }
 
     [Authorize]
     [HttpPut]
     public async Task<ActionResult> Update(CategoryRequest request)
     {
-        var categoria = _iMapper.Map<Category>(request);
-        var savedCategoria =await _iCategory.Update(categoria);
-        if (savedCategoria == null)
+        var category = _iMapper.Map<Category>(request);
+        var savedCategory =await _categoryService.GetEntityById(category.Id);
+        if (savedCategory == null)
             return NoContent();
-        var response = _iMapper.Map<CategoryReponse>(savedCategoria);
+        var updatedCategory = await _categoryService.Update(category);
+        var response = _iMapper.Map<CategoryReponse>(updatedCategory);
         return Ok(response);
 
     }
@@ -73,10 +72,10 @@ public class CategoryController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var categoria = await _iCategory.GetEntityById(id);
-        if(categoria==null)
+        var response = await _categoryService.GetEntityById(id);
+        if(response==null)
             return NotFound("Categoria não encontrada");
-        await _iCategory.Delete(categoria);
+        await _categoryService.Delete(response);
         return NoContent();
     }
     

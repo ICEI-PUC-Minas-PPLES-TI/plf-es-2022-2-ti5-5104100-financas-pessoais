@@ -6,5 +6,5 @@ namespace WeBudgetWebAPI.Interfaces;
 public interface IAccount:IGeneric<Account>
 {
     public Task<List<Account>> ListByUser(string userId);
-    public Task<Account> ListByUserAndTime(string userId, DateTime dateTime);
+    public Task<Account?> GetByUserAndTime(string userId, DateTime dateTime);
 }

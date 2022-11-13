@@ -8,7 +8,7 @@ namespace WeBudgetWebAPI.Services;
 
 public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
 {
-    public async Task SendMenssage(MenssageResponse<T> mesageResponse)
+    public async Task<T> SendMenssage(MenssageResponse<T> mesageResponse)
     {
         // CloudAMQP URL in format amqp://user:pass@hostName:port/vhost
         var url = "amqps://mfkdedri:t87XD1FFJHT-Yow3qYnOb3GHqbKIPhyL@moose.rmq.cloudamqp.com/mfkdedri";
@@ -36,6 +36,7 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
         var exchangeName = "";
         var routingKey = queueName;
         channel.BasicPublish(exchangeName, routingKey, null, data);
+        return mesageResponse.Object;
 
     }
     
