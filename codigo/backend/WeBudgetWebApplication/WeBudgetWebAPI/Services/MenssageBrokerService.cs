@@ -23,7 +23,7 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
         using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
         // ensure that the queue exists before we publish to it
-        var queueName = "mqtt-subscription-"+ mesageResponse.UserId+"";
+        var queueName = "mqtt-subscription-"+ mesageResponse.UserId+"qos1";
         bool durable = true;
         bool exclusive = false;
         bool autoDelete = true;

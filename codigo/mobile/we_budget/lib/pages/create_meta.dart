@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
 import '../exceptions/auth_exception.dart';
@@ -70,10 +71,10 @@ class _CreateCategoryState extends State<CreateMeta> {
     }
   }
 
+  bool status = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
     String? categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
     print("----->");
@@ -151,8 +152,9 @@ class _CreateCategoryState extends State<CreateMeta> {
                       children: [
                         TextButton(
                           onPressed: () => {
-                            Navigator.of(context)
-                                .pushNamed(AppRoutes.listCategory),
+                            Navigator.of(context).pushNamed(
+                                AppRoutes.listCategory,
+                                arguments: "CreateMeta"),
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -203,8 +205,31 @@ class _CreateCategoryState extends State<CreateMeta> {
                     ),
                   ),
                 ),
+                Container(
+                  height: 40.0,
+                  child: const Text("Transação recorrente"),
+                ),
+                FlutterSwitch(
+                  activeColor: Colors.green,
+                  activeText: "Sim",
+                  inactiveText: "Não",
+                  inactiveColor: Colors.red,
+                  width: 120.0,
+                  height: 40.0,
+                  valueFontSize: 20.0,
+                  toggleSize: 45.0,
+                  value: status,
+                  borderRadius: 30.0,
+                  padding: 6.0,
+                  showOnOff: true,
+                  onToggle: (val) {
+                    setState(() {
+                      status = val;
+                    });
+                  },
+                ),
                 const SizedBox(
-                  height: 70,
+                  height: 40,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),

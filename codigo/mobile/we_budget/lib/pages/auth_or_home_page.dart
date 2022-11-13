@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/pages/init_page.dart';
+import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/metas_page.dart';
+import 'package:we_budget/pages/publish_mqtt.dart';
 import '../models/auth.dart';
 import 'create_meta.dart';
 import 'mqtt.dart';
@@ -23,7 +26,11 @@ class AuthOrHomePage extends StatelessWidget {
             child: Text('Ocorreu um erro!'),
           );
         } else {
-          return auth.isAuth ? const MainPage() : const MainPage();
+          return auth.isAuth
+              ? Mqtt(
+                  userId: auth.userId!,
+                )
+              : const MainPage();
         }
       },
     );

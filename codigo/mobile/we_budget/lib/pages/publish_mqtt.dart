@@ -75,14 +75,14 @@ class _PublishMqttState extends State<PublishMqtt> {
           'disconnecting, state is ${client!.connectionState!}');
       _disconnect();
     }
-    _subscribeToTopic("UserId2");
+    _subscribeToTopic("teste1");
 
     _publish();
 
     client!.published!.listen((MqttPublishMessage message) {
       print(
           'EXAMPLE::Published notification:: topic is ${message.variableHeader!.topicName}, with Qos ${message.header!.qos}');
-      if (message.variableHeader!.topicName == "UserId2") {
+      if (message.variableHeader!.topicName == "teste1") {
         print('EXAMPLE:: Non subscribed topic received.');
       }
 
@@ -107,6 +107,6 @@ class _PublishMqttState extends State<PublishMqtt> {
     builder1.addString('Hello from mqtt_client topic 1');
     print('EXAMPLE:: <<<< PUBLISH 1 >>>>');
 
-    client?.publishMessage('UserId2', MqttQos.atMostOnce, builder1.payload!);
+    client?.publishMessage('teste1', MqttQos.atMostOnce, builder1.payload!);
   }
 }

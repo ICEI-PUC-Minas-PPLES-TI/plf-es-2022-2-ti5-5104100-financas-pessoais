@@ -241,9 +241,14 @@ class _FilterState extends State<Filter> {
                                         .idTransaction);
                               } else {
                                 setState(() {
+                                  Map<String, dynamic> arguments = {
+                                    'page': 'listTransaction',
+                                    'itemByIndex':
+                                        trasactionList.itemByIndex(i),
+                                  };
                                   Navigator.of(context).pushNamed(
                                     AppRoutes.formTransaction,
-                                    arguments: trasactionList.itemByIndex(i),
+                                    arguments: arguments,
                                   );
                                 });
                               }
