@@ -176,8 +176,56 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
+    TransactionModel transaction4 = TransactionModel(
+      idTransaction: "4",
+      name: "Gasolina",
+      categoria: "Carro",
+      data: "2022-10-15",
+      valor: 120,
+      formaPagamento: "Dinheiro",
+      tipoTransacao: 1,
+      location: const TransactionLocation(
+        latitude: 37.419857,
+        longitude: -122.078827,
+        address: "Rua B",
+      ),
+    );
+
+    TransactionModel transaction5 = TransactionModel(
+        idTransaction: "5",
+        name: "Viagem - Búzios",
+        categoria: "Viagem",
+        data: "2022-10-15",
+        valor: 500,
+        formaPagamento: "Dinheiro",
+        tipoTransacao: 1,
+        location: const TransactionLocation(
+          latitude: 37.419857,
+          longitude: -122.078827,
+          address: "Rua B",
+        ),
+    );
+
+    TransactionModel transaction6 = TransactionModel(
+      idTransaction: "6",
+      name: "Venda - EcoSport",
+      categoria: "Carro",
+      data: "2022-10-15",
+      valor: 15000,
+      formaPagamento: "Dinheiro",
+      tipoTransacao: 0,
+      location: const TransactionLocation(
+        latitude: 37.419857,
+        longitude: -122.078827,
+        address: "Rua B",
+      ),
+    );
+
     await insertTransacao(transaction1);
     await insertTransacao(transaction2);
+    await insertTransacao(transaction4);
+    await insertTransacao(transaction5);
+    await insertTransacao(transaction6);
   }
 
   Future<void> postTransaction(Map<String, Object> transaction) async {
