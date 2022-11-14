@@ -32,7 +32,7 @@ class AuthOrHomePage extends StatelessWidget {
               ? Mqtt(
                   userId: auth.userId!,
                 )
-              : const CreateCategory();
+              : const MainPage();
         }
       },
     );
