@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
+import 'package:we_budget/models/categoria_model.dart';
 import 'package:we_budget/pages/publish_mqtt.dart';
 
 import '../components/menu_component.dart';
@@ -148,6 +150,8 @@ class _MqttState extends State<Mqtt> {
       case 3: //Table category
         if (operacao == 0) {
           //chamada insert
+          // RepositoryCategory transacation = Provider.of(context);
+          // transacation.insertCategoria(CategoriaModel(id: id, codeCategoria: codeCategoria, nameCategoria: nameCategoria))
           print("Table Category, operation of create");
         } else if (operacao == 1) {
           //chama update
@@ -176,5 +180,11 @@ class _MqttState extends State<Mqtt> {
       default:
         print("Tabela não encontrada");
     }
+
+    //   factory Album.fromJson(Map<String, dynamic> json) {
+    // return Album(
+    //   id: json['id'],
+    //   title: json['title'],
+    // );
   }
 }
