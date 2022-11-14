@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:provider/provider.dart';
 
+import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/category.dart';
 
@@ -47,24 +48,25 @@ class _CreateCategoryState extends State<CreateCategory> {
   }
 
   Future<void> _submitCreateCategory() async {
+    print(_CreateCategoryData);
     final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
 
     if (!isValid) {
       return;
     }
     _formKeyCreateCategory.currentState?.save();
-    Category category = Provider.of(context, listen: false);
+    RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
-      await category.cadastro(
-        _CreateCategoryData['nameCreateCategory']!,
-        _CreateCategoryData['codeCreateCategory']!,
-      );
+      await category.postCategory(_CreateCategoryData);
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
+      print("Erro....");
+      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
+    Navigator.of(context).pop();
   }
 
   @override

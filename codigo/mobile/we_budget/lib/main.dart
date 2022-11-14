@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
     /*await db.delete(DBHelper.tableCategoria);
     await db.delete(DBHelper.tableTransaction);*/
     await RepositoryCategory().selectCategoria();
-    await RepositoryTransaction().selectTransaction();
+    await RepositoryTransaction('').selectTransaction();
   }
 
   const MyApp({Key? key}) : super(key: key);
@@ -51,12 +52,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => TransactionsProviders(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => RepositoryTransaction(),
+        ChangeNotifierProxyProvider<Auth, RepositoryTransaction>(
+          create: (_) => RepositoryTransaction(''),
+          update: (context, auth, previous) {
+            return RepositoryTransaction(auth.token ?? '');
+          },
         ),
         ChangeNotifierProvider(
           create: (_) => RepositoryCategory(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -9,11 +10,14 @@ import 'package:we_budget/components/categoria_dropdown.dart';
 import 'package:we_budget/models/categoria_model.dart';
 import 'package:we_budget/models/category.dart';
 import 'package:we_budget/models/transactions.dart';
+import 'package:we_budget/pages/location_form.dart';
 
 import '../Repository/transaction_repository.dart';
 import '../components/date_picker.dart';
 import '../components/forma_pagamento_dropdown.dart';
 
+import '../exceptions/auth_exception.dart';
+import '../models/store.dart';
 import '../utils/app_routes.dart';
 
 class TransacaoFormPage extends StatefulWidget {
@@ -33,8 +37,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     'TransactionDate': '',
     'PaymentValue': '',
     'PaymentType': '',
-    'Longitude': '20.15',
-    'Latitude': '20.15',
+    'Longitude': '',
+    'Latitude': '',
     'Address': '',
   };
 
@@ -47,6 +51,34 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   ];
   String dropdownValue = list.first;
 
+  String? dadosLoc;
+
+  _recuperaDadosLocalizacao() async {
+    print("Entrou recupera dados localização");
+    Map<String, dynamic> dados = await Store.getMap('localizacao');
+    String latitude = dados['latitude'];
+    String longitude = dados['longitude'];
+    String address = dados['address'];
+
+    _transactionData['Longitude'] = longitude;
+    _transactionData['Latitude'] = latitude;
+    _transactionData['Address'] = address;
+
+    print("Dados....$latitude");
+    print("Dados....$longitude");
+    print("Dados....$address");
+  }
+
+  _recuperaDadosCategoria() async {
+    print("Entrou recupera dados categoria");
+    Map<String, dynamic> dados = await Store.getMap('category');
+    String category = dados['category'];
+    _transactionData['Category'] = category;
+
+    print("Dados....$category");
+    _submitForm();
+  }
+
   TextEditingController dateInput = TextEditingController();
 
   @override
@@ -55,7 +87,25 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     super.initState();
   }
 
-  void _submitForm() {
+  void _showErrorDialog(String msg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Ocorreu um Erro'),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Fechar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submitForm() async {
+    print("Entrou submit");
+    print(_transactionData.toString());
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -64,27 +114,39 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
     _formKey.currentState?.save();
 
-    Provider.of<RepositoryTransaction>(
-      context,
-      listen: false,
-    ).insertTransacao(
-      TransactionModel(
-        idTransaction: '11',
-        name: _transactionData['Description'].toString(),
-        categoria: _transactionData['Category'].toString(),
-        data: _transactionData['TransactionDate'].toString(),
-        valor: double.parse(_transactionData['PaymentValue'].toString()),
-        formaPagamento: _transactionData['PaymentType'].toString(),
-        tipoTransacao:
-            int.parse(_transactionData['TransactionType'].toString()),
-        location: TransactionLocation(
-            latitude: double.parse(_transactionData['Longitude'].toString()),
-            longitude: double.parse(_transactionData['Latitude'].toString()),
-            address: _transactionData['Address'].toString()),
-      ),
-    );
+    RepositoryTransaction transaction = Provider.of(context, listen: false);
 
-    Navigator.of(context).pushNamed(AppRoutes.main);
+    try {
+      await transaction.postTransaction(_transactionData);
+    } on AuthException catch (error) {
+      _showErrorDialog(error.toString());
+    } catch (error) {
+      print("Erro....");
+      print(error);
+      _showErrorDialog('Ocorreu um erro inesperado!');
+    }
+
+    // Provider.of<RepositoryTransaction>(
+    //   context,
+    //   listen: false,
+    // ).insertTransacao(
+    //   TransactionModel(
+    //     idTransaction: '20',
+    //     name: _transactionData['Description'].toString(),
+    //     categoria: _transactionData['Category'].toString(),
+    //     data: _transactionData['TransactionDate'].toString(),
+    //     valor: double.parse(_transactionData['PaymentValue'].toString()),
+    //     formaPagamento: _transactionData['PaymentType'].toString(),
+    //     tipoTransacao:
+    //         int.parse(_transactionData['TransactionType'].toString()),
+    //     location: TransactionLocation(
+    //         latitude: double.parse(_transactionData['Longitude'].toString()),
+    //         longitude: double.parse(_transactionData['Latitude'].toString()),
+    //         address: _transactionData['Address'].toString()),
+    //   ),
+    // );
+
+    // Navigator.of(context).pushNamed(AppRoutes.main);
   }
 
   void _loadFormData(TransactionModel transferencia) {
@@ -98,25 +160,35 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    String? categorySelected = 'teste';
+    // String? categorySelected = 'teste';
 
-    Map<String, dynamic> argument =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    print(argument);
+    // Map<String, dynamic> argument =
+    //     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    // print(argument);
 
-    String page = argument['page'] as String;
+    // String page = argument['page'] as String;
 
-    Object data = argument['itemByIndex'];
-    print(data as TransacaoFormPage);
+    // Object data = argument['itemByIndex'];
+    // print(data as TransacaoFormPage);
 
-    if (page == 'listTransaction') {
-      _loadFormData(data as TransactionModel);
-    }
+    // if (page == 'listTransaction') {
+    //   _loadFormData(data as TransactionModel);
+    // }
 
     // else if (page == 'category') {
     //   _transactionData['Category'] = data as String;
     // }
 
+    String? categorySelected = 'teste';
+    if (_transactionData.isEmpty) {
+      final transaction =
+          ModalRoute.of(context)?.settings.arguments as TransactionModel;
+
+      _loadFormData(transaction);
+    } else {
+      categorySelected = ModalRoute.of(context)!.settings.arguments.toString();
+      _transactionData['Category'] = categorySelected;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registrar transação'),
@@ -146,11 +218,12 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       activeFgColor: Colors.white,
                       inactiveBgColor: Colors.grey,
                       inactiveFgColor: Colors.white,
-                      initialLabelIndex: 1,
+                      initialLabelIndex: 0,
                       totalSwitches: 2,
-                      labels: const ['Despesa', 'Receita'],
+                      labels: const ['Receita', 'Despesa'],
                       radiusStyle: true,
                       onToggle: (index) {
+                        print(index);
                         if (index == 1) {
                           _transactionData['TransactionType'] = '1';
                         } else {
@@ -161,28 +234,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
-              //   child: TextField(
-              //     key: const ValueKey('Category'),
-              //     onChanged: (category) {
-              //       _transactionData['Category'] = category;
-              //     },
-              //     decoration: InputDecoration(
-              //       labelText: 'Categoria',
-              //       border: OutlineInputBorder(
-              //         borderSide: const BorderSide(
-              //             width: 0.8, color: Colors.grey), //<-- SEE HERE
-              //         borderRadius: BorderRadius.circular(50.0),
-              //       ),
-              //     ),
-              //     textInputAction: TextInputAction.next,
-              //     onTap: () {
-              //       Navigator.of(context).pushNamed(AppRoutes.listCategory);
-              //     },
-              //   ),
-              // ),
               TextButton(
                 onPressed: () => {
                   Navigator.of(context).pushNamed(AppRoutes.listCategory,
@@ -387,8 +438,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     //backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: () {
-                    print(_transactionData.toString());
-                    _submitForm();
+                    _recuperaDadosLocalizacao();
+                    _recuperaDadosCategoria();
                   },
                   child: const Text('Registrar'),
                 ),

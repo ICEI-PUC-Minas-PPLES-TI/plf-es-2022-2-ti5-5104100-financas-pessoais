@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/transactions.dart';
-
+import '../exceptions/auth_exception.dart';
+import '../models/store.dart';
 import '../utils/db_util_novo.dart';
+import 'package:http/http.dart' as http;
 
 class RepositoryTransaction with ChangeNotifier {
+  String _token;
+  RepositoryTransaction(this._token);
   List<TransactionModel> _items = [];
 
   insertTransacao(TransactionModel transaction) async {
@@ -58,9 +63,6 @@ class RepositoryTransaction with ChangeNotifier {
       );
     }
 
-    print("Length transaction");
-    print(retorno.length);
-    print(retorno);
     notifyListeners();
     return retorno;
   }
@@ -176,5 +178,52 @@ class RepositoryTransaction with ChangeNotifier {
 
     await insertTransacao(transaction1);
     await insertTransacao(transaction2);
+  }
+
+  Future<void> postTransaction(Map<String, Object> transaction) async {
+    print("Entrou post transaction...");
+    print("Entrou no provider....$_token");
+    print(transaction);
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    print(userData);
+    // String token = userData['token'];
+    // print("Token.......$token");
+
+    // String userId = userData['userId'];
+    // print("Token.......$userId");
+
+    const url = 'http://localhost:5001/api/Transaction/Add';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6ImE1MTlhOWU3LTQ2NjYtNDIwMS1hN2E1LTdkNTI2NmRiYTFjNyIsImlkVXN1YXJpbyI6Ijg1N2YwZDMzLWQyNDQtNDllNS1iNjFkLTQ4ZjlmODU2MzQ2MyIsImV4cCI6MTY2ODYwOTc0MCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.QnRvCyuqPvMm2iikLEe7ke17bBt596xaLJALLCeUt6M',
+      },
+      body: jsonEncode(
+        {
+          'Category': transaction['Category'],
+          'TransactionType': transaction['TransactionType'],
+          'Description': transaction['Description'],
+          'TransactionDate': transaction['TransactionDate'],
+          'PaymentValue': transaction['PaymentValue'],
+          'PaymentType': transaction['PaymentType'],
+          'Longitude': transaction['Longitude'],
+          'Latitude': transaction['Latitude'],
+          'Address': transaction['Address'],
+          'userId': "857f0d33-d244-49e5-b61d-48f9f8563463",
+        },
+      ),
+    );
+
+    final body = jsonDecode(response.body);
+    print("Response....");
+    print(body);
+    if (body['sucesso'] != true) {
+      throw AuthException(body['erros'].toString());
+    } else {
+      notifyListeners();
+    }
   }
 }

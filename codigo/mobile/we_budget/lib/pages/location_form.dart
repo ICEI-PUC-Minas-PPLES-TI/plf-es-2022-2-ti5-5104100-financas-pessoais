@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:we_budget/models/store.dart';
+import 'package:we_budget/utils/app_routes.dart';
 import 'package:we_budget/utils/location_util.dart';
 import '../components/location_input.dart';
 
@@ -21,7 +23,7 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
   }
 
   bool _isValidForm() {
-    return _titleController.text.isNotEmpty && _pickedPosition != null;
+    return _pickedPosition != null;
   }
 
   void _submitForm() async {
@@ -36,8 +38,16 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
     String address = await LocationUtil.getAddressFrom(_pickedPosition!);
     print(address);
 
-    //Navigator.of(context).pushNamed(AppRoutes.main);
-    //Navigator.of(context).pop();
+    Store.saveMap(
+      'localizacao',
+      {
+        'latitude': _pickedPosition!.latitude.toString(),
+        'longitude': _pickedPosition!.longitude.toString(),
+        'address': address,
+      },
+    );
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -55,16 +65,6 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    TextField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Título',
-                      ),
-                      textInputAction: TextInputAction.next,
-                      onChanged: (text) {
-                        setState(() {});
-                      },
-                    ),
                     const SizedBox(height: 10),
                     const SizedBox(height: 10),
                     LocationInput(_selectPosition),
@@ -80,7 +80,11 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
               elevation: 0,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            onPressed: _isValidForm() ? _submitForm : null,
+            onPressed: (() async {
+              if (_isValidForm()) {
+                _submitForm();
+              }
+            }),
           ),
         ],
       ),
