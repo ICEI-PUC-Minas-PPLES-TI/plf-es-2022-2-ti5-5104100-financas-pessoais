@@ -1,19 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
-import 'package:we_budget/models/categoria_model.dart';
-import 'package:we_budget/models/category.dart';
 import 'package:we_budget/models/transactions.dart';
-
 import '../Repository/transaction_repository.dart';
-import '../components/date_picker.dart';
-import '../components/forma_pagamento_dropdown.dart';
-
 import '../utils/app_routes.dart';
 
 class TransacaoFormPage extends StatefulWidget {
@@ -100,22 +91,26 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   Widget build(BuildContext context) {
     String? categorySelected = 'teste';
 
-    Map<String, dynamic> argument =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    print(argument);
+    if (ModalRoute.of(context)!.settings != null &&
+        ModalRoute.of(context)!.settings.arguments != null) {
+      final argument =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    String page = argument['page'] as String;
+      String page = argument['page'] as String;
+      Object data = argument['itemByIndex'];
 
-    Object data = argument['itemByIndex'];
-    print(data as TransacaoFormPage);
-
-    if (page == 'listTransaction') {
-      _loadFormData(data as TransactionModel);
+      if (page == 'listTransaction') {
+        setState(() {
+          _loadFormData(data as TransactionModel);
+          print("entrei123");
+        });
+      } else if (page == 'category') {
+        _transactionData['Category'] = data as String;
+        print("entrei321");
+      }
+    } else {
+      final argument = {'page': "", 'itemByIndex': ""};
     }
-
-    // else if (page == 'category') {
-    //   _transactionData['Category'] = data as String;
-    // }
 
     return Scaffold(
       appBar: AppBar(

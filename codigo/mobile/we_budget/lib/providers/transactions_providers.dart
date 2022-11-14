@@ -107,11 +107,6 @@ class TransactionsProviders with ChangeNotifier {
     return _items[index];
   }
 
-  void removeTransaction(String transactionId) {
-    _items.remove(transactionId);
-    return notifyListeners();
-  }
-
   Future<void> addTransaction(
     String name,
     String categoria,
