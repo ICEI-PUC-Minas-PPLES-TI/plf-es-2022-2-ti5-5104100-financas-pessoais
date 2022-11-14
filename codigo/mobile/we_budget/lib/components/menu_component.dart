@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/components/pie_chart_widget.dart';
 import 'package:we_budget/components/price_point.dart';
-import 'package:we_budget/components/sector.dart';
 
 import '../Repository/transaction_repository.dart';
 import '../models/transactions.dart';
+import '../pages/graficos_page.dart';
 import '../pages/list_transactions_page.dart';
 import '../pages/metas_page.dart';
 import '../pages/welcome_page.dart';
@@ -23,8 +23,6 @@ class MenuPrincipal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositoryTransaction transaction = Provider.of(context);
-    List<TransactionModel> listaTrasaction = transaction.getAll();
     return CurvedNavBar(
       actionButton: CurvedActionBar(
         onTab: (value) {
@@ -116,49 +114,8 @@ class MenuPrincipal extends StatelessWidget {
         ),
         SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 30.0, top: 30.0, right: 30.0, bottom: 100.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      'Despesas por categoria',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    PieChartWidget(listaTrasaction),
-                    Column(
-                        // children: listaTrasaction
-                        //     .map<Widget>((sector) => SectorRow(sector))
-                        //     .toList(),
-                        ),
-                    const Text(
-                      'Receitas por mês',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.all(10)),
-                    LineChartWidget(pricePoints),
-                    const Padding(padding: EdgeInsets.all(20)),
-                    const Text(
-                      'Despesas por mês',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.all(10)),
-                    BarChartWidget(points: pricePoints),
-                  ],
-                ),
-              ),
-            )),
+            child: const Graficos_page()
+        )
       ],
       actionBarView: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -182,6 +139,8 @@ class SectorRow extends StatelessWidget {
             backgroundColor: sector.color,
           ),
         ),
+        Padding(padding: EdgeInsets.only(left: 10.0)),
+        Text('R\$' + sector.value.toString() + '0'),
         const Spacer(),
         Text(sector.title),
       ],
