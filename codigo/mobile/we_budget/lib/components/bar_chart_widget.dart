@@ -49,7 +49,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     int qtd_total = transactiones.length;
     int qtd_periodo = 5;
     List<double> valores = List.filled(qtd_periodo, 0);
-    List<String> anos = ['2018','2019','2018','2021','2022'];
+    List<String> anos = ['2018','2019','2020','2021','2022'];
     int index = 0;
     anos.forEach((ano) {
       transactiones.forEach((element) {

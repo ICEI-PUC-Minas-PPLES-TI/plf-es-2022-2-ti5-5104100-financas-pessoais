@@ -78,7 +78,7 @@ class _GraficosPageState extends State<Graficos_page> {
               const Padding(padding: EdgeInsets.all(10)),
               PieChartWidget(listaTrasaction),
           const Text(
-                      'Receitas por mês',
+                      'Receitas',
                       style: TextStyle(
                         fontSize: 24.0,
                         fontFamily: 'Poppins',
@@ -88,7 +88,7 @@ class _GraficosPageState extends State<Graficos_page> {
               LineChartWidget(listaTrasaction),
                 const Padding(padding: EdgeInsets.all(20)),
                 const Text(
-                  'Despesas por mês',
+                  'Despesas',
                   style: TextStyle(
                     fontSize: 24.0,
                     fontFamily: 'Poppins',
