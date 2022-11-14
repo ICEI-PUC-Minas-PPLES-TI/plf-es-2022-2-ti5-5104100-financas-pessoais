@@ -15,7 +15,7 @@ class CreateCategory extends StatefulWidget {
 
 class _CreateCategoryState extends State<CreateCategory> {
   final _formKeyCreateCategory = GlobalKey<FormState>();
-  final Map<String, dynamic> _CreateCategoryData = {
+  final Map<String, dynamic> _createCategoryData = {
     'nameCreateCategory': '',
     'codeCreateCategory': '',
   };
@@ -27,7 +27,7 @@ class _CreateCategoryState extends State<CreateCategory> {
 
     setState(() {
       codigoCreateCategory = icon?.codePoint;
-      _CreateCategoryData['codeCreateCategory'] = codigoCreateCategory!;
+      _createCategoryData['codeCreateCategory'] = codigoCreateCategory!;
     });
   }
 
@@ -48,7 +48,7 @@ class _CreateCategoryState extends State<CreateCategory> {
   }
 
   Future<void> _submitCreateCategory() async {
-    print(_CreateCategoryData);
+    print(_createCategoryData);
     final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -58,7 +58,7 @@ class _CreateCategoryState extends State<CreateCategory> {
     RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
-      await category.postCategory(_CreateCategoryData);
+      await category.postCategory(_createCategoryData);
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
@@ -155,7 +155,10 @@ class _CreateCategoryState extends State<CreateCategory> {
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,
                             onSaved: (nameCreateCategory) =>
-                                _CreateCategoryData['nameCreateCategory'] =
+                                _createCategoryData['nameCreateCategory'] =
+                                    nameCreateCategory,
+                            onChanged: (nameCreateCategory) =>
+                                _createCategoryData['nameCreateCategory'] =
                                     nameCreateCategory,
                             validator: (validacao) {
                               final name = validacao ?? '';
