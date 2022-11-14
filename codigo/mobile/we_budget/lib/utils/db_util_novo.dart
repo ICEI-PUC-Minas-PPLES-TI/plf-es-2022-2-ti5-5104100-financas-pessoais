@@ -22,6 +22,15 @@ class DBHelper {
   static const String longitude = "longitude";
   static const String address = "address";
 
+  static const String tableMetas = "metas";
+  static const String idCategoria = "idCategoria";
+  static const String idMeta = "idMeta";
+  static const String idUser = "idUser";
+  static const String dataMeta = "dataMeta";
+  static const String valorMeta = "valorMeta";
+  static const String valorAtual = "valorAtual";
+  static const String recorrente = "recorrente";
+
   // Aplicação do padrão Singleton na classe.
   DBHelper._privateConstructor();
   static final DBHelper instance = DBHelper._privateConstructor();
@@ -38,8 +47,8 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     String caminhoDoBanco = await getDatabasesPath();
-    String _banco = _nomeDB;
-    String path = join(caminhoDoBanco, _banco);
+    String banco = _nomeDB;
+    String path = join(caminhoDoBanco, banco);
 
     return await openDatabase(
       path,
@@ -50,8 +59,9 @@ class DBHelper {
 
   Future<void> _criarBanco(Database db, int novaVersao) async {
     List<String> queryes = [
-      "CREATE TABLE $tableCategoria ($id TEXT PRIMARY KEY, $codeCategoria TEXT, $nameCategoria);",
+      "CREATE TABLE $tableCategoria ($id TEXT PRIMARY KEY, $codeCategoria TEXT, $nameCategoria TEXT);",
       "CREATE TABLE $tableTransaction ($idTransaction TEXT PRIMARY KEY, $name TEXT, $categoria TEXT, $data TEXT, $valor DOUBLE, $formaPagamento TEXT, $tipoTransacao INT, $latitude DOUBLE, $longitude DOUBLE, $address TEXT);",
+      "CREATE TABLE $tableMetas ($idMeta TEXT PRIMARY KEY, $idCategoria TEXT, $idUser TEXT, $dataMeta TEXT, $valorMeta DOUBLE, $valorAtual DOUBLE, $recorrente INTEGER);",
     ];
 
     for (String query in queryes) {

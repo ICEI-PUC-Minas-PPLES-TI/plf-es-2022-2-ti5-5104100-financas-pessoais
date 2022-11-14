@@ -1,8 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32901.215
-MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeBudgetWebAPI", "WeBudgetWebAPI\WeBudgetWebAPI.csproj", "{C92A0192-135C-48ED-A60E-159BEEDB6908}"
 EndProject
 Global
@@ -15,11 +12,5 @@ Global
 		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C92A0192-135C-48ED-A60E-159BEEDB6908}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FDD72B91-4657-42EE-8983-00E4828C6656}
 	EndGlobalSection
 EndGlobal
