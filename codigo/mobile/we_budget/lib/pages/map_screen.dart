@@ -9,8 +9,8 @@ class MapScreen extends StatefulWidget {
 
   const MapScreen(
       {this.initialLocation = const TransactionLocation(
-        latitude: 37.419857,
-        longitude: -122.078827,
+        latitude: -19.919052,
+        longitude: -43.9386685,
       ),
       this.isReadOnly = false,
       Key? key})

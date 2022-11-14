@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
+import '../models/store.dart';
+
 class ListCategoryPage extends StatefulWidget {
   const ListCategoryPage({super.key});
   @override
@@ -42,45 +44,51 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
                 child: const Center(
                   child: Text('Nenhum dado cadastrado!'),
                 ),
-                builder: (ctx, trasactionList, ch) => trasactionList
-                            .itemsCount ==
-                        0
-                    ? ch!
-                    : ListView.builder(
-                        itemCount: trasactionList.itemsCount,
-                        itemBuilder: (ctx, i) => ListTile(
-                          leading: Icon(
-                            IconData(
-                                int.parse(trasactionList
-                                        .itemByIndex(i)
-                                        .codeCategoria)
-                                    .toInt(),
-                                fontFamily: "MaterialIcons"),
-                          ),
-                          title:
-                              Text(trasactionList.itemByIndex(i).nameCategoria),
-                          onTap: () {
-                            setState(
-                              () {
-                                _categorySelect =
-                                    trasactionList.itemByIndex(i).nameCategoria;
+                builder: (ctx, trasactionList, ch) =>
+                    trasactionList.itemsCount == 0
+                        ? ch!
+                        : ListView.builder(
+                            itemCount: trasactionList.itemsCount,
+                            itemBuilder: (ctx, i) => ListTile(
+                              leading: Icon(
+                                IconData(
+                                    int.parse(trasactionList
+                                            .itemByIndex(i)
+                                            .codeCategoria)
+                                        .toInt(),
+                                    fontFamily: "MaterialIcons"),
+                              ),
+                              title: Text(
+                                  trasactionList.itemByIndex(i).nameCategoria),
+                              onTap: () {
+                                setState(
+                                  () {
+                                    _categorySelect =
+                                        trasactionList.itemByIndex(i).id;
+                                  },
+                                );
+                                // Map<String, dynamic> arguments = {
+                                //   'page': 'category',
+                                //   'itemByIndex': _categorySelect,
+                                // };
+                                Store.saveMap(
+                                  'category',
+                                  {
+                                    'category': _categorySelect,
+                                  },
+                                );
+                                Navigator.of(context).pop();
+                                // if (qualPaginaChamou == "CreateMeta") {
+                                //   Navigator.pushNamed(context, AppRoutes.createMeta,
+                                //       arguments: _categorySelect);
+                                // } else {
+                                //   Navigator.pushNamed(
+                                //       context, AppRoutes.formTransaction,
+                                //       arguments: _categorySelect);
+                                // }
                               },
-                            );
-                            Map<String, dynamic> arguments = {
-                              'page': 'category',
-                              'itemByIndex': _categorySelect,
-                            };
-                            if (qualPaginaChamou == "CreateMeta") {
-                              Navigator.pushNamed(context, AppRoutes.createMeta,
-                                  arguments: _categorySelect);
-                            } else {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.formTransaction,
-                                  arguments: arguments);
-                            }
-                          },
-                        ),
-                      ),
+                            ),
+                          ),
               ),
       ),
     );

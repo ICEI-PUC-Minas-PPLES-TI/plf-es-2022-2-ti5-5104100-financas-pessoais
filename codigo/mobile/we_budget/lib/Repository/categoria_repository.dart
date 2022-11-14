@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/categoria_model.dart';
-
+import 'package:http/http.dart' as http;
+import '../exceptions/auth_exception.dart';
+import '../models/store.dart';
 import '../utils/db_util_novo.dart';
 
 class RepositoryCategory with ChangeNotifier {
@@ -79,5 +83,32 @@ class RepositoryCategory with ChangeNotifier {
 
   Future<List<CategoriaModel>> get getCategories async {
     return _categories;
+  }
+
+  Future<void> postCategory(Map<String, dynamic> category) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    print(userData);
+    String token = userData['token'];
+    String userId = userData['userId'];
+    const url = 'http://localhost:5001/api/Category/Add';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          "id": 3,
+          "description": category['nameCreateCategory'],
+          "iconCode": category['codeCreateCategory'],
+          "userId": userId
+        },
+      ),
+    );
+    final body = jsonDecode(response.body);
+    print("Response....$body");
+    notifyListeners();
   }
 }

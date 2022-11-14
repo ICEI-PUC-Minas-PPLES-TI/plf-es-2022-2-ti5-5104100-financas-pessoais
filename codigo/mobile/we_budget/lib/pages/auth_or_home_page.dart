@@ -5,7 +5,9 @@ import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/metas_page.dart';
 import 'package:we_budget/pages/publish_mqtt.dart';
+import 'package:we_budget/pages/registrar_transacao_page.dart';
 import '../models/auth.dart';
+import 'category_page.dart';
 import 'create_meta.dart';
 import 'mqtt.dart';
 
