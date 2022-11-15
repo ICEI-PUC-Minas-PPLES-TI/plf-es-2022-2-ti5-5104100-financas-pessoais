@@ -37,7 +37,7 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst("idUsuario").Value;
+        var userId = User.FindFirst("idUsuario")!.Value;
         var categoryList = await _categoryService.ListByUser(userId);
         var response = _iMapper.Map<List<CategoryReponse>>(categoryList);
         return Ok(response);
