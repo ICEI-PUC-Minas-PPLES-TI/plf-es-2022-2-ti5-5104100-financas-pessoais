@@ -95,13 +95,14 @@ class RepositoryCategory with ChangeNotifier {
     print(userData);
     String token = userData['token'];
     String userId = userData['userId'];
-    const url = 'http://localhost:5001/api/Category/Add';
+
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Categoy/Add';
     final response = await http.post(
       Uri.parse(url),
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": "application/json",
       },
       body: jsonEncode(
         {
@@ -111,8 +112,7 @@ class RepositoryCategory with ChangeNotifier {
         },
       ),
     );
-    final body = jsonDecode(response.body);
-    print("Response....$body");
+    print(response.statusCode);
     notifyListeners();
   }
 
@@ -123,7 +123,7 @@ class RepositoryCategory with ChangeNotifier {
       final product = _categories[index];
       _categories.remove(product);
       notifyListeners();
-      const url = 'http://localhost:5001/api/Category/Add';
+      const url = 'https://webudgetpuc.azurewebsites.net/api/Category';
 
       final response = await http.post(
         Uri.parse(url),
