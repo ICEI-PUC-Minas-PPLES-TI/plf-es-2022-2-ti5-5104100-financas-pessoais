@@ -24,4 +24,6 @@ public class TransactionRequest
     public string Address { get; set; }
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     public int CategoryId { get; set; }
+    [Required(ErrorMessage = "O campo {0} é obrigatório")]
+    public string UserId { get; set; }
 }
