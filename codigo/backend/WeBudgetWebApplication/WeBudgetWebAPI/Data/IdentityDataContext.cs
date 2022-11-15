@@ -9,10 +9,15 @@ public class IdentityDataContext:IdentityDbContext
     public IdentityDataContext(DbContextOptions<IdentityDataContext> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+        
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseNpgsql(
-                "User Id=slxgrvnf; Password=2P6_Lc4w4WlNY8hLvz7-dgNWCEplYfr_; Host=jelani.db.elephantsql.com; Port=; Database=slxgrvnf;");
+                configuration.GetConnectionString("DefaultConnection"));
         }
     }
 
