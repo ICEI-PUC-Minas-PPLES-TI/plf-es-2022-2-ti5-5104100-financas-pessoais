@@ -38,17 +38,12 @@ public class BudgetController:ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst("idUsuario")?.Value;
-        if (userId != null)
-        {
-            var orcamentoLista = await _budgetService.ListByUser(userId);
-            if(orcamentoLista.Count == 0)
-                return NotFound("Orçamentos não encontrada");
-            var response = _iMapper.Map<BudgetResponse>(orcamentoLista);
-            return Ok(response);
-        }
-
-        return Problem("Um problema com o token em encontrar o usuario id");
+        var userId = User.FindFirst("idUsuario")!.Value;
+        var orcamentoLista = await _budgetService.ListByUser(userId);
+        if(orcamentoLista.Count == 0)
+            return NotFound("Orçamentos não encontrada");
+        var response = _iMapper.Map<BudgetResponse>(orcamentoLista);
+        return Ok(response);
     }
 
     [Authorize]

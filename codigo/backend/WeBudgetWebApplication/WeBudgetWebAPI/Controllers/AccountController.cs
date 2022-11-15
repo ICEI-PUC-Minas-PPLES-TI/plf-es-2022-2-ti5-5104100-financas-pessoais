@@ -21,16 +21,12 @@ public class AccountController: ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst("idUsuario")?.Value;
-        if (userId != null)
-        {
-            var accountList = await _accountService.ListByUser(userId);
-            if (accountList.Count == 0)
-                return NotFound("Contas não encontrada");
-            return Ok(accountList);
-        }
-
-        return Problem("Um problema com o token em encontrar o usuario id ");
+        var userId = User.FindFirst("idUsuario")!.Value;
+        var accountList = await _accountService.ListByUser(userId);
+        if (accountList.Count == 0)
+            return NotFound("Contas não encontrada");
+        return Ok(accountList);
+        
     }
 
     [Authorize]

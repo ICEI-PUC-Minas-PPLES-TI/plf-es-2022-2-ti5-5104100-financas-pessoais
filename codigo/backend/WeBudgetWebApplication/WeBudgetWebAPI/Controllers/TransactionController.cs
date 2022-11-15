@@ -37,8 +37,7 @@ public class TransactionController:ControllerBase
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        var userId = User.FindFirst("idUsuario").Value;
-        //var userId = User.FindFirst(JwtRegisteredClaimNames.Sub).Value;
+        var userId = User.FindFirst("idUsuario")!.Value;
         var transactionList = await _iTransactionService.ListByUser(userId);
         if(transactionList.Count == 0)
             return NotFound("Transacões não encontradas");
