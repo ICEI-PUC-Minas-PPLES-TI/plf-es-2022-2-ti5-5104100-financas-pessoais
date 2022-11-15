@@ -27,7 +27,7 @@ class _CreateCategoryState extends State<CreateCategory> {
 
     setState(() {
       codigoCreateCategory = icon?.codePoint;
-      _createCategoryData['codeCreateCategory'] = codigoCreateCategory!;
+      _createCategoryData['codeCreateCategory'] = codigoCreateCategory!.toInt();
     });
   }
 
@@ -156,10 +156,10 @@ class _CreateCategoryState extends State<CreateCategory> {
                             textInputAction: TextInputAction.next,
                             onSaved: (nameCreateCategory) =>
                                 _createCategoryData['nameCreateCategory'] =
-                                    nameCreateCategory,
+                                    nameCreateCategory.toString(),
                             onChanged: (nameCreateCategory) =>
                                 _createCategoryData['nameCreateCategory'] =
-                                    nameCreateCategory,
+                                    nameCreateCategory.toString(),
                             validator: (validacao) {
                               final name = validacao ?? '';
                               if (name.trim().isEmpty) {
