@@ -1,21 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
-import 'package:we_budget/models/categoria_model.dart';
-import 'package:we_budget/models/category.dart';
 import 'package:we_budget/models/transactions.dart';
-import 'package:we_budget/pages/location_form.dart';
-
 import '../Repository/transaction_repository.dart';
-import '../components/date_picker.dart';
-import '../components/forma_pagamento_dropdown.dart';
-
 import '../exceptions/auth_exception.dart';
 import '../models/store.dart';
 import '../utils/app_routes.dart';
@@ -156,6 +145,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     _transactionData['TransactionDate'] = transferencia.data;
     _transactionData['PaymentType'] = transferencia.formaPagamento;
     _transactionData['TransactionType'] = transferencia.tipoTransacao;
+    _transactionData['Address'] = transferencia.location.address.toString();
   }
 
   @override
@@ -178,6 +168,24 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     // else if (page == 'category') {
     //   _transactionData['Category'] = data as String;
     // }
+
+    if (ModalRoute.of(context)!.settings != null &&
+        ModalRoute.of(context)!.settings.arguments != null) {
+      final argument =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+      String page = argument['page'] as String;
+      Object data = argument['itemByIndex'];
+
+      if (page == 'listTransaction') {
+        setState(() {
+          _loadFormData(data as TransactionModel);
+          print("entrei123");
+        });
+      }
+    } else {
+      final argument = {'page': "", 'itemByIndex': ""};
+    }
 
     String? categorySelected = 'teste';
     if (_transactionData.isEmpty) {
@@ -250,14 +258,14 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   ),
                 ),
               ),
-              Text(
-                categorySelected == 'null' ? "" : categorySelected,
-                style: const TextStyle(
-                  color: Colors.blue,
-                  fontSize: 25,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              // Text(
+              //   categorySelected == 'null' ? "" : categorySelected,
+              //   style: const TextStyle(
+              //     color: Colors.blue,
+              //     fontSize: 25,
+              //   ),
+              //   textAlign: TextAlign.center,
+              // ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 9.0, right: 1.0, bottom: 0.0),
@@ -364,46 +372,56 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 7.0),
-                      labelText: ('Forma de pagamento'),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 0.8, color: Colors.grey), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
+                padding: const EdgeInsets.only(
+                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 7.0),
+                    labelText: ('Forma de pagamento'),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          width: 0.8, color: Colors.grey), //<-- SEE HERE
+                      borderRadius: BorderRadius.circular(50.0),
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        key: const ValueKey('PaymentType'),
-                        value: dropdownValue,
-                        //icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        //style: const TextStyle(color: Colors.deepPurple),
-                        //underline: Container(
-                        // height: 2,
-                        //color: Colors.deepPurpleAccent,
-                        //),
-                        onChanged: (paymentType) {
-                          // This is called when the user selects an item.
-                          dropdownValue = paymentType!;
-                          _transactionData['PaymentType'] = paymentType;
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      key: const ValueKey('PaymentType'),
+                      value: dropdownValue,
+                      //icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      //style: const TextStyle(color: Colors.deepPurple),
+                      //underline: Container(
+                      // height: 2,
+                      //color: Colors.deepPurpleAccent,
+                      //),
+                      onChanged: (paymentType) {
+                        // This is called when the user selects an item.
+                        dropdownValue = paymentType!;
+                        _transactionData['PaymentType'] = paymentType;
+                      },
+                      items: list.map<DropdownMenuItem<String>>(
+                        (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
                         },
-                        items: list.map<DropdownMenuItem<String>>(
-                          (String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          },
-                        ).toList(),
-                      ),
+                      ).toList(),
                     ),
-                  )),
+                  ),
+                ),
+              ),
+              TextField(
+                enabled: false,
+                decoration: InputDecoration(
+                    hintText: _transactionData['Address'].toString(),
+                    hintStyle: const TextStyle(
+                      color: Colors.black,
+                    )),
+                textAlign: TextAlign.center,
+              ),
               Container(
                 padding: const EdgeInsetsDirectional.only(top: 20.0),
                 child: ElevatedButton(
