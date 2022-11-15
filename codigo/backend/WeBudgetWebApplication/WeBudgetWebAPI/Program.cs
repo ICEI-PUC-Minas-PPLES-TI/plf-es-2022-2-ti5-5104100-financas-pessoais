@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen();
 //Set o contexto e DB do app
 builder.Services.AddDbContext<IdentityDataContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
 //Identity configuracao
@@ -100,7 +100,7 @@ builder.Services.AddSwaggerGen(option =>
 });
 #endregion
 
-#region "Escopo"
+#region Escopo
 builder.Services.AddSingleton(typeof(IGeneric<>),
     typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton(typeof(IMessageBrokerService<>),

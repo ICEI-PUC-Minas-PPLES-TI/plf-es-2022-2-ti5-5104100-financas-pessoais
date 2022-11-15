@@ -9,15 +9,15 @@ public class IdentityDataContext:IdentityDbContext
     public IdentityDataContext(DbContextOptions<IdentityDataContext> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
         
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql(
-                configuration.GetConnectionString("DefaultConnection"));
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+            optionsBuilder.UseSqlServer(
+                configuration.GetConnectionString("Default"));
         }
     }
 
