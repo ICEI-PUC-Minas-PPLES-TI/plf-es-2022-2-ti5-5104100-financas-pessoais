@@ -192,18 +192,18 @@ class RepositoryTransaction with ChangeNotifier {
     );
 
     TransactionModel transaction5 = TransactionModel(
-        idTransaction: "5",
-        name: "Viagem - Búzios",
-        categoria: "Viagem",
-        data: "2022-10-15",
-        valor: 500,
-        formaPagamento: "Dinheiro",
-        tipoTransacao: 1,
-        location: const TransactionLocation(
-          latitude: 37.419857,
-          longitude: -122.078827,
-          address: "Rua B",
-        ),
+      idTransaction: "5",
+      name: "Viagem - Búzios",
+      categoria: "Viagem",
+      data: "2022-10-15",
+      valor: 500,
+      formaPagamento: "Dinheiro",
+      tipoTransacao: 1,
+      location: const TransactionLocation(
+        latitude: 37.419857,
+        longitude: -122.078827,
+        address: "Rua B",
+      ),
     );
 
     TransactionModel transaction6 = TransactionModel(

@@ -40,7 +40,7 @@ class _MqttState extends State<Mqtt> {
 
   @override
   void initState() {
-    // _connect();
+    _connect();
     super.initState();
   }
 
@@ -59,7 +59,7 @@ class _MqttState extends State<Mqtt> {
   }
 
   void _connect() async {
-    // print("Entrou connect $userId");
+    print("Entrou connect $userId");
     // Auth auth = Provider.of(context);
     // userId = auth.userId;
     // print(userId);
@@ -120,7 +120,9 @@ class _MqttState extends State<Mqtt> {
     Map<String, dynamic> map = jsonDecode(rawJson); // import 'dart:convert';
     int tabela = map['Table'];
     int operacao = map['Operation'];
-    String object = map['Object'].toString();
+    Map<String, dynamic> object = map['Object'] as Map<String, dynamic>;
+    print("Object....$object");
+    print(object['IconCode']);
 
     // ******Operation******
     // Create = 0
@@ -149,10 +151,15 @@ class _MqttState extends State<Mqtt> {
         break;
       case 3: //Table category
         if (operacao == 0) {
-          //chamada insert
-          // RepositoryCategory transacation = Provider.of(context);
-          // transacation.insertCategoria(CategoriaModel(id: id, codeCategoria: codeCategoria, nameCategoria: nameCategoria))
           print("Table Category, operation of create");
+          final category = CategoriaModel(
+              id: object['Id'].toString(),
+              codeCategoria: object['IconCode'].toString(),
+              nameCategoria: object['Teste'].toString());
+
+          RepositoryCategory categoryProvider =
+              Provider.of(context, listen: false);
+          categoryProvider.insertCategoria(category);
         } else if (operacao == 1) {
           //chama update
           // Provider.of<RepositoryTransaction>(context, listen: false)

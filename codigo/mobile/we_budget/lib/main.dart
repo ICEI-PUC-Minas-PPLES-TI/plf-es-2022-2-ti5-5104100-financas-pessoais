@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     Database db = await DBHelper.instance.database;
     /*await db.delete(DBHelper.tableCategoria);
     await db.delete(DBHelper.tableTransaction);*/
-    await RepositoryCategory().selectCategoria();
+    await RepositoryCategory('').selectCategoria();
     await RepositoryTransaction('').selectTransaction();
   }
 
@@ -58,8 +58,11 @@ class MyApp extends StatelessWidget {
             return RepositoryTransaction(auth.token ?? '');
           },
         ),
-        ChangeNotifierProvider(
-          create: (_) => RepositoryCategory(),
+        ChangeNotifierProxyProvider<Auth, RepositoryCategory>(
+          create: (_) => RepositoryCategory(''),
+          update: (context, auth, previous) {
+            return RepositoryCategory(auth.token ?? '');
+          },
         ),
       ],
       child: MaterialApp(
