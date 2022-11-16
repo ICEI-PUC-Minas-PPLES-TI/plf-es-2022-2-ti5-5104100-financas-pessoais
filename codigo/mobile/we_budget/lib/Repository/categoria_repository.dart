@@ -12,9 +12,10 @@ import '../utils/db_util_novo.dart';
 class RepositoryCategory with ChangeNotifier {
   List<CategoriaModel> _categories = [];
   String _token;
+
   RepositoryCategory(this._token);
+
   insertCategoria(CategoriaModel categoria) async {
-    print("Category recebida.....$categoria");
     Database db = await DBHelper.instance.database;
 
     Map<String, String> row = {
@@ -23,6 +24,8 @@ class RepositoryCategory with ChangeNotifier {
       DBHelper.nameCategoria: categoria.nameCategoria.toString(),
     };
     await db.insert(DBHelper.tableCategoria, row);
+    _categories.add(categoria);
+    notifyListeners();
   }
 
   Future<List<CategoriaModel>> selectCategoria() async {
@@ -50,11 +53,11 @@ class RepositoryCategory with ChangeNotifier {
 
   Future<void> _carregaTabela() async {
     CategoriaModel categoria1 = CategoriaModel(
-        id: "1", codeCategoria: "57664", nameCategoria: "Viagem");
-    CategoriaModel categoria2 =
-        CategoriaModel(id: "2", codeCategoria: "57864", nameCategoria: "Carro");
+        id: "100", codeCategoria: "57664", nameCategoria: "Viagem");
+    CategoriaModel categoria2 = CategoriaModel(
+        id: "200", codeCategoria: "57864", nameCategoria: "Carro");
     CategoriaModel categoria3 = CategoriaModel(
-        id: "3", codeCategoria: "61468", nameCategoria: "Alimento");
+        id: "300", codeCategoria: "61468", nameCategoria: "Alimento");
 
     await insertCategoria(categoria1);
     await insertCategoria(categoria2);
@@ -95,13 +98,14 @@ class RepositoryCategory with ChangeNotifier {
     print(userData);
     String token = userData['token'];
     String userId = userData['userId'];
-    const url = 'http://localhost:5001/api/Category/Add';
+
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Category/Add';
     final response = await http.post(
       Uri.parse(url),
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": "application/json",
       },
       body: jsonEncode(
         {
@@ -111,8 +115,7 @@ class RepositoryCategory with ChangeNotifier {
         },
       ),
     );
-    final body = jsonDecode(response.body);
-    print("Response....$body");
+    print(response.statusCode);
     notifyListeners();
   }
 
@@ -123,7 +126,7 @@ class RepositoryCategory with ChangeNotifier {
       final product = _categories[index];
       _categories.remove(product);
       notifyListeners();
-      const url = 'http://localhost:5001/api/Category/Add';
+      const url = 'https://webudgetpuc.azurewebsites.net/api/Category';
 
       final response = await http.post(
         Uri.parse(url),

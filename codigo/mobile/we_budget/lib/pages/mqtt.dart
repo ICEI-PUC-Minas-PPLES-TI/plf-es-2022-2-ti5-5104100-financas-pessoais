@@ -152,7 +152,7 @@ class _MqttState extends State<Mqtt> {
           final category = CategoriaModel(
               id: object['Id'].toString(),
               codeCategoria: object['IconCode'].toString(),
-              nameCategoria: object['Teste'].toString());
+              nameCategoria: object['Description'].toString());
 
           RepositoryCategory categoryProvider =
               Provider.of(context, listen: false);

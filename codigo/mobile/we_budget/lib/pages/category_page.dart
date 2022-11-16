@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/utils/app_routes.dart';
 
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
@@ -26,7 +27,7 @@ class _CreateCategoryState extends State<CreateCategory> {
 
     setState(() {
       codigoCreateCategory = icon?.codePoint;
-      _createCategoryData['codeCreateCategory'] = codigoCreateCategory!;
+      _createCategoryData['codeCreateCategory'] = codigoCreateCategory!.toInt();
     });
   }
 
@@ -57,15 +58,14 @@ class _CreateCategoryState extends State<CreateCategory> {
     RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
-      await category.postCategory(_createCategoryData);
+      await category.postCategory(_createCategoryData).then(
+            (value) => Navigator.of(context).pop(),
+          );
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Erro....");
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
-    Navigator.of(context).pop();
   }
 
   @override
@@ -148,17 +148,16 @@ class _CreateCategoryState extends State<CreateCategory> {
                             key: const ValueKey('descricao'),
                             decoration: const InputDecoration(
                               labelText: 'Descrição',
-                              hintText:
-                                  "Digite aqui a descrição da CreateCategory",
+                              hintText: "Digite aqui a descrição da Categoria",
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,
                             onSaved: (nameCreateCategory) =>
                                 _createCategoryData['nameCreateCategory'] =
-                                    nameCreateCategory,
+                                    nameCreateCategory.toString(),
                             onChanged: (nameCreateCategory) =>
                                 _createCategoryData['nameCreateCategory'] =
-                                    nameCreateCategory,
+                                    nameCreateCategory.toString(),
                             validator: (validacao) {
                               final name = validacao ?? '';
                               if (name.trim().isEmpty) {

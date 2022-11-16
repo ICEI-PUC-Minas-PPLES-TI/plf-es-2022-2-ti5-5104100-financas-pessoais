@@ -31,9 +31,10 @@ class Auth with ChangeNotifier {
     return isAuth ? _userId : null;
   }
 
-  Future<void> _authenticate(
+  Future<void> _authenticateLogin(
       String name, String email, String password, String urlFragment) async {
-    final url = 'http://localhost:5001/api/User/$urlFragment';
+    print("Entrou autenticação...");
+    final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -79,12 +80,40 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<void> _authenticateCadastro(
+      String name, String email, String password, String urlFragment) async {
+    print("Entrou autenticação...");
+    final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(
+        {
+          'email': email,
+          'senha': password,
+          'senhaConfimacao': password,
+        },
+      ),
+    );
+
+    final body = jsonDecode(response.body);
+    print("Response....");
+    print(body);
+    if (body['sucesso'] != true) {
+      throw AuthException(body['erros'].toString());
+    }
+
+    notifyListeners();
+  }
+
   Future<void> signup(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'cadastro');
+    return _authenticateCadastro(name, email, password, 'cadastro');
   }
 
   Future<void> login(String name, String email, String password) async {
-    return _authenticate(name, email, password, 'login');
+    return _authenticateLogin(name, email, password, 'login');
   }
 
   Future<void> tryAutoLogin() async {

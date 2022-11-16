@@ -29,12 +29,6 @@ builder.Services.AddDbContext<IdentityDataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-//Identity configuracao
-//builder.Services.AddAuthentication(builder.Configuration);
-// builder.Services.AddDefaultIdentity<IdentityUser>()
-//     .AddRoles<IdentityRole>()
-//     .AddEntityFrameworkStores<IdentityDataContext>()
-//     .AddDefaultTokenProviders();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDataContext>();
 
