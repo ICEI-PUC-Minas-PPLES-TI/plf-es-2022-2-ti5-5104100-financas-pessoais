@@ -5,7 +5,6 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:month_year_picker/month_year_picker.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
 class ListTransactionsPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     DateTime? pickedDate;
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: size * 0.18,
@@ -57,7 +55,7 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                 initialLabelIndex: tipoTransferencia,
                 fontSize: 15,
                 totalSwitches: 2,
-                labels: const ['Despesa', 'Receita'],
+                labels: const ['Receita', 'Despesa'],
                 radiusStyle: true,
                 onToggle: (index) {
                   tipoTransferencia = index!;
@@ -178,7 +176,7 @@ class _FilterState extends State<Filter> {
                           itemCount: trasactionList.itemsCount,
                           itemBuilder: (ctx, i) => Dismissible(
                             background: Container(
-                              color: Colors.green,
+                              color: const Color(0xFF45CFF1),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Row(

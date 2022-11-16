@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
-import '../models/category.dart';
 
 class CreateCategory extends StatefulWidget {
   const CreateCategory({super.key});
