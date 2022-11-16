@@ -5,7 +5,6 @@ import 'package:we_budget/utils/app_routes.dart';
 
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
-import '../models/category.dart';
 
 class CreateCategory extends StatefulWidget {
   const CreateCategory({super.key});

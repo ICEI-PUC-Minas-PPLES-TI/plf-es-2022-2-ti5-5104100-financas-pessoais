@@ -5,12 +5,9 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
-import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/models/categoria_model.dart';
-import 'package:we_budget/pages/publish_mqtt.dart';
 
 import '../components/menu_component.dart';
-import '../models/auth.dart';
 
 class Mqtt extends StatefulWidget {
   const Mqtt({Key? key, required this.userId}) : super(key: key);

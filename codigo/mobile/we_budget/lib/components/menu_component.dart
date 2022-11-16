@@ -33,20 +33,21 @@ class MenuPrincipal extends StatelessWidget {
           decoration:
               const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
           child: const Icon(
-            Icons.circle,
-            size: 50,
-            color: const Color(0xFF5B4BF8),
+            Icons.monetization_on_rounded,
+            size: 30,
+            color: Colors.white,
           ),
         ),
         inActiveIcon: Container(
           padding: const EdgeInsets.all(0),
           decoration: const BoxDecoration(
-            color: const Color(0xFF5B4BF8),
+            color: Colors.white,
             shape: BoxShape.circle,
           ),
           child: IconButton(
-            icon: const Icon(Icons.circle),
-            iconSize: 40,
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(Icons.monetization_on_rounded),
+            iconSize: 70,
             color: const Color(0xFF5B4BF8),
             onPressed: () {
               Navigator.of(context).pushNamed(AppRoutes.formTransaction);
@@ -114,8 +115,7 @@ class MenuPrincipal extends StatelessWidget {
         ),
         SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const Graficos_page()
-        )
+            child: const Graficos_page())
       ],
       actionBarView: SizedBox(
         height: MediaQuery.of(context).size.height,

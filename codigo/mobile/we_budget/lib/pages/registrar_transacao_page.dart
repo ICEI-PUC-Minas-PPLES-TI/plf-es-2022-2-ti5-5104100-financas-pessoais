@@ -20,6 +20,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   final _formKey = GlobalKey<FormState>();
 
   final Map<String, Object> _transactionData = {
+    'IdTransaction': '',
     'Category': '',
     'TransactionType': '0',
     'Description': '',
@@ -67,8 +68,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     print("Dados....$category");
     _submitForm();
   }
-
-  TextEditingController dateInput = TextEditingController();
 
   @override
   void initState() {
@@ -139,6 +138,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   void _loadFormData(TransactionModel transferencia) {
+    _transactionData['idTransaction'] = transferencia.idTransaction;
     _transactionData['Description'] = transferencia.name;
     _transactionData['Category'] = transferencia.categoria;
     _transactionData['PaymentValue'] = transferencia.valor;
@@ -147,6 +147,9 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     _transactionData['TransactionType'] = transferencia.tipoTransacao;
     _transactionData['Address'] = transferencia.location.address.toString();
   }
+
+  TextEditingController dateInput = TextEditingController();
+  int tipoTransaction = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -176,15 +179,22 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
+      print(data);
 
       if (page == 'listTransaction') {
         setState(() {
           _loadFormData(data as TransactionModel);
-          print("entrei123");
+          dateInput = TextEditingController(
+              text: _transactionData['TransactionDate'].toString());
+          dropdownValue = _transactionData['PaymentType'].toString();
+          tipoTransaction =
+              int.parse(_transactionData['TransactionType'].toString());
         });
       }
     } else {
-      final argument = {'page': "", 'itemByIndex': ""};
+      tipoTransaction = 0;
+      dropdownValue = list.first;
+      dateInput = TextEditingController();
     }
 
     String? categorySelected = 'teste';
@@ -226,7 +236,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       activeFgColor: Colors.white,
                       inactiveBgColor: Colors.grey,
                       inactiveFgColor: Colors.white,
-                      initialLabelIndex: 0,
+                      initialLabelIndex: tipoTransaction,
                       totalSwitches: 2,
                       labels: const ['Receita', 'Despesa'],
                       radiusStyle: true,
@@ -304,8 +314,9 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 padding: const EdgeInsets.only(
                     left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
-                  //initialValue: _transactionData['TransactionDate']?.toString(),
                   controller: dateInput,
+                  //initialValue: _transactionData['TransactionDate']?.toString(),
+
                   //editing controller of this TextField
                   decoration: InputDecoration(
                     labelText: "Insira a data",
@@ -324,9 +335,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         firstDate: DateTime(1950),
                         //DateTime.now() - not to allow to choose before today.
                         lastDate: DateTime(2100));
-
                     if (pickedDate != null) {
-                      String formattedDate = DateFormat('yyyy-MM-dd').format(
+                      String formattedDate = DateFormat('dd/MM/yyyy').format(
                           pickedDate); //formatted date output using intl package =>  2021-03-16
                       dateInput.text = formattedDate;
                       _transactionData['TransactionDate'] =
@@ -458,6 +468,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   onPressed: () {
                     _recuperaDadosLocalizacao();
                     _recuperaDadosCategoria();
+                    //saveTransaction(_transactionData);
                   },
                   child: const Text('Registrar'),
                 ),
@@ -468,4 +479,32 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
       ),
     );
   }
+
+  // void saveTransaction(Map<String, Object> transactionData) {
+  //   bool hasId = transactionData['id'] != null;
+  //   final transaction = TransactionModel(
+  //     idTransaction: hasId ? transactionData['idTransaction'] as String : "",
+  //     name: transactionData['Description'] as String,
+  //     categoria: transactionData['Category'] as String,
+  //     data: transactionData['TransactionDate'] as String,
+  //     valor: transactionData['PaymentValue'] as double,
+  //     formaPagamento: transactionData['PaymentType'] as String,
+  //     location: transactionData['Address'] as TransactionLocation,
+  //     tipoTransacao: transactionData['TransactionType'] as int,
+  //   );
+
+  //   if (hasId) {
+  //     updateTransaction(transaction);
+  //   } else {
+  //     _submitForm();
+  //   }
+  // }
+
+  // void updateTransaction(TransactionModel transaction) {
+  //   int index = transaction.indexWhere((t) => t.id == transaction.idTransaction);
+
+  //   if (index >= 0) {
+  //     _items[index] = product;
+  //     notifyListeners();
+  //   }
 }

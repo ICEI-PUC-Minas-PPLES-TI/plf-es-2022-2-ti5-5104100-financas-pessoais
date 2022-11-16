@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:we_budget/pages/init_page.dart';
+import 'package:we_budget/components/menu_component.dart';
 import 'package:we_budget/pages/login_page.dart';
-import 'package:we_budget/pages/main_page.dart';
-import 'package:we_budget/pages/metas_page.dart';
-import 'package:we_budget/pages/publish_mqtt.dart';
-import 'package:we_budget/pages/registrar_transacao_page.dart';
 import '../models/auth.dart';
-import 'category_page.dart';
-import 'create_meta.dart';
 import 'mqtt.dart';
 
 class AuthOrHomePage extends StatelessWidget {
@@ -32,7 +26,7 @@ class AuthOrHomePage extends StatelessWidget {
               ? Mqtt(
                   userId: auth.userId!,
                 )
-              : const LoginPage();
+              : const MenuPrincipal();
         }
       },
     );
