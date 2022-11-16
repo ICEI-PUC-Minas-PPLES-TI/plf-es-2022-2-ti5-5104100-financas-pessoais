@@ -30,6 +30,7 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
             ),
             onPressed: () {
               Navigator.of(context).pushNamed(AppRoutes.createCategory);
+              print("Voltou botão");
             },
           )
         ],
