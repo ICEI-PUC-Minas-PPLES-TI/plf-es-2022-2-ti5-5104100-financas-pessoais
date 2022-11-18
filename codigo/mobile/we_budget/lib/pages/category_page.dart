@@ -58,7 +58,7 @@ class _CreateCategoryState extends State<CreateCategory> {
     RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
-      await category.postCategory(_createCategoryData).then(
+      await category.createCategorySql(_createCategoryData).then(
             (value) => Navigator.of(context).pop(),
           );
     } on AuthException catch (error) {

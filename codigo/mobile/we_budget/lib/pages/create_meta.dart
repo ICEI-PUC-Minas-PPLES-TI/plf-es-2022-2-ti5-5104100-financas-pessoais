@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
-
+import 'package:we_budget/Repository/metas_repository.dart';
+import 'package:we_budget/Repository/transaction_repository.dart';
+import 'package:we_budget/models/categoria_model.dart';
 import '../exceptions/auth_exception.dart';
-import '../models/category.dart';
 import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
@@ -57,18 +58,18 @@ class _CreateCategoryState extends State<CreateMeta> {
       return;
     }
     _formKeyCreateMeta.currentState?.save();
-    Category category = Provider.of(context, listen: false);
+    RepositoryMetas metas = Provider.of(context, listen: false);
 
-    try {
-      await category.cadastro(
-        createCategoryData['categoryMeta']!,
-        createCategoryData['valueMeta']!,
-      );
-    } on AuthException catch (error) {
-      _showErrorDialog(error.toString());
-    } catch (error) {
-      _showErrorDialog('Ocorreu um erro inesperado!');
-    }
+    // try {
+    //   await metas.insertMetas(
+    //     createCategoryData['categoryMeta']!,
+    //     createCategoryData['valueMeta']!,
+    //   );
+    // } on AuthException catch (error) {
+    //   _showErrorDialog(error.toString());
+    // } catch (error) {
+    //   _showErrorDialog('Ocorreu um erro inesperado!');
+    // }
   }
 
   bool status = false;

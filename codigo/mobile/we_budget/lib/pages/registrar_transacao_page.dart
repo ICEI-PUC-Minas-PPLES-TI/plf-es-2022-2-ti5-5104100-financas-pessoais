@@ -92,7 +92,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   Future<void> _submitForm() async {
-    print("Entrou submit");
     print(_transactionData.toString());
     final isValid = _formKey.currentState?.validate() ?? false;
 
@@ -105,7 +104,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     RepositoryTransaction transaction = Provider.of(context, listen: false);
 
     try {
-      await transaction.postTransaction(_transactionData);
+      await transaction.saveTransactionSql(_transactionData);
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
@@ -336,7 +335,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                         //DateTime.now() - not to allow to choose before today.
                         lastDate: DateTime(2100));
                     if (pickedDate != null) {
-                      String formattedDate = DateFormat('dd/MM/yyyy').format(
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(
                           pickedDate); //formatted date output using intl package =>  2021-03-16
                       dateInput.text = formattedDate;
                       _transactionData['TransactionDate'] =
@@ -479,32 +478,4 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
       ),
     );
   }
-
-  // void saveTransaction(Map<String, Object> transactionData) {
-  //   bool hasId = transactionData['id'] != null;
-  //   final transaction = TransactionModel(
-  //     idTransaction: hasId ? transactionData['idTransaction'] as String : "",
-  //     name: transactionData['Description'] as String,
-  //     categoria: transactionData['Category'] as String,
-  //     data: transactionData['TransactionDate'] as String,
-  //     valor: transactionData['PaymentValue'] as double,
-  //     formaPagamento: transactionData['PaymentType'] as String,
-  //     location: transactionData['Address'] as TransactionLocation,
-  //     tipoTransacao: transactionData['TransactionType'] as int,
-  //   );
-
-  //   if (hasId) {
-  //     updateTransaction(transaction);
-  //   } else {
-  //     _submitForm();
-  //   }
-  // }
-
-  // void updateTransaction(TransactionModel transaction) {
-  //   int index = transaction.indexWhere((t) => t.id == transaction.idTransaction);
-
-  //   if (index >= 0) {
-  //     _items[index] = product;
-  //     notifyListeners();
-  //   }
 }

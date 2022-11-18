@@ -7,7 +7,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/models/auth.dart';
-import 'package:we_budget/models/category.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/create_meta.dart';
@@ -19,7 +18,7 @@ import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
-import 'package:we_budget/utils/db_util_novo.dart';
+import 'package:we_budget/utils/db_util.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -45,9 +44,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Auth(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Category(),
         ),
         ChangeNotifierProvider(
           create: (_) => TransactionsProviders(),
