@@ -27,21 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="WeatherForecast.cs" />
-      <Compile Remove="Controllers\WeatherForecastController.cs" />
-      <Compile Remove="Data\WBContext.cs" />
-      <Compile Remove="Models\WeBudgetContext.cs" />
-      <Compile Remove="Migrations\WeBudgetContextModelSnapshot.cs" />
-      <Compile Remove="Migrations\20220925220310_initialCreate.cs" />
-      <Compile Remove="Migrations\20220925220310_initialCreate.Designer.cs" />
-      <Compile Remove="Data\WeBudgetContext.cs" />
-      <Compile Remove="Data\DataContext.cs" />
-      <Compile Remove="Models\User.cs" />
-      <Compile Remove="Models\Goal.cs" />
-      <Compile Remove="Interfaces\Generics\In.cs" />
-      <Compile Remove="Interfaces\Budget.cs" />
-      <Compile Remove="Interfaces\Generics\IGenericService.cs" />
-      <Compile Remove="Services\Publisher.cs" />
+    
     </ItemGroup>
 
     <ItemGroup>
