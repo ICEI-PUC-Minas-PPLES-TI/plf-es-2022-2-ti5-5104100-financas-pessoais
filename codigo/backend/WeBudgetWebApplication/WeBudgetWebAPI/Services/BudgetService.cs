@@ -22,13 +22,18 @@ public class BudgetService:IBudgetService
     {
         var savedBudget = await _iBudget
             .GetByUserTimeAndCategory(userId, dateTime, categoryId);
+        
         if (savedBudget == null)
         {
             savedBudget = await CreateRecurrentBudget(userId, dateTime, categoryId);
+            
             if (savedBudget == null)
                 return null;
         }
-        return await SendMenssage(OperationType.Update, savedBudget);
+        savedBudget.BudgetValueUsed += value;
+        
+        return await SendMenssage(OperationType.Update, 
+            await _iBudget.Update(savedBudget));
     }
 
     public async Task<Budget?> CreateRecurrentBudget(string userId, DateTime dateTime,
