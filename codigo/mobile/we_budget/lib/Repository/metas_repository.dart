@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/metas.dart';
-import '../utils/db_util_novo.dart';
+import '../utils/db_util.dart';
 
 class RepositoryMetas with ChangeNotifier {
   List<MetasModel> _items = [];

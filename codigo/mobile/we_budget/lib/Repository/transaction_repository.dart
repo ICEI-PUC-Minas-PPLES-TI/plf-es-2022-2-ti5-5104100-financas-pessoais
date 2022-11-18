@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/transactions.dart';
 import '../exceptions/auth_exception.dart';
+import '../exceptions/http_exception.dart';
 import '../models/store.dart';
-import '../utils/db_util_novo.dart';
+import '../utils/db_util.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryTransaction with ChangeNotifier {
@@ -132,9 +134,22 @@ class RepositoryTransaction with ChangeNotifier {
     return _items.length;
   }
 
-  void removeTransaction(String transactionId) {
-    _items.remove(transactionId);
-    return notifyListeners();
+  void removeTransactionSqflite(int transactionId) {
+    int index =
+        _items.indexWhere((p) => p.idTransaction == transactionId.toString());
+    final trasaction = _items[index];
+    _items.remove(trasaction);
+    notifyListeners();
+  }
+
+  void updateTransactionSqflite(TransactionModel transaction) {
+    int index =
+        _items.indexWhere((p) => p.idTransaction == transaction.idTransaction);
+
+    if (index >= 0) {
+      _items[index] = transaction;
+      notifyListeners();
+    }
   }
 
   TransactionModel itemByIndex(int index) {
@@ -308,50 +323,123 @@ class RepositoryTransaction with ChangeNotifier {
     await insertTransacao(transaction11);
   }
 
-  Future<void> postTransaction(Map<String, Object> transaction) async {
-    print("Entrou post transaction...");
-    print("Entrou no provider....$_token");
-    print(transaction);
+  Future<void> createTransactionSql(TransactionModel transaction) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
-    print(userData);
-    // String token = userData['token'];
-    // print("Token.......$token");
+    String token = userData['token'];
+    String userId = userData['userId'];
 
-    // String userId = userData['userId'];
-    // print("Token.......$userId");
-
-    const url = 'http://localhost:5001/api/Transaction/Add';
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Transaction/Add';
     final response = await http.post(
       Uri.parse(url),
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6ImE1MTlhOWU3LTQ2NjYtNDIwMS1hN2E1LTdkNTI2NmRiYTFjNyIsImlkVXN1YXJpbyI6Ijg1N2YwZDMzLWQyNDQtNDllNS1iNjFkLTQ4ZjlmODU2MzQ2MyIsImV4cCI6MTY2ODYwOTc0MCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.QnRvCyuqPvMm2iikLEe7ke17bBt596xaLJALLCeUt6M',
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": "application/json",
       },
       body: jsonEncode(
         {
-          'Category': transaction['Category'],
-          'TransactionType': transaction['TransactionType'],
-          'Description': transaction['Description'],
-          'TransactionDate': transaction['TransactionDate'],
-          'PaymentValue': transaction['PaymentValue'],
-          'PaymentType': transaction['PaymentType'],
-          'Longitude': transaction['Longitude'],
-          'Latitude': transaction['Latitude'],
-          'Address': transaction['Address'],
-          'userId': "857f0d33-d244-49e5-b61d-48f9f8563463",
+          'Description': transaction.name,
+          'PaymentValue': transaction.valor,
+          'PaymentType': transaction.formaPagamento,
+          'TransactionType': transaction.tipoTransacao,
+          'TransactionDate': transaction.data,
+          'Latitude': transaction.location.latitude,
+          'Longitude': transaction.location.longitude,
+          'Address': transaction.location.address,
+          'CategoryId': int.parse(transaction.categoria),
+          'UserId': userId
         },
       ),
     );
 
+    print(response.statusCode);
     final body = jsonDecode(response.body);
-    print("Response....");
-    print(body);
-    if (body['sucesso'] != true) {
-      throw AuthException(body['erros'].toString());
+    // if (body['sucesso'] != true) {
+    //   throw AuthException(body['erros'].toString());
+    // }
+  }
+
+  Future<void> saveTransactionSql(Map<String, Object> transactionData) async {
+    bool hasId = transactionData['id'] != null;
+    final transaction = TransactionModel(
+      idTransaction: hasId ? transactionData['IdTransaction'] as String : "",
+      name: transactionData['Description'] as String,
+      categoria: transactionData['Category'] as String,
+      data: transactionData['TransactionDate'] as String,
+      valor: transactionData['PaymentValue'] as double,
+      formaPagamento: transactionData['PaymentType'] as String,
+      tipoTransacao: int.parse(transactionData['TransactionType'].toString()),
+      location: TransactionLocation(
+        latitude: double.parse(transactionData['Latitude'].toString()),
+        longitude: double.parse(transactionData['Longitude'].toString()),
+        address: transactionData['Address'] as String,
+      ),
+    );
+
+    if (hasId) {
+      print("Entrou update");
+      // await updateTransactionSql(transaction);
     } else {
-      notifyListeners();
+      print("Entrou create");
+      await createTransactionSql(transaction);
     }
+  }
+
+  Future<void> updateTransactionSql(TransactionModel transaction) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'];
+    String userId = userData['userId'];
+
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Transaction';
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": "application/json",
+      },
+      body: jsonEncode(
+        {
+          'id': int.parse(transaction.idTransaction),
+          'Description': transaction.name,
+          'PaymentValue': transaction.valor,
+          'PaymentType': transaction.formaPagamento,
+          'TransactionType': transaction.tipoTransacao,
+          'TransactionDate': transaction.data,
+          'Latitude': transaction.location.latitude,
+          'Longitude': transaction.location.longitude,
+          'Address': transaction.location.address,
+          'CategoryId': int.parse(transaction.categoria),
+          'UserId': userId,
+        },
+      ),
+    );
+
+    print(response.statusCode);
+  }
+
+  Future<void> removeTrasactionSql(TransactionModel trasaction) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'];
+
+    final id = trasaction.idTransaction;
+    final url = 'https://webudgetpuc.azurewebsites.net/api/Transaction/$id';
+
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      throw HttpException(
+        msg: 'Não foi possível excluir o produto.',
+        statusCode: response.statusCode,
+      );
+    }
+    print(response.statusCode);
   }
 }

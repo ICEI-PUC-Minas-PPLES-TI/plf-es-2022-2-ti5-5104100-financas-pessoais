@@ -26,7 +26,7 @@ class AuthOrHomePage extends StatelessWidget {
               ? Mqtt(
                   userId: auth.userId!,
                 )
-              : const MenuPrincipal();
+              : const LoginPage();
         }
       },
     );
