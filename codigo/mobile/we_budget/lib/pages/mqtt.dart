@@ -119,7 +119,7 @@ class _MqttState extends State<Mqtt> {
     int operacao = map['Operation'];
     Map<String, dynamic> object = map['Object'] as Map<String, dynamic>;
     print("Object....$object");
-    print(object['IconCode']);
+    print("Tabela....");
 
     // ******Operation******
     // Create = 0
@@ -158,13 +158,40 @@ class _MqttState extends State<Mqtt> {
               Provider.of(context, listen: false);
           categoryProvider.insertCategoria(category);
         } else if (operacao == 1) {
-          //chama update
-          // Provider.of<RepositoryTransaction>(context, listen: false)
-          //     .removeTransaction(transactionId);
+          print("Table Category, operation of update");
+          final category = CategoriaModel(
+              id: object['Id'].toString(),
+              codeCategoria: object['IconCode'].toString(),
+              nameCategoria: object['Description'].toString());
+
+          RepositoryCategory categoryProvider =
+              Provider.of(context, listen: false);
+
+          categoryProvider.updateCategorySqflite(category);
         } else if (operacao == 2) {
-          //chama delete
+          print("Table Category, operation of delete");
+          final int id = object['Id'];
+
+          RepositoryCategory categoryProvider =
+              Provider.of(context, listen: false);
+
+          categoryProvider.removeCategorySqflite(id);
         } else {
           print("Table Category, operation of delete");
+        }
+        break;
+      case 0: //Table Account (Orçamento)
+        if (operacao == 0) {
+          print("Table Account, operation of create");
+          //chamada insert
+        } else if (operacao == 1) {
+          print("Table Account, operation of update");
+          //chama update
+        } else if (operacao == 2) {
+          print("Table Account, operation of delete");
+          //chama delete
+        } else {
+          print("Tipo transação não encontrada");
         }
         break;
       case 1: //Table Budget (Orçamento)
