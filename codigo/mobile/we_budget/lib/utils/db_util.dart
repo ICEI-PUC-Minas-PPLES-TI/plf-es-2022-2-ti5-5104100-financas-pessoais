@@ -25,7 +25,6 @@ class DBHelper {
   static const String tableMetas = "metas";
   static const String idCategoria = "idCategoria";
   static const String idMeta = "idMeta";
-  static const String idUser = "idUser";
   static const String dataMeta = "dataMeta";
   static const String valorMeta = "valorMeta";
   static const String valorAtual = "valorAtual";
@@ -61,7 +60,7 @@ class DBHelper {
     List<String> queryes = [
       "CREATE TABLE $tableCategoria ($id TEXT PRIMARY KEY, $codeCategoria TEXT, $nameCategoria TEXT);",
       "CREATE TABLE $tableTransaction ($idTransaction TEXT PRIMARY KEY, $name TEXT, $categoria TEXT, $data TEXT, $valor DOUBLE, $formaPagamento TEXT, $tipoTransacao INT, $latitude DOUBLE, $longitude DOUBLE, $address TEXT);",
-      "CREATE TABLE $tableMetas ($idMeta TEXT PRIMARY KEY, $idCategoria TEXT, $idUser TEXT, $dataMeta TEXT, $valorMeta DOUBLE, $valorAtual DOUBLE, $recorrente INTEGER);",
+      "CREATE TABLE $tableMetas ($idMeta TEXT PRIMARY KEY, $idCategoria TEXT, $dataMeta TEXT, $valorMeta DOUBLE, $valorAtual DOUBLE, $recorrente INTEGER);",
     ];
 
     for (String query in queryes) {
