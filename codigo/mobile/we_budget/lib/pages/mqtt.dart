@@ -136,20 +136,20 @@ class _MqttState extends State<Mqtt> {
 
     switch (tabela) {
       case "Transaction": //Table transaction
-        if (operacao == 0) {
+        if (operacao == "Create") {
           //chamada insert
           print("Table Transaction, operation of create");
-        } else if (operacao == 1) {
+        } else if (operacao == "Update") {
           //chama update
           print("Table Transaction, operation of update");
-        } else if (operacao == 2) {
+        } else if (operacao == "Delete") {
           //chama delete
         } else {
           print("Table Transaction, operation of delete");
         }
         break;
       case "Category": //Table category
-        if (operacao == 0) {
+        if (operacao == "Create") {
           print("Table Category, operation of create");
           final category = CategoriaModel(
               id: object['Id'].toString(),
@@ -159,7 +159,7 @@ class _MqttState extends State<Mqtt> {
           RepositoryCategory categoryProvider =
               Provider.of(context, listen: false);
           categoryProvider.insertCategoria(category);
-        } else if (operacao == 1) {
+        } else if (operacao == "Update") {
           print("Table Category, operation of update");
           final category = CategoriaModel(
               id: object['Id'].toString(),
@@ -170,7 +170,7 @@ class _MqttState extends State<Mqtt> {
               Provider.of(context, listen: false);
 
           categoryProvider.updateCategorySqflite(category);
-        } else if (operacao == 2) {
+        } else if (operacao == "Delete") {
           print("Table Category, operation of delete");
           final int id = object['Id'];
 
