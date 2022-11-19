@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using WeBudgetWebAPI.Models.Enums;
 
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Request;
 
 public class TransactionRequest
 {

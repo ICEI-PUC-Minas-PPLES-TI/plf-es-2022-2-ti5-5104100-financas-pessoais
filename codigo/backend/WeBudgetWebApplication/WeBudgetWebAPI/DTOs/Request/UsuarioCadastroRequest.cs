@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Request;
 
 public class UsuarioCadastroRequest
 {

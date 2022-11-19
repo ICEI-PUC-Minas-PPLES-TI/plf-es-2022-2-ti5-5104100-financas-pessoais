@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Request;
 
 public class BudgetRequest
 {

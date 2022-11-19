@@ -1,4 +1,4 @@
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Response;
 
 public class UsuarioCadastroResponse
 {
