@@ -3,6 +3,8 @@ using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using WeBudgetWebAPI.DTOs.Response;
+using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.Services;
 
@@ -38,6 +40,18 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
         channel.BasicPublish(exchangeName, routingKey, null, data);
         return mesageResponse.Object;
 
+    }
+    
+    private async Task<T> SendMenssage(TableType table, OperationType operation,
+        string userId, T Object)
+    {
+        return await SendMenssage(new MenssageResponse<T>()
+        {
+            Table = table,
+            UserId = userId,
+            Operation = operation,
+            Object = Object
+        });
     }
     
 }

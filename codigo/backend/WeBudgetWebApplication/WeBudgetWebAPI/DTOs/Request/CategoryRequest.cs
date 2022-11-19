@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Request;
 
 public class CategoryRequest
 {

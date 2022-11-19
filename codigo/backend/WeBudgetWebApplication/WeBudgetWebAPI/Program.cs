@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using WeBudgetWebAPI.Configurations;
 using WeBudgetWebAPI.Data;
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Request;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Services;
 using WeBudgetWebAPI.Interfaces;
@@ -117,8 +119,9 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<CategoryRequest, Category>();
     cfg.CreateMap<BudgetRequest, Budget>();
     cfg.CreateMap<TransactionRequest, Transaction>();
+    
     //response
-    cfg.CreateMap<Category, CategoryReponse>();
+    cfg.CreateMap<Category, CategoryResponse>();
     cfg.CreateMap<Budget, BudgetResponse>();
     cfg.CreateMap<Transaction, TransactionResponse>();
 });

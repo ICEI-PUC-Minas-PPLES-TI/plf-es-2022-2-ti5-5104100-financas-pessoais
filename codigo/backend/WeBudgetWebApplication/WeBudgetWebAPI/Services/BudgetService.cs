@@ -1,4 +1,5 @@
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -22,13 +23,18 @@ public class BudgetService:IBudgetService
     {
         var savedBudget = await _iBudget
             .GetByUserTimeAndCategory(userId, dateTime, categoryId);
+        
         if (savedBudget == null)
         {
             savedBudget = await CreateRecurrentBudget(userId, dateTime, categoryId);
+            
             if (savedBudget == null)
                 return null;
         }
-        return await SendMenssage(OperationType.Update, savedBudget);
+        savedBudget.BudgetValueUsed -= value;
+        
+        return await SendMenssage(OperationType.Update, 
+            await _iBudget.Update(savedBudget));
     }
 
     public async Task<Budget?> CreateRecurrentBudget(string userId, DateTime dateTime,
@@ -54,7 +60,7 @@ public class BudgetService:IBudgetService
 
     public async Task<Budget> Add(Budget budget)
     {
-        return await SendMenssage(OperationType.Update,
+        return await SendMenssage(OperationType.Create,
             await _iBudget.Add(budget));
     }
 

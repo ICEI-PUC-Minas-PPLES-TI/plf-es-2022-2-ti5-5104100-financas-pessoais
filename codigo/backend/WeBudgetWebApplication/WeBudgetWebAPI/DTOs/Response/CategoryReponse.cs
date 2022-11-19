@@ -1,6 +1,6 @@
-﻿namespace WeBudgetWebAPI.DTOs;
+﻿namespace WeBudgetWebAPI.DTOs.Response;
 
-public class CategoryReponse
+public class CategoryResponse
 {
     public int Id { get; set; }
 

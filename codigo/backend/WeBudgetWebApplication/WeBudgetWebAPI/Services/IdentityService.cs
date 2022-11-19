@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using WeBudgetWebAPI.Configurations;
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Request;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces.Sevices;
 
 namespace WeBudgetWebAPI.Services;

@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.Models;
@@ -16,6 +18,7 @@ public class Transaction
     [Column("PaymentType")]
     public string PaymentType { get; set; }
     [Column("TansactionType")]
+    [JsonConverter(typeof(StringEnumConverter))]
     public TansactionType  TansactionType{ get; set; }
     [Column("TansactionDate")]
     public DateTime TansactionDate{ get; set; }

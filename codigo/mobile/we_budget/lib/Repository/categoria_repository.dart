@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../exceptions/auth_exception.dart';
 import '../exceptions/http_exception.dart';
 import '../models/store.dart';
-import '../utils/db_util_novo.dart';
+import '../utils/db_util.dart';
 
 class RepositoryCategory with ChangeNotifier {
   List<CategoriaModel> _categories = [];
@@ -26,6 +26,43 @@ class RepositoryCategory with ChangeNotifier {
     await db.insert(DBHelper.tableCategoria, row);
     _categories.add(categoria);
     notifyListeners();
+  }
+
+  void removeCategorySqflite(int transactionId) async {
+    Database db = await DBHelper.instance.database;
+
+    await db.delete(
+      DBHelper.tableCategoria,
+      where: "id = ?",
+      whereArgs: [transactionId],
+    );
+
+    int index = _categories.indexWhere((p) => p.id == transactionId.toString());
+    final trasaction = _categories[index];
+    _categories.remove(trasaction);
+    notifyListeners();
+  }
+
+  void updateCategorySqflite(CategoriaModel category) async {
+    Database db = await DBHelper.instance.database;
+
+    Map<String, String> row = {
+      DBHelper.id: category.id.toString(),
+      DBHelper.codeCategoria: category.codeCategoria.toString(),
+      DBHelper.nameCategoria: category.nameCategoria.toString(),
+    };
+    await db.update(
+      DBHelper.tableCategoria,
+      row,
+      where: "id = ?",
+      whereArgs: [category.id],
+    );
+
+    int index = _categories.indexWhere((p) => p.id == category.id);
+    if (index >= 0) {
+      _categories[index] = category;
+      notifyListeners();
+    }
   }
 
   Future<List<CategoriaModel>> selectCategoria() async {
@@ -92,10 +129,8 @@ class RepositoryCategory with ChangeNotifier {
     return _categories;
   }
 
-  Future<void> postCategory(Map<String, dynamic> category) async {
-    print("Entrou post");
+  Future<void> createCategorySql(Map<String, dynamic> category) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
-    print(userData);
     String token = userData['token'];
     String userId = userData['userId'];
 
@@ -115,36 +150,61 @@ class RepositoryCategory with ChangeNotifier {
         },
       ),
     );
+
+    final body = jsonDecode(response.body);
+    // if (body['sucesso'] != true) {
+    //   throw AuthException(body['erros'].toString());
+    // }
     print(response.statusCode);
-    notifyListeners();
   }
 
-  Future<void> removeProduct(CategoriaModel category) async {
-    int index = _categories.indexWhere((p) => p.id == category.id);
+  Future<void> updateCategorySql(CategoriaModel category) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'];
+    String userId = userData['userId'];
 
-    if (index >= 0) {
-      final product = _categories[index];
-      _categories.remove(product);
-      notifyListeners();
-      const url = 'https://webudgetpuc.azurewebsites.net/api/Category';
-
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $_token',
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Category';
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "id": category.id,
+          "description": category.nameCategoria,
+          "iconCode": category.codeCategoria,
+          "userId": userId
         },
-      );
+      ),
+    );
+    print(response.statusCode);
+  }
 
-      if (response.statusCode >= 400) {
-        _categories.insert(index, product);
-        notifyListeners();
-        throw HttpException(
-          msg: 'Não foi possível excluir o produto.',
-          statusCode: response.statusCode,
-        );
-      }
+  Future<void> removeCategorySql(CategoriaModel category) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'];
+
+    final id = category.id;
+    final url = 'https://webudgetpuc.azurewebsites.net/api/Category/$id';
+
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      throw HttpException(
+        msg: 'Não foi possível excluir o produto.',
+        statusCode: response.statusCode,
+      );
     }
+    print(response.statusCode);
   }
 }

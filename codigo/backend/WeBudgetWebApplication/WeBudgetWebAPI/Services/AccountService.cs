@@ -1,4 +1,5 @@
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -33,7 +34,7 @@ public class AccountService:IAccountService
     public async Task Delete(Account account)
     {
         await _iAccount.Delete(account);
-        await SendMenssage(OperationType.Delete,account);
+        await SendMenssage(OperationType.Delete, account);
     }
 
     public async Task<Account?> GetEntityById(int id)
@@ -71,15 +72,12 @@ public class AccountService:IAccountService
     public async Task<Account> UpdateBalance(DateTime dateTime, double value, string userId)
     {
         var savedAccount = await _iAccount
-            .GetByUserAndTime(userId, dateTime);
-        
-        if (savedAccount == null)
-        {
-            savedAccount = await Create(userId, dateTime);
-        }
-        
+            .GetByUserAndTime(userId, dateTime) 
+                           ?? await Create(userId, dateTime);
+        savedAccount.AccountBalance += value;
+
         return await SendMenssage(OperationType.Update,
-            savedAccount);
+            await _iAccount.Update(savedAccount));
     }
     
     private async Task<Account> SendMenssage(OperationType operation, Account account)
