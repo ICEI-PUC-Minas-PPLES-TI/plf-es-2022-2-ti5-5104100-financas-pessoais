@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
+import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
@@ -19,7 +20,6 @@ import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
 import 'package:we_budget/utils/db_util.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,10 +28,11 @@ void main() {
 class MyApp extends StatelessWidget {
   void carregaBanco() async {
     Database db = await DBHelper.instance.database;
-    /*await db.delete(DBHelper.tableCategoria);
-    await db.delete(DBHelper.tableTransaction);*/
+    // await db.delete(DBHelper.tableCategoria);
+    // await db.delete(DBHelper.tableTransaction);
     await RepositoryCategory('').selectCategoria();
     await RepositoryTransaction('').selectTransaction();
+    await RepositoryMetas().selectMetas();
   }
 
   const MyApp({Key? key}) : super(key: key);

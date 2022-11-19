@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
@@ -14,6 +15,13 @@ class ListTransactionsPage extends StatefulWidget {
 }
 
 class _ListTransactionsPageState extends State<ListTransactionsPage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<RepositoryCategory>(context, listen: false)
+        .loadCategoryRepository();
+  }
+
   int tipoTransferencia = 0;
   String formattedDate = "2022-10";
 
@@ -233,8 +241,9 @@ class _FilterState extends State<Filter> {
                             ),
                             onDismissed: (direction) async {
                               if (direction == DismissDirection.endToStart) {
-                                Provider.of(context, listen: false)
-                                    .removeTransaction(trasactionList
+                                Provider.of<RepositoryTransaction>(context,
+                                        listen: false)
+                                    .removeTransactionSql(trasactionList
                                         .itemByIndex(i)
                                         .idTransaction);
                               } else {
@@ -254,7 +263,15 @@ class _FilterState extends State<Filter> {
                             key: ValueKey(
                                 trasactionList.itemByIndex(i).idTransaction),
                             child: ListTile(
-                              leading: const Icon(Icons.coffee),
+                              leading: Icon(
+                                IconData(
+                                    Provider.of<RepositoryCategory>(context,
+                                            listen: false)
+                                        .codeCategory(
+                                      trasactionList.itemByIndex(i).categoria,
+                                    ),
+                                    fontFamily: "MaterialIcons"),
+                              ),
                               title: Text(trasactionList.itemByIndex(i).name),
                               onTap: () {},
                               subtitle: Text(

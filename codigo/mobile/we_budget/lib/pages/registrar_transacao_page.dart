@@ -133,11 +133,12 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     //   ),
     // );
 
-    // Navigator.of(context).pushNamed(AppRoutes.main);
+    Navigator.of(context).pushNamed(AppRoutes.main);
   }
 
   void _loadFormData(TransactionModel transferencia) {
-    _transactionData['idTransaction'] = transferencia.idTransaction;
+    print(transferencia.idTransaction);
+    _transactionData['IdTransaction'] = transferencia.idTransaction;
     _transactionData['Description'] = transferencia.name;
     _transactionData['Category'] = transferencia.categoria;
     _transactionData['PaymentValue'] = transferencia.valor;

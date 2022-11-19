@@ -30,6 +30,7 @@ class RepositoryTransaction with ChangeNotifier {
       DBHelper.address: transaction.location.address.toString(),
     };
     await db.insert(DBHelper.tableTransaction, row);
+    _items.add(transaction);
     notifyListeners();
   }
 
@@ -65,6 +66,10 @@ class RepositoryTransaction with ChangeNotifier {
       );
     }
 
+    _items = retorno;
+
+    print("Nº transações...");
+    print(_items);
     notifyListeners();
     return retorno;
   }
@@ -134,7 +139,14 @@ class RepositoryTransaction with ChangeNotifier {
     return _items.length;
   }
 
-  void removeTransactionSqflite(int transactionId) {
+  void removeTransactionSqflite(int transactionId) async {
+    Database db = await DBHelper.instance.database;
+
+    await db.delete(
+      DBHelper.tableTransaction,
+      where: "idTransaction = ?",
+      whereArgs: [transactionId],
+    );
     int index =
         _items.indexWhere((p) => p.idTransaction == transactionId.toString());
     final trasaction = _items[index];
@@ -142,10 +154,31 @@ class RepositoryTransaction with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTransactionSqflite(TransactionModel transaction) {
+  void updateTransactionSqflite(TransactionModel transaction) async {
+    Database db = await DBHelper.instance.database;
+
+    Map<String, dynamic> row = {
+      DBHelper.idTransaction: transaction.idTransaction.toString(),
+      DBHelper.name: transaction.name.toString(),
+      DBHelper.categoria: transaction.categoria.toString(),
+      DBHelper.data: transaction.data.toString(),
+      DBHelper.valor: transaction.valor,
+      DBHelper.formaPagamento: transaction.formaPagamento.toString(),
+      DBHelper.tipoTransacao: int.parse(transaction.tipoTransacao.toString()),
+      DBHelper.latitude: transaction.location.latitude,
+      DBHelper.longitude: transaction.location.longitude,
+      DBHelper.address: transaction.location.address.toString(),
+    };
+    await db.update(
+      DBHelper.tableTransaction,
+      row,
+      where: "idTransaction = ?",
+      whereArgs: [transaction.idTransaction],
+    );
+
     int index =
         _items.indexWhere((p) => p.idTransaction == transaction.idTransaction);
-
+    print("Index é....$index");
     if (index >= 0) {
       _items[index] = transaction;
       notifyListeners();
@@ -312,15 +345,15 @@ class RepositoryTransaction with ChangeNotifier {
     );
 
     await insertTransacao(transaction1);
-    await insertTransacao(transaction2);
-    await insertTransacao(transaction4);
-    await insertTransacao(transaction5);
-    await insertTransacao(transaction6);
-    await insertTransacao(transaction7);
-    await insertTransacao(transaction8);
-    await insertTransacao(transaction9);
-    await insertTransacao(transaction10);
-    await insertTransacao(transaction11);
+    // await insertTransacao(transaction2);
+    // await insertTransacao(transaction4);
+    // await insertTransacao(transaction5);
+    // await insertTransacao(transaction6);
+    // await insertTransacao(transaction7);
+    // await insertTransacao(transaction8);
+    // await insertTransacao(transaction9);
+    // await insertTransacao(transaction10);
+    // await insertTransacao(transaction11);
   }
 
   Future<void> createTransactionSql(TransactionModel transaction) async {
@@ -338,29 +371,30 @@ class RepositoryTransaction with ChangeNotifier {
       },
       body: jsonEncode(
         {
-          'Description': transaction.name,
-          'PaymentValue': transaction.valor,
-          'PaymentType': transaction.formaPagamento,
-          'TransactionType': transaction.tipoTransacao,
-          'TransactionDate': transaction.data,
-          'Latitude': transaction.location.latitude,
-          'Longitude': transaction.location.longitude,
-          'Address': transaction.location.address,
-          'CategoryId': int.parse(transaction.categoria),
-          'UserId': userId
+          'description': transaction.name,
+          'paymentValue': transaction.valor,
+          'paymentType': transaction.formaPagamento,
+          'tansactionType': transaction.tipoTransacao,
+          'tansactionDate': transaction.data,
+          'latitude': transaction.location.latitude,
+          'longitude': transaction.location.longitude,
+          'address': transaction.location.address,
+          'categoryId': int.parse(transaction.categoria),
+          'userId': userId
         },
       ),
     );
 
     print(response.statusCode);
-    final body = jsonDecode(response.body);
+    // final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }
   }
 
   Future<void> saveTransactionSql(Map<String, Object> transactionData) async {
-    bool hasId = transactionData['id'] != null;
+    bool hasId = transactionData['IdTransaction'] != "";
+
     final transaction = TransactionModel(
       idTransaction: hasId ? transactionData['IdTransaction'] as String : "",
       name: transactionData['Description'] as String,
@@ -378,7 +412,7 @@ class RepositoryTransaction with ChangeNotifier {
 
     if (hasId) {
       print("Entrou update");
-      // await updateTransactionSql(transaction);
+      await updateTransactionSql(transaction);
     } else {
       print("Entrou create");
       await createTransactionSql(transaction);
@@ -401,15 +435,15 @@ class RepositoryTransaction with ChangeNotifier {
       body: jsonEncode(
         {
           'id': int.parse(transaction.idTransaction),
-          'Description': transaction.name,
-          'PaymentValue': transaction.valor,
-          'PaymentType': transaction.formaPagamento,
-          'TransactionType': transaction.tipoTransacao,
-          'TransactionDate': transaction.data,
-          'Latitude': transaction.location.latitude,
-          'Longitude': transaction.location.longitude,
-          'Address': transaction.location.address,
-          'CategoryId': int.parse(transaction.categoria),
+          'description': transaction.name,
+          'paymentValue': transaction.valor,
+          'paymentType': transaction.formaPagamento,
+          'tansactionType': transaction.tipoTransacao,
+          'tansactionDate': transaction.data,
+          'latitude': transaction.location.latitude,
+          'longitude': transaction.location.longitude,
+          'address': transaction.location.address,
+          'categoryId': int.parse(transaction.categoria),
           'UserId': userId,
         },
       ),
@@ -418,12 +452,13 @@ class RepositoryTransaction with ChangeNotifier {
     print(response.statusCode);
   }
 
-  Future<void> removeTrasactionSql(TransactionModel trasaction) async {
+  Future<void> removeTransactionSql(String idTransaction) async {
+    print("object...$idTransaction");
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
 
-    final id = trasaction.idTransaction;
-    final url = 'https://webudgetpuc.azurewebsites.net/api/Transaction/$id';
+    final url =
+        'https://webudgetpuc.azurewebsites.net/api/Transaction/$idTransaction';
 
     final response = await http.delete(
       Uri.parse(url),
@@ -441,5 +476,32 @@ class RepositoryTransaction with ChangeNotifier {
       );
     }
     print(response.statusCode);
+  }
+
+  void saveTransactionSqflite(Map<String, dynamic> object, String operacao) {
+    final transaction = TransactionModel(
+      idTransaction: object['Id'].toString(),
+      name: object['Description'] as String,
+      categoria: object['CategoryId'].toString(),
+      data: object['TansactionDate'].toString(),
+      valor: object['PaymentValue'] as double,
+      formaPagamento: object['PaymentType'] as String,
+      tipoTransacao: object['TansactionType'].toString() == 'Expenses' ? 1 : 0,
+      location: TransactionLocation(
+        latitude: double.parse(object['Latitude'].toString()),
+        longitude: double.parse(object['Longitude'].toString()),
+        address: object['Address'] as String,
+      ),
+    );
+
+    if (operacao == "Create") {
+      insertTransacao(transaction);
+    } else if (operacao == "Update") {
+      updateTransactionSqflite(transaction);
+    } else if (operacao == "Delete") {
+      removeTransactionSqflite(int.parse(transaction.idTransaction));
+    } else {
+      print("Operação não encontrada");
+    }
   }
 }
