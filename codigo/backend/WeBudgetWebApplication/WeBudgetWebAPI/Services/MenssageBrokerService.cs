@@ -3,6 +3,7 @@ using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.Services;
