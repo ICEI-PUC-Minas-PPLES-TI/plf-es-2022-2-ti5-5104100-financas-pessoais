@@ -31,7 +31,7 @@ public class BudgetService:IBudgetService
             if (savedBudget == null)
                 return null;
         }
-        savedBudget.BudgetValueUsed += value;
+        savedBudget.BudgetValueUsed -= value;
         
         return await SendMenssage(OperationType.Update, 
             await _iBudget.Update(savedBudget));
@@ -60,7 +60,7 @@ public class BudgetService:IBudgetService
 
     public async Task<Budget> Add(Budget budget)
     {
-        return await SendMenssage(OperationType.Update,
+        return await SendMenssage(OperationType.Create,
             await _iBudget.Add(budget));
     }
 
