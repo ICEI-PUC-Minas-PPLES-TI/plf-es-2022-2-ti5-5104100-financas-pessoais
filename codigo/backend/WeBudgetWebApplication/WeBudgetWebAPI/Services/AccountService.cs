@@ -1,4 +1,5 @@
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -33,7 +34,7 @@ public class AccountService:IAccountService
     public async Task Delete(Account account)
     {
         await _iAccount.Delete(account);
-        await SendMenssage(OperationType.Delete,account);
+        await SendMenssage(OperationType.Delete, account);
     }
 
     public async Task<Account?> GetEntityById(int id)
