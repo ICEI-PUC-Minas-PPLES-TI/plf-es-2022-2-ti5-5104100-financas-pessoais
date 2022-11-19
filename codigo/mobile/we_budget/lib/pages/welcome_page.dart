@@ -162,7 +162,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             : ListView.builder(
                                 itemCount: trasactionList.itemsCount > 3
                                     ? trasactionList.itemsCount
-                                    : 2,
+                                    : 1,
                                 itemBuilder: (ctx, i) => ListTile(
                                   leading: const Icon(Icons.coffee),
                                   title:

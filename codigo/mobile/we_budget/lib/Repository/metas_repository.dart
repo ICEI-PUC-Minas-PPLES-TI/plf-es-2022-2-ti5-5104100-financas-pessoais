@@ -118,14 +118,14 @@ class RepositoryMetas with ChangeNotifier {
     return _itemsMeta.length;
   }
 
-  void removeTransactionSqflite(int metaId) {
+  void removeMetaSqflite(int metaId) {
     int index = _itemsMeta.indexWhere((p) => p.idMeta == metaId.toString());
     final trasaction = _itemsMeta[index];
     _itemsMeta.remove(trasaction);
     notifyListeners();
   }
 
-  void updateTransactionSqflite(MetasModel transaction) {
+  void updateMetaSqflite(MetasModel transaction) {
     int index = _itemsMeta.indexWhere((p) => p.idMeta == transaction.idMeta);
 
     if (index >= 0) {
@@ -224,5 +224,26 @@ class RepositoryMetas with ChangeNotifier {
       );
     }
     print(response.statusCode);
+  }
+
+  void saveMetaSqflite(Map<String, dynamic> object, String operacao) {
+    final meta = MetasModel(
+      idCategoria: object['Id'].toString(),
+      idMeta: object['CategoryId'].toString(),
+      dataMeta: object['BudgetDate'].toString(),
+      valorMeta: object['BudgetValue'],
+      valorAtual: object['BudgetValueUsed'],
+      recorrente: object['Active'],
+    );
+
+    if (operacao == "Create") {
+      insertMetas(meta);
+    } else if (operacao == "Update") {
+      updateMetaSqflite(meta);
+    } else if (operacao == "Delete") {
+      removeMetaSqflite(int.parse(meta.idCategoria));
+    } else {
+      print("Operação não encontrada");
+    }
   }
 }

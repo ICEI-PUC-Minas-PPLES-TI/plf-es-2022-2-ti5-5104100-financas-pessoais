@@ -129,6 +129,10 @@ class RepositoryCategory with ChangeNotifier {
     return _categories;
   }
 
+  List<CategoriaModel> listCategories() {
+    return _categories;
+  }
+
   Future<void> createCategorySql(Map<String, dynamic> category) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
@@ -206,5 +210,32 @@ class RepositoryCategory with ChangeNotifier {
       );
     }
     print(response.statusCode);
+  }
+
+  void saveCategorySqflite(Map<String, dynamic> object, String operacao) {
+    final category = CategoriaModel(
+      id: object['Id'].toString(),
+      codeCategoria: object['IconCode'].toString(),
+      nameCategoria: object['Description'].toString(),
+    );
+
+    if (operacao == "Create") {
+      insertCategoria(category);
+    } else if (operacao == "Update") {
+      updateCategorySqflite(category);
+    } else if (operacao == "Delete") {
+      removeCategorySqflite(int.parse(category.id));
+    } else {
+      print("Operação não encontrada");
+    }
+  }
+
+  int codeCategory(String id) {
+    int index = 3;
+    // int index = _categories.indexWhere((element) => element.id == id);
+
+    int category = int.parse(_categories[index].codeCategoria);
+
+    return category;
   }
 }
