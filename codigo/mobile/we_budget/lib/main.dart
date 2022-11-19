@@ -4,6 +4,7 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
@@ -29,10 +30,11 @@ class MyApp extends StatelessWidget {
   void carregaBanco() async {
     Database db = await DBHelper.instance.database;
     // await db.delete(DBHelper.tableCategoria);
-    // await db.delete(DBHelper.tableTransaction);
+    // await db.delete(DBHelper.tableAccount);
     await RepositoryCategory('').selectCategoria();
     await RepositoryTransaction('').selectTransaction();
     await RepositoryMetas().selectMetas();
+    await RepositoryAccount('').selectAcount();
   }
 
   const MyApp({Key? key}) : super(key: key);
@@ -59,6 +61,18 @@ class MyApp extends StatelessWidget {
           create: (_) => RepositoryCategory(''),
           update: (context, auth, previous) {
             return RepositoryCategory(auth.token ?? '');
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, RepositoryAccount>(
+          create: (_) => RepositoryAccount(''),
+          update: (context, auth, previous) {
+            return RepositoryAccount(auth.token ?? '');
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, RepositoryMetas>(
+          create: (_) => RepositoryMetas(),
+          update: (context, auth, previous) {
+            return RepositoryMetas();
           },
         ),
       ],

@@ -5,6 +5,7 @@ import 'package:we_budget/utils/app_routes.dart';
 
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
+import '../models/categoria_model.dart';
 
 class CreateCategory extends StatefulWidget {
   const CreateCategory({super.key});
@@ -48,7 +49,7 @@ class _CreateCategoryState extends State<CreateCategory> {
   }
 
   Future<void> _submitCreateCategory() async {
-    print(_createCategoryData);
+    print("2: $_createCategoryData");
     final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -68,9 +69,37 @@ class _CreateCategoryState extends State<CreateCategory> {
     }
   }
 
+  void _loadFormDataCategory(CategoriaModel categoria) {
+    _createCategoryData['Id'] = categoria.id;
+    _createCategoryData['nameCreateCategory'] = categoria.nameCategoria;
+    _createCategoryData['codeCreateCategory'] = categoria.codeCategoria;
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
+    if (ModalRoute.of(context)!.settings != null &&
+        ModalRoute.of(context)!.settings.arguments != null) {
+      final argument =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+      String page = argument['page'] as String;
+      Object data = argument['itemByIndex'];
+      print("1: $data");
+
+      if (page == 'listCategory') {
+        setState(() {
+          _loadFormDataCategory(data as CategoriaModel);
+
+          codigoCreateCategory =
+              int.parse(_createCategoryData['codeCreateCategory']);
+        });
+      } else {
+        codigoCreateCategory = 984405;
+      }
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
@@ -146,9 +175,12 @@ class _CreateCategoryState extends State<CreateCategory> {
                               const EdgeInsetsDirectional.only(bottom: 30.0),
                           child: TextFormField(
                             key: const ValueKey('descricao'),
+                            initialValue:
+                                _createCategoryData['nameCreateCategory']
+                                    .toString(),
                             decoration: const InputDecoration(
                               labelText: 'Descrição',
-                              hintText: "Digite aqui a descrição da Categoria",
+                              hintText: "Digite aqui o nome da Categoria",
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,

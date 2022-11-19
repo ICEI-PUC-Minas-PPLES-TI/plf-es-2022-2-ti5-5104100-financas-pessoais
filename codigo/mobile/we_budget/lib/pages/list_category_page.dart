@@ -80,6 +80,7 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
                               ),
                             ),
                           ),
+                          direction: DismissDirection.endToStart,
                           onDismissed: (direction) async {
                             setState(() {
                               Map<String, dynamic> arguments = {

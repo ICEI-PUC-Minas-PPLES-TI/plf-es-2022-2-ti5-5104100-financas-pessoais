@@ -23,12 +23,13 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
   }
 
   int tipoTransferencia = 0;
-  String formattedDate = "2022-10";
+  String formattedDate = DateFormat("yyyy-MM").format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     DateTime? pickedDate;
+    DateTime? dataSelecionada = DateTime.now();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: size * 0.18,
@@ -88,7 +89,6 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                     print("entrei");
                     pickedDate = await showMonthYearPicker(
                       context: context,
-                      initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2050),
                       builder: (context, child) {
@@ -103,9 +103,11 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                           ),
                         );
                       },
+                      initialDate: DateTime.now(),
                     );
                     if (pickedDate != null) {
                       setState(() {
+                        print("Data selecionada: $dataSelecionada");
                         formattedDate =
                             DateFormat("yyyy-MM").format(pickedDate!);
                       });
