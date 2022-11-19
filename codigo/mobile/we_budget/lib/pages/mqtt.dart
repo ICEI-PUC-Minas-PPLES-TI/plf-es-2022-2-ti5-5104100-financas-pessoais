@@ -117,8 +117,8 @@ class _MqttState extends State<Mqtt> {
     String rawJson = message;
 
     Map<String, dynamic> map = jsonDecode(rawJson); // import 'dart:convert';
-    int tabela = map['Table'];
-    int operacao = map['Operation'];
+    String tabela = map['Table'];
+    String operacao = map['Operation'];
     Map<String, dynamic> object = map['Object'] as Map<String, dynamic>;
     print("Object....$object");
     print("Tabela....");
@@ -135,7 +135,7 @@ class _MqttState extends State<Mqtt> {
     // Category = 3
 
     switch (tabela) {
-      case 2: //Table transaction
+      case "Transaction": //Table transaction
         if (operacao == 0) {
           //chamada insert
           print("Table Transaction, operation of create");
@@ -148,7 +148,7 @@ class _MqttState extends State<Mqtt> {
           print("Table Transaction, operation of delete");
         }
         break;
-      case 3: //Table category
+      case "Category": //Table category
         if (operacao == 0) {
           print("Table Category, operation of create");
           final category = CategoriaModel(
@@ -182,7 +182,7 @@ class _MqttState extends State<Mqtt> {
           print("Table Category, operation of delete");
         }
         break;
-      case 0: //Table Account (Orçamento)
+      case "Account": //Table Account (Orçamento)
         if (operacao == 0) {
           print("Table Account, operation of create");
 
@@ -210,7 +210,7 @@ class _MqttState extends State<Mqtt> {
           print("Tipo transação não encontrada");
         }
         break;
-      case 1: //Table Budget (Orçamento)
+      case "Budget": //Table Budget (Orçamento)
         if (operacao == 0) {
           print("Table Budget, operation of create");
           //chamada insert
