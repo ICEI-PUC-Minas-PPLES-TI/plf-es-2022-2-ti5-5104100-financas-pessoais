@@ -67,9 +67,6 @@ class RepositoryTransaction with ChangeNotifier {
     }
 
     _items = retorno;
-
-    print("Nº transações...");
-    print(_items);
     notifyListeners();
     return retorno;
   }

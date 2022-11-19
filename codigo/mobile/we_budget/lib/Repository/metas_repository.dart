@@ -30,6 +30,8 @@ class RepositoryMetas with ChangeNotifier {
   Future<List<MetasModel>> selectMetas() async {
     Database db = await DBHelper.instance.database;
     List<Map> metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
+    print(metas);
+    print(metas.isEmpty);
     if (metas.isEmpty) {
       await _carregaTabela();
     }
@@ -81,13 +83,13 @@ class RepositoryMetas with ChangeNotifier {
             idCategoria: item['idCategoria'],
             idMeta: item['idMeta'],
             dataMeta: item['dataMeta'],
-            valorMeta: item['valorMeta'],
-            valorAtual: item['valorAtual'],
-            recorrente: item['recorrente'],
+            valorMeta: item['valorMeta'] as double,
+            valorAtual: item['valorAtual'] as double,
+            recorrente: item['recorrente'] == "false" ? false : true,
           ),
         )
         .toList();
-
+    print("Itens do loadMetasRepository....$_itemsMeta");
     notifyListeners();
   }
 
@@ -118,20 +120,52 @@ class RepositoryMetas with ChangeNotifier {
     return _itemsMeta.length;
   }
 
-  void removeMetaSqflite(int metaId) {
+  void removeMetaSqflite(int metaId) async {
+    selectMetas();
+    Database db = await DBHelper.instance.database;
+
+    await db.delete(
+      DBHelper.tableMetas,
+      where: "idMeta = ?",
+      whereArgs: [metaId],
+    );
+
     int index = _itemsMeta.indexWhere((p) => p.idMeta == metaId.toString());
-    final trasaction = _itemsMeta[index];
-    _itemsMeta.remove(trasaction);
+    final meta = _itemsMeta[index];
+    _itemsMeta.remove(meta);
     notifyListeners();
   }
 
-  void updateMetaSqflite(MetasModel transaction) {
-    int index = _itemsMeta.indexWhere((p) => p.idMeta == transaction.idMeta);
+  void updateMetaSqflite(MetasModel meta) async {
+    loadMetasRepository();
+    print("Entrou updateMetaSqflite");
+    print("_accounts......$_itemsMeta");
 
+    Database db = await DBHelper.instance.database;
+
+    Map<String, String> row = {
+      DBHelper.idCategoria: meta.idCategoria.toString(),
+      DBHelper.dataMeta: meta.dataMeta.toString(),
+      DBHelper.valorMeta: meta.valorMeta.toString(),
+      DBHelper.valorAtual: meta.valorAtual.toString(),
+      DBHelper.recorrente: meta.recorrente.toString(),
+    };
+    await db.update(
+      DBHelper.tableMetas,
+      row,
+      where: "idMeta = ?",
+      whereArgs: [meta.idMeta],
+    );
+    print("Row.....$row");
+
+    int index = _itemsMeta.indexWhere((p) => p.idMeta == meta.idMeta);
+    print("index.....$index");
     if (index >= 0) {
-      _itemsMeta[index] = transaction;
+      _itemsMeta[index] = meta;
       notifyListeners();
     }
+
+    print(_itemsMeta);
   }
 
   MetasModel itemByIndex(int index) {
@@ -239,8 +273,10 @@ class RepositoryMetas with ChangeNotifier {
     if (operacao == "Create") {
       insertMetas(meta);
     } else if (operacao == "Update") {
+      print("Entrou update meta");
       updateMetaSqflite(meta);
     } else if (operacao == "Delete") {
+      print("Entrou create meta");
       removeMetaSqflite(int.parse(meta.idCategoria));
     } else {
       print("Operação não encontrada");

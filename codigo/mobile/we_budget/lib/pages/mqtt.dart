@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
@@ -140,28 +141,12 @@ class _MqttState extends State<Mqtt> {
         metaProvider.saveMetaSqflite(object, operacao);
         break;
 
-      case "Account": //Table Budget (Orçamento)
-        if (operacao == "Create") {
-          print("Table Budget, operation of create");
-          //chamada insert
-        } else if (operacao == "Update") {
-          print("Table Budget, operation of update");
-          //chama update
-        } else if (operacao == "Delete") {
-          print("Table Budget, operation of delete");
-          //chama delete
-        } else {
-          print("Tipo transação não encontrada");
-        }
+      case "Account":
+        RepositoryAccount accountProvider = Provider.of(context, listen: false);
+        accountProvider.saveAccountSqflite(object, operacao);
         break;
       default:
         print("Tabela não encontrada");
     }
-
-    //   factory Album.fromJson(Map<String, dynamic> json) {
-    // return Album(
-    //   id: json['id'],
-    //   title: json['title'],
-    // );
   }
 }
