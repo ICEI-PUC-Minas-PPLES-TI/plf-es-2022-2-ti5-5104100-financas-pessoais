@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Request;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -42,7 +44,7 @@ public class BudgetController:ControllerBase
         var orcamentoLista = await _budgetService.ListByUser(userId);
         if(orcamentoLista.Count == 0)
             return NotFound("Orçamentos não encontrada");
-        var response = _iMapper.Map<BudgetResponse>(orcamentoLista);
+        var response = _iMapper.Map<List<BudgetResponse>>(orcamentoLista);
         return Ok(response);
     }
 

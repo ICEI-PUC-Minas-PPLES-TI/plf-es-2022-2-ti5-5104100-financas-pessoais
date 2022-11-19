@@ -1,6 +1,6 @@
 using WeBudgetWebAPI.Models.Enums;
 
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Response;
 
 public class TransactionResponse
 {

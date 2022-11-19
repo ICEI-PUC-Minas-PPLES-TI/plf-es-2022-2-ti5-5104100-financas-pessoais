@@ -2,6 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Request;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -25,11 +27,11 @@ public class CategoryController : ControllerBase
     [Authorize]
     [Produces("application/json")]
     [HttpPost("Add")]
-    public async Task<ActionResult<CategoryReponse>> Add(CategoryRequest request)
+    public async Task<ActionResult<CategoryResponse>> Add(CategoryRequest request)
     {
         var category = _iMapper.Map<Category>(request);
         var savedCategory = await _categoryService.Add(category);
-        var response = _iMapper.Map<CategoryReponse>(savedCategory);
+        var response = _iMapper.Map<CategoryResponse>(savedCategory);
         return Ok(response);
     }
 
@@ -39,7 +41,7 @@ public class CategoryController : ControllerBase
     {
         var userId = User.FindFirst("idUsuario")!.Value;
         var categoryList = await _categoryService.ListByUser(userId);
-        var response = _iMapper.Map<List<CategoryReponse>>(categoryList);
+        var response = _iMapper.Map<List<CategoryResponse>>(categoryList);
         return Ok(response);
     }
 
@@ -50,7 +52,7 @@ public class CategoryController : ControllerBase
         var category = await _categoryService.GetEntityById(id);
         if(category==null)
             return NotFound("Categoria não encontrada");
-        var response = _iMapper.Map<CategoryReponse>(category);
+        var response = _iMapper.Map<CategoryResponse>(category);
         return Ok(response);
     }
 
@@ -63,7 +65,7 @@ public class CategoryController : ControllerBase
         if (savedCategory == null)
             return NoContent();
         var updatedCategory = await _categoryService.Update(category);
-        var response = _iMapper.Map<CategoryReponse>(updatedCategory);
+        var response = _iMapper.Map<CategoryResponse>(updatedCategory);
         return Ok(response);
 
     }

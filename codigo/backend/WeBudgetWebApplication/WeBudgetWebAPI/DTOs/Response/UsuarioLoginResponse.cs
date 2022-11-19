@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace WeBudgetWebAPI.DTOs;
+namespace WeBudgetWebAPI.DTOs.Response;
 
 public class UsuarioLoginResponse
 {
