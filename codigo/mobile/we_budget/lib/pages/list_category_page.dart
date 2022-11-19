@@ -45,12 +45,56 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
                 child: const Center(
                   child: Text('Nenhum dado cadastrado!'),
                 ),
-                builder: (ctx, trasactionList, ch) =>
-                    trasactionList.itemsCount == 0
-                        ? ch!
-                        : ListView.builder(
-                            itemCount: trasactionList.itemsCount,
-                            itemBuilder: (ctx, i) => ListTile(
+                builder: (ctx, trasactionList, ch) => trasactionList
+                            .itemsCount ==
+                        0
+                    ? ch!
+                    : ListView.builder(
+                        itemCount: trasactionList.itemsCount,
+                        itemBuilder: (ctx, i) => Dismissible(
+                          background: Container(
+                            color: const Color(0xFF45CFF1),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: const <Widget>[
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                  Text(
+                                    " Editar",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 20,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onDismissed: (direction) async {
+                            setState(() {
+                              Map<String, dynamic> arguments = {
+                                'page': 'listCategory',
+                                'itemByIndex': trasactionList.itemByIndex(i),
+                              };
+                              Navigator.of(context).pushNamed(
+                                AppRoutes.createCategory,
+                                arguments: arguments,
+                              );
+                            });
+                          },
+                          key: ValueKey(
+                              trasactionList.itemByIndex(i).codeCategoria),
+                          child: ListTile(
                               leading: Icon(
                                 IconData(
                                     int.parse(trasactionList
@@ -87,9 +131,9 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
                                 //       context, AppRoutes.formTransaction,
                                 //       arguments: _categorySelect);
                                 // }
-                              },
-                            ),
-                          ),
+                              }),
+                        ),
+                      ),
               ),
       ),
     );
