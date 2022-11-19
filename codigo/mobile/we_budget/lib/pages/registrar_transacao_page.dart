@@ -480,31 +480,32 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     );
   }
 
-  // void saveTransaction(Map<String, Object> transactionData) {
-  //   bool hasId = transactionData['id'] != null;
-  //   final transaction = TransactionModel(
-  //     idTransaction: hasId ? transactionData['idTransaction'] as String : "",
-  //     name: transactionData['Description'] as String,
-  //     categoria: transactionData['Category'] as String,
-  //     data: transactionData['TransactionDate'] as String,
-  //     valor: transactionData['PaymentValue'] as double,
-  //     formaPagamento: transactionData['PaymentType'] as String,
-  //     location: transactionData['Address'] as TransactionLocation,
-  //     tipoTransacao: transactionData['TransactionType'] as int,
-  //   );
+  void saveTransaction(Map<String, Object> transactionData) {
+    bool hasId = transactionData['id'] != null;
 
-  //   if (hasId) {
-  //     updateTransaction(transaction);
-  //   } else {
-  //     _submitForm();
-  //   }
-  // }
+    final transaction = TransactionModel(
+      idTransaction: hasId ? transactionData['idTransaction'] as String : "",
+      name: transactionData['Description'] as String,
+      categoria: transactionData['Category'] as String,
+      data: transactionData['TransactionDate'] as String,
+      valor: transactionData['PaymentValue'] as double,
+      formaPagamento: transactionData['PaymentType'] as String,
+      location: transactionData['Address'] as TransactionLocation,
+      tipoTransacao: transactionData['TransactionType'] as int,
+    );
 
-  // void updateTransaction(TransactionModel transaction) {
-  //   int index = transaction.indexWhere((t) => t.id == transaction.idTransaction);
+    if (hasId) {
+      updateTransaction(transaction);
+    } else {
+      _submitForm();
+    }
+  }
 
-  //   if (index >= 0) {
-  //     _items[index] = product;
-  //     notifyListeners();
-  //   }
+  void updateTransaction(TransactionModel transaction) {
+    int index = _iten.indexWhere((t) => t.id == transaction.idTransaction);
+
+    if (index >= 0) {
+      _items[index] = product;
+      notifyListeners();
+    }
 }
