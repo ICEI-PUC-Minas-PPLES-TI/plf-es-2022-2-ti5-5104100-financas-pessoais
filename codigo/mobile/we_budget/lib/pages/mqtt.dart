@@ -5,7 +5,9 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
+import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/models/categoria_model.dart';
+import 'package:we_budget/models/metas.dart';
 
 import '../components/menu_component.dart';
 
@@ -183,6 +185,20 @@ class _MqttState extends State<Mqtt> {
       case 0: //Table Account (Orçamento)
         if (operacao == 0) {
           print("Table Account, operation of create");
+
+          final category = MetasModel(
+            idCategoria: object['Id'].toString(),
+            idMeta: object['CategoryId'].toString(),
+            dataMeta: object['BudgetDate'].toString(),
+            valorMeta: object['BudgetValue'],
+            valorAtual: object['BudgetValueUsed'],
+            recorrente: object['Active'],
+          );
+
+          RepositoryMetas categoryProvider =
+              Provider.of(context, listen: false);
+          categoryProvider.insertMetas(category);
+
           //chamada insert
         } else if (operacao == 1) {
           print("Table Account, operation of update");

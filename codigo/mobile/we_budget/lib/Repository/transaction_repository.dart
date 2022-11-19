@@ -30,6 +30,7 @@ class RepositoryTransaction with ChangeNotifier {
       DBHelper.address: transaction.location.address.toString(),
     };
     await db.insert(DBHelper.tableTransaction, row);
+    _items.add(transaction);
     notifyListeners();
   }
 

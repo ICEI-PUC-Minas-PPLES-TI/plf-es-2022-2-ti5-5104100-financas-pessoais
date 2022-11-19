@@ -44,7 +44,6 @@ class Auth with ChangeNotifier {
         {
           'email': email,
           'senha': password,
-          'senhaConfimacao': password,
         },
       ),
     );
