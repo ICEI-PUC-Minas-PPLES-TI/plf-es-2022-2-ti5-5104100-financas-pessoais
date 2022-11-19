@@ -31,7 +31,7 @@ public class BudgetService:IBudgetService
             if (savedBudget == null)
                 return null;
         }
-        savedBudget.BudgetValueUsed += value;
+        savedBudget.BudgetValueUsed -= value;
         
         return await SendMenssage(OperationType.Update, 
             await _iBudget.Update(savedBudget));
