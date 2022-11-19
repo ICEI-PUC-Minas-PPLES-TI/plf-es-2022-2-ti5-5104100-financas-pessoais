@@ -1,4 +1,6 @@
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Request;
+using WeBudgetWebAPI.DTOs.Response;
 
 namespace WeBudgetWebAPI.Interfaces.Sevices;
 

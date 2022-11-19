@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using WeBudgetWebAPI.DTOs;
+using WeBudgetWebAPI.DTOs.Request;
+using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -41,7 +43,7 @@ public class TransactionController:ControllerBase
         var transactionList = await _iTransactionService.ListByUser(userId);
         if(transactionList.Count == 0)
             return NotFound("Transacões não encontradas");
-        var response = _iMapper.Map<TransactionResponse>(transactionList);
+        var response = _iMapper.Map<List<TransactionResponse>>(transactionList);
         return Ok(response);
     }
 
