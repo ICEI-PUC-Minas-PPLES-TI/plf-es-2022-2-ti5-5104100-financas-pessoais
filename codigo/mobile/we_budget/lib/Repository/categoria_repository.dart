@@ -231,10 +231,10 @@ class RepositoryCategory with ChangeNotifier {
   }
 
   int codeCategory(String id) {
-    int index = 3;
+    int index = 4;
     // int index = _categories.indexWhere((element) => element.id == id);
 
-    int category = int.parse(_categories[index].codeCategoria);
+    int category = int.parse(_categories[0].codeCategoria);
 
     return category;
   }

@@ -23,7 +23,7 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
   }
 
   int tipoTransferencia = 0;
-  String formattedDate = "2022-10";
+  String formattedDate = "2022-11";
 
   @override
   Widget build(BuildContext context) {
@@ -125,24 +125,38 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
         ),
       ),
       body: Container(
-        width: double.infinity,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 253, 253, 252),
-          borderRadius: BorderRadiusDirectional.only(
-            topStart: Radius.circular(20),
-            topEnd: Radius.circular(20),
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF923DF8),
+              Color(0xFF4C94F8),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 15,
-              offset: Offset(0, 5),
-            )
-          ],
         ),
-        child: Filter(
-          tipoTransferencia: tipoTransferencia,
-          filtroData: formattedDate,
+        width: double.infinity,
+        height: double.infinity,
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 253, 253, 252),
+            borderRadius: BorderRadiusDirectional.only(
+              topStart: Radius.circular(20),
+              topEnd: Radius.circular(20),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 15,
+                offset: Offset(0, 5),
+              )
+            ],
+          ),
+          child: Filter(
+            tipoTransferencia: tipoTransferencia,
+            filtroData: formattedDate,
+          ),
         ),
       ),
     );

@@ -10,6 +10,11 @@ class DBHelper {
   static const String codeCategoria = "codeCategoria";
   static const String nameCategoria = "nameCategoria";
 
+  static const String tableAccount = "account";
+  static const String idAccount = "idAccount";
+  static const String accountBalance = "accountBalance";
+  static const String accountDateTime = "accountDateTime";
+
   static const String tableTransaction = "transactionDB";
   static const String idTransaction = "idTransaction";
   static const String name = "name";
@@ -59,6 +64,7 @@ class DBHelper {
   Future<void> _criarBanco(Database db, int novaVersao) async {
     List<String> queryes = [
       "CREATE TABLE $tableCategoria ($id TEXT PRIMARY KEY, $codeCategoria TEXT, $nameCategoria TEXT);",
+      "CREATE TABLE $tableAccount($idAccount TEXT PRIMARY KEY, $accountBalance DOUBLE, $accountDateTime TEXT);",
       "CREATE TABLE $tableTransaction ($idTransaction TEXT PRIMARY KEY, $name TEXT, $categoria TEXT, $data TEXT, $valor DOUBLE, $formaPagamento TEXT, $tipoTransacao INT, $latitude DOUBLE, $longitude DOUBLE, $address TEXT);",
       "CREATE TABLE $tableMetas ($idMeta TEXT PRIMARY KEY, $idCategoria TEXT, $dataMeta TEXT, $valorMeta DOUBLE, $valorAtual DOUBLE, $recorrente INTEGER);",
     ];
