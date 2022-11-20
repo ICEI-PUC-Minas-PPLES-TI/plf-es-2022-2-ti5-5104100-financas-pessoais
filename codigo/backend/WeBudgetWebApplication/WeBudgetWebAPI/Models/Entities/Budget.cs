@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace WeBudgetWebAPI.Models;
+namespace WeBudgetWebAPI.Models.Entities;
 
 
 [Table("Budget")]
@@ -22,9 +22,9 @@ public class Budget
     
     public virtual Category Category { get; set; }
     
-    [ForeignKey("IdentityUser")]
+    [ForeignKey("ApplicationUser")]
     [Column(Order = 1)]
     public string UserId { get; set; }
-    
-    public virtual IdentityUser IdentityUser { get; set; }
+
+    public virtual ApplicationUser ApplicationUser { get; set; }
 }

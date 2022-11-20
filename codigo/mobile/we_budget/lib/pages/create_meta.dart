@@ -3,39 +3,24 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
-import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:we_budget/models/categoria_model.dart';
-import '../exceptions/auth_exception.dart';
 import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
   const CreateMeta({super.key});
 
   @override
-  State<CreateMeta> createState() => _CreateCategoryState();
+  State<CreateMeta> createState() => _CreateMetasState();
 }
 
-class _CreateCategoryState extends State<CreateMeta> {
+class _CreateMetasState extends State<CreateMeta> {
   final _formKeyCreateMeta = GlobalKey<FormState>();
-  final Map<String, dynamic> createCategoryData = {
+  final Map<String, dynamic> createMetasData = {
     'categoryId': '',
     'budgetValue': '',
-    'budgetDate': '', //pegar a data corrente
+    'budgetDate': DateTime.now(), //pegar a data corrente
     'active': '',
   };
   int? codeCreateMeta = 984405;
-
-  _pickIcon() async {
-    IconData? icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackModes: [IconPack.material]);
-
-    setState(
-      () {
-        codeCreateMeta = icon?.codePoint;
-        createCategoryData['valueMeta'] = codeCreateMeta!;
-      },
-    );
-  }
 
   void _showErrorDialog(String msg) {
     showDialog(
@@ -61,12 +46,12 @@ class _CreateCategoryState extends State<CreateMeta> {
     }
     _formKeyCreateMeta.currentState?.save();
     RepositoryMetas metas = Provider.of(context, listen: false);
-    print(createCategoryData);
+    print(createMetasData);
 
     // try {
     //   await metas.insertMetas(
-    //     createCategoryData['categoryMeta']!,
-    //     createCategoryData['valueMeta']!,
+    //     createMetasData['categoryMeta']!,
+    //     createMetasData['valueMeta']!,
     //   );
     // } on AuthException catch (error) {
     //   _showErrorDialog(error.toString());
@@ -75,15 +60,15 @@ class _CreateCategoryState extends State<CreateMeta> {
     // }
   }
 
-  bool status = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     String? categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
+    bool status = false;
     print("----->");
     print(categorySelected.toString() == 'null');
-    createCategoryData['categoryMeta'] = categorySelected;
+    createMetasData['categoryId'] = categorySelected;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
@@ -93,13 +78,13 @@ class _CreateCategoryState extends State<CreateMeta> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Color(0xFFC84CF4),
-                    Color.fromARGB(255, 41, 19, 236),
-                    Color(0xFF923DF8),
-                  ]),
+                colors: [
+                  Color(0xFF923DF8),
+                  Color(0xFF4C94F8),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
             ),
           ),
         ),
@@ -108,12 +93,11 @@ class _CreateCategoryState extends State<CreateMeta> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFC84CF4),
-              Color.fromARGB(255, 41, 19, 236),
               Color(0xFF923DF8),
+              Color(0xFF4C94F8),
             ],
-            begin: Alignment.bottomLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
         child: SingleChildScrollView(
@@ -191,14 +175,17 @@ class _CreateCategoryState extends State<CreateMeta> {
                               labelText: 'Valor da Meta',
                               hintText: "Digite aqui o valor da meta",
                             ),
-                            keyboardType: TextInputType.text,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                              signed: true,
+                            ),
                             textInputAction: TextInputAction.next,
                             onSaved: (categoryMeta) =>
-                                createCategoryData['categoryMeta'] =
-                                    categoryMeta,
+                                createMetasData['categoryMeta'] =
+                                    double.parse(categoryMeta ?? '0'),
                             validator: (validacao) {
-                              final name = validacao ?? '';
-                              if (name.trim().isEmpty) {
+                              final priceString = validacao ?? '';
+                              if (priceString.trim().isEmpty) {
                                 return 'Dados inválidos';
                               }
                               return null;
@@ -214,10 +201,10 @@ class _CreateCategoryState extends State<CreateMeta> {
                   child: const Text("Transação recorrente"),
                 ),
                 FlutterSwitch(
-                  activeColor: Colors.green,
+                  activeColor: const Color(0xFF45CFF1),
                   activeText: "Sim",
                   inactiveText: "Não",
-                  inactiveColor: Colors.red,
+                  inactiveColor: const Color(0xFF45CFF1),
                   width: 120.0,
                   height: 40.0,
                   valueFontSize: 20.0,
@@ -230,6 +217,7 @@ class _CreateCategoryState extends State<CreateMeta> {
                     setState(() {
                       status = val;
                     });
+                    createMetasData['active'] = status;
                   },
                 ),
                 const SizedBox(

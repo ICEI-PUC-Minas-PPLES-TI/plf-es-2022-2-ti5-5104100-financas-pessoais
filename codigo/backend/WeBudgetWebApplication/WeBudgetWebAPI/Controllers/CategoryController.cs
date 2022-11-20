@@ -7,6 +7,7 @@ using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
+using WeBudgetWebAPI.Models.Entities;
 
 namespace WeBudgetWebAPI.Controllers;
 
