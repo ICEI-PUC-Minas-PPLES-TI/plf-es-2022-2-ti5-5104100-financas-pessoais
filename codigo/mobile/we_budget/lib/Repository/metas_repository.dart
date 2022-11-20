@@ -235,12 +235,11 @@ class RepositoryMetas with ChangeNotifier {
     print(response.statusCode);
   }
 
-  Future<void> removeTrasactionSql(MetasModel meta) async {
+  Future<void> removeMetaSql(String idMeta) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
 
-    final id = meta.idMeta;
-    final url = 'hhttps://webudgetpuc.azurewebsites.net/api/Budget/$id';
+    final url = 'hhttps://webudgetpuc.azurewebsites.net/api/Budget/$idMeta';
 
     final response = await http.delete(
       Uri.parse(url),

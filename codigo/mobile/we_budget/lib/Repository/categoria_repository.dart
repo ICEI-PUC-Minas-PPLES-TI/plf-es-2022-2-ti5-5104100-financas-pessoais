@@ -221,11 +221,11 @@ class RepositoryCategory with ChangeNotifier {
     print(response.statusCode);
   }
 
-  Future<void> saveTransactionSql(Map<String, Object> categoryData) async {
-    bool hasId = categoryData['IdTransaction'] != "";
+  Future<void> saveTransactionSql(Map<String, dynamic> categoryData) async {
+    bool hasId = categoryData['Id'] != "";
 
     final transaction = CategoriaModel(
-      id: hasId ? categoryData['IdTransaction'] as String : "",
+      id: hasId ? categoryData['Id'] as String : "",
       nameCategoria: categoryData['nameCreateCategory'] as String,
       codeCategoria: categoryData['codeCreateCategory'] as String,
     );
