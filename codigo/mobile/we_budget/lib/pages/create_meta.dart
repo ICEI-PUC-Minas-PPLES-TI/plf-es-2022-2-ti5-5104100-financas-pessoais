@@ -18,8 +18,10 @@ class CreateMeta extends StatefulWidget {
 class _CreateCategoryState extends State<CreateMeta> {
   final _formKeyCreateMeta = GlobalKey<FormState>();
   final Map<String, dynamic> createCategoryData = {
-    'categoryMeta': '',
-    'valueMeta': '',
+    'categoryId': '',
+    'budgetValue': '',
+    'budgetDate': '', //pegar a data corrente
+    'active': '',
   };
   int? codeCreateMeta = 984405;
 
@@ -59,6 +61,7 @@ class _CreateCategoryState extends State<CreateMeta> {
     }
     _formKeyCreateMeta.currentState?.save();
     RepositoryMetas metas = Provider.of(context, listen: false);
+    print(createCategoryData);
 
     // try {
     //   await metas.insertMetas(

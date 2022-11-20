@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
+import 'package:we_budget/Repository/metas_repository.dart';
+import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/models/categoria_model.dart';
+import 'package:we_budget/models/metas.dart';
 
 import '../components/menu_component.dart';
 
@@ -114,108 +118,35 @@ class _MqttState extends State<Mqtt> {
 
     String rawJson = message;
 
-    Map<String, dynamic> map = jsonDecode(rawJson); // import 'dart:convert';
-    int tabela = map['Table'];
-    int operacao = map['Operation'];
+    Map<String, dynamic> map = jsonDecode(rawJson);
+    String tabela = map['Table'];
+    String operacao = map['Operation'];
     Map<String, dynamic> object = map['Object'] as Map<String, dynamic>;
-    print("Object....$object");
-    print("Tabela....");
-
-    // ******Operation******
-    // Create = 0
-    // Update = 1
-    // Delete = 2
-
-    // ******Table******
-    // Account = 0
-    // Budget = 1
-    // Transaction = 2
-    // Category = 3
 
     switch (tabela) {
-      case 2: //Table transaction
-        if (operacao == 0) {
-          //chamada insert
-          print("Table Transaction, operation of create");
-        } else if (operacao == 1) {
-          //chama update
-          print("Table Transaction, operation of update");
-        } else if (operacao == 2) {
-          //chama delete
-        } else {
-          print("Table Transaction, operation of delete");
-        }
+      case "Transaction":
+        RepositoryTransaction transactionProvider =
+            Provider.of(context, listen: false);
+        transactionProvider.saveTransactionSqflite(object, operacao);
         break;
-      case 3: //Table category
-        if (operacao == 0) {
-          print("Table Category, operation of create");
-          final category = CategoriaModel(
-              id: object['Id'].toString(),
-              codeCategoria: object['IconCode'].toString(),
-              nameCategoria: object['Description'].toString());
 
-          RepositoryCategory categoryProvider =
-              Provider.of(context, listen: false);
-          categoryProvider.insertCategoria(category);
-        } else if (operacao == 1) {
-          print("Table Category, operation of update");
-          final category = CategoriaModel(
-              id: object['Id'].toString(),
-              codeCategoria: object['IconCode'].toString(),
-              nameCategoria: object['Description'].toString());
-
-          RepositoryCategory categoryProvider =
-              Provider.of(context, listen: false);
-
-          categoryProvider.updateCategorySqflite(category);
-        } else if (operacao == 2) {
-          print("Table Category, operation of delete");
-          final int id = object['Id'];
-
-          RepositoryCategory categoryProvider =
-              Provider.of(context, listen: false);
-
-          categoryProvider.removeCategorySqflite(id);
-        } else {
-          print("Table Category, operation of delete");
-        }
+      case "Category":
+        RepositoryCategory categoryProvider =
+            Provider.of(context, listen: false);
+        categoryProvider.saveCategorySqflite(object, operacao);
         break;
-      case 0: //Table Account (Orçamento)
-        if (operacao == 0) {
-          print("Table Account, operation of create");
-          //chamada insert
-        } else if (operacao == 1) {
-          print("Table Account, operation of update");
-          //chama update
-        } else if (operacao == 2) {
-          print("Table Account, operation of delete");
-          //chama delete
-        } else {
-          print("Tipo transação não encontrada");
-        }
+
+      case "Budget":
+        RepositoryMetas metaProvider = Provider.of(context, listen: false);
+        metaProvider.saveMetaSqflite(object, operacao);
         break;
-      case 1: //Table Budget (Orçamento)
-        if (operacao == 0) {
-          print("Table Budget, operation of create");
-          //chamada insert
-        } else if (operacao == 1) {
-          print("Table Budget, operation of update");
-          //chama update
-        } else if (operacao == 2) {
-          print("Table Budget, operation of delete");
-          //chama delete
-        } else {
-          print("Tipo transação não encontrada");
-        }
+
+      case "Account":
+        RepositoryAccount accountProvider = Provider.of(context, listen: false);
+        accountProvider.saveAccountSqflite(object, operacao);
         break;
       default:
         print("Tabela não encontrada");
     }
-
-    //   factory Album.fromJson(Map<String, dynamic> json) {
-    // return Album(
-    //   id: json['id'],
-    //   title: json['title'],
-    // );
   }
 }
