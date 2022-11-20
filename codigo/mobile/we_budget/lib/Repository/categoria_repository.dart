@@ -90,11 +90,20 @@ class RepositoryCategory with ChangeNotifier {
 
   Future<void> _carregaTabela() async {
     CategoriaModel categoria1 = CategoriaModel(
-        id: "100", codeCategoria: "57664", nameCategoria: "Viagem");
+      id: "100",
+      codeCategoria: "57664",
+      nameCategoria: "Viagem",
+    );
     CategoriaModel categoria2 = CategoriaModel(
-        id: "200", codeCategoria: "57864", nameCategoria: "Carro");
+      id: "200",
+      codeCategoria: "57864",
+      nameCategoria: "Carro",
+    );
     CategoriaModel categoria3 = CategoriaModel(
-        id: "300", codeCategoria: "61468", nameCategoria: "Alimento");
+      id: "300",
+      codeCategoria: "61468",
+      nameCategoria: "Alimento",
+    );
 
     await insertCategoria(categoria1);
     await insertCategoria(categoria2);
@@ -212,6 +221,24 @@ class RepositoryCategory with ChangeNotifier {
     print(response.statusCode);
   }
 
+  Future<void> saveTransactionSql(Map<String, Object> categoryData) async {
+    bool hasId = categoryData['IdTransaction'] != "";
+
+    final transaction = CategoriaModel(
+      id: hasId ? categoryData['IdTransaction'] as String : "",
+      nameCategoria: categoryData['nameCreateCategory'] as String,
+      codeCategoria: categoryData['codeCreateCategory'] as String,
+    );
+
+    if (hasId) {
+      print("Entrou update");
+      await updateCategorySql(transaction);
+    } else {
+      print("Entrou create");
+      await createCategorySql(categoryData);
+    }
+  }
+
   void saveCategorySqflite(Map<String, dynamic> object, String operacao) {
     final category = CategoriaModel(
       id: object['Id'].toString(),
@@ -231,7 +258,7 @@ class RepositoryCategory with ChangeNotifier {
   }
 
   int codeCategory(String id) {
-    int index = 4;
+    int index = 3;
     // int index = _categories.indexWhere((element) => element.id == id);
 
     int category = int.parse(_categories[0].codeCategoria);

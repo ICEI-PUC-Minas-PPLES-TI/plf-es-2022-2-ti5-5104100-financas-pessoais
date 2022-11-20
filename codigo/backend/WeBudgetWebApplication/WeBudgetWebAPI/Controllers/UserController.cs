@@ -1,15 +1,8 @@
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using WeBudgetWebAPI.Configurations;
-using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.DTOs.Request;
 using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces.Sevices;
-
-//using WeBudgetWebAPI.Interfaces.Sevices;
 
 namespace WeBudgetWebAPI.Controllers;
 
@@ -37,6 +30,7 @@ public class UserController:ControllerBase
         
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
+    
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<UsuarioCadastroResponse>> Login(UsuarioLoginRequest usuarioLogin)
@@ -49,5 +43,30 @@ public class UserController:ControllerBase
             return Ok(resultado);
         
         return Unauthorized(resultado);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("recoveryEmail")]
+    public async Task<ActionResult> ForgotPassword(ForgotPasswordRequest forgotPassword)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+        
+        var result = await _identityService.ForgotPassword(forgotPassword);
+        if (result.IsFailure)
+            return BadRequest(result.ErrorMenssage);
+        return Ok();
+    }
+    
+    [AllowAnonymous]
+    [HttpPost("resetPassword")]
+    public async Task<ActionResult> ResetPassword(ResetPasswordRequest resetPassword)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+        var result = await _identityService.ResetPassword(resetPassword);
+        if (result.IsFailure)
+            return BadRequest(result.ErrorMenssage);
+        return Ok();
     }
 }
