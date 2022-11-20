@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/account.dart';
 import '../utils/db_util.dart';
@@ -6,6 +7,8 @@ import '../utils/db_util.dart';
 class RepositoryAccount with ChangeNotifier {
   List<AccountModel> _account = [];
   String _token;
+  double saldoContas = 0;
+  double saldoBalancoMes = 0;
 
   RepositoryAccount(this._token);
 
@@ -79,12 +82,41 @@ class RepositoryAccount with ChangeNotifier {
     return retorno;
   }
 
-  // double saldoConta() {
-  //   double total = _account
-  //       .reduce((total, element) => total + element.accountBalance) as double;
+  Future<void> saldoConta() async {
+    print("Data atual");
 
-  //   return total;
-  // }
+    List<AccountModel> account = await selectAcount();
+    double totalSomaContas = 0;
+
+    for (var element in account) {
+      int actualYear = int.parse(element.accountDateTime.substring(0, 4));
+      int actualMonth = int.parse(element.accountDateTime.substring(5, 7));
+      int actualDay = int.parse(element.accountDateTime.substring(8, 10));
+      DateTime accountDate = DateTime(actualYear, actualMonth, actualDay);
+      if (accountDate.month <= DateTime.now().month &&
+          accountDate.year <= DateTime.now().year) {
+        totalSomaContas += element.accountBalance;
+      }
+    }
+    saldoContas = totalSomaContas;
+  }
+
+  Future<void> valorBalancoMes() async {
+    List<AccountModel> account = await selectAcount();
+    double totalSaldoBalancoMes = 0;
+
+    for (var element in account) {
+      int actualYear = int.parse(element.accountDateTime.substring(0, 4));
+      int actualMonth = int.parse(element.accountDateTime.substring(5, 7));
+      int actualDay = int.parse(element.accountDateTime.substring(8, 10));
+      DateTime accountDate = DateTime(actualYear, actualMonth, actualDay);
+      if (accountDate.month == DateTime.now().month &&
+          accountDate.year == DateTime.now().year) {
+        totalSaldoBalancoMes += element.accountBalance;
+      }
+    }
+    saldoBalancoMes = totalSaldoBalancoMes;
+  }
 
   Future<void> _carregaTabela() async {
     print("Entrou carrega tabela");

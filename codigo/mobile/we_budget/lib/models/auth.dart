@@ -81,12 +81,13 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticateCadastro(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou autenticação...");
+    print("Entrou cadastro...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        "Accept": "application/json",
       },
       body: jsonEncode(
         {
@@ -95,6 +96,13 @@ class Auth with ChangeNotifier {
           'senhaConfimacao': password,
         },
       ),
+    );
+
+    Store.saveMap(
+      'userName',
+      {
+        'name': name,
+      },
     );
 
     final body = jsonDecode(response.body);

@@ -84,9 +84,10 @@ class _AuthFormState extends State<AuthForm> {
         );
       }
     } on AuthException catch (error) {
+      print("Erro do AuthException");
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Erro....");
+      print("Erro do catch....");
       print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
