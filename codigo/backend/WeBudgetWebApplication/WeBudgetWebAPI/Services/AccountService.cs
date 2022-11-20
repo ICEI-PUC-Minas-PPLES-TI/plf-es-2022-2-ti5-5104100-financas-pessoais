@@ -3,6 +3,7 @@ using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
+using WeBudgetWebAPI.Models.Entities;
 using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.Services;
@@ -66,14 +67,16 @@ public class AccountService:IAccountService
             UserId = userId
         });
         return await SendMenssage(OperationType.Create,
-            await _iAccount.Add(newAccount));
+            newAccount);
     }
 
     public async Task<Account> UpdateBalance(DateTime dateTime, double value, string userId)
     {
         var savedAccount = await _iAccount
-            .GetByUserAndTime(userId, dateTime) 
-                           ?? await Create(userId, dateTime);
+            .GetByUserAndTime(userId, dateTime);
+        
+        savedAccount??= await Create(userId, dateTime);
+        
         savedAccount.AccountBalance += value;
 
         return await SendMenssage(OperationType.Update,

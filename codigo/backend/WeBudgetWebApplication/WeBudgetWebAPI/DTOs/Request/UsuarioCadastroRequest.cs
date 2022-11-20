@@ -4,8 +4,10 @@ namespace WeBudgetWebAPI.DTOs.Request;
 
 public class UsuarioCadastroRequest
 {
-    // [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    // public string Name { get; set; }
+    [Required(ErrorMessage = "O campo {0} é obrigatório")]
+    public string FirstName { get; set; }
+    [Required(ErrorMessage = "O campo {0} é obrigatório")]
+    public string LastName { get; set; }
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     [EmailAddress(ErrorMessage = "O campo {0} é inválido")]
     public string Email { get; set; }

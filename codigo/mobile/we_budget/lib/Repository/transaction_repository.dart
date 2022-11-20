@@ -13,6 +13,8 @@ class RepositoryTransaction with ChangeNotifier {
   String _token;
   RepositoryTransaction(this._token);
   List<TransactionModel> _items = [];
+  double somaReceitas = 0;
+  double somaDespesas = 0;
 
   insertTransacao(TransactionModel transaction) async {
     Database db = await DBHelper.instance.database;
@@ -341,7 +343,7 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
-    await insertTransacao(transaction1);
+    // await insertTransacao(transaction1);
     // await insertTransacao(transaction2);
     // await insertTransacao(transaction4);
     // await insertTransacao(transaction5);
@@ -382,6 +384,7 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
+    print(response);
     print(response.statusCode);
     // final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
@@ -500,5 +503,50 @@ class RepositoryTransaction with ChangeNotifier {
     } else {
       print("Operação não encontrada");
     }
+  }
+
+  Future<double> totalReceitasMesCorrente() async {
+    // List<TransactionModel> transaction = await selectTransaction();
+    double totalReceitasMesCorrente = 0;
+    print("Teste soma receita...");
+    // print(transaction);
+
+    for (var element in _items) {
+      int actualYear = int.parse(element.data.substring(0, 4));
+      int actualMonth = int.parse(element.data.substring(5, 7));
+      int actualDay = int.parse(element.data.substring(8, 10));
+      DateTime accountDate = DateTime(actualYear, actualMonth, actualDay);
+
+      if (accountDate.month == DateTime.now().month &&
+          accountDate.year == DateTime.now().year &&
+          element.tipoTransacao == 0) {
+        totalReceitasMesCorrente += element.valor;
+      }
+    }
+    somaReceitas = totalReceitasMesCorrente;
+    print(totalReceitasMesCorrente);
+    return totalReceitasMesCorrente;
+  }
+
+  Future<double> totalDespesasMesCorrente() async {
+    double totalDespesasMesCorrente = 0;
+    print("Teste soma despesa...");
+    // print(transaction);
+    print(_items);
+    for (var element in _items) {
+      int actualYear = int.parse(element.data.substring(0, 4));
+      int actualMonth = int.parse(element.data.substring(5, 7));
+      int actualDay = int.parse(element.data.substring(8, 10));
+      DateTime accountDate = DateTime(actualYear, actualMonth, actualDay);
+
+      if (accountDate.month == DateTime.now().month &&
+          accountDate.year == DateTime.now().year &&
+          element.tipoTransacao == 1) {
+        totalDespesasMesCorrente += element.valor;
+      }
+    }
+    somaDespesas = totalDespesasMesCorrente;
+    print(totalDespesasMesCorrente);
+    return totalDespesasMesCorrente;
   }
 }

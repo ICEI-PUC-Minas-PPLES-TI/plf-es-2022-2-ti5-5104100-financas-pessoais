@@ -14,6 +14,7 @@ using WeBudgetWebAPI.Services;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Generics;
 using WeBudgetWebAPI.Models;
+using WeBudgetWebAPI.Models.Entities;
 using WeBudgetWebAPI.Repository;
 using WeBudgetWebAPI.Repository.Generics;
 
@@ -31,7 +32,7 @@ builder.Services.AddDbContext<IdentityDataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDataContext>();
 
 #region JWT Config
@@ -110,7 +111,10 @@ builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IBudgetService, BudgetService>();
 builder.Services.AddSingleton<IAccountService, AccountService>();
 builder.Services.AddSingleton<ITransactionService, TransactionService>();
+builder.Services.AddTransient<IMailService, MailService>();
 #endregion
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 #region AutoMapper
 var config = new AutoMapper.MapperConfiguration(cfg =>

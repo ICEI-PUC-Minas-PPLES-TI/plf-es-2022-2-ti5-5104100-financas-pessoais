@@ -10,4 +10,5 @@ class AppRoutes {
   static const placeForm = 'place-form';
   static const listTransactions = 'transaction-page';
   static const createMeta = 'create-meta';
+  static const menuPrincipal = 'menu-principal';
 }
