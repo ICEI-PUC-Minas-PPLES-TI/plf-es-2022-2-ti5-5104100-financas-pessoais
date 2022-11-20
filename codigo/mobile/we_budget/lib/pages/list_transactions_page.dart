@@ -23,12 +23,13 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
   }
 
   int tipoTransferencia = 0;
-  String formattedDate = "2022-11";
+  String formattedDate = DateFormat("yyyy-MM").format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     DateTime? pickedDate;
+    DateTime? dataSelecionada = DateTime.now();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: size * 0.18,
@@ -88,7 +89,6 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                     print("entrei");
                     pickedDate = await showMonthYearPicker(
                       context: context,
-                      initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2050),
                       builder: (context, child) {
@@ -103,9 +103,11 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                           ),
                         );
                       },
+                      initialDate: DateTime.now(),
                     );
                     if (pickedDate != null) {
                       setState(() {
+                        print("Data selecionada: $dataSelecionada");
                         formattedDate =
                             DateFormat("yyyy-MM").format(pickedDate!);
                       });
@@ -125,38 +127,24 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF923DF8),
-              Color(0xFF4C94F8),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-        ),
         width: double.infinity,
-        height: double.infinity,
-        child: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 253, 253, 252),
-            borderRadius: BorderRadiusDirectional.only(
-              topStart: Radius.circular(20),
-              topEnd: Radius.circular(20),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 15,
-                offset: Offset(0, 5),
-              )
-            ],
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 253, 253, 252),
+          borderRadius: BorderRadiusDirectional.only(
+            topStart: Radius.circular(20),
+            topEnd: Radius.circular(20),
           ),
-          child: Filter(
-            tipoTransferencia: tipoTransferencia,
-            filtroData: formattedDate,
-          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 15,
+              offset: Offset(0, 5),
+            )
+          ],
+        ),
+        child: Filter(
+          tipoTransferencia: tipoTransferencia,
+          filtroData: formattedDate,
         ),
       ),
     );

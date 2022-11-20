@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_budget/pages/welcome_page.dart';
 import '../components/menu_component.dart';
 
 class MainPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: const Text("Tela inicial"),
       ),
-      bottomNavigationBar: const MenuPrincipal(),
+      bottomNavigationBar: const WelcomePage(),
     );
   }
 }
