@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WeBudgetWebAPI.Data;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Models;
+using WeBudgetWebAPI.Models.Entities;
 using WeBudgetWebAPI.Repository.Generics;
 
 namespace WeBudgetWebAPI.Repository;
