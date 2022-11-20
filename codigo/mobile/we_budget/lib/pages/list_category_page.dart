@@ -124,14 +124,15 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
                                   },
                                 );
                                 Navigator.of(context).pop();
-                                // if (qualPaginaChamou == "CreateMeta") {
-                                //   Navigator.pushNamed(context, AppRoutes.createMeta,
-                                //       arguments: _categorySelect);
-                                // } else {
-                                //   Navigator.pushNamed(
-                                //       context, AppRoutes.formTransaction,
-                                //       arguments: _categorySelect);
-                                // }
+                                if (qualPaginaChamou == "CreateMeta") {
+                                  Navigator.pushNamed(
+                                      context, AppRoutes.createMeta,
+                                      arguments: _categorySelect);
+                                } else {
+                                  Navigator.pushNamed(
+                                      context, AppRoutes.formTransaction,
+                                      arguments: _categorySelect);
+                                }
                               }),
                         ),
                       ),
