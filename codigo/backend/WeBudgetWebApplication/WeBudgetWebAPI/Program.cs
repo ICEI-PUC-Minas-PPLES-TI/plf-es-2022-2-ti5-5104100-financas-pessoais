@@ -110,7 +110,10 @@ builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IBudgetService, BudgetService>();
 builder.Services.AddSingleton<IAccountService, AccountService>();
 builder.Services.AddSingleton<ITransactionService, TransactionService>();
+builder.Services.AddTransient<IMailService, MailService>();
 #endregion
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 #region AutoMapper
 var config = new AutoMapper.MapperConfiguration(cfg =>
