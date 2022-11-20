@@ -8,6 +8,7 @@ import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
+import 'package:we_budget/components/menu_component.dart';
 import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/category_page.dart';
@@ -29,7 +30,7 @@ void main() {
 class MyApp extends StatelessWidget {
   void carregaBanco() async {
     Database db = await DBHelper.instance.database;
-    // await db.delete(DBHelper.tableCategoria);
+    await db.delete(DBHelper.tableCategoria);
     // await db.delete(DBHelper.tableAccount);
     await RepositoryCategory('').selectCategoria();
     await RepositoryTransaction('').selectTransaction();
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
           AppRoutes.listTransactions: (ctx) => const ListTransactionsPage(),
           AppRoutes.createMeta: (ctx) => const CreateMeta(),
+          AppRoutes.menuPrincipal: (ctx) => const MenuPrincipal(),
         },
       ),
     );

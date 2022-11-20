@@ -6,6 +6,7 @@ import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/components/card_main_page_balanco.dart';
 import 'package:we_budget/components/card_main_page_receita.dart';
+import 'package:we_budget/models/auth.dart';
 
 import '../components/card_main_page_despesa.dart';
 import '../components/welcome_saldo.dart';
@@ -20,6 +21,8 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<RepositoryAccount>(context).saldoConta();
+
     final size = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SizedBox(
@@ -50,11 +53,29 @@ class _WelcomePageState extends State<WelcomePage> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        WelcomeSaldo(
-                          texto: "Olá Fulano",
-                          size: 25,
-                        )
+                      children: [
+                        FutureBuilder(
+                          future: Provider.of<Auth>(context).nameUser(),
+                          builder: (context, snapshot) => snapshot
+                                      .connectionState ==
+                                  ConnectionState.waiting
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Consumer<Auth>(
+                                  builder: (context, user, child) => Container(
+                                    margin: const EdgeInsetsDirectional.only(
+                                        bottom: 7.0),
+                                    child: Text(
+                                      '${user.name},',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                        ),
                       ],
                     ),
                     Row(
@@ -183,7 +204,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 0
                             ? ch!
                             : ListView.builder(
-                                itemCount: trasactionList.itemsCount > 5
+                                itemCount: trasactionList.itemsCount > 3
                                     ? 3
                                     : trasactionList.itemsCount,
                                 itemBuilder: (ctx, i) => ListTile(
