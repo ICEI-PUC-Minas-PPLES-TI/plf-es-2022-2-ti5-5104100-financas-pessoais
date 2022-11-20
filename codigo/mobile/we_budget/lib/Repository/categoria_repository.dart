@@ -143,6 +143,7 @@ class RepositoryCategory with ChangeNotifier {
   }
 
   Future<void> createCategorySql(Map<String, dynamic> category) async {
+    print("Category....$category");
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
     String userId = userData['userId'];
@@ -222,13 +223,16 @@ class RepositoryCategory with ChangeNotifier {
   }
 
   Future<void> saveTransactionSql(Map<String, dynamic> categoryData) async {
-    bool hasId = categoryData['Id'] != "";
-
+    print("Categoria update....$categoryData");
+    print("Id....${categoryData['Id']}");
+    bool hasId = categoryData['Id'] != null;
+    print("Id....$hasId");
     final transaction = CategoriaModel(
       id: hasId ? categoryData['Id'] as String : "",
       nameCategoria: categoryData['nameCreateCategory'] as String,
-      codeCategoria: categoryData['codeCreateCategory'] as String,
+      codeCategoria: categoryData['codeCreateCategory'].toString(),
     );
+    print("Model....$transaction");
 
     if (hasId) {
       print("Entrou update");
