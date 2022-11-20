@@ -30,7 +30,7 @@ void main() {
 class MyApp extends StatelessWidget {
   void carregaBanco() async {
     Database db = await DBHelper.instance.database;
-    await db.delete(DBHelper.tableCategoria);
+    // await db.delete(DBHelper.tableCategoria);
     // await db.delete(DBHelper.tableAccount);
     await RepositoryCategory('').selectCategoria();
     await RepositoryTransaction('').selectTransaction();
