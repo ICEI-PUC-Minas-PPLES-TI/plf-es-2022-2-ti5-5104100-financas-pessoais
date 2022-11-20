@@ -14,17 +14,23 @@ public class UsuarioLoginResponse
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string UserId { get; private set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string FirstName { get; private set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string LastName { get; private set; }
         
     public List<string> Erros { get; private set; }
 
-    public UsuarioLoginResponse() =>
-        Erros = new List<string>();
-
-    public UsuarioLoginResponse(bool sucesso, string accessToken, int expiresIn, string userId) : this()
+    public UsuarioLoginResponse()=>Erros = new List<string>();
+    public UsuarioLoginResponse(bool sucesso, string accessToken, int expiresIn, string userId, string lastName, string firstName) : this()
     {
         AccessToken = accessToken;
         ExpiresIn = expiresIn;
         UserId = userId;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
     public void AdicionarErro(string erro) =>

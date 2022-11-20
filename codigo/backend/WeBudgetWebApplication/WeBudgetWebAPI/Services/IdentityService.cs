@@ -5,18 +5,19 @@ using WeBudgetWebAPI.DTOs.Request;
 using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
+using WeBudgetWebAPI.Models.Entities;
 
 namespace WeBudgetWebAPI.Services;
 
 public class IdentityService:IIdentityService
 {
 
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IMailService _mailService;
 
-    public IdentityService(SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IOptions<JwtOptions> jwOptions,
+    public IdentityService(SignInManager<ApplicationUser> signInManager,
+        UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwOptions,
         IMailService mailService)
     {
         _signInManager = signInManager;
@@ -26,16 +27,18 @@ public class IdentityService:IIdentityService
 
     public async Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest usuarioCadastro)
     {
-        var identityUser = new IdentityUser
+        var applicationUser = new ApplicationUser()
         {
+            FirstName = usuarioCadastro.FirstName,
+            LastName = usuarioCadastro.LastName,
             UserName = usuarioCadastro.Email,
             Email = usuarioCadastro.Email,
             EmailConfirmed = true
         };
 
-        var result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
+        var result = await _userManager.CreateAsync(applicationUser, usuarioCadastro.Senha);
         if (result.Succeeded)
-            await _userManager.SetLockoutEnabledAsync(identityUser, false);
+            await _userManager.SetLockoutEnabledAsync(applicationUser, false);
 
         var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
         if (!result.Succeeded && result.Errors.Count() > 0)
@@ -66,7 +69,9 @@ public class IdentityService:IIdentityService
                 .AddClaim("idUsuario", userId)
                 .AddExpiry(expiresIn)
                 .Builder();
-            usuarioLoginResponse = new UsuarioLoginResponse(result.Succeeded, token.value,expiresIn, userId);
+            
+            usuarioLoginResponse = new UsuarioLoginResponse(result.Succeeded, token.value,expiresIn, 
+                userId, userCurrent.LastName, userCurrent.FirstName);
         }
         
         return usuarioLoginResponse;
