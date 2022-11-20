@@ -66,7 +66,7 @@ public class AccountService:IAccountService
             UserId = userId
         });
         return await SendMenssage(OperationType.Create,
-            await _iAccount.Add(newAccount));
+            newAccount);
     }
 
     public async Task<Account> UpdateBalance(DateTime dateTime, double value, string userId)
