@@ -39,7 +39,8 @@ class TransactionModel {
 
   @override
   String toString() {
-    String result = "$idTransaction - $name - $categoria - $data - $valor";
+    String result =
+        "$idTransaction - $name - $categoria - $data - $valor - Tipo transação : $tipoTransacao";
     return result.toString();
   }
 }

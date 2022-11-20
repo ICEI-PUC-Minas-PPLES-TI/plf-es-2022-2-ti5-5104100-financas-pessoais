@@ -8,6 +8,7 @@ class RepositoryAccount with ChangeNotifier {
   List<AccountModel> _account = [];
   String _token;
   double saldoContas = 0;
+
   double saldoBalancoMes = 0;
 
   RepositoryAccount(this._token);
@@ -47,6 +48,11 @@ class RepositoryAccount with ChangeNotifier {
 
     int index = _account.indexWhere((p) => p.id == account.id);
     print("index.....$index");
+
+    if (index == -1) {
+      insertAccount(account);
+      notifyListeners();
+    }
     if (index >= 0) {
       _account[index] = account;
       notifyListeners();
@@ -89,6 +95,7 @@ class RepositoryAccount with ChangeNotifier {
     double totalSomaContas = 0;
 
     for (var element in account) {
+      print(element.accountDateTime);
       int actualYear = int.parse(element.accountDateTime.substring(0, 4));
       int actualMonth = int.parse(element.accountDateTime.substring(5, 7));
       int actualDay = int.parse(element.accountDateTime.substring(8, 10));
@@ -98,6 +105,8 @@ class RepositoryAccount with ChangeNotifier {
         totalSomaContas += element.accountBalance;
       }
     }
+    print("Saldo contas");
+    print(saldoContas);
     saldoContas = totalSomaContas;
   }
 
@@ -120,8 +129,8 @@ class RepositoryAccount with ChangeNotifier {
 
   Future<void> _carregaTabela() async {
     print("Entrou carrega tabela");
-    AccountModel account1 = AccountModel(
-        id: "2", accountBalance: 100, accountDateTime: "19-11-202");
+    AccountModel account1 =
+        AccountModel(id: "2", accountBalance: 0, accountDateTime: "2022-19-11");
 
     await insertAccount(account1);
   }

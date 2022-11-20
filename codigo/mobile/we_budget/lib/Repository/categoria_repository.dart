@@ -89,25 +89,25 @@ class RepositoryCategory with ChangeNotifier {
   }
 
   Future<void> _carregaTabela() async {
-    CategoriaModel categoria1 = CategoriaModel(
-      id: "100",
-      codeCategoria: "57664",
-      nameCategoria: "Viagem",
-    );
-    CategoriaModel categoria2 = CategoriaModel(
-      id: "200",
-      codeCategoria: "57864",
-      nameCategoria: "Carro",
-    );
-    CategoriaModel categoria3 = CategoriaModel(
-      id: "300",
-      codeCategoria: "61468",
-      nameCategoria: "Alimento",
-    );
+    // CategoriaModel categoria1 = CategoriaModel(
+    //   id: "100",
+    //   codeCategoria: "57664",
+    //   nameCategoria: "Viagem",
+    // );
+    // CategoriaModel categoria2 = CategoriaModel(
+    //   id: "200",
+    //   codeCategoria: "57864",
+    //   nameCategoria: "Carro",
+    // );
+    // CategoriaModel categoria3 = CategoriaModel(
+    //   id: "300",
+    //   codeCategoria: "61468",
+    //   nameCategoria: "Alimento",
+    // );
 
-    await insertCategoria(categoria1);
-    await insertCategoria(categoria2);
-    await insertCategoria(categoria3);
+    // await insertCategoria(categoria1);
+    // await insertCategoria(categoria2);
+    // await insertCategoria(categoria3);
   }
 
   Future<void> loadCategoryRepository() async {

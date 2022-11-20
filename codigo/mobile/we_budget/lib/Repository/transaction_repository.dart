@@ -384,6 +384,7 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
+    print(response);
     print(response.statusCode);
     // final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
@@ -529,9 +530,9 @@ class RepositoryTransaction with ChangeNotifier {
 
   Future<double> totalDespesasMesCorrente() async {
     double totalDespesasMesCorrente = 0;
-    print("Teste soma receita...");
+    print("Teste soma despesa...");
     // print(transaction);
-
+    print(_items);
     for (var element in _items) {
       int actualYear = int.parse(element.data.substring(0, 4));
       int actualMonth = int.parse(element.data.substring(5, 7));
