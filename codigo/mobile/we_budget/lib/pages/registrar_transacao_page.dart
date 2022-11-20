@@ -133,7 +133,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     //   ),
     // );
 
-    Navigator.of(context).pushNamed(AppRoutes.main);
+    Navigator.of(context).pushNamed(AppRoutes.menuPrincipal);
   }
 
   void _loadFormData(TransactionModel transferencia) {
