@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
+import 'package:we_budget/components/card_main_page_balanco.dart';
+import 'package:we_budget/components/card_main_page_receita.dart';
 
-import '../components/card_main_page.dart';
+import '../components/card_main_page_despesa.dart';
 import '../components/welcome_saldo.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -68,11 +71,31 @@ class _WelcomePageState extends State<WelcomePage> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        WelcomeSaldo(
-                          texto: "R\$ 3.000,00",
-                          size: 22,
-                        )
+                      children: [
+                        FutureBuilder(
+                          future: Provider.of<RepositoryAccount>(context)
+                              .saldoConta(),
+                          builder: (context, snapshot) => snapshot
+                                      .connectionState ==
+                                  ConnectionState.waiting
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Consumer<RepositoryAccount>(
+                                  builder: (context, account, child) =>
+                                      Container(
+                                    margin: const EdgeInsetsDirectional.only(
+                                        bottom: 7.0),
+                                    child: Text(
+                                      "R\$ ${account.saldoContas.toStringAsFixed(2).replaceAll('.', ',')}",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                        ),
                       ],
                     ),
                     Row(
@@ -114,9 +137,9 @@ class _WelcomePageState extends State<WelcomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
-                          CardMainPage(title: "Receita"),
-                          CardMainPage(title: "Despesa"),
-                          CardMainPage(title: "Balanço mês"),
+                          CardMainPageReceita(title: "Receita"),
+                          CardMainPageDespesa(title: "Despesa"),
+                          CardMainPageBalanco(title: "Balanço"),
                         ],
                       ),
                       Container(
@@ -160,9 +183,9 @@ class _WelcomePageState extends State<WelcomePage> {
                                 0
                             ? ch!
                             : ListView.builder(
-                                itemCount: trasactionList.itemsCount > 3
-                                    ? trasactionList.itemsCount
-                                    : 1,
+                                itemCount: trasactionList.itemsCount > 5
+                                    ? 3
+                                    : trasactionList.itemsCount,
                                 itemBuilder: (ctx, i) => ListTile(
                                   leading: const Icon(Icons.coffee),
                                   title:
