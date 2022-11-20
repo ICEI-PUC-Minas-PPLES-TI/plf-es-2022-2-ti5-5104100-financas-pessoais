@@ -72,8 +72,10 @@ public class AccountService:IAccountService
     public async Task<Account> UpdateBalance(DateTime dateTime, double value, string userId)
     {
         var savedAccount = await _iAccount
-            .GetByUserAndTime(userId, dateTime) 
-                           ?? await Create(userId, dateTime);
+            .GetByUserAndTime(userId, dateTime);
+        
+        savedAccount??= await Create(userId, dateTime);
+        
         savedAccount.AccountBalance += value;
 
         return await SendMenssage(OperationType.Update,
