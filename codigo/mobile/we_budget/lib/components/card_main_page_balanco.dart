@@ -54,7 +54,7 @@ class CardMainPageBalanco extends StatelessWidget {
                         builder: (context, trasaction, child) => Container(
                           margin: const EdgeInsetsDirectional.only(bottom: 7.0),
                           child: Text(
-                            "R\$ ${trasaction.saldoBalancoMes}",
+                            "R\$ ${trasaction.saldoBalancoMes.toStringAsFixed(2).replaceAll('.', ',')}",
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 15,
