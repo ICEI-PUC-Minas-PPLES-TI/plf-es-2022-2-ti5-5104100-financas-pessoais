@@ -3,39 +3,26 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
-import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:we_budget/models/categoria_model.dart';
 import '../exceptions/auth_exception.dart';
+import '../models/store.dart';
 import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
   const CreateMeta({super.key});
 
   @override
-  State<CreateMeta> createState() => _CreateCategoryState();
+  State<CreateMeta> createState() => _CreateMetasState();
 }
 
-class _CreateCategoryState extends State<CreateMeta> {
+class _CreateMetasState extends State<CreateMeta> {
   final _formKeyCreateMeta = GlobalKey<FormState>();
-  final Map<String, dynamic> createCategoryData = {
+  final Map<String, dynamic> createMetasData = {
     'categoryId': '',
     'budgetValue': '',
-    'budgetDate': '', //pegar a data corrente
-    'active': '',
+    'budgetDate': DateTime.now(), //pegar a data corrente
+    'active': false,
   };
   int? codeCreateMeta = 984405;
-
-  _pickIcon() async {
-    IconData? icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackModes: [IconPack.material]);
-
-    setState(
-      () {
-        codeCreateMeta = icon?.codePoint;
-        createCategoryData['valueMeta'] = codeCreateMeta!;
-      },
-    );
-  }
 
   void _showErrorDialog(String msg) {
     showDialog(
@@ -53,20 +40,30 @@ class _CreateCategoryState extends State<CreateMeta> {
     );
   }
 
+  _recuperaDadosCategoria() async {
+    print("Entrou recupera dados categoria");
+    Map<String, dynamic> dados = await Store.getMap('category');
+    String category = dados['category'];
+    createMetasData['CategoryId'] = category;
+
+    print("Dados....$createMetasData");
+
+    _submitCreateMeta();
+  }
+
   Future<void> _submitCreateMeta() async {
     final isValid = _formKeyCreateMeta.currentState?.validate() ?? false;
-
+    print(createMetasData);
     if (!isValid) {
       return;
     }
     _formKeyCreateMeta.currentState?.save();
     RepositoryMetas metas = Provider.of(context, listen: false);
-    print(createCategoryData);
 
     // try {
     //   await metas.insertMetas(
-    //     createCategoryData['categoryMeta']!,
-    //     createCategoryData['valueMeta']!,
+    //     createMetasData['categoryMeta']!,
+    //     createMetasData['valueMeta']!,
     //   );
     // } on AuthException catch (error) {
     //   _showErrorDialog(error.toString());
@@ -81,9 +78,8 @@ class _CreateCategoryState extends State<CreateMeta> {
     final height = MediaQuery.of(context).size.height;
     String? categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
-    print("----->");
-    print(categorySelected.toString() == 'null');
-    createCategoryData['categoryMeta'] = categorySelected;
+    createMetasData['categoryId'] = categorySelected;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
@@ -93,13 +89,13 @@ class _CreateCategoryState extends State<CreateMeta> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Color(0xFFC84CF4),
-                    Color.fromARGB(255, 41, 19, 236),
-                    Color(0xFF923DF8),
-                  ]),
+                colors: [
+                  Color(0xFF923DF8),
+                  Color(0xFF4C94F8),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
             ),
           ),
         ),
@@ -108,161 +104,162 @@ class _CreateCategoryState extends State<CreateMeta> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFC84CF4),
-              Color.fromARGB(255, 41, 19, 236),
               Color(0xFF923DF8),
+              Color(0xFF4C94F8),
             ],
-            begin: Alignment.bottomLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsetsDirectional.only(top: 0),
-          child: Container(
-            height: height * 1,
-            margin: const EdgeInsetsDirectional.all(10),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadiusDirectional.only(
-                topStart: Radius.circular(20),
-                topEnd: Radius.circular(20),
-              ),
-              color: Colors.white,
+        child: Container(
+          height: height * 1,
+          margin: const EdgeInsetsDirectional.all(10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadiusDirectional.only(
+              topStart: Radius.circular(20),
+              topEnd: Radius.circular(20),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(
-                  height: 50,
-                ),
-                Column(
-                  children: const [
-                    Text(
-                      "Cadastro de Meta",
-                      style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 28,
-                        color: Colors.blueGrey,
-                      ),
-                      textAlign: TextAlign.center,
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(
+                height: 50,
+              ),
+              Column(
+                children: const [
+                  Text(
+                    "Cadastro de Meta",
+                    style: TextStyle(
+                      fontFamily: 'Arial',
+                      fontSize: 28,
+                      color: Colors.blueGrey,
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Form(
-                    key: _formKeyCreateMeta,
-                    child: Column(
-                      children: [
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.of(context).pushNamed(
-                                AppRoutes.listCategory,
-                                arguments: "CreateMeta"),
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color.fromARGB(255, 102, 91, 196)),
-                          ),
-                          child: const Text(
-                            "Selecionar categoria",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          categorySelected == 'null' ? "" : categorySelected,
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 102, 91, 196),
-                            fontSize: 25,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 70,
-                        ),
-                        Container(
-                          margin:
-                              const EdgeInsetsDirectional.only(bottom: 30.0),
-                          child: TextFormField(
-                            key: const ValueKey('valor'),
-                            decoration: const InputDecoration(
-                              labelText: 'Valor da Meta',
-                              hintText: "Digite aqui o valor da meta",
-                            ),
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                            onSaved: (categoryMeta) =>
-                                createCategoryData['categoryMeta'] =
-                                    categoryMeta,
-                            validator: (validacao) {
-                              final name = validacao ?? '';
-                              if (name.trim().isEmpty) {
-                                return 'Dados inválidos';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                Container(
-                  height: 40.0,
-                  child: const Text("Transação recorrente"),
-                ),
-                FlutterSwitch(
-                  activeColor: Colors.green,
-                  activeText: "Sim",
-                  inactiveText: "Não",
-                  inactiveColor: Colors.red,
-                  width: 120.0,
-                  height: 40.0,
-                  valueFontSize: 20.0,
-                  toggleSize: 45.0,
-                  value: status,
-                  borderRadius: 30.0,
-                  padding: 6.0,
-                  showOnOff: true,
-                  onToggle: (val) {
-                    setState(() {
-                      status = val;
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Form(
+                  key: _formKeyCreateMeta,
+                  child: Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: _submitCreateMeta,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          fixedSize: const Size(290, 40),
-                          backgroundColor:
-                              const Color.fromARGB(255, 102, 91, 196),
+                      TextButton(
+                        onPressed: () => {
+                          Navigator.of(context).pushNamed(
+                              AppRoutes.listCategory,
+                              arguments: "CreateMeta"),
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color.fromARGB(255, 102, 91, 196)),
                         ),
                         child: const Text(
-                          "Cadastrar",
-                          textAlign: TextAlign.center,
+                          "Selecionar categoria",
                           style: TextStyle(
-                            fontSize: 15,
+                            color: Colors.white,
                           ),
+                        ),
+                      ),
+                      Text(
+                        categorySelected == 'null' ? "" : categorySelected,
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 102, 91, 196),
+                          fontSize: 25,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 70,
+                      ),
+                      Container(
+                        margin: const EdgeInsetsDirectional.only(bottom: 30.0),
+                        child: TextFormField(
+                          key: const ValueKey('valor'),
+                          decoration: const InputDecoration(
+                            labelText: 'Valor da Meta',
+                            hintText: "Digite aqui o valor da meta",
+                          ),
+                          keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true,
+                            signed: true,
+                          ),
+                          textInputAction: TextInputAction.next,
+                          onSaved: (budgetValue) =>
+                              createMetasData['budgetValue'] =
+                                  double.parse(budgetValue ?? '0'),
+                          validator: (validacao) {
+                            final priceString = validacao ?? '';
+                            if (priceString.trim().isEmpty) {
+                              return 'Dados inválidos';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Container(
+                height: 40.0,
+                child: const Text("Transação recorrente"),
+              ),
+              FlutterSwitch(
+                activeColor: const Color(0xFF45CFF1),
+                activeText: "Sim",
+                inactiveText: "Não",
+                inactiveColor: const Color(0xFF45CFF1),
+                width: 120.0,
+                height: 40.0,
+                valueFontSize: 20.0,
+                toggleSize: 45.0,
+                value: status,
+                borderRadius: 30.0,
+                padding: 6.0,
+                showOnOff: true,
+                onToggle: (val) {
+                  setState(
+                    () {
+                      status = val;
+                      createMetasData['active'] = val;
+                    },
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _recuperaDadosCategoria,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        fixedSize: const Size(290, 40),
+                        backgroundColor:
+                            const Color.fromARGB(255, 102, 91, 196),
+                      ),
+                      child: const Text(
+                        "Cadastrar",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

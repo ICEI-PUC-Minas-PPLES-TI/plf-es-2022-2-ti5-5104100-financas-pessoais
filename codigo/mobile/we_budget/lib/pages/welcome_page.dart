@@ -8,6 +8,7 @@ import 'package:we_budget/components/card_main_page_balanco.dart';
 import 'package:we_budget/components/card_main_page_receita.dart';
 import 'package:we_budget/models/auth.dart';
 
+import '../Repository/categoria_repository.dart';
 import '../components/card_main_page_despesa.dart';
 import '../components/welcome_saldo.dart';
 
@@ -67,7 +68,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     margin: const EdgeInsetsDirectional.only(
                                         bottom: 7.0),
                                     child: Text(
-                                      '${user.name},',
+                                      'Olá ${user.name},',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -208,7 +209,17 @@ class _WelcomePageState extends State<WelcomePage> {
                                     ? 3
                                     : trasactionList.itemsCount,
                                 itemBuilder: (ctx, i) => ListTile(
-                                  leading: const Icon(Icons.coffee),
+                                  leading: Icon(
+                                    IconData(
+                                        Provider.of<RepositoryCategory>(context,
+                                                listen: false)
+                                            .codeCategory(
+                                          trasactionList
+                                              .itemByIndex(i)
+                                              .categoria,
+                                        ),
+                                        fontFamily: "MaterialIcons"),
+                                  ),
                                   title:
                                       Text(trasactionList.itemByIndex(i).name),
                                   onTap: () {},
@@ -222,7 +233,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                     trasactionList
                                         .itemByIndex(i)
                                         .valor
-                                        .toString(),
+                                        .toStringAsFixed(2)
+                                        .replaceAll('.', ','),
                                   ),
                                 ),
                               ),

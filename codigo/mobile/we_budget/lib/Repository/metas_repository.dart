@@ -30,8 +30,7 @@ class RepositoryMetas with ChangeNotifier {
   Future<List<MetasModel>> selectMetas() async {
     Database db = await DBHelper.instance.database;
     List<Map> metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
-    print(metas);
-    print(metas.isEmpty);
+
     if (metas.isEmpty) {
       await _carregaTabela();
     }
@@ -51,26 +50,22 @@ class RepositoryMetas with ChangeNotifier {
       );
     }
 
-    print("Length Metas...");
-    print(retorno.length);
-    print(retorno);
-
     _itemsMeta = retorno;
     notifyListeners();
     return retorno;
   }
 
   Future<void> _carregaTabela() async {
-    MetasModel meta1 = MetasModel(
-      idCategoria: "15",
-      idMeta: "1",
-      dataMeta: "2022-11-18",
-      valorMeta: 500,
-      valorAtual: 0,
-      recorrente: true,
-    );
+    // MetasModel meta1 = MetasModel(
+    //   idCategoria: "15",
+    //   idMeta: "1",
+    //   dataMeta: "2022-11-18",
+    //   valorMeta: 500,
+    //   valorAtual: 0,
+    //   recorrente: true,
+    // );
 
-    await insertMetas(meta1);
+    // await insertMetas(meta1);
   }
 
   Future<void> loadMetasRepository() async {
@@ -89,12 +84,11 @@ class RepositoryMetas with ChangeNotifier {
           ),
         )
         .toList();
-    print("Itens do loadMetasRepository....$_itemsMeta");
+
     notifyListeners();
   }
 
   Future<void> loadMetasRepository2(String filterDate) async {
-    print("data: $filterDate");
     Database db = await DBHelper.instance.database;
     List<Map> dataList =
         await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
@@ -138,8 +132,6 @@ class RepositoryMetas with ChangeNotifier {
 
   void updateMetaSqflite(MetasModel meta) async {
     loadMetasRepository();
-    print("Entrou updateMetaSqflite");
-    print("_accounts......$_itemsMeta");
 
     Database db = await DBHelper.instance.database;
 
@@ -156,16 +148,13 @@ class RepositoryMetas with ChangeNotifier {
       where: "idMeta = ?",
       whereArgs: [meta.idMeta],
     );
-    print("Row.....$row");
 
     int index = _itemsMeta.indexWhere((p) => p.idMeta == meta.idMeta);
-    print("index.....$index");
+
     if (index >= 0) {
       _itemsMeta[index] = meta;
       notifyListeners();
     }
-
-    print(_itemsMeta);
   }
 
   MetasModel itemByIndex(int index) {
@@ -200,7 +189,6 @@ class RepositoryMetas with ChangeNotifier {
       ),
     );
 
-    print(response.statusCode);
     final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
@@ -231,16 +219,13 @@ class RepositoryMetas with ChangeNotifier {
         },
       ),
     );
-
-    print(response.statusCode);
   }
 
-  Future<void> removeTrasactionSql(MetasModel meta) async {
+  Future<void> removeMetaSql(String idMeta) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
 
-    final id = meta.idMeta;
-    final url = 'hhttps://webudgetpuc.azurewebsites.net/api/Budget/$id';
+    final url = 'hhttps://webudgetpuc.azurewebsites.net/api/Budget/$idMeta';
 
     final response = await http.delete(
       Uri.parse(url),
@@ -257,7 +242,6 @@ class RepositoryMetas with ChangeNotifier {
         statusCode: response.statusCode,
       );
     }
-    print(response.statusCode);
   }
 
   void saveMetaSqflite(Map<String, dynamic> object, String operacao) {
@@ -273,10 +257,8 @@ class RepositoryMetas with ChangeNotifier {
     if (operacao == "Create") {
       insertMetas(meta);
     } else if (operacao == "Update") {
-      print("Entrou update meta");
       updateMetaSqflite(meta);
     } else if (operacao == "Delete") {
-      print("Entrou create meta");
       removeMetaSqflite(int.parse(meta.idCategoria));
     } else {
       print("Operação não encontrada");

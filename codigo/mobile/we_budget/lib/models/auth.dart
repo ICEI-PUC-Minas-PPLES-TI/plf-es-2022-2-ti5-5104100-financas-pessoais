@@ -34,7 +34,7 @@ class Auth with ChangeNotifier {
 
   Future<String> nameUser() async {
     Map<String, dynamic> userData = await Store.getMap('userName');
-    name = userData['name'];
+    //name = userData['name'];
     return name;
   }
 
@@ -98,6 +98,8 @@ class Auth with ChangeNotifier {
       },
       body: jsonEncode(
         {
+          'firstName': name,
+          'lastName': name,
           'email': email,
           'senha': password,
           'senhaConfimacao': password,
@@ -113,9 +115,12 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print("Response....");
+    print("Response....${body['erros'].toString()}");
+    print(body['erros'].toString());
     print(body);
     if (body['sucesso'] != true) {
+      print("o erro é:");
+      print(body['erros'].toString());
       throw AuthException(body['erros'].toString());
     }
 

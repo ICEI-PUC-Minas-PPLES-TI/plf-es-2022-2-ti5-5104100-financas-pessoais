@@ -59,12 +59,13 @@ class _CreateCategoryState extends State<CreateCategory> {
     RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
-      await category.createCategorySql(_createCategoryData).then(
+      await category.saveTransactionSql(_createCategoryData).then(
             (value) => Navigator.of(context).pop(),
           );
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
+      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
   }

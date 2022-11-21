@@ -283,7 +283,11 @@ class _FilterState extends State<Filter> {
                                 ),
                               ),
                               trailing: Text(
-                                trasactionList.itemByIndex(i).valor.toString(),
+                                trasactionList
+                                    .itemByIndex(i)
+                                    .valor
+                                    .toStringAsFixed(2)
+                                    .replaceAll('.', ','),
                               ),
                             ),
                           ),

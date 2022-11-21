@@ -168,7 +168,6 @@ class RepositoryCategory with ChangeNotifier {
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }
-    print(response.statusCode);
   }
 
   Future<void> updateCategorySql(CategoriaModel category) async {
@@ -193,7 +192,6 @@ class RepositoryCategory with ChangeNotifier {
         },
       ),
     );
-    print(response.statusCode);
   }
 
   Future<void> removeCategorySql(CategoriaModel category) async {
@@ -218,23 +216,20 @@ class RepositoryCategory with ChangeNotifier {
         statusCode: response.statusCode,
       );
     }
-    print(response.statusCode);
   }
 
-  Future<void> saveTransactionSql(Map<String, Object> categoryData) async {
-    bool hasId = categoryData['IdTransaction'] != "";
+  Future<void> saveTransactionSql(Map<String, dynamic> categoryData) async {
+    bool hasId = categoryData['Id'] != null;
 
     final transaction = CategoriaModel(
-      id: hasId ? categoryData['IdTransaction'] as String : "",
+      id: hasId ? categoryData['Id'] as String : "",
       nameCategoria: categoryData['nameCreateCategory'] as String,
-      codeCategoria: categoryData['codeCreateCategory'] as String,
+      codeCategoria: categoryData['codeCreateCategory'].toString(),
     );
 
     if (hasId) {
-      print("Entrou update");
       await updateCategorySql(transaction);
     } else {
-      print("Entrou create");
       await createCategorySql(categoryData);
     }
   }
@@ -258,11 +253,20 @@ class RepositoryCategory with ChangeNotifier {
   }
 
   int codeCategory(String id) {
-    int index = 3;
-    // int index = _categories.indexWhere((element) => element.id == id);
+    selectCategoria();
+    int index = _categories.indexWhere((element) => element.id == id);
 
-    int category = int.parse(_categories[0].codeCategoria);
+    int category = int.parse(_categories[index].codeCategoria);
 
     return category;
+  }
+
+  String selectNameCategoria(String id) {
+    selectCategoria();
+    int index = _categories.indexWhere((element) => element.id == id);
+
+    String nameCategory = _categories[index].nameCategoria;
+
+    return nameCategory;
   }
 }
