@@ -61,16 +61,16 @@ class RepositoryMetas with ChangeNotifier {
   }
 
   Future<void> _carregaTabela() async {
-    MetasModel meta1 = MetasModel(
-      idCategoria: "15",
-      idMeta: "1",
-      dataMeta: "2022-11-18",
-      valorMeta: 500,
-      valorAtual: 0,
-      recorrente: true,
-    );
+    // MetasModel meta1 = MetasModel(
+    //   idCategoria: "15",
+    //   idMeta: "1",
+    //   dataMeta: "2022-11-18",
+    //   valorMeta: 500,
+    //   valorAtual: 0,
+    //   recorrente: true,
+    // );
 
-    await insertMetas(meta1);
+    // await insertMetas(meta1);
   }
 
   Future<void> loadMetasRepository() async {

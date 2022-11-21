@@ -67,7 +67,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     margin: const EdgeInsetsDirectional.only(
                                         bottom: 7.0),
                                     child: Text(
-                                      '${user.name},',
+                                      'Olá ${user.name},',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -222,7 +222,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                     trasactionList
                                         .itemByIndex(i)
                                         .valor
-                                        .toString(),
+                                        .toStringAsFixed(2)
+                                        .replaceAll('.', ','),
                                   ),
                                 ),
                               ),
