@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import '../exceptions/auth_exception.dart';
@@ -17,10 +18,11 @@ class CreateMeta extends StatefulWidget {
 class _CreateMetasState extends State<CreateMeta> {
   final _formKeyCreateMeta = GlobalKey<FormState>();
   final Map<String, dynamic> createMetasData = {
-    'categoryId': '',
-    'budgetValue': '',
-    'budgetDate': DateTime.now(), //pegar a data corrente
-    'active': '',
+    'budgetValue': 0.00,
+    'budgetDate':
+        DateFormat('yyyy-MM-dd').format(DateTime.now()), //pegar a data corrente
+    'active': false,
+    'valorAtual': 0.00,
   };
   int? codeCreateMeta = 984405;
 
@@ -60,16 +62,16 @@ class _CreateMetasState extends State<CreateMeta> {
     _formKeyCreateMeta.currentState?.save();
     RepositoryMetas metas = Provider.of(context, listen: false);
 
-    // try {
-    //   await metas.insertMetas(
-    //     createMetasData['categoryMeta']!,
-    //     createMetasData['valueMeta']!,
-    //   );
-    // } on AuthException catch (error) {
-    //   _showErrorDialog(error.toString());
-    // } catch (error) {
-    //   _showErrorDialog('Ocorreu um erro inesperado!');
-    // }
+    try {
+      await metas.saveMetaSql(createMetasData).then(
+            (value) => Navigator.of(context).pop(),
+          );
+    } on AuthException catch (error) {
+      _showErrorDialog(error.toString());
+    } catch (error) {
+      print("Erro 123: $error");
+      _showErrorDialog('Ocorreu um erro inesperado!');
+    }
   }
 
   bool status = false;
@@ -78,7 +80,6 @@ class _CreateMetasState extends State<CreateMeta> {
     final height = MediaQuery.of(context).size.height;
     String? categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
-    createMetasData['categoryId'] = categorySelected;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -221,7 +222,7 @@ class _CreateMetasState extends State<CreateMeta> {
                 borderRadius: 30.0,
                 padding: 6.0,
                 showOnOff: true,
-                onToggle: (val) {
+                onToggle: (bool val) {
                   setState(
                     () {
                       status = val;

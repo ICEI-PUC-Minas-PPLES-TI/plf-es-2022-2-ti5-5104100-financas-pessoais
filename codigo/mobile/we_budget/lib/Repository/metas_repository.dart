@@ -116,6 +116,28 @@ class RepositoryMetas with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> saveMetaSql(Map<String, dynamic> metasData) async {
+    bool hasId = metasData['IdMeta'] != null;
+    print("Id....$hasId");
+    final metas = MetasModel(
+      idMeta: hasId ? metasData['IdMeta'].toString() : "",
+      idCategoria: metasData['CategoryId'].toString(),
+      dataMeta: metasData['budgetDate'].toString(),
+      valorMeta: metasData['budgetValue'],
+      valorAtual: metasData['valorAtual'],
+      recorrente: metasData['active'],
+    );
+
+    if (hasId) {
+      print("Entrou update");
+      await updateMetaSql(metas);
+    } else {
+      print("Entrou create");
+      print(metas);
+      await createMetaSql(metas);
+    }
+  }
+
   int get itemsCount {
     return _itemsMeta.length;
   }
@@ -181,6 +203,7 @@ class RepositoryMetas with ChangeNotifier {
     String token = userData['token'];
     String userId = userData['userId'];
 
+    print("entrei Nataniel $meta");
     const url = 'https://webudgetpuc.azurewebsites.net/api/Budget/Add';
     final response = await http.post(
       Uri.parse(url),
@@ -200,7 +223,8 @@ class RepositoryMetas with ChangeNotifier {
       ),
     );
 
-    print(response.statusCode);
+    print("Entrou Nataniel 2");
+    print("Entrei Nataniel 3: ${response.body}");
     final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
