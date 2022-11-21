@@ -4,6 +4,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import '../exceptions/auth_exception.dart';
+import '../models/store.dart';
 import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
@@ -37,6 +38,17 @@ class _CreateMetasState extends State<CreateMeta> {
         ],
       ),
     );
+  }
+
+  _recuperaDadosCategoria() async {
+    print("Entrou recupera dados categoria");
+    Map<String, dynamic> dados = await Store.getMap('category');
+    String category = dados['category'];
+    createMetasData['CategoryId'] = category;
+
+    print("Dados....$createMetasData");
+
+    _submitCreateMeta();
   }
 
   Future<void> _submitCreateMeta() async {
@@ -227,7 +239,7 @@ class _CreateMetasState extends State<CreateMeta> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: _submitCreateMeta,
+                      onPressed: _recuperaDadosCategoria,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
