@@ -4,6 +4,7 @@ import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/components/pie_chart_widget.dart';
+import 'package:we_budget/components/pie_chart_widget2.dart';
 import 'package:we_budget/components/price_point.dart';
 
 import '../Repository/transaction_repository.dart';
@@ -115,7 +116,7 @@ class MenuPrincipal extends StatelessWidget {
         ),
         SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: const Graficos_page())
+            child: Graficos_page())
       ],
       actionBarView: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -124,6 +125,29 @@ class MenuPrincipal extends StatelessWidget {
     );
   }
 }
+class SectorRow2 extends StatelessWidget {
+  const SectorRow2(this.sector, {Key? key}) : super(key: key);
+  final Sector2 sector;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 16,
+          child: CircleAvatar(
+            backgroundColor: sector.color,
+          ),
+        ),
+        Padding(padding: EdgeInsets.only(left: 10.0)),
+        Text('R\$' + sector.value.toString() + '0'),
+        const Spacer(),
+        Text(sector.title),
+      ],
+    );
+  }
+}
+
 
 class SectorRow extends StatelessWidget {
   const SectorRow(this.sector, {Key? key}) : super(key: key);
