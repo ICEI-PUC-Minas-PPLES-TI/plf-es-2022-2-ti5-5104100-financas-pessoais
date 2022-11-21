@@ -19,7 +19,7 @@ class _CreateMetasState extends State<CreateMeta> {
     'categoryId': '',
     'budgetValue': '',
     'budgetDate': DateTime.now(), //pegar a data corrente
-    'active': '',
+    'active': false,
   };
   int? codeCreateMeta = 984405;
 
@@ -41,7 +41,7 @@ class _CreateMetasState extends State<CreateMeta> {
 
   Future<void> _submitCreateMeta() async {
     final isValid = _formKeyCreateMeta.currentState?.validate() ?? false;
-
+    print(createMetasData);
     if (!isValid) {
       return;
     }
@@ -213,7 +213,7 @@ class _CreateMetasState extends State<CreateMeta> {
                   setState(
                     () {
                       status = val;
-                      createMetasData['active'] = status;
+                      createMetasData['active'] = val;
                     },
                   );
                 },
