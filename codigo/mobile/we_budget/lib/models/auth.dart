@@ -34,7 +34,7 @@ class Auth with ChangeNotifier {
 
   Future<String> nameUser() async {
     Map<String, dynamic> userData = await Store.getMap('userName');
-    name = userData['name'];
+    //name = userData['name'];
     return name;
   }
 
