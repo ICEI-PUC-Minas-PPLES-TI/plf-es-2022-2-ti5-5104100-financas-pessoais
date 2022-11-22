@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.3
+  new_gradient_app_bar: ^0.2.0
   http: ^0.13.5
   shared_preferences: ^2.0.15
   curved_nav_bar: ^0.0.2
