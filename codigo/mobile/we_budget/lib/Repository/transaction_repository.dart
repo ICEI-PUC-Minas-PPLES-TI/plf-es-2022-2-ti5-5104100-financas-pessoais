@@ -483,7 +483,7 @@ class RepositoryTransaction with ChangeNotifier {
       idTransaction: object['Id'].toString(),
       name: object['Description'] as String,
       categoria: object['CategoryId'].toString(),
-      data: object['TansactionDate'].toString(),
+      data: object['TansactionDate'].toString().substring(0, 10),
       valor: object['PaymentValue'] as double,
       formaPagamento: object['PaymentType'] as String,
       tipoTransacao: object['TansactionType'].toString() == 'Expenses' ? 1 : 0,

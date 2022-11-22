@@ -28,8 +28,6 @@ class RepositoryAccount with ChangeNotifier {
 
   void updateAccountSqflite(AccountModel account) async {
     selectAcount();
-    print("Entrou updateAccountSqflite");
-    print("_accounts......$_account");
 
     Database db = await DBHelper.instance.database;
 
@@ -44,10 +42,8 @@ class RepositoryAccount with ChangeNotifier {
       where: "idAccount = ?",
       whereArgs: [account.id],
     );
-    print("Row.....$row");
 
     int index = _account.indexWhere((p) => p.id == account.id);
-    print("index.....$index");
 
     if (index == -1) {
       insertAccount(account);
@@ -60,17 +56,16 @@ class RepositoryAccount with ChangeNotifier {
   }
 
   Future<List<AccountModel>> selectAcount() async {
-    print("Entrou select account");
     Database db = await DBHelper.instance.database;
     List<Map> accounts =
         await db.rawQuery("SELECT * FROM ${DBHelper.tableAccount}");
-    print(accounts.length);
+
     if (accounts.isEmpty) {
       await _carregaTabela();
     }
     List<AccountModel> retorno = [];
     accounts = await db.rawQuery("SELECT * FROM ${DBHelper.tableAccount}");
-    print(accounts);
+
     for (var account in accounts) {
       retorno.add(
         AccountModel(
@@ -82,20 +77,14 @@ class RepositoryAccount with ChangeNotifier {
     }
 
     _account = retorno;
-    print("Lenght account..");
-    print(_account.length);
-    print(_account);
     return retorno;
   }
 
   Future<void> saldoConta() async {
-    print("Data atual");
-
     List<AccountModel> account = await selectAcount();
     double totalSomaContas = 0;
 
     for (var element in account) {
-      print(element.accountDateTime);
       int actualYear = int.parse(element.accountDateTime.substring(0, 4));
       int actualMonth = int.parse(element.accountDateTime.substring(5, 7));
       int actualDay = int.parse(element.accountDateTime.substring(8, 10));
@@ -105,8 +94,7 @@ class RepositoryAccount with ChangeNotifier {
         totalSomaContas += element.accountBalance;
       }
     }
-    print("Saldo contas");
-    print(saldoContas);
+
     saldoContas = totalSomaContas;
   }
 
@@ -128,7 +116,6 @@ class RepositoryAccount with ChangeNotifier {
   }
 
   Future<void> _carregaTabela() async {
-    print("Entrou carrega tabela");
     AccountModel account1 =
         AccountModel(id: "2", accountBalance: 0, accountDateTime: "2022-19-11");
 
@@ -145,10 +132,7 @@ class RepositoryAccount with ChangeNotifier {
     if (operacao == "Create") {
       insertAccount(account);
     } else if (operacao == "Update") {
-      print("Entrou update account");
       updateAccountSqflite(account);
-    } else {
-      print("Operação não encontrada");
-    }
+    } else {}
   }
 }

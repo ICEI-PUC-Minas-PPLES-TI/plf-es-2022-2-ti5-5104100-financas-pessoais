@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import '../exceptions/auth_exception.dart';
+import '../models/metas.dart';
 import '../models/store.dart';
 import '../utils/app_routes.dart';
 
@@ -18,7 +18,7 @@ class CreateMeta extends StatefulWidget {
 class _CreateMetasState extends State<CreateMeta> {
   final _formKeyCreateMeta = GlobalKey<FormState>();
   final Map<String, dynamic> createMetasData = {
-    'budgetValue': 0.00,
+    'budgetValue': '',
     'budgetDate':
         DateFormat('yyyy-MM-dd').format(DateTime.now()), //pegar a data corrente
     'active': false,
@@ -55,7 +55,7 @@ class _CreateMetasState extends State<CreateMeta> {
 
   Future<void> _submitCreateMeta() async {
     final isValid = _formKeyCreateMeta.currentState?.validate() ?? false;
-
+    print(createMetasData);
     if (!isValid) {
       return;
     }
@@ -74,12 +74,41 @@ class _CreateMetasState extends State<CreateMeta> {
     }
   }
 
+  void _loadFormDataMeta(MetasModel meta) {
+    createMetasData['IdMeta'] = meta.idMeta;
+    createMetasData['CategoryId'] = meta.idCategoria;
+    createMetasData['budgetDate'] = meta.dataMeta;
+    createMetasData['budgetValue'] = meta.valorMeta;
+    createMetasData['valorAtual'] = meta.valorAtual;
+    createMetasData['active'] = meta.recorrente;
+  }
+
   bool status = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    String? categorySelected =
+    String categorySelected =
         ModalRoute.of(context)!.settings.arguments.toString();
+
+    if (ModalRoute.of(context)!.settings != null &&
+        ModalRoute.of(context)!.settings.arguments != null) {
+      final argument =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+      String page = argument['page'] as String;
+      Object data = argument['itemByIndex'];
+      print("1: $data");
+
+      if (page == 'listMeta') {
+        setState(() {
+          _loadFormDataMeta(data as MetasModel);
+          status = createMetasData['active'];
+          categorySelected = createMetasData['CategoryId'].toString();
+        });
+      } else {
+        codeCreateMeta = 984405;
+      }
+    }
 
     return Scaffold(
       appBar: PreferredSize(
@@ -179,6 +208,8 @@ class _CreateMetasState extends State<CreateMeta> {
                       Container(
                         margin: const EdgeInsetsDirectional.only(bottom: 30.0),
                         child: TextFormField(
+                          initialValue:
+                              createMetasData['budgetValue'].toString(),
                           key: const ValueKey('valor'),
                           decoration: const InputDecoration(
                             labelText: 'Valor da Meta',
