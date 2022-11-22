@@ -19,7 +19,8 @@ public class RepositoryAccount:RepositoryGenerics<Account>,IAccount
     {
         using (var data = new IdentityDataContext(_optionsBuilder))
         {
-            return await data.Set<Account>().Where(x => x.UserId == userId).ToListAsync();
+            return await data.Set<Account>().Where(x => x.UserId == userId)
+                .ToListAsync();
         }
     }
 
