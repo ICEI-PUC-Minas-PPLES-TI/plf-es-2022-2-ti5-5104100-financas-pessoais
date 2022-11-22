@@ -69,4 +69,17 @@ public class UserController:ControllerBase
             return BadRequest(result.ErrorMenssage);
         return Ok();
     }
+
+    [Authorize]
+    [HttpPost("updateName")]
+    public async Task<ActionResult> UpdateName(NameUpdateRequest nameUpdate)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest();
+        var result = await _identityService.ChangeName(nameUpdate);
+        if(result.IsFailure)
+            return BadRequest(result.ErrorMenssage);
+        return Ok(result.Data);
+
+    }
 }
