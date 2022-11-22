@@ -11,4 +11,5 @@ public interface IIdentityService
     Task<UsuarioLoginResponse> Login(UsuarioLoginRequest usuarioLogin);
     Task<Result> ForgotPassword(ForgotPasswordRequest forgotPassword);
     Task<Result> ResetPassword(ResetPasswordRequest resetPassword);
+    Task<Result<NameUpdateRequest>> ChangeName(NameUpdateRequest nameUpdate);
 }

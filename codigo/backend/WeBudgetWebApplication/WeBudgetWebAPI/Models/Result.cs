@@ -20,7 +20,7 @@ public class Result
 
 public class Result<T> : Result
 {
-    private T? Data { get; }
+    public T? Data { get; }
 
     protected internal Result(T data) : base() 
         => Data = data;

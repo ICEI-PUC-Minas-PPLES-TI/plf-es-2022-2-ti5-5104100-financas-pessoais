@@ -117,4 +117,24 @@ public class IdentityService:IIdentityService
         
         return Result.Ok();
     }
+
+    public async Task<Result<NameUpdateRequest>> ChangeName(NameUpdateRequest nameUpdate)
+    {
+        var user = await _userManager.FindByEmailAsync(nameUpdate.Email);
+        user.FirstName = nameUpdate.FirstName;
+        user.LastName = nameUpdate.LastName;
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
+            var updatedUser = await _userManager.FindByEmailAsync(nameUpdate.Email);
+            
+            return new Result<NameUpdateRequest>(new NameUpdateRequest()
+            {
+                FirstName = updatedUser.FirstName,
+                LastName = updatedUser.LastName,
+                Email = updatedUser.Email
+            });
+        }
+        return new Result<NameUpdateRequest>("Não foi possivel alterar o nome");
+    }
 }
