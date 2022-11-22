@@ -256,16 +256,17 @@ class RepositoryCategory with ChangeNotifier {
     selectCategoria();
     int index = _categories.indexWhere((element) => element.id == id);
 
-    int category = int.parse(_categories[0].codeCategoria);
+    int category = int.parse(_categories[index].codeCategoria);
 
     return category;
   }
 
   String selectNameCategoria(String id) {
     selectCategoria();
+
     int index = _categories.indexWhere((element) => element.id == id);
 
-    String nameCategory = _categories[0].nameCategoria;
+    String nameCategory = _categories[index].nameCategoria;
 
     return nameCategory;
   }

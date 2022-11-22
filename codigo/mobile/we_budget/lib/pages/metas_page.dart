@@ -237,10 +237,19 @@ class _MetasPage extends State<MetasPage> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(5, 5, 5, 5),
                                                   child: Icon(
-                                                    Icons
-                                                        .local_gas_station_rounded,
-                                                    color: Color(0xFFF4F4F4),
-                                                    size: 30,
+                                                    IconData(
+                                                        Provider.of<RepositoryCategory>(
+                                                                context,
+                                                                list: false)
+                                                            .int
+                                                            .parse(
+                                                              codeCategory(metaList
+                                                                  .itemByIndex(
+                                                                      i)
+                                                                  .idCategoria),
+                                                            ),
+                                                        fontFamily:
+                                                            'MaterialIcons'),
                                                   ),
                                                 ),
                                                 Padding(
@@ -248,13 +257,13 @@ class _MetasPage extends State<MetasPage> {
                                                       const EdgeInsetsDirectional
                                                           .fromSTEB(5, 0, 5, 0),
                                                   child: Text(
-                                                    // Provider.of<RepositoryCategory>(
-                                                    //         context,
-                                                    //         listen: false)
-                                                    //     .selectNameCategoria(
-                                                    metaList
-                                                        .itemByIndex(i)
-                                                        .idCategoria,
+                                                    Provider.of<RepositoryCategory>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectNameCategoria(
+                                                            metaList
+                                                                .itemByIndex(i)
+                                                                .idCategoria),
                                                     style: const TextStyle(
                                                       fontFamily: 'Poppins',
                                                       fontSize: 20,
