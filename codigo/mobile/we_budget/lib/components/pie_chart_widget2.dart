@@ -150,7 +150,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(
               Sector2(color: Colors.grey,
                   value: 0.0,
-                  title: ('N/A'))
+                  title: ('Nenhuma despesa cadastrada no período'))
           );
         }
         return list;
@@ -226,7 +226,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(
               Sector2(color: Colors.grey,
                   value: 0.0,
-                  title: ('N/A'))
+                  title: ('Nenhuma despesa cadastrada no período'))
           );
         }
           return list;
@@ -302,7 +302,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(
               Sector2(color: Colors.grey,
                   value: 0.0,
-                  title: ('N/A'))
+                  title: ('Nenhuma despesa cadastrada no período'))
           );
         }
           return list;
@@ -378,7 +378,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(
               Sector2(color: Colors.grey,
                   value: 0.0,
-                  title: ('N/A'))
+                  title: ('Nenhuma despesa cadastrada no período'))
           );
         }
           return list;
@@ -454,7 +454,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(
               Sector2(color: Colors.grey,
                   value: 0.0,
-                  title: ('N/A'))
+                  title: ('Nenhuma despesa cadastrada no período'))
           );
         }
           return list;

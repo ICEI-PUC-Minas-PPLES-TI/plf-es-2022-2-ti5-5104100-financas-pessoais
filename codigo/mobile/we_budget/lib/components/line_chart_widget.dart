@@ -24,7 +24,7 @@ class _LineChartWidgetState extends State<LineChartWidget>{
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.0,
+      aspectRatio: 0.89,
       child: LineChart(
         LineChartData(
           gridData: FlGridData(
@@ -58,6 +58,7 @@ class _LineChartWidgetState extends State<LineChartWidget>{
             ))),
             topTitles: AxisTitles(sideTitles: null),
             rightTitles: AxisTitles(sideTitles: null),
+            leftTitles: AxisTitles(sideTitles: null),
           ),
 
           lineBarsData: [

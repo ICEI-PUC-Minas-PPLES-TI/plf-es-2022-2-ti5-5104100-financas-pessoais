@@ -147,7 +147,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
           sectors.add(
               Sector(color: Colors.grey,
                   value: 0.0,
-                  title: ('N/A'))
+                  title: ('Nenhuma despesa cadastrada no período'))
           );
         }
         return list;
