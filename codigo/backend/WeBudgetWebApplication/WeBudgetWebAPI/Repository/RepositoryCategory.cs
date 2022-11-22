@@ -19,7 +19,8 @@ public class RepositoryCategory:RepositoryGenerics<Category>,ICategory
     {
         using (var data = new IdentityDataContext(_optionsBuilder))
         {
-            return await data.Set<Category>().Where(x => x.UserId == userId).ToListAsync();
+            return await data.Set<Category>()
+                .Where(x => x.UserId == userId).ToListAsync();
         }
     }
 }
