@@ -21,6 +21,12 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   @override
+  void initState() {
+    Provider.of<RepositoryCategory>(context, listen: false).selectCategoria();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Provider.of<RepositoryAccount>(context).saldoConta();
 

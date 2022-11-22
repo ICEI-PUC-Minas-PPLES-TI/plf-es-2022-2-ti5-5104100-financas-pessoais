@@ -394,6 +394,8 @@ class RepositoryTransaction with ChangeNotifier {
 
   Future<void> saveTransactionSql(Map<String, Object> transactionData) async {
     bool hasId = transactionData['IdTransaction'] != "";
+    bool hasLatitude = transactionData['IdTransaction'] != "";
+    print(hasLatitude);
 
     final transaction = TransactionModel(
       idTransaction: hasId ? transactionData['IdTransaction'] as String : "",

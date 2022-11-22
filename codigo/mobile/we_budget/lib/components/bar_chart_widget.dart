@@ -28,12 +28,12 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.0,
+      aspectRatio: 0.85,
       child: BarChart(
         BarChartData(
           barGroups: _chartGroups(widget.transactions, widget.periodo),
           borderData: FlBorderData(
-              border: const Border(bottom: BorderSide(), left: BorderSide())),
+              border: const Border(),),
           gridData: FlGridData(show: false),
           titlesData: FlTitlesData(
             bottomTitles: AxisTitles(sideTitles: _transforma(widget.periodo)),
