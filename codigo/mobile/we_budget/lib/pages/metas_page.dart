@@ -237,19 +237,10 @@ class _MetasPage extends State<MetasPage> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(5, 5, 5, 5),
                                                   child: Icon(
-                                                    IconData(
-                                                        Provider.of<RepositoryCategory>(
-                                                                context,
-                                                                list: false)
-                                                            .int
-                                                            .parse(
-                                                              codeCategory(metaList
-                                                                  .itemByIndex(
-                                                                      i)
-                                                                  .idCategoria),
-                                                            ),
-                                                        fontFamily:
-                                                            'MaterialIcons'),
+                                                    Icons
+                                                        .local_gas_station_rounded,
+                                                    color: Color(0xFFF4F4F4),
+                                                    size: 30,
                                                   ),
                                                 ),
                                                 Padding(
