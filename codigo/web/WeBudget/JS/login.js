@@ -1,5 +1,5 @@
 function realizarLogin(event){
-  var url="http://localhost:5001/api/User/login";
+  var url="https://webudgetpuc.azurewebsites.net/api/User/login";
   var data={
     "email": document.querySelector("#email").value,
     "senha": document.querySelector("#senha").value
@@ -17,7 +17,7 @@ function realizarLogin(event){
   .then((data) => {
     console.log(data.sucesso)
     if(data.sucesso){
-      window.location.href="/codigo/web/WeBudget/HTML/index.html"
+      window.location.href="/codigo/web/WeBudget/HTML/relatoriosCategoria.html"
     }else{
       alert("email ou senha inválidos");
     }
@@ -27,5 +27,3 @@ function realizarLogin(event){
 
 console.log(document.querySelector("#email").value);
 
-
-//document.querySelector("#botaoEntrar").addEventListener("click",()=>{})
