@@ -112,13 +112,14 @@ class RepositoryMetas with ChangeNotifier {
 
   Future<void> saveMetaSql(Map<String, dynamic> metasData) async {
     bool hasId = metasData['IdMeta'] != null;
+    bool hasVarlorAtual = metasData['valorAtual'] != null;
     print("Id....$hasId");
     final metas = MetasModel(
       idMeta: hasId ? metasData['IdMeta'].toString() : "",
       idCategoria: metasData['CategoryId'].toString(),
       dataMeta: metasData['budgetDate'].toString(),
       valorMeta: metasData['budgetValue'],
-      valorAtual: metasData['valorAtual'],
+      valorAtual: hasVarlorAtual ? metasData['valorAtual'] : 0.00,
       recorrente: metasData['active'],
     );
 
