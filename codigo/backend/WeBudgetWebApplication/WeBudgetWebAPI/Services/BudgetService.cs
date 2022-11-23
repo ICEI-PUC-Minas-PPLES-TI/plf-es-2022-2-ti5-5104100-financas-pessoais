@@ -11,12 +11,15 @@ namespace WeBudgetWebAPI.Services;
 public class BudgetService:IBudgetService
 {
     private readonly IBudget _iBudget;
+    private readonly ITransaction _iTransaction;
     private readonly IMessageBrokerService<Budget> _messageBrokerService;
 
-    public BudgetService(IBudget iBudget, IMessageBrokerService<Budget> messageBrokerService)
+    public BudgetService(IBudget iBudget, IMessageBrokerService<Budget> messageBrokerService,
+        ITransaction iTransaction)
     {
         _iBudget = iBudget;
         _messageBrokerService = messageBrokerService;
+        _iTransaction = iTransaction;
     }
 
     public async Task<Budget?> UpdateUsedValue(string userId, DateTime dateTime,
@@ -61,6 +64,9 @@ public class BudgetService:IBudgetService
 
     public async Task<Budget> Add(Budget budget)
     {
+        var usedValue = await _iTransaction.SumTransaction(budget.UserId,
+            budget.BudgetDate);
+        budget.BudgetValueUsed = -usedValue;
         return await SendMenssage(OperationType.Create,
             await _iBudget.Add(budget));
     }
