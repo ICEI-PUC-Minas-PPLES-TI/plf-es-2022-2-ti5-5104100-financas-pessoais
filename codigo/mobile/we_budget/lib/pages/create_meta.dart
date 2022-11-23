@@ -154,7 +154,7 @@ class _CreateMetasState extends State<CreateMeta> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               Column(
                 children: const [
@@ -170,7 +170,7 @@ class _CreateMetasState extends State<CreateMeta> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Form(
                   key: _formKeyCreateMeta,
                   child: Column(
@@ -206,10 +206,10 @@ class _CreateMetasState extends State<CreateMeta> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
-                        height: 70,
+                        height: 10,
                       ),
                       Container(
-                        margin: const EdgeInsetsDirectional.only(bottom: 30.0),
+                        margin: const EdgeInsetsDirectional.only(bottom: 1.0),
                         child: TextFormField(
                           initialValue:
                               createMetasData['budgetValue'].toString(),
@@ -240,7 +240,7 @@ class _CreateMetasState extends State<CreateMeta> {
                 ),
               ),
               Container(
-                height: 40.0,
+                height: 20.0,
                 child: const Text("Transação recorrente"),
               ),
               FlutterSwitch(
@@ -266,7 +266,7 @@ class _CreateMetasState extends State<CreateMeta> {
                 },
               ),
               const SizedBox(
-                height: 40,
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

@@ -33,11 +33,13 @@ class PieChartWidget extends StatefulWidget {
   //De para-----------para cada item da lista, eu crio um Sector.
 
   // const
-  PieChartWidget(this.listTransacion, {Key? key, required this.periodo}) : super(key: key);
+  PieChartWidget(this.listTransacion, {Key? key, required this.periodo})
+      : super(key: key);
 
   @override
   State<PieChartWidget> createState() => _PieChartWidgetState();
 }
+
 class Sector {
   final Color color;
   final double value;
@@ -48,28 +50,27 @@ class Sector {
 
 class _PieChartWidgetState extends State<PieChartWidget> {
   List<Sector> get industrySectors {
-    return
-      widget.sectors;
+    return widget.sectors;
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
         AspectRatio(
           aspectRatio: 1.5,
           child: PieChart(
             PieChartData(
-
-              sections: _chartSections(widget.sectors,widget.listTransacion,widget.periodo),
+              sections: _chartSections(
+                  widget.sectors, widget.listTransacion, widget.periodo),
               centerSpaceRadius: 80.0,
             ),
           ),
         ),
         Column(
           children: industrySectors
-          .map<Widget>((sector) => SectorRow(sector))
-          .toList(),
+              .map<Widget>((sector) => SectorRow(sector))
+              .toList(),
         ),
       ],
     );
@@ -78,16 +79,15 @@ class _PieChartWidgetState extends State<PieChartWidget> {
     //       .map<Widget>((sector) => SectorRow(sector))
     //       .toList(),
     // ),
-
   }
 
-  List<PieChartSectionData> ?_chartSections(List<Sector> sectors, List<TransactionModel> listTransacion, String periodo) {
-  List<String> categories = [];
-  DateTime hoje = DateTime.now();
-  final List<PieChartSectionData> list = [];
+  List<PieChartSectionData>? _chartSections(List<Sector> sectors,
+      List<TransactionModel> listTransacion, String periodo) {
+    List<String> categories = [];
+    DateTime hoje = DateTime.now();
+    final List<PieChartSectionData> list = [];
     switch (periodo) {
       case 'Máx':
-
         listTransacion.forEach((transact) {
           bool existe = false;
           categories.forEach((categoria) {
@@ -103,7 +103,8 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         int index = 0;
         categories.forEach((categoria) {
           listTransacion.forEach((transact) {
-            if (transact.categoria.toString() == categoria && transact.tipoTransacao==1) {
+            if (transact.categoria.toString() == categoria &&
+                transact.tipoTransacao == 1) {
               numbers[index] += transact.valor;
             }
           });
@@ -111,11 +112,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         });
         int index2 = 0;
         numbers.forEach((element) {
-          sectors.add(
-              Sector(color: widget.colors.elementAt(index2),
-                  value: numbers[index2],
-                  title: categories.elementAt(index2))
-          );
+          sectors.add(Sector(
+              color: widget.colors.elementAt(index2),
+              value: numbers[index2],
+              title: categories.elementAt(index2)));
           index2++;
         });
         final List<PieChartSectionData> list = [];
@@ -131,12 +131,16 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             color: sector.color,
             value: sector.value,
             radius: radius,
-            title:(((sector.value / soma_total) * 100).toStringAsPrecision(2) == '1.0e+2') ? '100%' : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                '%',
+            title: (((sector.value / soma_total) * 100)
+                        .toStringAsPrecision(2) ==
+                    '1.0e+2')
+                ? '100%'
+                : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
+                    '%',
           );
           list.add(data);
         }
-        if(list.isEmpty){
+        if (list.isEmpty) {
           final data = PieChartSectionData(
             color: Colors.grey,
             value: 100.0,
@@ -144,11 +148,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             title: ('100%'),
           );
           list.add(data);
-          sectors.add(
-              Sector(color: Colors.grey,
-                  value: 0.0,
-                  title: ('Nenhuma despesa cadastrada no período'))
-          );
+          sectors.add(Sector(
+              color: Colors.grey,
+              value: 0.0,
+              title: ('Nenhuma despesa no período.')));
         }
         return list;
         break;
@@ -156,17 +159,18 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         listTransacion.forEach((transact) {
           bool existe = false;
           categories.forEach((categoria) {
-            if(transact.categoria.toString() == categoria){
+            if (transact.categoria.toString() == categoria) {
               existe = true;
             }
           });
-          if(!existe){
+          if (!existe) {
             List<String> campos = transact.data.split('-');
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1 && (hoje.difference(data_transact).inDays <= 31)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1 &&
+                (hoje.difference(data_transact).inDays <= 31)) {
               categories.add(transact.categoria.toString());
             }
           }
@@ -179,9 +183,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1) {
-              if(transact.categoria.toString() == categoria && (hoje.difference(data_transact).inDays <= 31)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1) {
+              if (transact.categoria.toString() == categoria &&
+                  (hoje.difference(data_transact).inDays <= 31)) {
                 numbers[index] += transact.valor;
               }
             }
@@ -190,9 +195,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         });
         int index2 = 0;
         numbers.forEach((element) {
-          sectors.add(
-              Sector(color: widget.colors.elementAt(index2), value: numbers[index2], title: categories.elementAt(index2))
-          );
+          sectors.add(Sector(
+              color: widget.colors.elementAt(index2),
+              value: numbers[index2],
+              title: categories.elementAt(index2)));
           index2++;
         });
         double soma_total = 0.0;
@@ -207,12 +213,16 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             color: sector.color,
             value: sector.value,
             radius: radius,
-            title:(((sector.value / soma_total) * 100).toStringAsPrecision(2) == '1.0e+2') ? '100%' : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                '%',
+            title: (((sector.value / soma_total) * 100)
+                        .toStringAsPrecision(2) ==
+                    '1.0e+2')
+                ? '100%'
+                : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
+                    '%',
           );
           list.add(data);
         }
-        if(list.isEmpty){
+        if (list.isEmpty) {
           final data = PieChartSectionData(
             color: Colors.grey,
             value: 100.0,
@@ -220,32 +230,32 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             title: ('100%'),
           );
           list.add(data);
-          sectors.add(
-              Sector(color: Colors.grey,
-                  value: 0.0,
-                  title: ('Nenhuma despesa cadastrada no período'))
-          );
+          sectors.add(Sector(
+              color: Colors.grey,
+              value: 0.0,
+              title: ('Nenhuma despesa no período.')));
         }
         list.forEach((element) {
           print('oi');
         });
-          return list;
+        return list;
         break;
       case '3M':
         listTransacion.forEach((transact) {
           bool existe = false;
           categories.forEach((categoria) {
-            if(transact.categoria.toString() == categoria){
+            if (transact.categoria.toString() == categoria) {
               existe = true;
             }
           });
-          if(!existe){
+          if (!existe) {
             List<String> campos = transact.data.split('-');
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1 && (hoje.difference(data_transact).inDays <= 63)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1 &&
+                (hoje.difference(data_transact).inDays <= 63)) {
               categories.add(transact.categoria.toString());
             }
           }
@@ -258,9 +268,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1) {
-              if(transact.categoria.toString() == categoria && (hoje.difference(data_transact).inDays <= 63)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1) {
+              if (transact.categoria.toString() == categoria &&
+                  (hoje.difference(data_transact).inDays <= 63)) {
                 numbers[index] += transact.valor;
               }
             }
@@ -269,9 +280,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         });
         int index2 = 0;
         numbers.forEach((element) {
-          sectors.add(
-              Sector(color: widget.colors.elementAt(index2), value: numbers[index2], title: categories.elementAt(index2))
-          );
+          sectors.add(Sector(
+              color: widget.colors.elementAt(index2),
+              value: numbers[index2],
+              title: categories.elementAt(index2)));
           index2++;
         });
         double soma_total = 0.0;
@@ -286,12 +298,16 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             color: sector.color,
             value: sector.value,
             radius: radius,
-            title:(((sector.value / soma_total) * 100).toStringAsPrecision(2) == '1.0e+2') ? '100%' : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                '%',
+            title: (((sector.value / soma_total) * 100)
+                        .toStringAsPrecision(2) ==
+                    '1.0e+2')
+                ? '100%'
+                : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
+                    '%',
           );
           list.add(data);
         }
-        if(list.isEmpty){
+        if (list.isEmpty) {
           final data = PieChartSectionData(
             color: Colors.grey,
             value: 100.0,
@@ -299,29 +315,29 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             title: ('100%'),
           );
           list.add(data);
-          sectors.add(
-              Sector(color: Colors.grey,
-                  value: 0.0,
-                  title: ('Nenhuma despesa cadastrada no período'))
-          );
+          sectors.add(Sector(
+              color: Colors.grey,
+              value: 0.0,
+              title: ('Nenhuma despesa no período.')));
         }
-          return list;
+        return list;
         break;
       case '6M':
         listTransacion.forEach((transact) {
           bool existe = false;
           categories.forEach((categoria) {
-            if(transact.categoria.toString() == categoria){
+            if (transact.categoria.toString() == categoria) {
               existe = true;
             }
           });
-          if(!existe){
+          if (!existe) {
             List<String> campos = transact.data.split('-');
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1 && (hoje.difference(data_transact).inDays <= 186)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1 &&
+                (hoje.difference(data_transact).inDays <= 186)) {
               categories.add(transact.categoria.toString());
             }
           }
@@ -334,9 +350,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1) {
-              if(transact.categoria.toString() == categoria && (hoje.difference(data_transact).inDays <= 186)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1) {
+              if (transact.categoria.toString() == categoria &&
+                  (hoje.difference(data_transact).inDays <= 186)) {
                 numbers[index] += transact.valor;
               }
             }
@@ -346,9 +363,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         int index2 = 0;
 
         numbers.forEach((element) {
-          sectors.add(
-              Sector(color: widget.colors.elementAt(index2), value: numbers[index2], title: categories.elementAt(index2))
-          );
+          sectors.add(Sector(
+              color: widget.colors.elementAt(index2),
+              value: numbers[index2],
+              title: categories.elementAt(index2)));
           index2++;
         });
         double soma_total = 0.0;
@@ -364,12 +382,16 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             color: sector.color,
             value: sector.value,
             radius: radius,
-            title:(((sector.value / soma_total) * 100).toStringAsPrecision(2) == '1.0e+2') ? '100%' : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                '%',
+            title: (((sector.value / soma_total) * 100)
+                        .toStringAsPrecision(2) ==
+                    '1.0e+2')
+                ? '100%'
+                : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
+                    '%',
           );
           list.add(data);
         }
-        if(list.isEmpty){
+        if (list.isEmpty) {
           final data = PieChartSectionData(
             color: Colors.grey,
             value: 100.0,
@@ -377,29 +399,29 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             title: ('100%'),
           );
           list.add(data);
-          sectors.add(
-              Sector(color: Colors.grey,
-                  value: 0.0,
-                  title: ('Nenhuma despesa cadastrada no período'))
-          );
+          sectors.add(Sector(
+              color: Colors.grey,
+              value: 0.0,
+              title: ('Nenhuma despesa no período.')));
         }
-          return list;
+        return list;
         break;
       case '1Y':
         listTransacion.forEach((transact) {
           bool existe = false;
           categories.forEach((categoria) {
-            if(transact.categoria.toString() == categoria){
+            if (transact.categoria.toString() == categoria) {
               existe = true;
             }
           });
-          if(!existe){
+          if (!existe) {
             List<String> campos = transact.data.split('-');
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1 && (hoje.difference(data_transact).inDays <= 365)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1 &&
+                (hoje.difference(data_transact).inDays <= 365)) {
               categories.add(transact.categoria.toString());
             }
           }
@@ -412,9 +434,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             int ano = int.parse(campos[0]);
             int mes = int.parse(campos[1]);
             int dia = int.parse(campos[2]);
-            DateTime data_transact = DateTime(ano,mes,dia);
-            if(transact.tipoTransacao == 1) {
-              if(transact.categoria.toString() == categoria && (hoje.difference(data_transact).inDays <= 365)) {
+            DateTime data_transact = DateTime(ano, mes, dia);
+            if (transact.tipoTransacao == 1) {
+              if (transact.categoria.toString() == categoria &&
+                  (hoje.difference(data_transact).inDays <= 365)) {
                 numbers[index] += transact.valor;
               }
             }
@@ -423,9 +446,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         });
         int index2 = 0;
         numbers.forEach((element) {
-          sectors.add(
-              Sector(color: widget.colors.elementAt(index2), value: numbers[index2], title: categories.elementAt(index2))
-          );
+          sectors.add(Sector(
+              color: widget.colors.elementAt(index2),
+              value: numbers[index2],
+              title: categories.elementAt(index2)));
           index2++;
         });
         double soma_total = 0.0;
@@ -440,12 +464,16 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             color: sector.color,
             value: sector.value,
             radius: radius,
-            title:(((sector.value / soma_total) * 100).toStringAsPrecision(2) == '1.0e+2') ? '100%' : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                '%',
+            title: (((sector.value / soma_total) * 100)
+                        .toStringAsPrecision(2) ==
+                    '1.0e+2')
+                ? '100%'
+                : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
+                    '%',
           );
           list.add(data);
         }
-        if(list.isEmpty){
+        if (list.isEmpty) {
           final data = PieChartSectionData(
             color: Colors.grey,
             value: 100.0,
@@ -453,20 +481,19 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             title: ('100%'),
           );
           list.add(data);
-          sectors.add(
-              Sector(color: Colors.grey,
-                  value: 0.0,
-                  title: ('Nenhuma despesa cadastrada no período'))
-          );
+          sectors.add(Sector(
+              color: Colors.grey,
+              value: 0.0,
+              title: ('Nenhuma despesa no período.')));
         }
-          return list;
+        return list;
         break;
-      default: {
-        //statements;
-      }
-      return list;
+      default:
+        {
+          //statements;
+        }
+        return list;
     }
     // List<String> categories = [];
   }
 }
-

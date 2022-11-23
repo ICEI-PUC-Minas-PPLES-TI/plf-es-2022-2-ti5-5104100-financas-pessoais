@@ -255,16 +255,25 @@ class RepositoryCategory with ChangeNotifier {
   int codeCategory(String id) {
     selectCategoria();
     int index = _categories.indexWhere((element) => element.id == id);
+    int category = 57522;
 
-    int category = int.parse(_categories[index].codeCategoria);
-
-    return category;
+    if (index == -1) {
+      return category;
+    } else {
+      category = int.parse(_categories[index].codeCategoria);
+      return category;
+    }
   }
 
   String selectNameCategoria(String id) {
     selectCategoria();
 
     int index = _categories.indexWhere((element) => element.id == id);
+    print("Index....$index");
+    if (index == -1) {
+      print("Entrou index...");
+      index = 0;
+    }
 
     String nameCategory = _categories[index].nameCategoria;
 
