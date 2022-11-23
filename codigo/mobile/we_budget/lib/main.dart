@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     Database db = await DBHelper.instance.database;
     // await db.delete(DBHelper.tableCategoria);
     // await db.delete(DBHelper.tableTransaction);
-    // await db.delete(DBHelper.tableCategoria);
+    //await db.delete(DBHelper.tableMetas);
     await RepositoryCategory('').selectCategoria();
     await RepositoryTransaction('').selectTransaction();
     await RepositoryMetas().selectMetas();
