@@ -52,7 +52,7 @@ class _WelcomePageState extends State<WelcomePage> {
               height: double.infinity,
             ),
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(40, 65, 0, 5),
               child: SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +74,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     margin: const EdgeInsetsDirectional.only(
                                         bottom: 7.0),
                                     child: Text(
-                                      'Olá ${user.name},',
+                                      'Olá ${user.name}!',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -118,7 +118,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                       "R\$ ${account.saldoContas.toStringAsFixed(2).replaceAll('.', ',')}",
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: 27,
                                       ),
                                     ),
                                   ),
@@ -170,22 +170,26 @@ class _WelcomePageState extends State<WelcomePage> {
                           CardMainPageBalanco(title: "Balanço"),
                         ],
                       ),
-                      Container(
-                        margin: const EdgeInsetsDirectional.only(top: 30),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "Últimas transações",
-                                  style: TextStyle(
-                                    fontSize: 22,
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(30, 0, 0, 5),
+                        child: Container(
+                          margin: const EdgeInsetsDirectional.only(top: 30),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    "Últimas transações",
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -194,7 +198,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 380),
+              padding: const EdgeInsets.only(top: 460),
               child: FutureBuilder(
                 future:
                     Provider.of<RepositoryTransaction>(context, listen: false)
