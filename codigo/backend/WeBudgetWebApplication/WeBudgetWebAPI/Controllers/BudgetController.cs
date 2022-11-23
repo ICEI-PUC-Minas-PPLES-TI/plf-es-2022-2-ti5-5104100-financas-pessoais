@@ -68,6 +68,7 @@ public class BudgetController:ControllerBase
         var savedBudget = await _budgetService.GetEntityById(budget.Id);
         if (savedBudget == null)
             return NotFound("Orçamento não encontrada");
+        budget.BudgetValueUsed = savedBudget.BudgetValueUsed;
         var updatedBudget = await _budgetService.Update(budget);
         var response = _iMapper.Map<BudgetResponse>(updatedBudget);
         return Ok(response);
