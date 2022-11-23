@@ -27,8 +27,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     'TransactionDate': '',
     'PaymentValue': '',
     'PaymentType': '',
-    'Longitude': '',
-    'Latitude': '',
+    'Longitude': '-19.919052',
+    'Latitude': '-43.9386685',
     'Address': '',
   };
 
