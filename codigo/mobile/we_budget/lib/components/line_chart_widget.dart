@@ -182,8 +182,9 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
             if(transact.tipoTransacao == 0){
               if(!(index==0)){
-                print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-                if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
+                print('oi');
+                print(data_param.difference(data_transact).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
+                if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
                   print(data_transact.difference(data_param).inDays);
                   print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                   valores[index] += transact.valor;
@@ -199,6 +200,7 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
             index++;
         });
       });
+
         int index2 = 0;
         valores.forEach((element) {
           if(index2 > 0){
@@ -287,7 +289,7 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           if(transact.tipoTransacao == 0){
             if(!(index==0)){
               print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 24).toString());
-              if(data_param.difference(data_transact).inDays < 24 && data_param.month == data_transact.month){
+              if(data_transact.difference(data_param).inDays < 24 && data_param.month == data_transact.month){
                 print(data_transact.difference(data_param).inDays);
                 print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                 valores[index] += transact.valor;
@@ -389,7 +391,7 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           if(transact.tipoTransacao == 0){
             if(!(index==0)){
               print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-              if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
+              if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
                 print(data_transact.difference(data_param).inDays);
                 print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                 valores[index] += transact.valor;

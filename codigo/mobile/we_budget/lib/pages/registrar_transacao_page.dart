@@ -193,7 +193,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
       }
     } else {
       tipoTransaction = 0;
-      dropdownValue = list.first;
+      // dropdownValue = list.first;
       dateInput = TextEditingController();
     }
 
@@ -213,13 +213,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.only(right: 25, left: 25),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               Container(
-                margin: const EdgeInsetsDirectional.only(bottom: 20.0),
+                margin: const EdgeInsetsDirectional.only(bottom: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -252,14 +252,22 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   ],
                 ),
               ),
-              TextButton(
+              ElevatedButton(
                 onPressed: () => {
                   Navigator.of(context).pushNamed(AppRoutes.listCategory,
                       arguments: "CreateTransaction"),
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 100,
+                    vertical: 10,
+                  ),
+                  fixedSize: const Size(290, 50),
+                  //backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 child: const Text(
                   "Selecionar categoria",
@@ -278,7 +286,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               // ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 9.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   initialValue: _transactionData['Description']?.toString(),
                   key: const ValueKey('Description'),
@@ -312,7 +320,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   controller: dateInput,
                   //initialValue: _transactionData['TransactionDate']?.toString(),
@@ -347,7 +355,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('PaymentValue'),
                   onChanged: (paymentValue) =>
@@ -383,7 +391,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: InputDecorator(
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -433,7 +441,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 textAlign: TextAlign.center,
               ),
               Container(
-                padding: const EdgeInsetsDirectional.only(top: 20.0),
+                padding: const EdgeInsetsDirectional.only(top: 25.0),
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
@@ -460,7 +468,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 100,
-                      vertical: 20,
+                      vertical: 10,
                     ),
                     fixedSize: const Size(290, 50),
                     //backgroundColor: Theme.of(context).colorScheme.primary,
