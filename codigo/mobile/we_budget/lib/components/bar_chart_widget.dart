@@ -29,6 +29,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 0.85,
+      //
       child: BarChart(
         BarChartData(
           barGroups: _chartGroups(widget.transactions, widget.periodo),
@@ -46,10 +47,10 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     );
   }
 
-  List<BarChartGroupData>? _chartGroups(List<TransactionModel> transactions, String periodo) {
+  List<BarChartGroupData> _chartGroups(List<TransactionModel> transactions, String periodo) {
     DateTime hoje = DateTime.now();
     transactions.forEach((element) {
-      if(element.tipoTransacao==0)
+      if(element.tipoTransacao==1)
         print(element.data.toString() + '   ' + element.valor.toString());
     });
     switch(periodo){
@@ -80,6 +81,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           points.add(PricePoint(x: i, y: element));
           i++;
         });
+
         return points.map((point) =>
             BarChartGroupData(
                 x: point.x.toInt(),
@@ -158,7 +160,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             if(transact.tipoTransacao == 1){
               if(!(index==0)){
                 print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-                if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
+                if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
                   print(data_transact.difference(data_param).inDays);
                   print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                   valores[index] += transact.valor;
@@ -269,7 +271,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             if(transact.tipoTransacao == 1){
               if(!(index==0)){
                 print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-                if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
+                if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
                   print(data_transact.difference(data_param).inDays);
                   print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                   valores[index] += transact.valor;
@@ -380,7 +382,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             if(transact.tipoTransacao == 1){
               if(!(index==0)){
                 print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-                if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
+                if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
                   print(data_transact.difference(data_param).inDays);
                   print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                   valores[index] += transact.valor;
@@ -410,7 +412,6 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         List<PricePoint> points = [];
         double i = 0;
         valores.forEach((element) {
-          if(element < 1)element = 0.00001;
           points.add(PricePoint(x: i, y: element));
           i++;
         });
@@ -432,6 +433,11 @@ class _BarChartWidgetState extends State<BarChartWidget> {
       default:
         break;
     }
+
+    List<BarChartGroupData> lista = [];
+
+
+    return lista;
   }
 
   SideTitles _transforma(String periodo){
