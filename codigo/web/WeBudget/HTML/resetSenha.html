@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Reset Senha</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../CSS/resetSenha.css">
+</head>
+<body>
+    <div class="cont"></div>
+	<div class="container">
+		<div class="container-login">
+            <div class="logo">
+            <img src="img/Logo.png" width="500" height="500" class="margin-right-200" />
+        </div>
+			<div class="wrap-login">
+                <form onsubmit="formRecovery.submit(event)">
+				<div class="login-form">
+					<span class="login-form-title">
+						Insira a nova senha:
+					</span>
+					<div class="wrap-input margin-top-35 margin-bottom-35">
+						<input id="txtpass" class="input-form" type="text" name="email" autocomplete="off">
+						<span class="focus-input-form" data-placeholder="Senha"></span>
+					</div>
+
+					<div class="wrap-input margin-bottom-35">
+						<input id="txtrepeatpass" class="input-form" type="password" name="password">
+						<span class="focus-input-form" data-placeholder="Confirmação de senha"></span>
+					</div>
+                    <div class="container-login-form-btn">
+						<button onclick="saveProvider()" id="botaoEntrar" class="login-form-btn">
+							Salvar
+						</button>
+					</div>
+				<!-- </form> -->
+			</div>
+        </form>
+		</div>
+	</div>
+<script src="../JS/login.js"></script>
+<script src="../JS/validarLogin.js"></script>
+</body>
+</html>
