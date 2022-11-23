@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
 <body>
@@ -19,10 +20,10 @@
                 <nav class="nav">
                     <div> 
                         <div class="nav_list">
-                                <a href="../HTML/relatoriosCategoria.html" class="nav_link">
+                                <a href="../HTML/tabela.html" class="nav_link">
                                      <i class='bx bx-bar-chart-alt nav_icon'></i> 
                                      <span class="nav_name">Users</span> </a>
-                            <a href="../HTML/relatoriosAnuais.html" class="nav_link"> 
+                            <a href="../HTML/relatoriosCategoria.html" class="nav_link"> 
                             <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Barras e linhas</span>
                          </a> </div>
                     </div> <a href="../HTML/login.html" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
@@ -39,23 +40,17 @@
     <div class="row">
         <div class="col">
             <h2>
-                Receita por categoria
+                Receita X Despesa 
                 </h2>
                 <canvas id="receitasCategoria"></canvas>
         </div>
-        <div class="col">
-            <h2>
-            Gastos por categoria
-            </h2>
-            <canvas id="gastosCategoria" ></canvas></div>
-     
-    
-
-    
-    </div>
-
+        <div class="row">
+            <h4>Despesa por tipo de transação</h4>
+            <div id="gastosCategoria" class="grafico"></div>
+        </div>
   </div>
 
+  <script src="../JS/validarLogin.js"></script>
   <script src="../JS/relatoriosCategoria.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
 

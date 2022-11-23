@@ -1,3 +1,4 @@
+
 function realizarLogin(event){
   var url="https://webudgetpuc.azurewebsites.net/api/User/login";
   var data={
@@ -5,6 +6,7 @@ function realizarLogin(event){
     "senha": document.querySelector("#senha").value
 
   }
+  console.log(data);
   fetch(url,{
     method:"POST",
     headers:{
@@ -17,7 +19,13 @@ function realizarLogin(event){
   .then((data) => {
     console.log(data.sucesso)
     if(data.sucesso){
-      window.location.href="/codigo/web/WeBudget/HTML/relatoriosCategoria.html"
+          console.log(data.accessToken)
+          localStorage.setItem('userToken', JSON.stringify(data.accessToken));
+       //   window.location.href = 'modulos.html';
+    
+      console.log(data);
+      console.log(retornarTokenUsuario())
+      window.location.href="/codigo/web/WeBudget/HTML/tabela.html"
     }else{
       alert("email ou senha inválidos");
     }
@@ -26,4 +34,3 @@ function realizarLogin(event){
   }
 
 console.log(document.querySelector("#email").value);
-
