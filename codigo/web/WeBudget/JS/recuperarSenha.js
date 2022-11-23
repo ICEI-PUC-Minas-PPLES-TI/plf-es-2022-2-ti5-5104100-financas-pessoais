@@ -4,11 +4,12 @@ const saveProvider = (data) => {
     const renamedData = {
       email: data.email,
     }
+    console.log("passou",renamedData);
     const xhr = new XMLHttpRequest();
   
-    xhr.open('POST', 'https://webudgetpuc.azurewebsites.net/User/api/recoveryEmail', true);
+    xhr.open('POST', 'https://webudgetpuc.azurewebsites.net/api/User/recoveryEmail');
     xhr.setRequestHeader("Content-type", "application/json");
-  
+    xhr.send(JSON.stringify(renamedData));
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
@@ -23,8 +24,6 @@ const saveProvider = (data) => {
         }
       }
     }
-  
-    xhr.send(JSON.stringify(renamedData));
   }
   
   const formRecovery = {
@@ -53,6 +52,7 @@ const saveProvider = (data) => {
     },
   
     submit(event) {
+      console.log("passou");
       event.preventDefault()
       try {
         formRecovery.validateFields()

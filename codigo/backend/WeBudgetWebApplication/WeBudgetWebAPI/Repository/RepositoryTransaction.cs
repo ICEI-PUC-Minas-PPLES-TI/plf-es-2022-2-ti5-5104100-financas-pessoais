@@ -21,7 +21,10 @@ public class RepositoryTransaction: RepositoryGenerics<Transaction>, ITransactio
     {
         using (var data = new IdentityDataContext(_optionsBuilder))
         {
-            return await data.Set<Transaction>().Where(x => x.UserId == userId).ToListAsync();
+            return await data.Set<Transaction>()
+                .Where(x => x.UserId == userId)
+                .Include(x=>x.Category)
+                .ToListAsync();
         }
     }
 }
