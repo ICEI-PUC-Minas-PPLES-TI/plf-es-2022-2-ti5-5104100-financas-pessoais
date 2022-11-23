@@ -26,41 +26,44 @@ class _MetasPage extends State<MetasPage> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
-        child: AppBar(
-          backgroundColor: const Color(0xFFF4F4F4),
-          automaticallyImplyLeading: false,
-          flexibleSpace: const Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
-            child: Text(
-              'Metas',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                color: Color(0xFF5B4BF8),
-                fontSize: 30,
+        child: Container(
+          margin: const EdgeInsetsDirectional.only(top: 30),
+          child: AppBar(
+            backgroundColor: const Color(0xFFF4F4F4),
+            automaticallyImplyLeading: false,
+            flexibleSpace: const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 30, 15, 15),
+              child: Text(
+                'Metas',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Color(0xFF5B4BF8),
+                  fontSize: 40,
+                ),
               ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 10),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(const CircleBorder()),
+                    backgroundColor:
+                        MaterialStateProperty.all(const Color(0xFF5B4BF8)),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(AppRoutes.createMeta);
+                  },
+                ),
+              ),
+            ],
+            elevation: 0,
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(const CircleBorder()),
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFF5B4BF8)),
-                ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(AppRoutes.createMeta);
-                },
-              ),
-            ),
-          ],
-          elevation: 0,
         ),
       ),
       backgroundColor: const Color(0xFFF4F4F4),
@@ -233,20 +236,26 @@ class _MetasPage extends State<MetasPage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(5, 5, 5, 5),
-                                                  child: Icon(
-                                                    Icons
-                                                        .local_gas_station_rounded,
-                                                    color: Color(0xFFF4F4F4),
-                                                    size: 30,
-                                                  ),
+                                                Icon(
+                                                  IconData(
+                                                      Provider.of<RepositoryCategory>(
+                                                              context,
+                                                              listen: false)
+                                                          .codeCategory(
+                                                        metaList
+                                                            .itemByIndex(i)
+                                                            .idCategoria,
+                                                      ),
+                                                      fontFamily:
+                                                          "MaterialIcons"),
+                                                  color: Colors.white,
+                                                  size: 30,
                                                 ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsetsDirectional
-                                                          .fromSTEB(5, 0, 5, 0),
+                                                              .fromSTEB(
+                                                          10, 0, 5, 0),
                                                   child: Text(
                                                     Provider.of<RepositoryCategory>(
                                                             context,
