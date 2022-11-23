@@ -3,6 +3,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
+import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/metas.dart';
 import '../models/store.dart';
@@ -22,7 +23,6 @@ class _CreateMetasState extends State<CreateMeta> {
     'budgetDate':
         DateFormat('yyyy-MM-dd').format(DateTime.now()), //pegar a data corrente
     'active': false,
-    'valorAtual': 0.00,
   };
   int? codeCreateMeta = 984405;
 
@@ -100,11 +100,9 @@ class _CreateMetasState extends State<CreateMeta> {
       print("1: $data");
 
       if (page == 'listMeta') {
-        setState(() {
-          _loadFormDataMeta(data as MetasModel);
-          status = createMetasData['active'];
-          categorySelected = createMetasData['CategoryId'].toString();
-        });
+        _loadFormDataMeta(data as MetasModel);
+        status = createMetasData['active'];
+        categorySelected = createMetasData['CategoryId'].toString();
       } else {
         codeCreateMeta = 984405;
       }
@@ -195,7 +193,12 @@ class _CreateMetasState extends State<CreateMeta> {
                         ),
                       ),
                       Text(
-                        categorySelected == 'null' ? "" : categorySelected,
+                        categorySelected == 'null'
+                            ? ""
+                            : Provider.of<RepositoryCategory>(context,
+                                    listen: false)
+                                .selectNameCategoria(categorySelected)
+                                .toString(),
                         style: const TextStyle(
                           color: Color.fromARGB(255, 102, 91, 196),
                           fontSize: 25,

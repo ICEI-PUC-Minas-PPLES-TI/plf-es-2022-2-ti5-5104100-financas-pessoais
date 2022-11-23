@@ -206,7 +206,7 @@ class RepositoryMetas with ChangeNotifier {
           'budgetValue': meta.valorMeta,
           'budgetDate': meta.dataMeta,
           'active': meta.recorrente,
-          'categoryId': int.parse(meta.idCategoria),
+          'categoryId': meta.idCategoria,
           'UserId': userId
         },
       ),
@@ -239,7 +239,7 @@ class RepositoryMetas with ChangeNotifier {
           'budgetValue': meta.valorMeta,
           'budgetDate': meta.dataMeta,
           'active': meta.recorrente,
-          'categoryId': int.parse(meta.idCategoria),
+          'categoryId': meta.idCategoria,
           'UserId': userId
         },
       ),

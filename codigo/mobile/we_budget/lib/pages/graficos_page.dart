@@ -36,15 +36,11 @@ class Graficos_page extends StatefulWidget {
   State<Graficos_page> createState() => _GraficosPageState();
 }
 
-
-
 class _GraficosPageState extends State<Graficos_page> {
   void onClicado(int index) {
-
     setState(() {
       widget.id_grafico = index;
     });
-
   }
 
   @override
@@ -74,30 +70,32 @@ class _GraficosPageState extends State<Graficos_page> {
       length: 4,
       child: Scaffold(
         appBar: NewGradientAppBar(
-          gradient: LinearGradient(colors: [Colors.purple, Colors.blueAccent]),
-          bottom: TabBar(tabs:  <Widget>[
-            Tab(
-              icon: Icon(Icons.pie_chart),
-              text: 'Despesas',
-            ),
-            Tab(
-              icon: Icon(Icons.pie_chart),
-              text: 'Receitas',
-            ),
-            Tab(
-              icon: Icon(Icons.bar_chart),
-              text: 'Despesas',
-            ),
-            Tab(
-              icon: Icon(Icons.stacked_line_chart_outlined),
-              text: 'Receitas',
-            )
-          ],
+          gradient:
+              const LinearGradient(colors: [Colors.purple, Colors.blueAccent]),
+          bottom: TabBar(
+            tabs: <Widget>[
+              const Tab(
+                icon: Icon(Icons.pie_chart),
+                text: 'Despesas',
+              ),
+              const Tab(
+                icon: Icon(Icons.pie_chart),
+                text: 'Receitas',
+              ),
+              const Tab(
+                icon: Icon(Icons.bar_chart),
+                text: 'Despesas',
+              ),
+              const Tab(
+                icon: Icon(Icons.stacked_line_chart_outlined),
+                text: 'Receitas',
+              )
+            ],
             onTap: onClicado,
-         ),
+          ),
           actions: <Widget>[
             Padding(
-                padding: EdgeInsets.only(right: 20.0, top: 30.0),
+                padding: const EdgeInsets.only(right: 20.0, top: 30.0),
                 child: GestureDetector(
                   onTap: () {
                     showModalBottomSheet<void>(
@@ -105,7 +103,8 @@ class _GraficosPageState extends State<Graficos_page> {
                       builder: (BuildContext context) {
                         String id_Periodo = widget.id_periodo_late;
                         return Container(
-                          padding: EdgeInsets.only(top: 20.0, bottom: 15.0),
+                          padding:
+                              const EdgeInsets.only(top: 20.0, bottom: 15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -160,7 +159,7 @@ class _GraficosPageState extends State<Graficos_page> {
                       },
                     );
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.edit_calendar_sharp,
                     size: 26.0,
                   ),
@@ -171,81 +170,84 @@ class _GraficosPageState extends State<Graficos_page> {
             padding: const EdgeInsets.only(top: 30.0),
             child: Column(
               children: [
-                Center(child: Text('Gráficos')),
+                const Center(child: Text('Gráficos')),
               ],
             ),
           ),
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: 30.0, top: 30.0, right: 30.0, bottom: 100.0),
-            child: (id == 0) ? Column(
-                  children : [
-                    const Text(
-                      'Despesas por categoria',
-                      style: TextStyle(fontSize: 24.0, fontFamily: 'Poppins'),
-                    ),
-                    const Padding(padding: EdgeInsets.all(10)),
-                    PieChartWidget(
-                      listaTrasaction,
-                      periodo: widget.id_periodo_late,
-                    ),
-                  ]
-                ) : (id == 1 ) ? Column(
-              children: [
-                const Text(
-                  'Receitas por categoria',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.all(10)),
-                PieChartWidget2(
-                  listaTrasaction,
-                  periodo: widget.id_periodo_late,
-                ),
-              ],
-            ) : (id == 2) ? Column(
-              children: [
-                const Text(
-                  'Despesas',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.all(10)),
-                BarChartWidget(
-                  transactions: listaTrasaction,
-                  periodo: widget.id_periodo_late,
-                ),
-              ],
-            ) : (id==3) ? Column(
-              children: [
-                const Text(
-                  'Receitas',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.all(10)),
-                LineChartWidget(listaTrasaction, periodo: widget.id_periodo_late),
-              ],
-            ) : Text('opcao invalida')
-            ),
-          ),
+              padding: const EdgeInsets.only(
+                  left: 30.0, top: 30.0, right: 30.0, bottom: 100.0),
+              child: (id == 0)
+                  ? Column(children: [
+                      const Text(
+                        'Despesas por categoria',
+                        style: TextStyle(fontSize: 24.0, fontFamily: 'Poppins'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(10)),
+                      PieChartWidget(
+                        listaTrasaction,
+                        periodo: widget.id_periodo_late,
+                      ),
+                    ])
+                  : (id == 1)
+                      ? Column(
+                          children: [
+                            const Text(
+                              'Receitas por categoria',
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.all(10)),
+                            PieChartWidget2(
+                              listaTrasaction,
+                              periodo: widget.id_periodo_late,
+                            ),
+                          ],
+                        )
+                      : (id == 2)
+                          ? Column(
+                              children: [
+                                const Text(
+                                  'Despesas',
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                                const Padding(padding: EdgeInsets.all(10)),
+                                BarChartWidget(
+                                  transactions: listaTrasaction,
+                                  periodo: widget.id_periodo_late,
+                                ),
+                              ],
+                            )
+                          : (id == 3)
+                              ? Column(
+                                  children: [
+                                    const Text(
+                                      'Receitas',
+                                      style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                    ),
+                                    const Padding(padding: EdgeInsets.all(10)),
+                                    LineChartWidget(listaTrasaction,
+                                        periodo: widget.id_periodo_late),
+                                  ],
+                                )
+                              : const Text('opcao invalida')),
         ),
-      );
+      ),
+    );
   }
 }
 
-void _alterarOId(int id) {
-
-}
-
+void _alterarOId(int id) {}
 
 class PeriodoButton extends StatelessWidget {
   final String text;

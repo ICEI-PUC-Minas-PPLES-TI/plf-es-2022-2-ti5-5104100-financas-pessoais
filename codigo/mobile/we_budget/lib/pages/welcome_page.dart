@@ -215,17 +215,17 @@ class _WelcomePageState extends State<WelcomePage> {
                                     ? 3
                                     : trasactionList.itemsCount,
                                 itemBuilder: (ctx, i) => ListTile(
-                                  // leading: Icon(
-                                  //   IconData(
-                                  //       Provider.of<RepositoryCategory>(context,
-                                  //               listen: false)
-                                  //           .codeCategory(
-                                  //         trasactionList
-                                  //             .itemByIndex(i)
-                                  //             .categoria,
-                                  //       ),
-                                  //       fontFamily: "MaterialIcons"),
-                                  // ),
+                                  leading: Icon(
+                                    IconData(
+                                        Provider.of<RepositoryCategory>(context,
+                                                listen: false)
+                                            .codeCategory(
+                                          trasactionList
+                                              .itemByIndex(i)
+                                              .categoria,
+                                        ),
+                                        fontFamily: "MaterialIcons"),
+                                  ),
                                   title:
                                       Text(trasactionList.itemByIndex(i).name),
                                   onTap: () {},
