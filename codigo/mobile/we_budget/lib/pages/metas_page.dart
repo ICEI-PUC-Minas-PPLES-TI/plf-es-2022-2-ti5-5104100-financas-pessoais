@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
@@ -139,7 +140,7 @@ class _MetasPage extends State<MetasPage> {
                                   itemBuilder: (ctx, i) => Padding(
                                     padding:
                                         const EdgeInsetsDirectional.fromSTEB(
-                                            0, 15, 0, 15),
+                                            0, 65, 0, 5),
                                     child: Container(
                                       width: 100,
                                       height: 170,
@@ -179,8 +180,21 @@ class _MetasPage extends State<MetasPage> {
                                                       size: 20,
                                                     ),
                                                     onPressed: () {
-                                                      print(
-                                                          'EditButton pressed ...');
+                                                      setState(() {
+                                                        Map<String, dynamic>
+                                                            arguments = {
+                                                          'page': 'listMeta',
+                                                          'itemByIndex':
+                                                              metaList
+                                                                  .itemByIndex(
+                                                                      i),
+                                                        };
+                                                        Navigator.of(context)
+                                                            .pushNamed(
+                                                          AppRoutes.createMeta,
+                                                          arguments: arguments,
+                                                        );
+                                                      });
                                                     },
                                                   ),
                                                   ElevatedButton(
@@ -200,8 +214,14 @@ class _MetasPage extends State<MetasPage> {
                                                       size: 25,
                                                     ),
                                                     onPressed: () {
-                                                      print(
-                                                          'DeleteButton pressed ...');
+                                                      Provider.of<RepositoryMetas>(
+                                                              context,
+                                                              listen: false)
+                                                          .removeMetaSql(
+                                                              metaList
+                                                                  .itemByIndex(
+                                                                      i)
+                                                                  .idMeta);
                                                     },
                                                   ),
                                                 ],
@@ -228,10 +248,13 @@ class _MetasPage extends State<MetasPage> {
                                                       const EdgeInsetsDirectional
                                                           .fromSTEB(5, 0, 5, 0),
                                                   child: Text(
-                                                    metaList
-                                                        .itemByIndex(i)
-                                                        .idCategoria
-                                                        .toString(),
+                                                    Provider.of<RepositoryCategory>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectNameCategoria(
+                                                            metaList
+                                                                .itemByIndex(i)
+                                                                .idCategoria),
                                                     style: const TextStyle(
                                                       fontFamily: 'Poppins',
                                                       fontSize: 20,

@@ -263,6 +263,7 @@ class RepositoryCategory with ChangeNotifier {
 
   String selectNameCategoria(String id) {
     selectCategoria();
+
     int index = _categories.indexWhere((element) => element.id == id);
 
     String nameCategory = _categories[index].nameCategoria;

@@ -110,11 +110,33 @@ class RepositoryMetas with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> saveMetaSql(Map<String, dynamic> metasData) async {
+    bool hasId = metasData['IdMeta'] != null;
+    print("Id....$hasId");
+    final metas = MetasModel(
+      idMeta: hasId ? metasData['IdMeta'].toString() : "",
+      idCategoria: metasData['CategoryId'].toString(),
+      dataMeta: metasData['budgetDate'].toString(),
+      valorMeta: metasData['budgetValue'],
+      valorAtual: metasData['valorAtual'],
+      recorrente: metasData['active'],
+    );
+
+    if (hasId) {
+      print("Entrou update");
+      await updateMetaSql(metas);
+    } else {
+      print("Entrou create");
+      print(metas);
+      await createMetaSql(metas);
+    }
+  }
+
   int get itemsCount {
     return _itemsMeta.length;
   }
 
-  void removeMetaSqflite(int metaId) async {
+  void removeMetaSqflite(String metaId) async {
     selectMetas();
     Database db = await DBHelper.instance.database;
 
@@ -170,6 +192,7 @@ class RepositoryMetas with ChangeNotifier {
     String token = userData['token'];
     String userId = userData['userId'];
 
+    print("entrei Nataniel $meta");
     const url = 'https://webudgetpuc.azurewebsites.net/api/Budget/Add';
     final response = await http.post(
       Uri.parse(url),
@@ -183,12 +206,14 @@ class RepositoryMetas with ChangeNotifier {
           'budgetValue': meta.valorMeta,
           'budgetDate': meta.dataMeta,
           'active': meta.recorrente,
-          'categoryId': int.parse(meta.idCategoria),
+          'categoryId': meta.idCategoria,
           'UserId': userId
         },
       ),
     );
 
+    print("Entrou Nataniel 2");
+    print("Entrei Nataniel 3: ${response.body}");
     final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
@@ -214,7 +239,7 @@ class RepositoryMetas with ChangeNotifier {
           'budgetValue': meta.valorMeta,
           'budgetDate': meta.dataMeta,
           'active': meta.recorrente,
-          'categoryId': int.parse(meta.idCategoria),
+          'categoryId': meta.idCategoria,
           'UserId': userId
         },
       ),
@@ -224,8 +249,7 @@ class RepositoryMetas with ChangeNotifier {
   Future<void> removeMetaSql(String idMeta) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
-
-    final url = 'hhttps://webudgetpuc.azurewebsites.net/api/Budget/$idMeta';
+    final url = 'https://webudgetpuc.azurewebsites.net/api/Budget/$idMeta';
 
     final response = await http.delete(
       Uri.parse(url),
@@ -235,7 +259,7 @@ class RepositoryMetas with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
     );
-
+    print("Remove Meta Nataniel ------ $idMeta");
     if (response.statusCode >= 400) {
       throw HttpException(
         msg: 'Não foi possível excluir o produto.',
@@ -246,8 +270,8 @@ class RepositoryMetas with ChangeNotifier {
 
   void saveMetaSqflite(Map<String, dynamic> object, String operacao) {
     final meta = MetasModel(
-      idCategoria: object['Id'].toString(),
-      idMeta: object['CategoryId'].toString(),
+      idCategoria: object['CategoryId'].toString(),
+      idMeta: object['Id'].toString(),
       dataMeta: object['BudgetDate'].toString(),
       valorMeta: object['BudgetValue'],
       valorAtual: object['BudgetValueUsed'],
@@ -259,7 +283,7 @@ class RepositoryMetas with ChangeNotifier {
     } else if (operacao == "Update") {
       updateMetaSqflite(meta);
     } else if (operacao == "Delete") {
-      removeMetaSqflite(int.parse(meta.idCategoria));
+      removeMetaSqflite(meta.idMeta);
     } else {
       print("Operação não encontrada");
     }
