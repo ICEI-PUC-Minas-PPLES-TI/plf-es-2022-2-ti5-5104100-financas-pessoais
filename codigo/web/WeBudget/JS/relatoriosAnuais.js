@@ -1,6 +1,6 @@
 fetch('https://webudgetpuc.azurewebsites.net/api/transaction',{
     headers: {
-        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjBjMzExOTczLTVkNTAtNGU5OS04MzMzLTIzNGRmNzhhNWM3NCIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTIxMjI5MiwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.i6QmWftDPDV5QZ1Vdp_ghyB1QwO-hBD27xvgotyk-40`
+        'Authorization': `Bearer ${retornarTokenUsuario()} }`
     }}).then(data => data.json())
     .then(data => {
         var year=[]
@@ -10,14 +10,12 @@ fetch('https://webudgetpuc.azurewebsites.net/api/transaction',{
 
             }else{
                 year.push(new Date(element.tansactionDate).getFullYear())
-            }
-            console.log(year)
-            year.forEach((result)=>{
                 if(element.tansactionType==0){
-                 soma+=element.paymentValue
-                    }  
-            })
-           console.log(soma)
+                    soma+=element.paymentValue
+                       }  
+            }
+
+        //   console.log(soma)
         });
 
 
@@ -53,7 +51,7 @@ new Chart(receitasAno,  {
 
    fetch('https://webudgetpuc.azurewebsites.net/api/transaction',{
     headers: {
-        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjBjMzExOTczLTVkNTAtNGU5OS04MzMzLTIzNGRmNzhhNWM3NCIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTIxMjI5MiwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.i6QmWftDPDV5QZ1Vdp_ghyB1QwO-hBD27xvgotyk-40`
+        'Authorization': `Bearer ${retornarTokenUsuario()}}`
     }}).then(data => data.json())
     .then(data => {
         var year=[]
@@ -63,15 +61,15 @@ new Chart(receitasAno,  {
 
             }else{
                 year.push(new Date(element.tansactionDate).getFullYear())
-            }
-            console.log(year)
-            year.forEach((result)=>{
                 if(element.tansactionType==1){
-                 soma+=element.paymentValue
-                    }  
-            })
-           console.log(soma)
+                    soma+=element.paymentValue
+                       }  
+            }
+
+          // console.log(soma)
         });
+        console.log(year)
+        console.log(soma)
         let primeiroGrafico = document.getElementById("despesasAno");
 
 let chart = new Chart(primeiroGrafico, {

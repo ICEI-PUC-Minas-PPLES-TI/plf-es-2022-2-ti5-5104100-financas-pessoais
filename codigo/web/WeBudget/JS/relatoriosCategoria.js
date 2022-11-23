@@ -5,7 +5,7 @@ function getCategorias() {
   let url = `https://webudgetpuc.azurewebsites.net/api/category`;
   let request = new XMLHttpRequest();
   request.open('GET', url, false);
-  request.setRequestHeader('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjkyYjFmNTFmLTRkZDMtNGE0Yy04M2JjLTUyZWU3MjM4OGIwNSIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTM2OTg5OCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.WYG0k0LIoDvo36B6pQn9FSp9IFe3urGfXzDMCvifvt4`);
+  request.setRequestHeader('Authorization', `Bearer ${retornarTokenUsuario()}`);
   request.send();
   const dados = request.responseText;
   var retorno = JSON.parse(dados);
@@ -26,7 +26,7 @@ function getValoresTrasacoes() {
   let url = `https://webudgetpuc.azurewebsites.net/api/Transaction`;
   let request = new XMLHttpRequest();
   request.open('GET', url, false);
-  request.setRequestHeader('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjkyYjFmNTFmLTRkZDMtNGE0Yy04M2JjLTUyZWU3MjM4OGIwNSIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTM2OTg5OCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.WYG0k0LIoDvo36B6pQn9FSp9IFe3urGfXzDMCvifvt4`);
+  request.setRequestHeader('Authorization', `Bearer ${retornarTokenUsuario()}`);
   request.send();
   const dados = request.responseText;
   var retornoTrasaction = JSON.parse(dados);
@@ -55,7 +55,7 @@ function getTransactions() {
   let url = `https://webudgetpuc.azurewebsites.net/api/Transaction`;
   let request = new XMLHttpRequest();
   request.open('GET', url, false);
-  request.setRequestHeader('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjkyYjFmNTFmLTRkZDMtNGE0Yy04M2JjLTUyZWU3MjM4OGIwNSIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTM2OTg5OCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.WYG0k0LIoDvo36B6pQn9FSp9IFe3urGfXzDMCvifvt4`);
+  request.setRequestHeader('Authorization', `Bearer ${retornarTokenUsuario()}`);
   request.send();
   const dados = request.responseText;
   var retornoTrasaction = JSON.parse(dados);
@@ -170,7 +170,7 @@ tabela.addRows([
 
 let opcoes = {
     'height': 500,
-    'width':1500,
+    'width':1200,
 };
 
 let grafico = new google.visualization.ColumnChart(document.getElementById('gastosCategoria'));

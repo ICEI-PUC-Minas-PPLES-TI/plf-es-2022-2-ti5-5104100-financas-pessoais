@@ -104,7 +104,12 @@ public class TransactionService : ITransactionService
     {
         return await _iTransaction.ListByUser(userId);
     }
-    
+
+    public  async Task<double> SumTransaction(string userId, DateTime dateTime)
+    {
+        return await _iTransaction.SumTransaction(userId, dateTime);
+    }
+
     private async Task<Transaction> SendMenssage(OperationType operation, Transaction transaction)
     {
         return await _messageBrokerService.SendMenssage(new MenssageResponse<Transaction>()
