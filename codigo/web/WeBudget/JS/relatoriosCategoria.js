@@ -1,64 +1,91 @@
+google.charts.load('current', { 'packages': ['corechart'] });
 
-//receita
-var arrSoma = []
-fetch('https://webudgetpuc.azurewebsites.net/api/category', {
-  headers: {
-    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjBjMzExOTczLTVkNTAtNGU5OS04MzMzLTIzNGRmNzhhNWM3NCIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTIxMjI5MiwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.i6QmWftDPDV5QZ1Vdp_ghyB1QwO-hBD27xvgotyk-40`
+var categorias = getCategorias();
+function getCategorias() {
+  let url = `https://webudgetpuc.azurewebsites.net/api/category`;
+  let request = new XMLHttpRequest();
+  request.open('GET', url, false);
+  request.setRequestHeader('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjkyYjFmNTFmLTRkZDMtNGE0Yy04M2JjLTUyZWU3MjM4OGIwNSIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTM2OTg5OCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.WYG0k0LIoDvo36B6pQn9FSp9IFe3urGfXzDMCvifvt4`);
+  request.send();
+  const dados = request.responseText;
+  var retorno = JSON.parse(dados);
+  var listaCategorias = [];
 
-  }
-})
-  .then(data => data.json())
-  .then(data => {
-    // console.log(data)
-    data.forEach(element => {
-    // console.log(element)
-      fetch('https://webudgetpuc.azurewebsites.net/api/Transaction', {
-        headers: {
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjBjMzExOTczLTVkNTAtNGU5OS04MzMzLTIzNGRmNzhhNWM3NCIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTIxMjI5MiwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.i6QmWftDPDV5QZ1Vdp_ghyB1QwO-hBD27xvgotyk-40`
-        }
-      }).then((e) => e.json())
-        .then((e) => {
-         
-          var soma = 0;
-          e.forEach(result => {
-//  console.log(result.paymentValue)
-            if (element.id == result.categoryId && result.tansactionType == 0) {
-              soma += result.paymentValue;
+  retorno.forEach(element => {
+    listaCategorias.push(element.id)
+  });
+
+  
+  return listaCategorias;
+}
+console.log(categorias);
 
 
-              var label = [];
-              label.push(element.description)
-              window.sessionStorage.setItem("label", label)
-              console.log(label)
+var valoresGrafico = getValoresTrasacoes();
+function getValoresTrasacoes() {
+  let url = `https://webudgetpuc.azurewebsites.net/api/Transaction`;
+  let request = new XMLHttpRequest();
+  request.open('GET', url, false);
+  request.setRequestHeader('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjkyYjFmNTFmLTRkZDMtNGE0Yy04M2JjLTUyZWU3MjM4OGIwNSIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTM2OTg5OCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.WYG0k0LIoDvo36B6pQn9FSp9IFe3urGfXzDMCvifvt4`);
+  request.send();
+  const dados = request.responseText;
+  var retornoTrasaction = JSON.parse(dados);
+  var valoresDespesa = 0;
+  var valoresReceita = 0;
 
-              arrSoma.push(soma)
-              window.sessionStorage.setItem("arrSoma", arrSoma)
-              console.log(arrSoma)
-            }
-          })
-          
-        })
+  retornoTrasaction.forEach(element => {
+    if(element.tansactionType == 1){
+      valoresDespesa += element.paymentValue;
+    }else{
+      valoresReceita += element.paymentValue
+    }
+  });
+
+  var arrayValores = []
+  arrayValores.push(valoresReceita.toString());
+  arrayValores.push(valoresDespesa.toString())
+
+  return arrayValores;
+}
 
 
 
+var transacoes = getTransactions();
+function getTransactions() {
+  let url = `https://webudgetpuc.azurewebsites.net/api/Transaction`;
+  let request = new XMLHttpRequest();
+  request.open('GET', url, false);
+  request.setRequestHeader('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjkyYjFmNTFmLTRkZDMtNGE0Yy04M2JjLTUyZWU3MjM4OGIwNSIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTM2OTg5OCwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.WYG0k0LIoDvo36B6pQn9FSp9IFe3urGfXzDMCvifvt4`);
+  request.send();
+  const dados = request.responseText;
+  var retornoTrasaction = JSON.parse(dados);
+
+
+  return retornoTrasaction;
+}
+console.log(transacoes);
 
 
 
+/**
+ * Construção do gráfico
+ */
+var categorias = []
+categorias.push("Receita");
+categorias.push("Despesa")
 
-    });
-  })
-
-//grafico rosca das receitas por categoria
+var receita = valoresGrafico[0];
+var despesa = valoresGrafico[1];
 
 plots = document.getElementById("receitasCategoria");
 
 new Chart(plots, {
   type: 'doughnut',
   data: {
-    labels: [window.sessionStorage.getItem("label")],
+    labels: ["Receita", "Despesa"],
     datasets: [{
       label: 'My First Dataset',
-      data: [parseInt(window.sessionStorage.getItem("arrSoma"))],
+      data: [receita, despesa],
       backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(54, 162, 235)',
@@ -71,78 +98,83 @@ new Chart(plots, {
 
 
 
+// //Gráfico de barra - quantidade de Transacoes feitos
+function desenharBarraTransacoes() {
+
+  let valorTotalCredito = 0;
+  let valorTotalDebito = 0;
+  let valorTotalCheque = 0;
+  let valorTotalPix = 0;
+  let valorTotalDinheiro = 0;
 
 
-//despesas
+  var tiposTrasacao = ["Crédito", "Débito", "Cheque", "Pix", "Dinheiro"]
+  
+for (let i = 0; i < transacoes.length; i++) {
 
-var arrSoma = []
-fetch('https://webudgetpuc.azurewebsites.net/api/category', {
-  headers: {
-    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjBjMzExOTczLTVkNTAtNGU5OS04MzMzLTIzNGRmNzhhNWM3NCIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTIxMjI5MiwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.i6QmWftDPDV5QZ1Vdp_ghyB1QwO-hBD27xvgotyk-40`
+  if(transacoes[i].paymentType == tiposTrasacao[0]){
+    valorTotalCredito += parseInt(transacoes[i].paymentValue);
+  }  
 
-  }
-})
-  .then(data => data.json())
-  .then(data => {
-    // console.log(data)
-    data.forEach(element => {
-     //console.log(element)
-      fetch('https://webudgetpuc.azurewebsites.net/api/Transaction', {
-        headers: {
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZUJ1ZGdldCIsImp0aSI6IjBjMzExOTczLTVkNTAtNGU5OS04MzMzLTIzNGRmNzhhNWM3NCIsImlkVXN1YXJpbyI6IjI0MzE5MWExLTQ4NmMtNGNkMy1hNzFkLTM3NDUwYzA5NDNmMyIsImV4cCI6MTY2OTIxMjI5MiwiaXNzIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIiwiYXVkIjoiVGVzdGUuU2VjdXJpcnkuQmVhcmVyIn0.i6QmWftDPDV5QZ1Vdp_ghyB1QwO-hBD27xvgotyk-40`
-        }
-      }).then((e) => e.json())
-        .then((e) => {
-         
-          var soma = 0;
-          e.forEach(result => {
-//  console.log(result.paymentValue)
-            if (element.id == result.categoryId && result.tansactionType == 1) {
-              soma += result.paymentValue;
+  if(transacoes[i].paymentType == tiposTrasacao[1]){
+    valorTotalDebito += parseInt(transacoes[i].paymentValue);
+  } 
 
+  if(transacoes[i].paymentType == tiposTrasacao[2]){
+    valorTotalCheque += parseInt(transacoes[i].paymentValue);
+  } 
 
-              var label = [];
-              label.push(element.description)
-              window.sessionStorage.setItem("label", label)
+  if(transacoes[i].paymentType == tiposTrasacao[3]){
+    valorTotalPix += parseInt(transacoes[i].paymentValue);
+  } 
 
-              arrSoma.push(soma)
-              window.sessionStorage.setItem("arrSoma", arrSoma)
-             // console.log(arrSoma)
-            }
-          })
-          
-        })
+  if(transacoes[i].paymentType == tiposTrasacao[4]){
+    valorTotalDinheiro += parseInt(transacoes[i].paymentValue);
+  } 
+}
+
+console.log(valorTotalCredito);
+console.log(valorTotalDebito);
+console.log(valorTotalCheque);
+console.log(valorTotalPix);
+console.log(valorTotalDinheiro);
 
 
+let tabela = new google.visualization.DataTable();
+tabela.addColumn('string', 'Categorias');
+tabela.addColumn('number', 'Valores');
+tabela.addRows([
+
+]);
+
+tabela.addRows([
+    [tiposTrasacao[0], valorTotalCredito]
+])    
+
+tabela.addRows([
+    [tiposTrasacao[1], valorTotalDebito]
+])
+
+tabela.addRows([
+    [tiposTrasacao[2], valorTotalCheque]
+])
+
+tabela.addRows([
+  [tiposTrasacao[3], valorTotalPix]
+])
+
+tabela.addRows([
+  [tiposTrasacao[4], valorTotalDinheiro]
+])
 
 
+let opcoes = {
+    'height': 500,
+    'width':1500,
+};
 
+let grafico = new google.visualization.ColumnChart(document.getElementById('gastosCategoria'));
+grafico.draw(tabela, opcoes)
 
-
-    });
-  })
-
-//grafico de rosca das despesas por categoria
-
-plots2 = document.getElementById("gastosCategoria");
-
-
-new Chart(plots2, {
-  type: 'doughnut',
-  data: {
-    labels: [window.sessionStorage.getItem("label")],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [parseInt(window.sessionStorage.getItem("arrSoma"))],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-      ],
-      hoverOffset: 4
-    }]
-  }
-});
-
-
-
+}
+google.charts.setOnLoadCallback(desenharBarraTransacoes);

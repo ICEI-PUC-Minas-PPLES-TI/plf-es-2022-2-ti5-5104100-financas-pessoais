@@ -17,7 +17,7 @@ function realizarLogin(event){
   .then((data) => {
     console.log(data.sucesso)
     if(data.sucesso){
-      window.location.href="/codigo/web/WeBudget/HTML/relatoriosCategoria.html"
+      window.location.href="relatoriosCategoria.html"
     }else{
       alert("email ou senha inválidos");
     }
