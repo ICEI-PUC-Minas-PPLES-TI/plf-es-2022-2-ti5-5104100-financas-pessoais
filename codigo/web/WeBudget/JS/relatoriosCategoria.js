@@ -170,7 +170,7 @@ tabela.addRows([
 
 let opcoes = {
     'height': 500,
-    'width':1100,
+    'width':1200,
 };
 
 let grafico = new google.visualization.ColumnChart(document.getElementById('gastosCategoria'));
