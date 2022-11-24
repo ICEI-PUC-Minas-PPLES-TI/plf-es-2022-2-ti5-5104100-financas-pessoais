@@ -113,7 +113,7 @@ class RepositoryMetas with ChangeNotifier {
   Future<void> saveMetaSql(Map<String, dynamic> metasData) async {
     bool hasId = metasData['IdMeta'] != null;
     bool hasVarlorAtual = metasData['valorAtual'] != null;
-    print("Id....$hasId");
+
     final metas = MetasModel(
       idMeta: hasId ? metasData['IdMeta'].toString() : "",
       idCategoria: metasData['CategoryId'].toString(),
@@ -124,11 +124,8 @@ class RepositoryMetas with ChangeNotifier {
     );
 
     if (hasId) {
-      print("Entrou update");
       await updateMetaSql(metas);
     } else {
-      print("Entrou create");
-      print(metas);
       await createMetaSql(metas);
     }
   }
@@ -192,8 +189,6 @@ class RepositoryMetas with ChangeNotifier {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
     String userId = userData['userId'];
-
-    print("entrei Nataniel $meta");
     const url = 'https://webudgetpuc.azurewebsites.net/api/Budget/Add';
     final response = await http.post(
       Uri.parse(url),
@@ -213,8 +208,6 @@ class RepositoryMetas with ChangeNotifier {
       ),
     );
 
-    print("Entrou Nataniel 2");
-    print("Entrei Nataniel 3: ${response.body}");
     final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
@@ -260,7 +253,7 @@ class RepositoryMetas with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
     );
-    print("Remove Meta Nataniel ------ $idMeta");
+
     if (response.statusCode >= 400) {
       throw HttpException(
         msg: 'Não foi possível excluir o produto.',

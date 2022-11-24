@@ -21,6 +21,7 @@ class _CreateCategoryState extends State<CreateCategory> {
     'codeCreateCategory': '',
   };
   int? codigoCreateCategory = 984405;
+  bool isLoading = false;
 
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
@@ -56,6 +57,10 @@ class _CreateCategoryState extends State<CreateCategory> {
       return;
     }
     _formKeyCreateCategory.currentState?.save();
+
+    setState(
+      () => isLoading = true,
+    );
     RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
@@ -250,24 +255,27 @@ class _CreateCategoryState extends State<CreateCategory> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: _submitCreateCategory,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                      if (isLoading)
+                        const CircularProgressIndicator()
+                      else
+                        ElevatedButton(
+                          onPressed: _submitCreateCategory,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            fixedSize: const Size(290, 40),
+                            backgroundColor:
+                                const Color.fromARGB(255, 102, 91, 196),
                           ),
-                          fixedSize: const Size(290, 40),
-                          backgroundColor:
-                              const Color.fromARGB(255, 102, 91, 196),
-                        ),
-                        child: const Text(
-                          "Cadastrar",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
+                          child: const Text(
+                            "Cadastrar",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

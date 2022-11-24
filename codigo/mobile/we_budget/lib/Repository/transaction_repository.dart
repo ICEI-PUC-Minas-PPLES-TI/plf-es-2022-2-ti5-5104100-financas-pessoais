@@ -101,7 +101,6 @@ class RepositoryTransaction with ChangeNotifier {
 
   Future<void> loadTransactionRepository2(
       int typeTransaction, String filterDate) async {
-    print("data: $filterDate");
     Database db = await DBHelper.instance.database;
     List<Map> dataList =
         await db.rawQuery("SELECT * FROM ${DBHelper.tableTransaction}");
@@ -177,7 +176,7 @@ class RepositoryTransaction with ChangeNotifier {
 
     int index =
         _items.indexWhere((p) => p.idTransaction == transaction.idTransaction);
-    print("Index é....$index");
+
     if (index >= 0) {
       _items[index] = transaction;
       notifyListeners();
@@ -384,8 +383,6 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
-    print(response);
-    print(response.statusCode);
     // final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
@@ -413,10 +410,8 @@ class RepositoryTransaction with ChangeNotifier {
     );
 
     if (hasId) {
-      print("Entrou update");
       await updateTransactionSql(transaction);
     } else {
-      print("Entrou create");
       await createTransactionSql(transaction);
     }
   }
@@ -450,12 +445,9 @@ class RepositoryTransaction with ChangeNotifier {
         },
       ),
     );
-
-    print(response.statusCode);
   }
 
   Future<void> removeTransactionSql(String idTransaction) async {
-    print("object...$idTransaction");
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
 
@@ -477,7 +469,6 @@ class RepositoryTransaction with ChangeNotifier {
         statusCode: response.statusCode,
       );
     }
-    print(response.statusCode);
   }
 
   void saveTransactionSqflite(Map<String, dynamic> object, String operacao) {
@@ -510,7 +501,6 @@ class RepositoryTransaction with ChangeNotifier {
   Future<double> totalReceitasMesCorrente() async {
     // List<TransactionModel> transaction = await selectTransaction();
     double totalReceitasMesCorrente = 0;
-    print("Teste soma receita...");
     // print(transaction);
 
     for (var element in _items) {
@@ -526,15 +516,14 @@ class RepositoryTransaction with ChangeNotifier {
       }
     }
     somaReceitas = totalReceitasMesCorrente;
-    print(totalReceitasMesCorrente);
     return totalReceitasMesCorrente;
   }
 
   Future<double> totalDespesasMesCorrente() async {
     double totalDespesasMesCorrente = 0;
-    print("Teste soma despesa...");
+
     // print(transaction);
-    print(_items);
+
     for (var element in _items) {
       int actualYear = int.parse(element.data.substring(0, 4));
       int actualMonth = int.parse(element.data.substring(5, 7));
@@ -548,7 +537,7 @@ class RepositoryTransaction with ChangeNotifier {
       }
     }
     somaDespesas = totalDespesasMesCorrente;
-    print(totalDespesasMesCorrente);
+
     return totalDespesasMesCorrente;
   }
 }
