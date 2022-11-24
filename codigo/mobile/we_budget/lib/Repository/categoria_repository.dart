@@ -269,9 +269,7 @@ class RepositoryCategory with ChangeNotifier {
     selectCategoria();
 
     int index = _categories.indexWhere((element) => element.id == id);
-    print("Index....$index");
     if (index == -1) {
-      print("Entrou index...");
       index = 0;
     }
 

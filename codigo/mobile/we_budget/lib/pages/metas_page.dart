@@ -20,6 +20,20 @@ class _MetasPage extends State<MetasPage> {
   String formattedDate = '01/01/2022';
   DateTime? pickedDate;
 
+  double consultarPercentual(double valorAtual, double valorMeta) {
+    double auxPercentual = valorAtual / valorMeta;
+    double percentual = 0;
+
+    if (auxPercentual > 1) {
+      percentual = 1.0;
+    } else if (auxPercentual < 0) {
+      percentual = 0.0;
+    } else {
+      percentual = auxPercentual;
+    }
+    return percentual;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +46,13 @@ class _MetasPage extends State<MetasPage> {
             backgroundColor: const Color(0xFFF4F4F4),
             automaticallyImplyLeading: false,
             flexibleSpace: const Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 30, 15, 15),
+              padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 15),
               child: Text(
                 'Metas',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   color: Color(0xFF5B4BF8),
-                  fontSize: 40,
+                  fontSize: 30,
                 ),
               ),
             ),
@@ -346,12 +360,14 @@ class _MetasPage extends State<MetasPage> {
                                                     animation: true,
                                                     lineHeight: 20.0,
                                                     animationDuration: 2500,
-                                                    percent: (metaList
-                                                            .itemByIndex(i)
-                                                            .valorAtual /
-                                                        metaList
-                                                            .itemByIndex(i)
-                                                            .valorMeta),
+                                                    percent:
+                                                        consultarPercentual(
+                                                            metaList
+                                                                .itemByIndex(i)
+                                                                .valorAtual,
+                                                            metaList
+                                                                .itemByIndex(i)
+                                                                .valorMeta),
                                                     center: Text(
                                                       metaList
                                                           .itemByIndex(i)
@@ -363,8 +379,18 @@ class _MetasPage extends State<MetasPage> {
                                                             Color(0xFF1B1C30),
                                                       ),
                                                     ),
-                                                    progressColor:
-                                                        const Color(0xFF4C94F8),
+                                                    progressColor: consultarPercentual(
+                                                                metaList
+                                                                    .itemByIndex(
+                                                                        i)
+                                                                    .valorAtual,
+                                                                metaList
+                                                                    .itemByIndex(
+                                                                        i)
+                                                                    .valorMeta) >=
+                                                            1
+                                                        ? Colors.red
+                                                        : Colors.blue,
                                                   ),
                                                 ),
                                               ],

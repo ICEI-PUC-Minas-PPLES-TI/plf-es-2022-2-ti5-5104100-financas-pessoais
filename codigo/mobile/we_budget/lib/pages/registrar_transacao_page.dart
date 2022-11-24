@@ -18,6 +18,7 @@ class TransacaoFormPage extends StatefulWidget {
 
 class _TransacaoFormPageState extends State<TransacaoFormPage> {
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   final Map<String, Object> _transactionData = {
     'IdTransaction': '',
@@ -100,6 +101,10 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     }
 
     _formKey.currentState?.save();
+
+    setState(
+      () => isLoading = true,
+    );
 
     RepositoryTransaction transaction = Provider.of(context, listen: false);
 
@@ -459,27 +464,29 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Container(
                 padding: const EdgeInsetsDirectional.only(top: 15.0),
-                child: ElevatedButton(
-                  // onPressed: _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 100,
-                      vertical: 10,
-                    ),
-                    fixedSize: const Size(290, 50),
-                    //backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  onPressed: () {
-                    _recuperaDadosLocalizacao();
-                    _recuperaDadosCategoria();
-                    //saveTransaction(_transactionData);
-                  },
-                  child: const Text('Registrar'),
-                ),
+                child: isLoading == false
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        // onPressed: _submit,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 100,
+                            vertical: 10,
+                          ),
+                          fixedSize: const Size(290, 50),
+                          //backgroundColor: Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          _recuperaDadosLocalizacao();
+                          _recuperaDadosCategoria();
+                          //saveTransaction(_transactionData);
+                        },
+                        child: const Text('Registrar'),
+                      ),
               ),
             ],
           ),

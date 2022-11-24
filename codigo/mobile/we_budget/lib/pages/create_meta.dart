@@ -25,6 +25,7 @@ class _CreateMetasState extends State<CreateMeta> {
     'active': false,
   };
   int? codeCreateMeta = 984405;
+  bool isLoading = false;
 
   void _showErrorDialog(String msg) {
     showDialog(
@@ -60,6 +61,10 @@ class _CreateMetasState extends State<CreateMeta> {
       return;
     }
     _formKeyCreateMeta.currentState?.save();
+
+    setState(
+      () => isLoading = true,
+    );
     RepositoryMetas metas = Provider.of(context, listen: false);
 
     try {
@@ -273,24 +278,27 @@ class _CreateMetasState extends State<CreateMeta> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: _recuperaDadosCategoria,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                    if (isLoading)
+                      const CircularProgressIndicator()
+                    else
+                      ElevatedButton(
+                        onPressed: _recuperaDadosCategoria,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          fixedSize: const Size(290, 40),
+                          backgroundColor:
+                              const Color.fromARGB(255, 102, 91, 196),
                         ),
-                        fixedSize: const Size(290, 40),
-                        backgroundColor:
-                            const Color.fromARGB(255, 102, 91, 196),
-                      ),
-                      child: const Text(
-                        "Cadastrar",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
+                        child: const Text(
+                          "Cadastrar",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
