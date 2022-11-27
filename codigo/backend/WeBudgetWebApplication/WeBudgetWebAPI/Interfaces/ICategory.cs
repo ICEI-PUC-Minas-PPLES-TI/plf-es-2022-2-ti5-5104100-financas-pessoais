@@ -6,5 +6,5 @@ namespace WeBudgetWebAPI.Interfaces;
 
 public interface ICategory : IGeneric<Category>
 {
-    public Task<List<Category>> ListByUser(string userId);
+    public Task<Result<List<Category>>> ListByUser(string userId);
 }

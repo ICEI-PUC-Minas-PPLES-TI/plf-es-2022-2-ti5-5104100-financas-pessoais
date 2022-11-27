@@ -20,47 +20,48 @@ public class CategoryService:ICategoryService
         _messageBrokerService = messageBrokerService;
     }
 
-    public async Task<Category> Add(Category category)
+    public async Task<Result<Category>> Add(Category category)
     {
-        return await SendMenssage(OperationType.Create,
-            await _category.Add(category));
+        var addedCategoryResult = await _category.Add(category);
+        if (addedCategoryResult.Success)
+            await SendMenssage(OperationType.Create, addedCategoryResult.Data!);
+        return addedCategoryResult;
     }
 
-    public async Task<Category> Update(Category category)
+    public async Task<Result<Category>> Update(Category category)
     {
-        return await SendMenssage(OperationType.Update,
-            await _category.Update(category));;
+        var updatedCategoryResult = await _category.Update(category);
+        if (updatedCategoryResult.Success)
+            await SendMenssage(OperationType.Create, updatedCategoryResult.Data!);
+        return updatedCategoryResult;
     }
 
-    public async Task Delete(Category category)
+    public async Task<Result> Delete(Category category)
     {
-        await _category.Delete(category);
-        await SendMenssage(OperationType.Delete, category);
+        var deletedCategoryResult = await _category.Delete(category);
+        if (deletedCategoryResult.Success) 
+            await SendMenssage(OperationType.Delete, category);
+        return deletedCategoryResult;
     }
 
-    public async Task<Category?> GetEntityById(int id)
+    public async Task<Result<Category>> GetEntityById(int id)
     {
         return await _category.GetEntityById(id);
     }
 
-    public async Task<List<Category>> List()
+    public async Task<Result<List<Category>>> List()
     {
         return await _category.List();
     }
 
-    public async Task<List<Category>> ListByUser(string userId)
+    public async Task<Result<List<Category>>> ListByUser(string userId)
     {
         return await _category.ListByUser(userId);
     }
     
-    private async Task<Category> SendMenssage(OperationType operation, Category category)
+    private Task SendMenssage(OperationType operation, Category category)
     {
-        return await _messageBrokerService.SendMenssage(new MenssageResponse<Category>()
-        {
-            Table = TableType.Category,
-            UserId = category.UserId,
-            Operation = operation,
-            Object = category
-        });
+        _messageBrokerService.SendMessage(TableType.Category,operation,category.UserId,category);
+        return Task.CompletedTask;
     }
 }

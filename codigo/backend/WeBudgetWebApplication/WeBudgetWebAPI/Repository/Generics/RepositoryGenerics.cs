@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32.SafeHandles;
 using WeBudgetWebAPI.Data;
 using WeBudgetWebAPI.Interfaces.Generics;
+using WeBudgetWebAPI.Models;
 
 
 namespace WeBudgetWebAPI.Repository.Generics;
@@ -16,50 +17,95 @@ public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
             _optionsBuilder = new DbContextOptions<IdentityDataContext>();
         }
 
-        public async Task<T> Add(T objeto)
+        public async Task<Result<T>> Add(T add)
         {
-            using (var data = new IdentityDataContext(_optionsBuilder))
+            try
             {
-                var entityEntry = await data.Set<T>().AddAsync(objeto);
-                await data.SaveChangesAsync();
-                return entityEntry.Entity;
+                await using (var data = new IdentityDataContext(_optionsBuilder))
+                {
+                    var entityEntry = await data.Set<T>().AddAsync(add);
+                    await data.SaveChangesAsync();
+                    return Result.Ok(entityEntry.Entity);
+                }
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<T>(e.Message);
             }
         }
 
-        public async Task Delete(T objeto)
+        public async Task<Result> Delete(T delete)
         {
-            using (var data = new IdentityDataContext(_optionsBuilder))
+            try
             {
-                data.Set<T>().Remove(objeto);
-                await data.SaveChangesAsync();
+                await using (var data = new IdentityDataContext(_optionsBuilder))
+                {
+                    data.Set<T>().Remove(delete);
+                    await data.SaveChangesAsync();
+                    return Result.Ok();
+                }
             }
+            catch (Exception e)
+            {
+                return Result.Fail(e.Message);
+            }
+            
         }
 
-        public async Task<T?> GetEntityById(int id)
+        public async Task<Result<T>> GetEntityById(int id)
         {
-            using (var data = new IdentityDataContext(_optionsBuilder))
+            try
             {
-                return await data.Set<T>().FindAsync(id);
+                await using (var data = new IdentityDataContext(_optionsBuilder))
+                { 
+                    var entity = await data.Set<T>().FindAsync(id);
+                    return entity == null ? 
+                        Result.NotFound<T>() : Result.Ok(entity);
+                }
             }
+            catch (Exception e)
+            {
+                return Result.Fail<T>(e.Message);
+            }
+            
         }
 
-        public async Task<List<T>> List()
+        public async Task<Result<List<T>>> List()
         {
-            using (var data = new IdentityDataContext(_optionsBuilder))
+            try
             {
-                return await data.Set<T>().ToListAsync();
+                await using (var data = new IdentityDataContext(_optionsBuilder))
+                {
+                    var entityList = await data.Set<T>().ToListAsync();
+                    return Result.Ok(entityList);
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
-        public async Task<T> Update(T objeto)
+        public async Task<Result<T>> Update(T update)
         {
-            using (var data = new IdentityDataContext(_optionsBuilder))
-            {
-                var entityEntry = data.Set<T>().Update(objeto); 
-                await data.SaveChangesAsync();
-                return entityEntry.Entity;
 
+            try
+            {
+                await using (var data = new IdentityDataContext(_optionsBuilder))
+                {
+                    var entityEntry = data.Set<T>().Update(update); 
+                    await data.SaveChangesAsync();
+                    return Result.Ok(entityEntry.Entity);
+
+                }
             }
+            catch (Exception e)
+            {
+                return Result.Fail<T>(e.Message);
+            }
+            
         }
 
         #region Disposed https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose

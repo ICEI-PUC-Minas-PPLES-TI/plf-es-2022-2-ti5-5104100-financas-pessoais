@@ -32,8 +32,10 @@ public class BudgetController:ControllerBase
     public async Task<ActionResult<Budget>> Add(BudgetRequest request)
     {
         var budget = _iMapper.Map<Budget>(request);
-        var savedBudget = await _budgetService.Add(budget);
-        var response = _iMapper.Map<BudgetResponse>(savedBudget);
+        var savedBudgetResult = await _budgetService.Add(budget);
+        if(savedBudgetResult.IsFailure)
+            return StatusCode(500, savedBudgetResult.ErrorMenssage);
+        var response = _iMapper.Map<BudgetResponse>(savedBudgetResult.Data);
         return Ok(response);
     }
 
@@ -42,10 +44,10 @@ public class BudgetController:ControllerBase
     public async Task<ActionResult> List()
     {
         var userId = User.FindFirst("idUsuario")!.Value;
-        var orcamentoLista = await _budgetService.ListByUser(userId);
-        if(orcamentoLista.Count == 0)
-            return NotFound("Orçamentos não encontrada");
-        var response = _iMapper.Map<List<BudgetResponse>>(orcamentoLista);
+        var budgetListResult = await _budgetService.ListByUser(userId);
+        if(budgetListResult.IsFailure)
+            return StatusCode(500, budgetListResult.ErrorMenssage);
+        var response = _iMapper.Map<List<BudgetResponse>>(budgetListResult.Data);
         return Ok(response);
     }
 
@@ -53,10 +55,12 @@ public class BudgetController:ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var orcamento = await _budgetService.GetEntityById(id);
-        if(orcamento==null)
-            return NotFound("Orçamento não encontrado");
-        var response = _iMapper.Map<BudgetResponse>(orcamento);
+        var budgetResult = await _budgetService.GetEntityById(id);
+        if(budgetResult.IsFailure)
+            return StatusCode(500, budgetResult.ErrorMenssage);
+        if (budgetResult.NotFound)
+            return NotFound();
+        var response = _iMapper.Map<BudgetResponse>(budgetResult.Data);
         return Ok(response);
     }
 
@@ -65,24 +69,31 @@ public class BudgetController:ControllerBase
     public async Task<ActionResult> Update(BudgetRequest request)
     {
         var budget = _iMapper.Map<Budget>(request);
-        var savedBudget = await _budgetService.GetEntityById(budget.Id);
-        if (savedBudget == null)
-            return NotFound("Orçamento não encontrada");
-        budget.BudgetValueUsed = savedBudget.BudgetValueUsed;
-        var updatedBudget = await _budgetService.Update(budget);
-        var response = _iMapper.Map<BudgetResponse>(updatedBudget);
+        var savedBudgetResult = await _budgetService.GetEntityById(budget.Id);
+        if(savedBudgetResult.IsFailure)
+            return StatusCode(500, savedBudgetResult.ErrorMenssage);
+        if (savedBudgetResult.NotFound)
+            return NotFound();
+        budget.BudgetValueUsed = savedBudgetResult.Data!.BudgetValueUsed;
+        var updatedBudgetResult = await _budgetService.Update(budget);
+        if(updatedBudgetResult.IsFailure)
+            return StatusCode(500, updatedBudgetResult.ErrorMenssage);
+        var response = _iMapper.Map<BudgetResponse>(updatedBudgetResult.Data);
         return Ok(response);
-
     }
 
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var budget = await _budgetService.GetEntityById(id);
-        if(budget==null)
-            return NotFound("Orçamento não encontrada");
-        await _budgetService.Delete(budget);
+        var budgetResult = await _budgetService.GetEntityById(id);
+        if(budgetResult.IsFailure)
+            return StatusCode(500, budgetResult.ErrorMenssage);
+        if (budgetResult.NotFound)
+            return NotFound();
+        var deletedBudgetResult = await _budgetService.Delete(budgetResult.Data!);
+        if(deletedBudgetResult.IsFailure)
+            return StatusCode(500, deletedBudgetResult.ErrorMenssage);
         return NoContent();
     }
 

@@ -5,6 +5,6 @@ namespace WeBudgetWebAPI.Interfaces.Sevices;
 
 public interface IBudgetService:IBudget
 {
-    Task<Budget?> UpdateUsedValue(string userId, DateTime dateTime, int categoryId, double value);
-    Task<Budget?> CreateRecurrentBudget(string userId, DateTime dateTime, int categoryId);
+    Task<Result<Budget>> UpdateUsedValue(string userId, DateTime dateTime, int categoryId, double value);
+    Task<Result<Budget>> CreateRecurrentBudget(string userId, DateTime dateTime, int categoryId);
 }

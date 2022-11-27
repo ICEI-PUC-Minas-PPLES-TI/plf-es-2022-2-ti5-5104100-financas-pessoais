@@ -4,13 +4,14 @@ using WeBudgetWebAPI.Interfaces.Sevices;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using WeBudgetWebAPI.DTOs.Response;
+using WeBudgetWebAPI.Models;
 using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.Services;
 
 public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
 {
-    public async Task<T> SendMenssage(MenssageResponse<T> mesageResponse)
+    private async Task Send(MenssageResponse<T> mesageResponse)
     {
         // CloudAMQP URL in format amqp://user:pass@hostName:port/vhost
         var url = "amqps://mfkdedri:t87XD1FFJHT-Yow3qYnOb3GHqbKIPhyL@moose.rmq.cloudamqp.com/mfkdedri";
@@ -38,19 +39,17 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
         var exchangeName = "";
         var routingKey = queueName;
         channel.BasicPublish(exchangeName, routingKey, null, data);
-        return mesageResponse.Object;
-
     }
     
-    private async Task<T> SendMenssage(TableType table, OperationType operation,
-        string userId, T Object)
+    public async Task SendMessage(TableType table, OperationType operation,
+        string userId, T data)
     {
-        return await SendMenssage(new MenssageResponse<T>()
+        await Send(new MenssageResponse<T>()
         {
             Table = table,
             UserId = userId,
             Operation = operation,
-            Object = Object
+            Object = data
         });
     }
     

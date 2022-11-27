@@ -18,30 +18,46 @@ public class RepositoryTransaction: RepositoryGenerics<Transaction>, ITransactio
     }
 
 
-    public async Task<List<Transaction>> ListByUser(string userId)
+    public async Task<Result<List<Transaction>>> ListByUser(string userId)
     {
-        using (var data = new IdentityDataContext(_optionsBuilder))
+        
+        try
         {
-            return await data.Set<Transaction>()
-                .Where(x => x.UserId == userId)
-                .Include(x=>x.Category)
-                .ToListAsync();
+            await using (var data = new IdentityDataContext(_optionsBuilder))
+            {
+                var entityList = await data.Set<Transaction>()
+                    .Where(x => x.UserId == userId)
+                    .Include(x=>x.Category)
+                    .ToListAsync();
+                return Result.Ok(entityList);
+            }
         }
+        catch (Exception e)
+        {
+            return Result.Fail<List<Transaction>>(e.Message);
+        }
+       
     }
 
-    public async Task<double> SumTransaction(string userId, DateTime dateTime)
+    public async Task<Result<double>> SumTransaction(string userId, DateTime dateTime)
     {
-        using (var data = new IdentityDataContext(_optionsBuilder))
+        try
         {
-            return await data.Set<Transaction>()
-                .Where(x => x.UserId == userId
-                            && x.TansactionDate.Month == dateTime.Month
-                            && x.TansactionDate.Year == dateTime.Year)
-                .Select(x => x.TansactionType == TansactionType.Expenses ?
-                    (-1 * x.PaymentValue) : x.PaymentValue)
-                .SumAsync();
-
-
+            await using (var data = new IdentityDataContext(_optionsBuilder))
+            {
+                var sum = await data.Set<Transaction>()
+                    .Where(x => x.UserId == userId
+                                && x.TansactionDate.Month == dateTime.Month
+                                && x.TansactionDate.Year == dateTime.Year)
+                    .Select(x => x.TansactionType == TansactionType.Expenses ?
+                        (-1 * x.PaymentValue) : x.PaymentValue)
+                    .SumAsync();
+                return Result.Ok(sum);
+            }
+        }
+        catch (Exception e)
+        {
+            return Result.Fail<double>(e.Message);
         }
     }
 }
