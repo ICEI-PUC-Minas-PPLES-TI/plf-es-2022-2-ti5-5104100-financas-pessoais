@@ -1,5 +1,3 @@
-using WeBudgetWebAPI.DTOs;
-using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -20,77 +18,81 @@ public class AccountService:IAccountService
         _messageBrokerService = messageBrokerService;
     }
 
-    public async Task<Account> Add(Account account)
+    public async Task<Result<Account>> Add(Account account)
     {
-        return await SendMenssage(OperationType.Create,
-            await _iAccount.Add(account));
+        var result = await _iAccount.Add(account);
+        if (result.Success) 
+            await SendMessage(OperationType.Create,result.Data!);
+        return result;
     }
 
-    public async Task<Account> Update(Account account)
+    public async Task<Result<Account>> Update(Account account)
     {
-        return await SendMenssage(OperationType.Update,
-            await _iAccount.Update(account));
+        var result = await _iAccount.Update(account);
+        if (result.Success)
+            await SendMessage(OperationType.Update,result.Data!);
+        return result;
     }
 
-    public async Task Delete(Account account)
+    public async Task<Result> Delete(Account account)
     {
-        await _iAccount.Delete(account);
-        await SendMenssage(OperationType.Delete, account);
+        var result = await _iAccount.Delete(account);
+        if (result.Success) 
+            await SendMessage(OperationType.Delete, account);
+        return result;
     }
 
-    public async Task<Account?> GetEntityById(int id)
+    public async Task<Result<Account>> GetEntityById(int id)
     {
-       return await _iAccount.GetEntityById(id);
+        return await _iAccount.GetEntityById(id);
     }
 
-    public async Task<List<Account>> List()
+    public async Task<Result<List<Account>>> List()
     {
         return await _iAccount.List();
     }
 
-    public async Task<List<Account>> ListByUser(string userId)
+    public async Task<Result<List<Account>>> ListByUser(string userId)
     {
         return await _iAccount.ListByUser(userId);
     }
 
-    public async Task<Account?> GetByUserAndTime(string userId, DateTime dateTime)
+    public async Task<Result<Account>> GetByUserAndTime(string userId, DateTime dateTime)
     {
         return await _iAccount.GetByUserAndTime(userId, dateTime);
     }
  
-    public async Task<Account> Create(string userId, DateTime dateTime)
+    public async Task<Result<Account>> Create(string userId, DateTime dateTime)
     {
-        var newAccount = await _iAccount.Add(new Account()
+        var result = await _iAccount.Add(new Account()
         {
             AccountBalance = 0.0,
             AccountDateTime = dateTime,
             UserId = userId
         });
-        return await SendMenssage(OperationType.Create,
-            newAccount);
+        if (result.Success)
+            await SendMessage(OperationType.Create, result.Data!);
+        return result;
     }
 
-    public async Task<Account> UpdateBalance(DateTime dateTime, double value, string userId)
+    public async Task<Result<Account>> UpdateBalance(DateTime dateTime, double value, string userId)
     {
-        var savedAccount = await _iAccount
+        var savedAccountResult = await _iAccount
             .GetByUserAndTime(userId, dateTime);
-        
-        savedAccount??= await Create(userId, dateTime);
-        
-        savedAccount.AccountBalance += value;
-
-        return await SendMenssage(OperationType.Update,
-            await _iAccount.Update(savedAccount));
+        if (savedAccountResult.IsFailure)
+            return savedAccountResult;
+        savedAccountResult=savedAccountResult.NotFound?
+            await Create(userId, dateTime):savedAccountResult;
+        savedAccountResult.Data!.AccountBalance += value;
+        var updatedAccountResult = await _iAccount.Update(savedAccountResult.Data);
+        if(updatedAccountResult.Success) 
+            await SendMessage(OperationType.Update,updatedAccountResult.Data!);
+        return updatedAccountResult;
     }
     
-    private async Task<Account> SendMenssage(OperationType operation, Account account)
+    private  Task SendMessage(OperationType operation, Account account)
     {
-        return await _messageBrokerService.SendMenssage(new MenssageResponse<Account>()
-        {
-            Table = TableType.Account,
-            UserId = account.UserId,
-            Operation = operation,
-            Object = account
-        });
+        _messageBrokerService.SendMessage(TableType.Account, operation, account.UserId,account);
+        return Task.CompletedTask;
     }
 }

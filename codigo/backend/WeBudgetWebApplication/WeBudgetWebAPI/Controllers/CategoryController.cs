@@ -31,8 +31,10 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<CategoryResponse>> Add(CategoryRequest request)
     {
         var category = _iMapper.Map<Category>(request);
-        var savedCategory = await _categoryService.Add(category);
-        var response = _iMapper.Map<CategoryResponse>(savedCategory);
+        var savedCategoryResult = await _categoryService.Add(category);
+        if(savedCategoryResult.IsFailure)
+            return StatusCode(500, savedCategoryResult.ErrorMenssage);
+        var response = _iMapper.Map<CategoryResponse>(savedCategoryResult.Data);
         return Ok(response);
     }
 
@@ -41,8 +43,10 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult> List()
     {
         var userId = User.FindFirst("idUsuario")!.Value;
-        var categoryList = await _categoryService.ListByUser(userId);
-        var response = _iMapper.Map<List<CategoryResponse>>(categoryList);
+        var categoryListResult = await _categoryService.ListByUser(userId);
+        if(categoryListResult.IsFailure)
+            return StatusCode(500, categoryListResult.ErrorMenssage);
+        var response = _iMapper.Map<List<CategoryResponse>>(categoryListResult.Data);
         return Ok(response);
     }
 
@@ -50,10 +54,12 @@ public class CategoryController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var category = await _categoryService.GetEntityById(id);
-        if(category==null)
-            return NotFound("Categoria não encontrada");
-        var response = _iMapper.Map<CategoryResponse>(category);
+        var categoryResult = await _categoryService.GetEntityById(id);
+        if(categoryResult.IsFailure)
+            return StatusCode(500, categoryResult.ErrorMenssage);
+        if (categoryResult.NotFound)
+            return NotFound();
+        var response = _iMapper.Map<CategoryResponse>(categoryResult.Data);
         return Ok(response);
     }
 
@@ -62,23 +68,30 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult> Update(CategoryRequest request)
     {
         var category = _iMapper.Map<Category>(request);
-        var savedCategory =await _categoryService.GetEntityById(category.Id);
-        if (savedCategory == null)
-            return NoContent();
-        var updatedCategory = await _categoryService.Update(category);
-        var response = _iMapper.Map<CategoryResponse>(updatedCategory);
+        var savedCategoryResult =await _categoryService.GetEntityById(category.Id);
+        if(savedCategoryResult.IsFailure)
+            return StatusCode(500, savedCategoryResult.ErrorMenssage);
+        if (savedCategoryResult.NotFound)
+            return NotFound();
+        var updatedCategoryResult = await _categoryService.Update(category);
+        if(savedCategoryResult.IsFailure)
+            return StatusCode(500, updatedCategoryResult.ErrorMenssage);
+        var response = _iMapper.Map<CategoryResponse>(updatedCategoryResult.Data);
         return Ok(response);
-
     }
 
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var response = await _categoryService.GetEntityById(id);
-        if(response==null)
-            return NotFound("Categoria não encontrada");
-        await _categoryService.Delete(response);
+        var savedCategoryResult = await _categoryService.GetEntityById(id);
+        if(savedCategoryResult.IsFailure)
+            return StatusCode(500, savedCategoryResult.ErrorMenssage);
+        if (savedCategoryResult.NotFound)
+            return NotFound();
+        var deletedCategoryResult = await _categoryService.Delete(savedCategoryResult.Data!);
+        if(deletedCategoryResult.IsFailure)
+            return StatusCode(500, savedCategoryResult.ErrorMenssage);
         return NoContent();
     }
     

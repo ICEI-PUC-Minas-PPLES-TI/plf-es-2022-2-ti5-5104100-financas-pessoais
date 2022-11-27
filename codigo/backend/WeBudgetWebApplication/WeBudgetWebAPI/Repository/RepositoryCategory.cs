@@ -15,12 +15,20 @@ public class RepositoryCategory:RepositoryGenerics<Category>,ICategory
     {
         _optionsBuilder = new DbContextOptions<IdentityDataContext>();
     }
-    public async Task<List<Category>> ListByUser(string userId)
+    public async Task<Result<List<Category>>> ListByUser(string userId)
     {
-        using (var data = new IdentityDataContext(_optionsBuilder))
+        try
         {
-            return await data.Set<Category>()
-                .Where(x => x.UserId == userId).ToListAsync();
+            await using (var data = new IdentityDataContext(_optionsBuilder))
+            {
+                var entityList = await data.Set<Category>()
+                    .Where(x => x.UserId == userId).ToListAsync();
+                return Result.Ok(entityList);
+            }
+        }
+        catch (Exception e)
+        {
+            return Result.Fail<List<Category>>(e.Message);
         }
     }
 }
