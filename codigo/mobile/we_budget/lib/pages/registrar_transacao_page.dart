@@ -103,8 +103,12 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     try {
       await transaction.saveTransactionSql(_transactionData);
     } on AuthException catch (error) {
+      print("Erro....");
+      print(error);
       _showErrorDialog(error.toString());
     } catch (error) {
+      print("Erro....");
+      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
 

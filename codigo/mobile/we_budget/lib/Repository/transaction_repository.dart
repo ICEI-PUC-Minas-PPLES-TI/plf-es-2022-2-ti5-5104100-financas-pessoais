@@ -220,8 +220,11 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
-    final body = jsonDecode(response.body);
+    print("Response.....");
+    int body = response.statusCode;
     print(body);
+    // final body = jsonDecode(response.body);
+    // print(body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }
@@ -231,6 +234,7 @@ class RepositoryTransaction with ChangeNotifier {
     bool hasId = transactionData['IdTransaction'] != "";
     bool hasLatitude = transactionData['IdTransaction'] != "";
     print(hasLatitude);
+    print(transactionData);
 
     final transaction = TransactionModel(
       idTransaction: hasId ? transactionData['IdTransaction'] as String : "",
@@ -250,6 +254,8 @@ class RepositoryTransaction with ChangeNotifier {
     if (hasId) {
       await updateTransactionSql(transaction);
     } else {
+      print("Entrou create");
+      print(transaction);
       await createTransactionSql(transaction);
     }
   }
