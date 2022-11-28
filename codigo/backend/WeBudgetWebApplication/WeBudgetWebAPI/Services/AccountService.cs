@@ -90,7 +90,7 @@ public class AccountService:IAccountService
         return updatedAccountResult;
     }
     
-    private  Task SendMessage(OperationType operation, Account account)
+    private Task SendMessage(OperationType operation, Account account)
     {
         _messageBrokerService.SendMessage(TableType.Account, operation, account.UserId,account);
         return Task.CompletedTask;
