@@ -22,6 +22,6 @@ jobs:
         dotnet-version: 6.0.x
         path: codigo/backend/WeBudgetWebApplication/TestWeBudgetWebAPI
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore codigo/backend/WeBudgetWebApplication/TestWeBudgetWebAPI
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test codigo/backend/WeBudgetWebApplication/TestWeBudgetWebAPI --no-build --verbosity normal
