@@ -66,7 +66,7 @@ public class BudgetService:IBudgetService
     public async Task<Result<Budget>> Add(Budget budget)
     {
         var usedValueResult = await _iTransaction.SumTransaction(budget.UserId,
-            budget.BudgetDate);
+            budget.BudgetDate, budget.CategoryId);
         if (usedValueResult.IsFailure)
             return Result.Fail<Budget>(usedValueResult.ErrorMenssage!);
         budget.BudgetValueUsed = -usedValueResult.Data;
