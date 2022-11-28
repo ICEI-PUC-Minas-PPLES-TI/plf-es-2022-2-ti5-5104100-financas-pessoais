@@ -39,7 +39,8 @@ public class RepositoryTransaction: RepositoryGenerics<Transaction>, ITransactio
        
     }
 
-    public async Task<Result<double>> SumTransaction(string userId, DateTime dateTime)
+    public async Task<Result<double>> SumTransaction(string userId, DateTime dateTime,
+        int categoryId)
     {
         try
         {
@@ -48,7 +49,8 @@ public class RepositoryTransaction: RepositoryGenerics<Transaction>, ITransactio
                 var sum = await data.Set<Transaction>()
                     .Where(x => x.UserId == userId
                                 && x.TansactionDate.Month == dateTime.Month
-                                && x.TansactionDate.Year == dateTime.Year)
+                                && x.TansactionDate.Year == dateTime.Year
+                                &&x.CategoryId == categoryId)
                     .Select(x => x.TansactionType == TansactionType.Expenses ?
                         (-1 * x.PaymentValue) : x.PaymentValue)
                     .SumAsync();

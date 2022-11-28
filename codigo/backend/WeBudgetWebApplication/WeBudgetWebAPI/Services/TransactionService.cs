@@ -83,9 +83,9 @@ public class TransactionService : ITransactionService
         return await _iTransaction.ListByUser(userId);
     }
 
-    public  async Task<Result<double>> SumTransaction(string userId, DateTime dateTime)
+    public  async Task<Result<double>> SumTransaction(string userId, DateTime dateTime, int categoryId)
     {
-        return await _iTransaction.SumTransaction(userId, dateTime);
+        return await _iTransaction.SumTransaction(userId, dateTime, categoryId);
     }
 
     private Task SendMessage(OperationType operation, Transaction transaction)
