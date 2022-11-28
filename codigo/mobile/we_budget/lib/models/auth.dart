@@ -40,7 +40,6 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticateLogin(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou autenticação...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
@@ -56,8 +55,7 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print("Response....");
-    print(body);
+
     if (body['sucesso'] != true) {
       throw AuthException(body['erros'].toString());
     } else {
@@ -88,7 +86,6 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticateCadastro(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou cadastro...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
@@ -115,12 +112,7 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print("Response....${body['erros'].toString()}");
-    print(body['erros'].toString());
-    print(body);
     if (body['sucesso'] != true) {
-      print("o erro é:");
-      print(body['erros'].toString());
       throw AuthException(body['erros'].toString());
     }
 
@@ -139,7 +131,6 @@ class Auth with ChangeNotifier {
     if (isAuth) return;
 
     final userData = await Store.getMap('userData');
-    print(userData);
 
     if (userData.isEmpty) return;
 
