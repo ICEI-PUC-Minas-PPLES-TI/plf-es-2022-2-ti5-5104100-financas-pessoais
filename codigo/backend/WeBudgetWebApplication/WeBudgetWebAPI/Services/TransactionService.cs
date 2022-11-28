@@ -100,10 +100,9 @@ public class TransactionService : ITransactionService
             value ,transaction.UserId);
         if(updateBalanceResult.IsFailure)
             return Result.Fail(updateBalanceResult.ErrorMenssage!);
-        var updatedBudgetUsedValue = await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
-            transaction.CategoryId, value);
-        if(updatedBudgetUsedValue.IsFailure)
-            return Result.Fail(updateBalanceResult.ErrorMenssage!);
-        return Result.Ok();
+        var updatedBudgetUsedValue = await _budgetService.UpdateUsedValue(transaction.UserId,
+            transaction.TansactionDate, transaction.CategoryId, value);
+        return updatedBudgetUsedValue.IsFailure ? 
+            Result.Fail(updateBalanceResult.ErrorMenssage!) : Result.Ok();
     }
 }
