@@ -32,7 +32,7 @@ public class CategoryService:ICategoryService
     {
         var updatedCategoryResult = await _category.Update(category);
         if (updatedCategoryResult.Success)
-            await SendMenssage(OperationType.Create, updatedCategoryResult.Data!);
+            await SendMenssage(OperationType.Update, updatedCategoryResult.Data!);
         return updatedCategoryResult;
     }
 
