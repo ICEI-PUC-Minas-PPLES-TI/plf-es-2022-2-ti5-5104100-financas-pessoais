@@ -195,6 +195,8 @@ class RepositoryTransaction with ChangeNotifier {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
     String userId = userData['userId'];
+    print(token);
+    print(userId);
 
     const url = 'https://webudgetpuc.azurewebsites.net/api/Transaction/Add';
     final response = await http.post(
@@ -221,8 +223,8 @@ class RepositoryTransaction with ChangeNotifier {
     );
 
     print("Response.....");
-    int body = response.statusCode;
-    print(body);
+    String body = response.body;
+    // print(body);
     // final body = jsonDecode(response.body);
     // print(body);
     // if (body['sucesso'] != true) {
