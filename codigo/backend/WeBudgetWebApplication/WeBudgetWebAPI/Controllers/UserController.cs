@@ -21,7 +21,6 @@ public class UserController:ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest();
-    
         var userResult = await _identityService.CadastrarUsuario(usuarioCadastro);
         if (userResult.Sucesso)
             return Ok(userResult);
