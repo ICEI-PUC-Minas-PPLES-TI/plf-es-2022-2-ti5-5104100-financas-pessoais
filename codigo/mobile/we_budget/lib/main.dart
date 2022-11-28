@@ -17,7 +17,6 @@ import 'package:we_budget/pages/location_form.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
-import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
 import 'package:we_budget/utils/db_util.dart';
 
@@ -47,9 +46,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Auth(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => TransactionsProviders(),
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryTransaction>(
           create: (_) => RepositoryTransaction(''),
