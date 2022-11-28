@@ -88,7 +88,6 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                       fixedSize: const Size(200, 10),
                     ),
                     onPressed: () async {
-                      print("entrei");
                       pickedDate = await showMonthYearPicker(
                         context: context,
                         firstDate: DateTime(2000),
@@ -109,11 +108,9 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                       );
                       if (pickedDate != null) {
                         setState(() {
-                          print("Data selecionada: $dataSelecionada");
                           formattedDate =
                               DateFormat("yyyy-MM").format(pickedDate!);
                         });
-                        print(formattedDate);
                       }
                     },
                     child: const Text(

@@ -1,5 +1,3 @@
-import 'package:we_budget/pages/list_transactions_page.dart';
-
 class AppRoutes {
   static const authOrHome = '/';
   static const login = '/login';

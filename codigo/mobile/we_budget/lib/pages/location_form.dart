@@ -27,15 +27,12 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
 
   void _submitForm() async {
     if (!_isValidForm()) return;
-    print(_pickedPosition);
     /*Provider.of<TransactionsProviders>(context, listen: false).addTransaction(
       _titleController.text,
       _pickedImage!,
       _pickedPosition!,
     );*/
-    print("Endereço");
     String address = await LocationUtil.getAddressFrom(_pickedPosition!);
-    print(address);
 
     Store.saveMap(
       'localizacao',

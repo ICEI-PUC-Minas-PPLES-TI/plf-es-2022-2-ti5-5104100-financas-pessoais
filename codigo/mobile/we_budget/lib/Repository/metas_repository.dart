@@ -209,6 +209,7 @@ class RepositoryMetas with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
+    print(body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }

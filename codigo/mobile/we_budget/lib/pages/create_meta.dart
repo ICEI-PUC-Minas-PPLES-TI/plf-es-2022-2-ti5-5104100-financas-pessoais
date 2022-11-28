@@ -44,19 +44,15 @@ class _CreateMetasState extends State<CreateMeta> {
   }
 
   _recuperaDadosCategoria() async {
-    print("Entrou recupera dados categoria");
     Map<String, dynamic> dados = await Store.getMap('category');
     String category = dados['category'];
     createMetasData['CategoryId'] = category;
-
-    print("Dados....$createMetasData");
 
     _submitCreateMeta();
   }
 
   Future<void> _submitCreateMeta() async {
     final isValid = _formKeyCreateMeta.currentState?.validate() ?? false;
-    print(createMetasData);
     if (!isValid) {
       return;
     }
@@ -74,7 +70,6 @@ class _CreateMetasState extends State<CreateMeta> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Erro 123: $error");
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
   }
@@ -102,7 +97,6 @@ class _CreateMetasState extends State<CreateMeta> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
-      print("1: $data");
 
       if (page == 'listMeta') {
         _loadFormDataMeta(data as MetasModel);

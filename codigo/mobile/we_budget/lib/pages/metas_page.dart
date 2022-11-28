@@ -104,7 +104,6 @@ class _MetasPage extends State<MetasPage> {
                           fixedSize: const Size(200, 10),
                         ),
                         onPressed: () async {
-                          print("entrei");
                           pickedDate = await showMonthYearPicker(
                             context: context,
                             initialDate: DateTime.now(),
@@ -126,7 +125,6 @@ class _MetasPage extends State<MetasPage> {
                           if (pickedDate != null) {
                             formattedDate =
                                 DateFormat("dd/MM/yyyy").format(pickedDate!);
-                            print(formattedDate);
                           }
                         },
                         child: const Text(
