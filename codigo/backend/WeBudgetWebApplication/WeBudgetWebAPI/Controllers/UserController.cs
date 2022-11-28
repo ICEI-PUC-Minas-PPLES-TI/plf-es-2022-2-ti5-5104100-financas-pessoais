@@ -22,11 +22,11 @@ public class UserController:ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
     
-        var resultado = await _identityService.CadastrarUsuario(usuarioCadastro);
-        if (resultado.Sucesso)
-            return Ok(resultado);
-        else if (resultado.Erros.Count > 0)
-            return BadRequest(resultado);
+        var userResult = await _identityService.CadastrarUsuario(usuarioCadastro);
+        if (userResult.Sucesso)
+            return Ok(userResult);
+        else if (userResult.Erros.Count > 0)
+            return BadRequest(userResult);
         
         return StatusCode(StatusCodes.Status500InternalServerError);
     }
