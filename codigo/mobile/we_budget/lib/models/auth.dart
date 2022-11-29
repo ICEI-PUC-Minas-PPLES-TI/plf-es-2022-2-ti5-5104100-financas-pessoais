@@ -11,7 +11,8 @@ class Auth with ChangeNotifier {
   String? _token;
   String? _email;
   String? _userId;
-  String name = '';
+  String? _name;
+  // String name = '';
   DateTime? _expiryDate;
   Timer? _logoutTimer;
 
@@ -32,15 +33,18 @@ class Auth with ChangeNotifier {
     return isAuth ? _userId : null;
   }
 
-  Future<String> nameUser() async {
-    Map<String, dynamic> userData = await Store.getMap('userName');
-    name = userData['name'];
-    return name;
+  String? get name {
+    return isAuth ? _name : null;
   }
+
+  // Future<String> nameUser() async {
+  //   Map<String, dynamic> userData = await Store.getMap('userName');
+  //   name = userData['name'];
+  //   return name;
+  // }
 
   Future<void> _authenticateLogin(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou autenticação...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
@@ -56,14 +60,16 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print("Response....");
+    print("Retorno login....");
     print(body);
+
     if (body['sucesso'] != true) {
       throw AuthException(body['erros'].toString());
     } else {
       _token = body['accessToken'];
       _email = body['email'];
       _userId = body['userId'];
+      _name = body['firstName'];
 
       _expiryDate = DateTime.now().add(
         Duration(
@@ -77,6 +83,7 @@ class Auth with ChangeNotifier {
           'token': _token,
           'email': _email,
           'userId': _userId,
+          'firstName': _name,
           'expiryDate': _expiryDate!.toIso8601String(),
         },
       );
@@ -88,7 +95,6 @@ class Auth with ChangeNotifier {
 
   Future<void> _authenticateCadastro(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou cadastro...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
@@ -107,20 +113,15 @@ class Auth with ChangeNotifier {
       ),
     );
 
-    Store.saveMap(
-      'userName',
-      {
-        'name': name,
-      },
-    );
+    // Store.saveMap(
+    //   'userName',
+    //   {
+    //     'name': name,
+    //   },
+    // );
 
     final body = jsonDecode(response.body);
-    print("Response....${body['erros'].toString()}");
-    print(body['erros'].toString());
-    print(body);
     if (body['sucesso'] != true) {
-      print("o erro é:");
-      print(body['erros'].toString());
       throw AuthException(body['erros'].toString());
     }
 
@@ -139,7 +140,6 @@ class Auth with ChangeNotifier {
     if (isAuth) return;
 
     final userData = await Store.getMap('userData');
-    print(userData);
 
     if (userData.isEmpty) return;
 
@@ -149,6 +149,7 @@ class Auth with ChangeNotifier {
     _token = userData['token'];
     _email = userData['email'];
     _userId = userData['userId'];
+    _name = userData['firstName'];
     _expiryDate = expiryDate;
 
     _autoLogout();
@@ -159,6 +160,7 @@ class Auth with ChangeNotifier {
     _token = null;
     _email = null;
     _userId = null;
+    _name = null;
     _expiryDate = null;
     _clearLogoutTimer();
     Store.remove('userData').then((_) {

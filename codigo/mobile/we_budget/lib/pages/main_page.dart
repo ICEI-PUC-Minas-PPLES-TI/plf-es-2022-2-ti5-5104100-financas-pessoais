@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:we_budget/pages/welcome_page.dart';
-import '../components/menu_component.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

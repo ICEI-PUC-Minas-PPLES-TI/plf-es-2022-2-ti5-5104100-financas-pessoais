@@ -8,8 +8,6 @@ import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:we_budget/models/categoria_model.dart';
-import 'package:we_budget/models/metas.dart';
 
 import '../components/menu_component.dart';
 
@@ -60,7 +58,6 @@ class _MqttState extends State<Mqtt> {
   }
 
   void _connect() async {
-    print("Entrou connect $userId");
     // Auth auth = Provider.of(context);
     // userId = auth.userId;
     // print(userId);

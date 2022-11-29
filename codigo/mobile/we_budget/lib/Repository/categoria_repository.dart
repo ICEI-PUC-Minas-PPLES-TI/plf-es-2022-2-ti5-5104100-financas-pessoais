@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/categoria_model.dart';
 import 'package:http/http.dart' as http;
-import '../exceptions/auth_exception.dart';
 import '../exceptions/http_exception.dart';
 import '../models/store.dart';
 import '../utils/db_util.dart';
@@ -165,6 +164,7 @@ class RepositoryCategory with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
+    print(body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }

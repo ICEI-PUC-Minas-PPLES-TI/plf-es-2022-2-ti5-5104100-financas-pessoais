@@ -17,7 +17,6 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
   Widget build(BuildContext context) {
     String qualPaginaChamou =
         ModalRoute.of(context)?.settings.arguments as String;
-    print(qualPaginaChamou);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +29,6 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
             ),
             onPressed: () {
               Navigator.of(context).pushNamed(AppRoutes.createCategory);
-              print("Voltou botão");
             },
           )
         ],

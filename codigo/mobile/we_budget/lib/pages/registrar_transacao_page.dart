@@ -45,7 +45,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   String? dadosLoc;
 
   _recuperaDadosLocalizacao() async {
-    print("Entrou recupera dados localização");
     Map<String, dynamic> dados = await Store.getMap('localizacao');
     String latitude = dados['latitude'];
     String longitude = dados['longitude'];
@@ -54,19 +53,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     _transactionData['Longitude'] = longitude;
     _transactionData['Latitude'] = latitude;
     _transactionData['Address'] = address;
-
-    print("Dados....$latitude");
-    print("Dados....$longitude");
-    print("Dados....$address");
   }
 
   _recuperaDadosCategoria() async {
-    print("Entrou recupera dados categoria");
     Map<String, dynamic> dados = await Store.getMap('category');
     String category = dados['category'];
     _transactionData['Category'] = category;
 
-    print("Dados....$category");
     _submitForm();
   }
 
@@ -93,7 +86,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   Future<void> _submitForm() async {
-    print(_transactionData.toString());
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -111,6 +103,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     try {
       await transaction.saveTransactionSql(_transactionData);
     } on AuthException catch (error) {
+      print("Erro....");
+      print(error);
       _showErrorDialog(error.toString());
     } catch (error) {
       print("Erro....");
@@ -142,7 +136,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   void _loadFormData(TransactionModel transferencia) {
-    print(transferencia.idTransaction);
     _transactionData['IdTransaction'] = transferencia.idTransaction;
     _transactionData['Description'] = transferencia.name;
     _transactionData['Category'] = transferencia.categoria;
@@ -184,7 +177,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
-      print(data);
 
       if (page == 'listTransaction') {
         setState(() {
@@ -246,7 +238,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       labels: const ['Receita', 'Despesa'],
                       radiusStyle: true,
                       onToggle: (index) {
-                        print(index);
                         if (index == 1) {
                           _transactionData['TransactionType'] = '1';
                         } else {
@@ -464,7 +455,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Container(
                 padding: const EdgeInsetsDirectional.only(top: 15.0),
-                child: isLoading == false
+                child: isLoading == true
                     ? const CircularProgressIndicator()
                     : ElevatedButton(
                         // onPressed: _submit,

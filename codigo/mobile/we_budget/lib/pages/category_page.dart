@@ -50,7 +50,6 @@ class _CreateCategoryState extends State<CreateCategory> {
   }
 
   Future<void> _submitCreateCategory() async {
-    print("2: $_createCategoryData");
     final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -70,7 +69,6 @@ class _CreateCategoryState extends State<CreateCategory> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
   }
@@ -92,7 +90,6 @@ class _CreateCategoryState extends State<CreateCategory> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
-      print("1: $data");
 
       if (page == 'listCategory') {
         setState(() {
