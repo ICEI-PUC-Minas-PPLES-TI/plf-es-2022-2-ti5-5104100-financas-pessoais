@@ -9,4 +9,5 @@ class AppRoutes {
   static const listTransactions = 'transaction-page';
   static const createMeta = 'create-meta';
   static const menuPrincipal = 'menu-principal';
+  static const editDataUser = 'edit-user';
 }
