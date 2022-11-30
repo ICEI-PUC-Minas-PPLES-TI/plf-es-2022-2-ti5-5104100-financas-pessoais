@@ -16,12 +16,15 @@ class AppDrawer extends StatelessWidget {
           AppBar(
             title: const Text("Bem vindo usuário"),
             automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xFF923DF8),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text("Usuário"),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.editDataUser);
+            },
           ),
           const Divider(),
           ListTile(
