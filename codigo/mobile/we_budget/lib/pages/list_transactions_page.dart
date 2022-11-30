@@ -78,7 +78,7 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 1.0, top: 0.0, right: 1.0, bottom: 5.0),
+                      left: 1.0, top: 0.0, right: 1.0, bottom: 10.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1B1C30),
