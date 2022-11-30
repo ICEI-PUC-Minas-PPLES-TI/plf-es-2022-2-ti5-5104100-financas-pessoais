@@ -55,6 +55,39 @@ class RepositoryMetas with ChangeNotifier {
     return retorno;
   }
 
+  Future<List<MetasModel>> selectMetas2(String filterDate) async {
+    Database db = await DBHelper.instance.database;
+    List<Map> metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
+
+    if (metas.isEmpty) {
+      await _carregaTabela();
+    }
+    List<MetasModel> retorno = [];
+    metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
+
+    for (var meta in metas) {
+      retorno.add(
+        MetasModel(
+          idMeta: meta[DBHelper.idMeta],
+          idCategoria: meta[DBHelper.idCategoria],
+          dataMeta: meta[DBHelper.dataMeta],
+          valorMeta: meta[DBHelper.valorMeta],
+          valorAtual: meta[DBHelper.valorAtual],
+          recorrente: meta[DBHelper.recorrente] == "false" ? false : true,
+        ),
+      );
+    }
+
+    _itemsMeta = retorno;
+
+    _itemsMeta = _itemsMeta
+        .where((element) => element.dataMeta.substring(0, 7) == filterDate)
+        .toList();
+
+    notifyListeners();
+    return retorno;
+  }
+
   Future<void> _carregaTabela() async {
     // MetasModel meta1 = MetasModel(
     //   idCategoria: "15",
@@ -85,28 +118,6 @@ class RepositoryMetas with ChangeNotifier {
         )
         .toList();
 
-    notifyListeners();
-  }
-
-  Future<void> loadMetasRepository2(String filterDate) async {
-    Database db = await DBHelper.instance.database;
-    List<Map> dataList =
-        await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
-    _itemsMeta = dataList
-        .map(
-          (item) => MetasModel(
-            idCategoria: item['idCategoria'],
-            idMeta: item['idMeta'],
-            dataMeta: item['dataMeta'],
-            valorMeta: item['valorMeta'],
-            valorAtual: item['valorAtual'],
-            recorrente: item['recorrente'],
-          ),
-        )
-        .toList();
-
-    _itemsMeta =
-        _itemsMeta.where((element) => element.dataMeta == filterDate).toList();
     notifyListeners();
   }
 

@@ -412,8 +412,10 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       //),
                       onChanged: (paymentType) {
                         // This is called when the user selects an item.
-                        dropdownValue = paymentType!;
-                        _transactionData['PaymentType'] = paymentType;
+                        setState(() {
+                          dropdownValue = paymentType!;
+                          _transactionData['PaymentType'] = paymentType;
+                        });
                       },
                       items: list.map<DropdownMenuItem<String>>(
                         (String value) {

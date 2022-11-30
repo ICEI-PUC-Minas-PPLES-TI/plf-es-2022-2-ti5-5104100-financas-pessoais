@@ -121,6 +121,7 @@ class RepositoryTransaction with ChangeNotifier {
         )
         .toList();
 
+    print("print 4: $filterDate");
     _items = _items
         .where((element) => element.tipoTransacao == typeTransaction)
         .toList();
