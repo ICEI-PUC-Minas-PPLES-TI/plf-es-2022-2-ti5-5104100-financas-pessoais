@@ -64,15 +64,12 @@ public class AccountService:IAccountService
  
     public async Task<Result<Account>> Create(string userId, DateTime dateTime)
     {
-        var result = await _iAccount.Add(new Account()
+        return await Add(new Account()
         {
             AccountBalance = 0.0,
             AccountDateTime = dateTime,
             UserId = userId
         });
-        if (result.Success)
-            await SendMessage(OperationType.Create, result.Data!);
-        return result;
     }
 
     public async Task<Result<Account>> UpdateBalance(DateTime dateTime, double value, string userId)

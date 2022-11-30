@@ -35,19 +35,19 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
         child: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF923DF8),
-                  Color(0xFF4C94F8),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-            ),
+                // gradient: LinearGradient(
+                //   colors: [
+                //     Color(0xFF923DF8),
+                //     Color(0xFF4C94F8),
+                //   ],
+                //   begin: Alignment.centerLeft,
+                //   end: Alignment.centerRight,
+                // ),
+                ),
             width: double.infinity,
             height: double.infinity,
           ),
@@ -179,27 +179,20 @@ class _WelcomePageState extends State<WelcomePage> {
                           CardMainPageBalanco(title: "Balanço"),
                         ],
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(30, 0, 0, 5),
-                        child: Container(
-                          margin: const EdgeInsetsDirectional.only(top: 30),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text(
-                                    "Últimas transações",
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ],
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Últimas transações",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       )
                     ],
                   ),
@@ -207,7 +200,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 460),
+              padding: const EdgeInsets.only(top: 350),
               child: FutureBuilder(
                 future:
                     Provider.of<RepositoryTransaction>(context, listen: false)
