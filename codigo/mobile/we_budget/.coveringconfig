@@ -1,0 +1,6 @@
+{
+  "minCoverage": 0.6,
+  "refBranch": "Nataniel",
+  "usePrePushValidation": false,
+  "lcovFileName": "./coverage/lcov.info"
+}
