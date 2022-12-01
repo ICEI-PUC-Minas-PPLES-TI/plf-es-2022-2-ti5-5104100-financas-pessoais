@@ -70,6 +70,27 @@ public static class AccountMock
             _accountMock.Setup(x => x.GetByUserAndTime(userId, datetime))
                 .ReturnsAsync(Result.Fail<Account>("Fail"));
     }
+    public static void AccountMockGetByIdReturnResultOk(int id)
+    {
+        if (_accountMock != null)
+            _accountMock.Setup(x => x.GetEntityById(id))
+                .ReturnsAsync(Result.Ok(ReturnAccountList(DateTime.Now).First(x =>
+                    x.Id == id)));
+    }
+
+    public static void AccountMockGetByIdReturnResultFail(int id)
+    {
+        if (_accountMock != null)
+            _accountMock.Setup(x => x.GetEntityById(id))
+                .ReturnsAsync(Result.Fail<Account>("Fail"));
+    }
+
+    public static void AccountMockGetByIdReturnResultNotFound(int id)
+    {
+        if (_accountMock != null)
+            _accountMock.Setup(x => x.GetEntityById(id))
+                .ReturnsAsync(Result.NotFound<Account>());
+    }
 
     public static IEnumerable<Account> ReturnAccountList(DateTime datetime)
     {
@@ -106,5 +127,4 @@ public static class AccountMock
             }
         };
     }
-    
 }
