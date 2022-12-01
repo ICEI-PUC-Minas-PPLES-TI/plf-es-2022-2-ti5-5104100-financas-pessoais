@@ -91,6 +91,24 @@ public static class BudgetMock
             _budgetMock.Setup(x => x.GetEntityById(id))
                 .ReturnsAsync(Result.NotFound<Budget>());
     }
+    public static void BudgetMockListByUserTimeReturnResultOk(string userId, DateTime datetime)
+    {
+        if (_budgetMock != null) 
+            _budgetMock.Setup(x => x.ListByUserAndTime(userId,datetime))
+                .ReturnsAsync(Result.Ok(BudgetMock.ReturnBudgetList(datetime)
+                    .Where(x=>x.UserId==userId 
+                              && x.BudgetDate.Month == datetime.Month
+                              && x.BudgetDate.Year == datetime.Year)
+                    .ToList()));
+    }
+
+    public static void BudgetMockListByUserTimeReturnResultFail(string userId, DateTime datetime)
+    {
+        if (_budgetMock != null)
+            _budgetMock.Setup(x => x.ListByUserAndTime(userId,datetime))
+                .ReturnsAsync(Result.Fail<List<Budget>>("Fail"));
+
+    }
     public static IEnumerable<Budget> ReturnBudgetList(DateTime datetime)
     {
 
@@ -141,22 +159,5 @@ public static class BudgetMock
         };
     }
 
-    public static void BudgetMockListByUserTimeReturnResultOk(string userId, DateTime datetime)
-    {
-        if (_budgetMock != null) 
-            _budgetMock.Setup(x => x.ListByUserAndTime(userId,datetime))
-            .ReturnsAsync(Result.Ok(BudgetMock.ReturnBudgetList(datetime)
-                .Where(x=>x.UserId==userId 
-                          && x.BudgetDate.Month == datetime.Month
-                          && x.BudgetDate.Year == datetime.Year)
-                .ToList()));
-    }
-
-    public static void BudgetMockListByUserTimeReturnResultFail(string userId, DateTime datetime)
-    {
-        if (_budgetMock != null)
-            _budgetMock.Setup(x => x.ListByUserAndTime(userId,datetime))
-                .ReturnsAsync(Result.Fail<List<Budget>>("Fail"));
-
-    }
+    
 }
