@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+using TestWeBudgetWebAPI.Mock;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Models;
@@ -10,15 +10,14 @@ namespace TestWeBudgetWebAPI.ServicesTest;
 public class AccountServiceTest
 {
     private readonly AccountService _accountService;
-    private readonly Mock<IAccount> _accountMock 
-        = new Mock<IAccount>();
-    private readonly Mock<IMessageBrokerService<Account>> _messageMock
-        = new Mock<IMessageBrokerService<Account>>();
+    private readonly Mock<IAccount> _accountMock;
 
     public AccountServiceTest()
     {
+        var messageMock = new Mock<IMessageBrokerService<Account>>();
+        _accountMock = AccountMock.GetIAccountMockInstance();
         _accountService = new AccountService(_accountMock.Object,
-            _messageMock.Object);
+            messageMock.Object);
     }
     
     [Fact]
@@ -32,7 +31,7 @@ public class AccountServiceTest
             AccountBalance = 0.0,
             AccountDateTime = datetime
         };
-        AccountMockAddReturnResultOk();
+        AccountMock.AccountMockAddReturnResultOk();
         //Act
         var resultAccount = await _accountService.Add(account);
         //Assert
@@ -52,7 +51,7 @@ public class AccountServiceTest
             AccountBalance = 0.0,
             AccountDateTime = datetime
         };
-        AccountMockAddReturnResultFail();
+        AccountMock.AccountMockAddReturnResultFail();
         //Act
         var resultAccount = await _accountService.Add(account);
         //Assert
@@ -73,7 +72,7 @@ public class AccountServiceTest
             AccountBalance = 5.0,
             AccountDateTime = datetime
         };
-        AccountMockUpdateReturnResultOk();
+        AccountMock.AccountMockUpdateReturnResultOk();
         //Act
         var resultAccount = await _accountService.Update(account);
         //Assert
@@ -94,7 +93,7 @@ public class AccountServiceTest
             AccountBalance = 0.0,
             AccountDateTime = datetime
         };
-        AccountMockUpdateReturnResultFail();
+        AccountMock.AccountMockUpdateReturnResultFail();
         //Act
         var resultAccount = await _accountService.Update(account);
         //Assert
@@ -108,15 +107,8 @@ public class AccountServiceTest
     public async Task Delete_ShouldReturnAReturnWithSuccess()
     {
         //Arrange
-        var datetime = DateTime.Now;
-        var account = new Account()
-        {
-            Id=0,
-            UserId = "0000-0000-0000-0000",
-            AccountBalance = 5.0,
-            AccountDateTime = datetime
-        };
-        AccountMockDeleteReturnResultOk();
+        var account = new Account();
+        AccountMock.AccountMockDeleteReturnResultOk();
         //Act
         var deleteResult = await _accountService.Delete(account);
         //Assert
@@ -127,15 +119,8 @@ public class AccountServiceTest
     public async Task Delete_ShouldReturnAReturnWithErrorMessage()
     {
         //Arrange
-        var datetime = DateTime.Now;
-        var account = new Account()
-        {
-            Id=0,
-            UserId = "0000-0000-0000-0000",
-            AccountBalance = 5.0,
-            AccountDateTime = datetime
-        };
-        AccountMockDeleteReturnResultFail();
+        var account = new Account();
+        AccountMock.AccountMockDeleteReturnResultFail();
         //Act
         var deleteResult = await _accountService.Delete(account);
         //Assert
@@ -150,7 +135,8 @@ public class AccountServiceTest
         //Arrange
         var datetime = DateTime.Now;
         _accountMock.Setup(x => x.List())
-            .ReturnsAsync(Result.Ok<List<Account>>(ReturnAccountList(datetime)));
+            .ReturnsAsync(Result.Ok(AccountMock.ReturnAccountList(datetime)
+                .ToList()));
         //Act
         var resultList = await _accountService.List();
         //Assert
@@ -162,7 +148,6 @@ public class AccountServiceTest
     public async Task List_ShouldReturnAReturnWithErrorMessage()
     {
         //Arrange
-        var result = Result.Fail<List<Account>>("Fail");
         _accountMock.Setup(x => x.List())
             .ReturnsAsync(Result.Fail<List<Account>>("Fail"));
         //Act
@@ -180,7 +165,7 @@ public class AccountServiceTest
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
         _accountMock.Setup(x => x.ListByUser(userId))
-            .ReturnsAsync(Result.Ok(ReturnAccountList(datetime)
+            .ReturnsAsync(Result.Ok(AccountMock.ReturnAccountList(datetime)
                 .Where(x=>x.UserId==userId).ToList()));
         //Act
         var resultList = await _accountService.ListByUser(userId);
@@ -206,15 +191,12 @@ public class AccountServiceTest
             resultList.ErrorMenssage);
     }
     [Fact]
-    public async Task GetByUserAndTime_ShouldReturnAReturnWithAccountList()
+    public async Task GetByUserAndTime_ShouldReturnAReturnWithAccount()
     {
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        
-        _accountMock.Setup(x => x.GetByUserAndTime(userId, datetime))
-            .ReturnsAsync(Result.Ok<Account>(ReturnAccountList(datetime).First(x => x.UserId==userId
-                && x.AccountDateTime == datetime)));
+        AccountMock.AccountMockGetByUserAndTimeReturnResultOk(userId,datetime);
         //Act
         var resultAccount = await _accountService.GetByUserAndTime(userId, datetime);
         //Assert
@@ -232,14 +214,13 @@ public class AccountServiceTest
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        _accountMock.Setup(x => x.GetByUserAndTime(userId, datetime))
-            .ReturnsAsync(Result.Fail<Account>("Fail"));
+        AccountMock.AccountMockGetByUserAndTimeReturnResultFail(userId,datetime);
         //Act
         var resultAccount = await _accountService.GetByUserAndTime(userId, datetime);
         //Assert
         Assert.False(resultAccount.Success);
         Assert.True(resultAccount.IsFailure);
-        Assert.Equal("A problem happen",
+        Assert.Equal("Fail",
             resultAccount.ErrorMenssage);
     }
     [Fact]
@@ -248,10 +229,49 @@ public class AccountServiceTest
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        _accountMock.Setup(x => x.GetByUserAndTime(userId, datetime))
-            .ReturnsAsync(Result.NotFound<Account>());
+        AccountMock.AccountMockGetByUserAndTimeReturnResultNotFound(userId, datetime);
         //Act
         var resultAccount = await _accountService.GetByUserAndTime(userId, datetime);
+        //Assert
+        Assert.True(resultAccount.Success);
+        Assert.False(resultAccount.IsFailure);
+        Assert.True(resultAccount.NotFound);
+    }
+    [Fact]
+    public async Task GetById_ShouldReturnAReturnWithAccount()
+    {
+        //Arrange
+        var id = 0;
+        AccountMock.AccountMockGetByIdReturnResultOk(id);
+        //Act
+        var resultAccount = await _accountService.GetEntityById(id);
+        //Assert
+        Assert.True(resultAccount.Success);
+        Assert.False(resultAccount.IsFailure);
+        Assert.Equal(id, resultAccount.Data!.Id);
+    }
+    [Fact]
+    public async Task GetById_ShouldReturnAReturnWithErrorMessage()
+    {
+        //Arrange
+        var id = 0;
+        AccountMock.AccountMockGetByIdReturnResultFail(id);
+        //Act
+        var resultAccount = await _accountService.GetEntityById(id);
+        //Assert
+        Assert.False(resultAccount.Success);
+        Assert.True(resultAccount.IsFailure);
+        Assert.Equal("Fail",
+            resultAccount.ErrorMenssage);
+    }
+    [Fact]
+    public async Task GetById_ShouldReturnAReturnWithNotFound()
+    {
+        //Arrange
+        var id = 0;
+        AccountMock.AccountMockGetByIdReturnResultNotFound(id);
+        //Act
+        var resultAccount = await _accountService.GetEntityById(id);
         //Assert
         Assert.True(resultAccount.Success);
         Assert.False(resultAccount.IsFailure);
@@ -263,7 +283,7 @@ public class AccountServiceTest
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        AccountMockAddReturnResultOk();
+        AccountMock.AccountMockAddReturnResultOk();
         //Act
         var resultAccount = await _accountService.Create(userId, datetime);
         //Assert
@@ -282,7 +302,7 @@ public class AccountServiceTest
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        AccountMockAddReturnResultFail();
+        AccountMock.AccountMockAddReturnResultFail();
         //Act
         var resultAccount = await _accountService.Create(userId, datetime);
         //Assert
@@ -291,15 +311,17 @@ public class AccountServiceTest
         Assert.False(resultAccount.NotFound);
         Assert.Equal("Fail", resultAccount.ErrorMenssage);
     }
-    [Fact(Skip = "WIP")]
+    [Fact]
     public async Task UpdateBalance_ShouldReturnAReturnWithAnAccount()
     {
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        
+        AccountMock.AccountMockGetByUserAndTimeReturnResultNotFound(userId,datetime);
+        AccountMock.AccountMockAddReturnResultOk();
+        AccountMock.AccountMockUpdateReturnResultOk();
         //Act
-        var resultAccount = await _accountService.Create(userId, datetime);
+        var resultAccount = await _accountService.UpdateBalance(datetime, 100.0, userId);
         //Assert
         Assert.True(resultAccount.Success);
         Assert.False(resultAccount.IsFailure);
@@ -309,94 +331,24 @@ public class AccountServiceTest
             resultAccount.Data!.AccountDateTime.Month );
         Assert.Equal(datetime.Year,
             resultAccount.Data!.AccountDateTime.Year );
+        Assert.Equal(100.0, resultAccount.Data!.AccountBalance);
     }
-    [Fact(Skip = "WIP")]
+    [Fact]
     public async Task UpdateBalance_ShouldReturnAReturnWithError()
     {
         //Arrange
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
-        var result = Result.Fail<Account>("Cannot save the entity");
-        _accountMock.Setup(x => x.Add(It.IsAny<Account>()))
-            .ReturnsAsync(result);
+        AccountMock.AccountMockGetByUserAndTimeReturnResultNotFound(userId,datetime);
+        AccountMock.AccountMockAddReturnResultOk();
+        AccountMock.AccountMockUpdateReturnResultFail();
         //Act
-        var resultAccount = await _accountService.Create(userId, datetime);
+        var resultAccount = await _accountService.UpdateBalance(datetime, 100.0, userId);
         //Assert
         Assert.False(resultAccount.Success);
         Assert.True(resultAccount.IsFailure);
         Assert.False(resultAccount.NotFound);
-        Assert.Equal("Cannot save the entity", resultAccount.ErrorMenssage);
-    }
-
-    private void AccountMockAddReturnResultOk()
-    {
-        _accountMock.Setup(x => x.Add(It.IsAny<Account>()))
-            .ReturnsAsync((Account a) =>
-            {
-                a.Id = 0;
-                return Result.Ok(a);
-            });
-    }
-    private void AccountMockAddReturnResultFail()
-    {
-        _accountMock.Setup(x => x.Add(It.IsAny<Account>()))
-            .ReturnsAsync(Result.Fail<Account>("Fail"));
-    }
-    private void AccountMockUpdateReturnResultOk()
-    {
-        _accountMock.Setup(x => x.Update(It.IsAny<Account>()))
-            .ReturnsAsync((Account a) => Result.Ok(a));
-    }
-    private void AccountMockUpdateReturnResultFail()
-    {
-        _accountMock.Setup(x => x.Update(It.IsAny<Account>()))
-            .ReturnsAsync(Result.Fail<Account>("Fail"));
-    }
-    private void AccountMockDeleteReturnResultOk()
-    {
-        _accountMock.Setup(x => x.Delete(It.IsAny<Account>()))
-            .ReturnsAsync(Result.Ok());
-    }
-    private void AccountMockDeleteReturnResultFail()
-    {
-        _accountMock.Setup(x => x.Delete(It.IsAny<Account>()))
-            .ReturnsAsync(Result.Fail("Fail"));
-    }
-
-    private List<Account> ReturnAccountList(DateTime datetime)
-    {
-
-        return new List<Account>()
-        {
-            new Account()
-            {
-                Id = 0,
-                UserId = "0000-0000-0000-0000",
-                AccountBalance = 5.0,
-                AccountDateTime = datetime
-            },
-            new Account()
-            {
-                Id = 1,
-                UserId = "0000-0000-0000-0000",
-                AccountBalance = 5.0,
-                AccountDateTime = datetime
-            },
-            new Account()
-            {
-                Id = 2,
-                UserId = "0000-0000-0000-0000",
-                AccountBalance = 4.0,
-                AccountDateTime = datetime.AddMonths(-1)
-            },
-            new Account()
-            {
-                Id = 3,
-                UserId = "0000-0000-0000-0001",
-                AccountBalance = 4.0,
-                AccountDateTime = datetime
-            }
-        };
+        Assert.Equal("Fail", resultAccount.ErrorMenssage);
     }
 
 }
