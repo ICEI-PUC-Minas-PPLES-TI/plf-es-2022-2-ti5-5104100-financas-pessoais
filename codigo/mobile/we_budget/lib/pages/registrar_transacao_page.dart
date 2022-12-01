@@ -101,7 +101,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     RepositoryTransaction transaction = Provider.of(context, listen: false);
 
     try {
-      await transaction.saveTransactionSql(_transactionData);
+      await transaction.saveTransactionSql(_transactionData).then(
+          (value) => Navigator.of(context).pushNamed(AppRoutes.menuPrincipal));
     } on AuthException catch (error) {
       print("Erro....");
       print(error);
@@ -131,8 +132,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     //         address: _transactionData['Address'].toString()),
     //   ),
     // );
-
-    Navigator.of(context).pushNamed(AppRoutes.menuPrincipal);
   }
 
   void _loadFormData(TransactionModel transferencia) {
@@ -412,10 +411,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       //),
                       onChanged: (paymentType) {
                         // This is called when the user selects an item.
-                        setState(() {
-                          dropdownValue = paymentType!;
-                          _transactionData['PaymentType'] = paymentType;
-                        });
+                        dropdownValue = paymentType!;
+                        _transactionData['PaymentType'] = paymentType;
                       },
                       items: list.map<DropdownMenuItem<String>>(
                         (String value) {

@@ -35,19 +35,19 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.05),
         child: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
-                // gradient: LinearGradient(
-                //   colors: [
-                //     Color(0xFF923DF8),
-                //     Color(0xFF4C94F8),
-                //   ],
-                //   begin: Alignment.centerLeft,
-                //   end: Alignment.centerRight,
-                // ),
-                ),
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF923DF8),
+                  Color(0xFF4C94F8),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+            ),
             width: double.infinity,
             height: double.infinity,
           ),
