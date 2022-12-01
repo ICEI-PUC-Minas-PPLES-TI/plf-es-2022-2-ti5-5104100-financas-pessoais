@@ -238,6 +238,46 @@ public class AccountServiceTest
         Assert.True(resultAccount.NotFound);
     }
     [Fact]
+    public async Task GetById_ShouldReturnAReturnWithAccount()
+    {
+        //Arrange
+        var id = 0;
+        AccountMock.AccountMockGetByIdReturnResultOk(id);
+        //Act
+        var resultAccount = await _accountService.GetEntityById(id);
+        //Assert
+        Assert.True(resultAccount.Success);
+        Assert.False(resultAccount.IsFailure);
+        Assert.Equal(id, resultAccount.Data!.Id);
+    }
+    [Fact]
+    public async Task GetById_ShouldReturnAReturnWithErrorMessage()
+    {
+        //Arrange
+        var id = 0;
+        AccountMock.AccountMockGetByIdReturnResultFail(id);
+        //Act
+        var resultAccount = await _accountService.GetEntityById(id);
+        //Assert
+        Assert.False(resultAccount.Success);
+        Assert.True(resultAccount.IsFailure);
+        Assert.Equal("Fail",
+            resultAccount.ErrorMenssage);
+    }
+    [Fact]
+    public async Task GetById_ShouldReturnAReturnWithNotFound()
+    {
+        //Arrange
+        var id = 0;
+        AccountMock.AccountMockGetByIdReturnResultNotFound(id);
+        //Act
+        var resultAccount = await _accountService.GetEntityById(id);
+        //Assert
+        Assert.True(resultAccount.Success);
+        Assert.False(resultAccount.IsFailure);
+        Assert.True(resultAccount.NotFound);
+    }
+    [Fact]
     public async Task Create_ShouldReturnAReturnWithAnAccount()
     {
         //Arrange

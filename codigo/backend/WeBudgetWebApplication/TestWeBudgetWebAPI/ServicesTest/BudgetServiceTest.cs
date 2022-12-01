@@ -162,9 +162,8 @@ public class BudgetServiceTest
         Assert.Equal("Fail",
             resultList.ErrorMenssage);
     }
-    
     [Fact]
-    public async Task ListByUser_ShouldReturnAReturnWithAccountList()
+    public async Task ListByUser_ShouldReturnAReturnWithBudgetList()
     {
         //Arrange
         var datetime = DateTime.Now;
@@ -196,7 +195,7 @@ public class BudgetServiceTest
             resultList.ErrorMenssage);
     }
     [Fact]
-    public async Task GetByUserAndTime_ShouldReturnAReturnWithAccount()
+    public async Task GetByUserAndTime_ShouldReturnAReturnWithBudget()
     {
         //Arrange
         var datetime = DateTime.Now;
@@ -245,5 +244,165 @@ public class BudgetServiceTest
         Assert.False(resultBudget.IsFailure);
         Assert.True(resultBudget.NotFound);
     }
-    
+    [Fact]
+    public async Task CreateRecurrentBudget_ShouldReturnAReturnWithBudget()
+    {
+        //Arrange
+        var datetime = DateTime.Now;
+        var userId = "0000-0000-0000-0000";
+        var categoryId = 1;
+        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime.AddMonths(-1), categoryId);
+        BudgetMock.BudgetMockAddReturnResultOk();
+        //Act
+        var resultBudget = await _budgetService.CreateRecurrentBudget(userId, datetime, categoryId);
+        //Assert
+        Assert.True(resultBudget.Success);
+        Assert.False(resultBudget.IsFailure);
+        Assert.False(resultBudget.NotFound);
+        Assert.Equal(userId, resultBudget.Data!.UserId);
+        Assert.Equal(datetime.Month,
+            resultBudget.Data!.BudgetDate.Month );
+        Assert.Equal(datetime.Year,
+            resultBudget.Data!.BudgetDate.Year );
+    }
+    [Fact]
+    public async Task CreateRecurrentBudget_ShouldReturnAReturnFail()
+    {
+        //Arrange
+        var datetime = DateTime.Now;
+        var userId = "0000-0000-0000-0000";
+        var categoryId = 1;
+        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime.AddMonths(-1), categoryId);
+        BudgetMock.BudgetMockAddReturnResultFail();
+        //Act
+        var resultBudget = await _budgetService.CreateRecurrentBudget(userId, datetime, categoryId);
+        //Assert
+        Assert.False(resultBudget.Success);
+        Assert.True(resultBudget.IsFailure);
+        Assert.False(resultBudget.NotFound);
+        Assert.Equal("Fail", resultBudget.ErrorMenssage);
+    }
+    [Fact]
+    public async Task UpdateUsedValue_ShouldReturnAReturnWithBudget()
+    {
+        //Arrange
+        var datetime = DateTime.Now;
+        var userId = "0000-0000-0000-0000";
+        var categoryId = 1;
+        var value = -100.00;
+        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime, categoryId);
+        BudgetMock.BudgetMockAddReturnResultOk();
+        BudgetMock.BudgetMockUpdateReturnResultOk();
+        //Act
+        var resultBudget = await _budgetService.UpdateUsedValue(userId, datetime,
+            categoryId, value);
+        //Assert
+        Assert.True(resultBudget.Success);
+        Assert.False(resultBudget.IsFailure);
+        Assert.False(resultBudget.NotFound);
+        Assert.Equal(userId, resultBudget.Data!.UserId);
+        Assert.Equal(datetime.Month,
+            resultBudget.Data!.BudgetDate.Month );
+        Assert.Equal(datetime.Year,
+            resultBudget.Data!.BudgetDate.Year );
+        Assert.Equal(100.0, resultBudget.Data!.BudgetValueUsed);
+
+    }
+    [Fact]
+    public async Task UpdateUsedValue_ShouldReturnAReturnWithFail()
+    {
+        //Arrange
+        var datetime = DateTime.Now;
+        var userId = "0000-0000-0000-0000";
+        var categoryId = 1;
+        var value = -100.00;
+        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime, categoryId);
+        BudgetMock.BudgetMockAddReturnResultOk();
+        BudgetMock.BudgetMockUpdateReturnResultFail();
+        //Act
+        var resultBudget = await _budgetService.UpdateUsedValue(userId, datetime,
+            categoryId, value);
+        //Assert
+        Assert.False(resultBudget.Success);
+        Assert.True(resultBudget.IsFailure);
+        Assert.False(resultBudget.NotFound);
+        Assert.Equal("Fail", resultBudget.ErrorMenssage);
+
+    }
+    [Fact]
+    public async Task GetById_ShouldReturnAReturnWithBudget()
+    {
+        //Arrange
+        var id = 0;
+        BudgetMock.BudgetMockGetByIdResultOk(id);
+        //Act
+        var resultBudget = await _budgetService.GetEntityById(id);
+        //Assert
+        Assert.True(resultBudget.Success);
+        Assert.False(resultBudget.IsFailure);
+        Assert.Equal(id, resultBudget.Data!.Id);
+    }
+    [Fact]
+    public async Task GetEntityById_ShouldReturnAReturnWithErrorMessage()
+    {
+        //Arrange
+        var id = 0;
+        BudgetMock.BudgetMockGetByIdResultError(id);
+        //Act
+        var resultBudget = await _budgetService.GetEntityById(id);
+        //Assert
+        Assert.False(resultBudget.Success);
+        Assert.True(resultBudget.IsFailure);
+        Assert.Equal("Fail",
+            resultBudget.ErrorMenssage);
+    }
+    [Fact]
+    public async Task GetEntityById_ShouldReturnAReturnWithNotFound()
+    {
+        //Arrange
+        var id = 0;
+        BudgetMock.BudgetMockGetByIdResultNotFound(id);
+        //Act
+        var resultBudget = await _budgetService.GetEntityById(id);
+        //Assert
+        Assert.True(resultBudget.Success);
+        Assert.False(resultBudget.IsFailure);
+        Assert.True(resultBudget.NotFound);
+    }
+    [Fact]
+    public async Task ListByUserAndTime_ShouldReturnAReturnWithBudgetList()
+    {
+        //Arrange
+        var datetime = DateTime.Now;
+        var userId = "0000-0000-0000-0000";
+        BudgetMock.BudgetMockListByUserTimeReturnResultOk(userId, datetime);
+        
+        //Act
+        var resultList = await _budgetService.ListByUserAndTime(userId, datetime);
+        //Assert
+        Assert.True(resultList.Success);
+        Assert.False(resultList.IsFailure);
+        Assert.Single(resultList.Data!);
+        Assert.True(resultList.Data!.All(x=>x.UserId==userId));
+    }
+    [Fact]
+    public async Task ListByUserAndTime_ShouldReturnAReturnWithErrorMessage()
+    {
+        //Arrange
+        var datetime = DateTime.Now;
+        var userId = "0000-0000-0000-0000";
+        BudgetMock.BudgetMockListByUserTimeReturnResultFail(userId, datetime);
+        //Act
+        var resultList = await _budgetService.ListByUserAndTime(userId, datetime);
+        //Assert
+        Assert.False(resultList.Success);
+        Assert.True(resultList.IsFailure);
+        Assert.Equal("Fail",
+            resultList.ErrorMenssage);
+    }
+
 }
