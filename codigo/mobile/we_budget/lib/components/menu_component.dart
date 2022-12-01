@@ -65,17 +65,17 @@ class MenuPrincipal extends StatelessWidget {
             text: 'Tela Inicial'),
         FABBottomAppBarItem(
             activeIcon: const Icon(
-              Icons.wallet_giftcard,
+              Icons.checklist_rounded,
               color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
-              Icons.money_off,
+              Icons.checklist_rounded,
               color: Colors.white,
             ),
             text: 'Metas'),
         FABBottomAppBarItem(
             activeIcon: const Icon(
-              Icons.wallet_giftcard,
+              Icons.list,
               color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
@@ -85,11 +85,11 @@ class MenuPrincipal extends StatelessWidget {
             text: 'Lista'),
         FABBottomAppBarItem(
             activeIcon: const Icon(
-              Icons.wallet_giftcard,
+              Icons.assessment_outlined,
               color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
-              Icons.wallet_giftcard,
+              Icons.assessment_outlined,
               color: Colors.white,
             ),
             text: 'Gráfico'),

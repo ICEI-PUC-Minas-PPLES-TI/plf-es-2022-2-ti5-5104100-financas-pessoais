@@ -67,7 +67,7 @@ class Auth with ChangeNotifier {
       throw AuthException(body['erros'].toString());
     } else {
       _token = body['accessToken'];
-      _email = body['email'];
+      _email = email;
       _userId = body['userId'];
       _name = body['firstName'];
 
@@ -89,6 +89,47 @@ class Auth with ChangeNotifier {
       );
 
       _autoLogout();
+      notifyListeners();
+    }
+  }
+
+  Future<void> _editDataAuth(String name) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String email = userData['email'];
+    print(email);
+    String token = userData['token'];
+    print(token);
+    print("Antes post");
+    const url = 'https://webudgetpuc.azurewebsites.net/api/User/updateName';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": email,
+      },
+      body: jsonEncode(
+        {
+          'firstName': name,
+          'lastName': name,
+          'email': 'nataniel@teste15.com.br',
+        },
+      ),
+    );
+
+    final body = jsonDecode(response.body);
+    print("Retorno login....");
+    print(body);
+
+    if (body['firstName'] != '') {
+      _name = body['firstName'];
+
+      // Store.saveMap(
+      //   'userData',
+      //   {
+      //     'firstName': _name,
+      //   },
+      // );
       notifyListeners();
     }
   }
@@ -134,6 +175,10 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String name, String email, String password) async {
     return _authenticateLogin(name, email, password, 'login');
+  }
+
+  Future<void> editData(String name) async {
+    return _editDataAuth(name);
   }
 
   Future<void> tryAutoLogin() async {

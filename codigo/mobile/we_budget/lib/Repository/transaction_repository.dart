@@ -121,6 +121,7 @@ class RepositoryTransaction with ChangeNotifier {
         )
         .toList();
 
+    print("print 4: $filterDate");
     _items = _items
         .where((element) => element.tipoTransacao == typeTransaction)
         .toList();
@@ -223,7 +224,8 @@ class RepositoryTransaction with ChangeNotifier {
     );
 
     print("Response.....");
-    String body = response.body;
+    int status = response.statusCode;
+    print("Response.....$status");
     // print(body);
     // final body = jsonDecode(response.body);
     // print(body);

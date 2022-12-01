@@ -11,6 +11,7 @@ import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/create_meta.dart';
+import 'package:we_budget/pages/edit_data_login.dart';
 import 'package:we_budget/pages/list_category_page.dart';
 import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/location_form.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.listTransactions: (ctx) => const ListTransactionsPage(),
           AppRoutes.createMeta: (ctx) => const CreateMeta(),
           AppRoutes.menuPrincipal: (ctx) => const MenuPrincipal(),
+          AppRoutes.editDataUser: (ctx) => const EditDataUser(),
         },
       ),
     );
