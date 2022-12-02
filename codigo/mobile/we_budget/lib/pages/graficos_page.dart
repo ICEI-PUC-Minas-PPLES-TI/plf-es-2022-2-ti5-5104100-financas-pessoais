@@ -46,7 +46,6 @@ class _GraficosPageState extends State<Graficos_page> {
   @override
   Widget build(BuildContext context) {
     int id = widget.id_grafico;
-    print('ID:' + id.toString());
     RepositoryTransaction transaction = Provider.of(context);
     List<TransactionModel> listanova = transaction.getAll();
     List<TransactionModel> listaTrasaction = [];
