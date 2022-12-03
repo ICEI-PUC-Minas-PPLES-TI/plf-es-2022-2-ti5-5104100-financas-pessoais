@@ -21,7 +21,6 @@ using WeBudgetWebAPI.Repository.Generics;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -101,7 +100,7 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.AddSingleton(typeof(IGeneric<>),
     typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton(typeof(IMessageBrokerService<>),
-    typeof(MenssageBrokerService<>));
+    typeof(MessageBrokerService<>));
 builder.Services.AddScoped<IIdentityService,IdentityService>();
 builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();

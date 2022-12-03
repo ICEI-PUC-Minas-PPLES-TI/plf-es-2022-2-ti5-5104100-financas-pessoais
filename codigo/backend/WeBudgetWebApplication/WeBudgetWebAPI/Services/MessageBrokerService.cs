@@ -9,9 +9,9 @@ using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.Services;
 
-public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
+public class MessageBrokerService<T>:IMessageBrokerService<T> where T : class
 {
-    private async Task Send(MenssageResponse<T> mesageResponse)
+    private async  Task Send(MessageResponse<T> messageResponse)
     {
         // CloudAMQP URL in format amqp://user:pass@hostName:port/vhost
         var url = "amqps://mfkdedri:t87XD1FFJHT-Yow3qYnOb3GHqbKIPhyL@moose.rmq.cloudamqp.com/mfkdedri";
@@ -26,7 +26,7 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
         using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
         // ensure that the queue exists before we publish to it
-        var queueName = "mqtt-subscription-"+ mesageResponse.UserId+"qos1";
+        var queueName = "mqtt-subscription-"+ messageResponse.UserId+"qos1";
         bool durable = true;
         bool exclusive = false;
         bool autoDelete = true;
@@ -34,7 +34,7 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
         channel.QueueDeclare(queueName, durable, exclusive, autoDelete, null);
         
         // the data put on the queue must be a byte array
-        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(mesageResponse));
+        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(messageResponse));
         // publish to the "default exchange", with the queue name as the routing key
         var exchangeName = "";
         var routingKey = queueName;
@@ -44,7 +44,7 @@ public class MenssageBrokerService<T>:IMessageBrokerService<T> where T : class
     public async Task SendMessage(TableType table, OperationType operation,
         string userId, T data)
     {
-        await Send(new MenssageResponse<T>()
+        await Send(new MessageResponse<T>()
         {
             Table = table,
             UserId = userId,

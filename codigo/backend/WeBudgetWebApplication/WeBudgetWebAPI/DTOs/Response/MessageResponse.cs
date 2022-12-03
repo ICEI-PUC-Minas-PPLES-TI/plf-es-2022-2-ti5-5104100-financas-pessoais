@@ -4,7 +4,7 @@ using WeBudgetWebAPI.Models.Enums;
 
 namespace WeBudgetWebAPI.DTOs.Response;
 
-public class MenssageResponse<T> where T:class
+public class MessageResponse<T> where T:class
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public TableType Table { get; set; }
