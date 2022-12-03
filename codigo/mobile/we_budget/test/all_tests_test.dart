@@ -1,7 +1,9 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
+import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/models/account.dart';
+import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/models/categoria_model.dart';
 import 'package:we_budget/models/metas.dart';
 import 'package:we_budget/models/transactions.dart';
@@ -23,9 +25,64 @@ void main() {
         expect(accountModel.toString(), '1-200.0');
       });
     });
+
+    ///////////////////////////////////////////////////////////////////
+
     group('Testes da classe auth.dart', () {
-      test('Deve autenticar', () {
-        //AQUI MESTRE
+      test('Deve autenticar', () async {
+        var value = await Auth()
+            .authenticateLogin('name', 'user@test.com.br', '123aA*', 'login');
+        expect(value['sucesso'], equals(true));
+      });
+      test('Deve editar', () async {
+        await Auth()
+            .editData('name');
+        expect(0, 0);
+      });
+      test('Deve logar', () async {
+        await Auth()
+            .signup('name', 'email', 'password');
+        expect(0, 0);
+      });
+      test('Deve dar logout', () async {
+        Auth()
+            .logout();
+            expect(0, 0);
+      });
+      test('Deve autologar', () async {
+        await Auth()
+            .tryAutoLogin();
+            expect(0, 0);
+      });
+      test('Is auth', () async {
+        final ehaut = await Auth()
+            .isAuth;
+        expect(ehaut, false);
+      });
+      test('Is auth', () async {
+        final ehaut = await Auth()
+            .token;
+        expect(ehaut, false);
+      });
+      test('Is auth', () async {
+        final ehaut = await Auth()
+            .email;
+        expect(ehaut, false);
+      });
+      test('Is auth', () async {
+        final ehaut = await Auth()
+            .userId;
+        expect(ehaut, false);
+      });
+      test('Is auth', () async {
+        final ehaut = await Auth()
+            .name;
+        expect(ehaut, false);
+      });
+      test('Is auth', () async {
+        Auth()
+            .login('name', 'email', 'pass');
+        expect(0, false);
       });
     });
     group('Testes da classe categoria.dart', () {
@@ -40,7 +97,30 @@ void main() {
         expect(categoria.toString(), '18-10');
       });
     });
+
+    ///////////////////////////////////////////////////////////////////
+
     group('Testes da classe metas.dart', () {
+      test(
+        'Future.value() returns the value',
+            () async {
+          final getMetasPrePost = await RepositoryMetas().getMetasSql();
+
+          var value = await RepositoryMetas().createMetaSql(
+            MetasModel(
+                idCategoria: '1',
+                idMeta: '',
+                dataMeta: '2022-12-03',
+                valorMeta: 250,
+                valorAtual: 0,
+                recorrente: false),
+          );
+
+          final getMetasPosPost = await RepositoryMetas().getMetasSql();
+
+          expect(1, (getMetasPosPost - getMetasPrePost));
+        },
+      );
       test('Deve criar uma meta nova', () {
         final meta =
         MetasModel(idCategoria: '09',
