@@ -13,45 +13,6 @@ public static class CategoryMock
         return _categoryMock ??= new Mock<ICategory>();
     }
 
-
-
-
-
-    public static IEnumerable<Category> ReturnCategoryCollection()
-    {
-        return new List<Category>()
-        {
-            new Category()
-            {
-                Id = 0,
-                UserId = "0000-0000-0000-0000",
-                Description = "Money",
-                IconCode = 0001
-            },
-            new Category()
-            {
-                Id = 1,
-                UserId = "0000-0000-0000-0000",
-                Description = "Fuel",
-                IconCode = 0002
-            },
-            new Category()
-            {
-                Id = 2,
-                UserId = "0000-0000-0000-0000",
-                Description = "Food",
-                IconCode = 0003
-            },
-            new Category()
-            {
-                Id = 3,
-                UserId = "0000-0000-0000-0002",
-                Description = "Fishing",
-                IconCode = 0004
-            },
-        };
-    }
-
     public static void AddReturnResultOk()
     {
         if (_categoryMock != null)
@@ -145,5 +106,39 @@ public static class CategoryMock
             _categoryMock.Setup(x => x.GetEntityById(id))
                 .ReturnsAsync(Result.Ok(ReturnCategoryCollection()
                     .First(x=>x.Id==id)));
+    }
+    private static IEnumerable<Category> ReturnCategoryCollection()
+    {
+        return new List<Category>()
+        {
+            new Category()
+            {
+                Id = 0,
+                UserId = "0000-0000-0000-0000",
+                Description = "Money",
+                IconCode = 0001
+            },
+            new Category()
+            {
+                Id = 1,
+                UserId = "0000-0000-0000-0000",
+                Description = "Fuel",
+                IconCode = 0002
+            },
+            new Category()
+            {
+                Id = 2,
+                UserId = "0000-0000-0000-0000",
+                Description = "Food",
+                IconCode = 0003
+            },
+            new Category()
+            {
+                Id = 3,
+                UserId = "0000-0000-0000-0002",
+                Description = "Fishing",
+                IconCode = 0004
+            },
+        };
     }
 }
