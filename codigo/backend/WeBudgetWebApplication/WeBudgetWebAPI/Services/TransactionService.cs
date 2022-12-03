@@ -47,9 +47,15 @@ public class TransactionService : ITransactionService
         if (updatedTransactionResult.IsFailure)
             return updatedTransactionResult;
         await SendMessage(OperationType.Update,updatedTransactionResult.Data!);
-        var value = transaction.TansactionType == TansactionType.Expenses
-            ? (savedTransactionResult.Data!.PaymentValue - transaction.PaymentValue)
-            : (savedTransactionResult.Data!.PaymentValue + transaction.PaymentValue);
+        var value = 0.0;
+        if (transaction.TansactionType == savedTransactionResult.Data!.TansactionType)
+            value = transaction.TansactionType == TansactionType.Expenses
+                ? (savedTransactionResult.Data!.PaymentValue - transaction.PaymentValue)
+                : (transaction.PaymentValue - savedTransactionResult.Data!.PaymentValue);
+        else
+            value = transaction.TansactionType == TansactionType.Expenses
+                ? -(savedTransactionResult.Data!.PaymentValue + transaction.PaymentValue)
+                : (savedTransactionResult.Data!.PaymentValue + transaction.PaymentValue);
         var updateValuesResult = await UpdateValues(transaction, value);
         return updateValuesResult.IsFailure ? 
             Result.Fail<Transaction>(updateValuesResult.ErrorMenssage!) : updatedTransactionResult;
