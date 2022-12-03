@@ -32,7 +32,7 @@ public class BudgetServiceTest
             BudgetValue = 1000.00,
             BudgetValueUsed = 0.0
         };
-        TransactionMock.TransactionMockReturnResultSum(budget.UserId, budget.BudgetDate, budget.CategoryId);
+        TransactionMock.ReturnResultSum(budget.UserId, budget.BudgetDate, budget.CategoryId);
         BudgetMock.BudgetMockAddReturnResultOk();
         //Act
         var resultBudget = await _budgetService.Add(budget);
@@ -54,7 +54,7 @@ public class BudgetServiceTest
             BudgetValue = 1000.00,
             BudgetValueUsed = 0.0
         };
-        TransactionMock.TransactionMockReturnResultSum(budget.UserId, budget.BudgetDate, budget.CategoryId);
+        TransactionMock.ReturnResultSum(budget.UserId, budget.BudgetDate, budget.CategoryId);
         BudgetMock.BudgetMockAddReturnResultFail();
         //Act
         var resultBudget = await _budgetService.Add(budget);
@@ -251,7 +251,7 @@ public class BudgetServiceTest
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
         var categoryId = 1;
-        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        TransactionMock.ReturnResultSum(userId, datetime, categoryId);
         BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime.AddMonths(-1), categoryId);
         BudgetMock.BudgetMockAddReturnResultOk();
         //Act
@@ -273,7 +273,7 @@ public class BudgetServiceTest
         var datetime = DateTime.Now;
         var userId = "0000-0000-0000-0000";
         var categoryId = 1;
-        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        TransactionMock.ReturnResultSum(userId, datetime, categoryId);
         BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime.AddMonths(-1), categoryId);
         BudgetMock.BudgetMockAddReturnResultFail();
         //Act
@@ -292,7 +292,7 @@ public class BudgetServiceTest
         var userId = "0000-0000-0000-0000";
         var categoryId = 1;
         var value = -100.00;
-        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        TransactionMock.ReturnResultSum(userId, datetime, categoryId);
         BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime, categoryId);
         BudgetMock.BudgetMockAddReturnResultOk();
         BudgetMock.BudgetMockUpdateReturnResultOk();
@@ -319,7 +319,7 @@ public class BudgetServiceTest
         var userId = "0000-0000-0000-0000";
         var categoryId = 1;
         var value = -100.00;
-        TransactionMock.TransactionMockReturnResultSum(userId, datetime, categoryId);
+        TransactionMock.ReturnResultSum(userId, datetime, categoryId);
         BudgetMock.BudgetMockGetByUserTimeAndCategoryReturnResultOk(userId, datetime, categoryId);
         BudgetMock.BudgetMockAddReturnResultOk();
         BudgetMock.BudgetMockUpdateReturnResultFail();
