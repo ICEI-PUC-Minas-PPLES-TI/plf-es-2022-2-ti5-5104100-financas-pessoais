@@ -43,7 +43,7 @@ class Auth with ChangeNotifier {
   //   return name;
   // }
 
-  Future<void> _authenticateLogin(
+  Future<Map<String, dynamic>> authenticateLogin(
       String name, String email, String password, String urlFragment) async {
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
@@ -60,8 +60,8 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print("Retorno login....");
-    print(body);
+    // print("Retorno login....");
+    // print(body);
 
     if (body['sucesso'] != true) {
       throw AuthException(body['erros'].toString());
@@ -90,6 +90,8 @@ class Auth with ChangeNotifier {
 
       _autoLogout();
       notifyListeners();
+
+      return body;
     }
   }
 
@@ -173,8 +175,9 @@ class Auth with ChangeNotifier {
     return _authenticateCadastro(name, email, password, 'cadastro');
   }
 
-  Future<void> login(String name, String email, String password) async {
-    return _authenticateLogin(name, email, password, 'login');
+  Future<Map<String, dynamic>> login(
+      String name, String email, String password) async {
+    return authenticateLogin(name, email, password, 'login');
   }
 
   Future<void> editData(String name) async {

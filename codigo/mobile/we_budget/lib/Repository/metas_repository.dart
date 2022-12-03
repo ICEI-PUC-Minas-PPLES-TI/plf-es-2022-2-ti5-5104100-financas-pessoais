@@ -55,6 +55,24 @@ class RepositoryMetas with ChangeNotifier {
     return retorno;
   }
 
+  Future<int> getMetasSql() async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'];
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Budget';
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    List<dynamic> body = json.decode(response.body);
+
+    return body.length;
+  }
+
   Future<List<MetasModel>> selectMetas2(String filterDate) async {
     Database db = await DBHelper.instance.database;
     List<Map> metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
