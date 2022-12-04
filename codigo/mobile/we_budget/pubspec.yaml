@@ -46,6 +46,7 @@ dependencies:
   month_year_picker: ^0.2.0+3
   loading_indicator: ^3.1.0
   test: ^1.6.1
+  mockito: ^5.3.2
 
   
   # The following adds the Cupertino Icons font to your application.
