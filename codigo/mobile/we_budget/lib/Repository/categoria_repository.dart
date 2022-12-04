@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/categoria_model.dart';
-import 'package:http/http.dart' as http;
 import '../exceptions/http_exception.dart';
 import '../models/store.dart';
 import '../utils/db_util.dart';
@@ -13,6 +13,8 @@ class RepositoryCategory with ChangeNotifier {
   String _token;
 
   RepositoryCategory(this._token);
+
+  Client client = Client();
 
   insertCategoria(CategoriaModel categoria) async {
     Database db = await DBHelper.instance.database;
@@ -141,13 +143,14 @@ class RepositoryCategory with ChangeNotifier {
     return _categories;
   }
 
-  Future<void> createCategorySql(Map<String, dynamic> category) async {
+  Future<Map<String, dynamic>> createCategorySql(
+      Map<String, dynamic> category) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
-    String token = userData['token'];
-    String userId = userData['userId'];
+    String token = userData['token'] ?? '123';
+    String userId = userData['userId'] ?? '123';
 
     const url = 'https://webudgetpuc.azurewebsites.net/api/Category/Add';
-    final response = await http.post(
+    final response = await client.post(
       Uri.parse(url),
       headers: {
         "Content-Type": "application/json",
@@ -163,20 +166,22 @@ class RepositoryCategory with ChangeNotifier {
       ),
     );
 
-    final body = jsonDecode(response.body);
-    print(body);
+    Map<String, dynamic> body = json.decode(response.body);
+    print("Body is.....$body");
+    return body;
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }
   }
 
-  Future<void> updateCategorySql(CategoriaModel category) async {
+  Future<Map<String, dynamic>> updateCategorySql(
+      CategoriaModel category) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
-    String token = userData['token'];
-    String userId = userData['userId'];
+    String token = userData['token'] ?? '123';
+    String userId = userData['userId'] ?? '123';
 
     const url = 'https://webudgetpuc.azurewebsites.net/api/Category';
-    final response = await http.put(
+    final response = await client.put(
       Uri.parse(url),
       headers: {
         "Content-Type": "application/json",
@@ -192,16 +197,21 @@ class RepositoryCategory with ChangeNotifier {
         },
       ),
     );
+
+    Map<String, dynamic> body = json.decode(response.body);
+    print("Body is.....$body");
+    return body;
   }
 
-  Future<void> removeCategorySql(CategoriaModel category) async {
+  Future<Map<String, dynamic>> removeCategorySql(
+      CategoriaModel category) async {
     Map<String, dynamic> userData = await Store.getMap('userData');
-    String token = userData['token'];
+    String token = userData['token'] ?? '123';
 
     final id = category.id;
     final url = 'https://webudgetpuc.azurewebsites.net/api/Category/$id';
 
-    final response = await http.delete(
+    final response = await client.delete(
       Uri.parse(url),
       headers: {
         'Content-Type': 'application/json',
@@ -216,6 +226,10 @@ class RepositoryCategory with ChangeNotifier {
         statusCode: response.statusCode,
       );
     }
+
+    Map<String, dynamic> body = json.decode(response.body);
+    print("Body is.....$body");
+    return body;
   }
 
   Future<void> saveTransactionSql(Map<String, dynamic> categoryData) async {
