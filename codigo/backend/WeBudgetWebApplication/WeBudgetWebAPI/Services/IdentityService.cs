@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using WeBudgetWebAPI.Configurations;
 using WeBudgetWebAPI.DTOs.Request;
 using WeBudgetWebAPI.DTOs.Response;
@@ -17,8 +16,7 @@ public class IdentityService:IIdentityService
     private readonly IMailService _mailService;
 
     public IdentityService(SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwOptions,
-        IMailService mailService)
+        UserManager<ApplicationUser> userManager, IMailService mailService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -41,7 +39,7 @@ public class IdentityService:IIdentityService
             await _userManager.SetLockoutEnabledAsync(applicationUser, false);
 
         var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
-        if (!result.Succeeded && result.Errors.Count() > 0)
+        if (!result.Succeeded && result.Errors.Any())
             usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
 
         return usuarioCadastroResponse;
@@ -79,10 +77,10 @@ public class IdentityService:IIdentityService
 
     public async Task<Result> ForgotPassword(ForgotPasswordRequest forgotPassword)
     {
-        var user = _userManager.FindByEmailAsync(forgotPassword.Email);
+        var user = await _userManager.FindByEmailAsync(forgotPassword.Email);
         if (user == null)
             return Result.Fail("Usuário não encontrado");
-        var token = await _userManager.GeneratePasswordResetTokenAsync(await user);
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
         if (token == null)
             return Result.Fail("Problemas para gerar o token");
         //Url de recuperacao
@@ -106,10 +104,10 @@ public class IdentityService:IIdentityService
 
     public async Task<Result> ResetPassword(ResetPasswordRequest resetPassword)
     {
-        var user = _userManager.FindByEmailAsync(resetPassword.Email);
+        var user = await _userManager.FindByEmailAsync(resetPassword.Email);
         if (user == null)
             return Result.Fail("Usuário não encontrado");
-        var result = await _userManager.ResetPasswordAsync(await user,
+        var result = await _userManager.ResetPasswordAsync(user,
             resetPassword.Token, resetPassword.Password);
         if (!result.Succeeded)
             return Result.Fail(string.Join("; ",
