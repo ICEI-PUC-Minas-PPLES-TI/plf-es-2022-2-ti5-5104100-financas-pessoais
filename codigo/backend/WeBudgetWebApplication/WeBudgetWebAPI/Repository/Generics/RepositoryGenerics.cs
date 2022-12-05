@@ -4,8 +4,6 @@ using Microsoft.Win32.SafeHandles;
 using WeBudgetWebAPI.Data;
 using WeBudgetWebAPI.Interfaces.Generics;
 using WeBudgetWebAPI.Models;
-
-
 namespace WeBudgetWebAPI.Repository.Generics;
 
 public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
