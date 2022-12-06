@@ -1,13 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
-using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.DTOs.Request;
 using WeBudgetWebAPI.DTOs.Response;
-using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
-using WeBudgetWebAPI.Models;
 using WeBudgetWebAPI.Models.Entities;
 
 namespace WeBudgetWebAPI.Controllers;
