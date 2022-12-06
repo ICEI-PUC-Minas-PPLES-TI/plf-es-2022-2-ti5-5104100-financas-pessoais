@@ -29,7 +29,7 @@ public class BudgetController:ControllerBase
     [Authorize]
     [Produces("application/json")]
     [HttpPost("Add")]
-    public async Task<ActionResult<Budget>> Add(BudgetRequest request)
+    public async Task<ActionResult> Add(BudgetRequest request)
     {
         var budget = _iMapper.Map<Budget>(request);
         var savedBudgetResult = await _budgetService.Add(budget);
