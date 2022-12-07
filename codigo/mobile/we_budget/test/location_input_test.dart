@@ -5,10 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:we_budget/components/location_input.dart';
 
 void main() {
-  group("Teste LocationInput", () {
     void selectPosition(LatLng latLng) {}
-
-    testWidgets("Teste LocationInput 1", (WidgetTester tester) async {
+    testWidgets("Deve encontrar um Container no widget location_input", (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: LocationInput(selectPosition),
       ));
@@ -16,12 +14,11 @@ void main() {
       expect(find.byType(Container), findsOneWidget);
     });
 
-    testWidgets("Teste LocationInput 2", (WidgetTester tester) async {
+    testWidgets("Deve encontrar 3 Text's no widget location_input", (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: LocationInput(selectPosition),
       ));
 
       expect(find.byType(Text), findsNWidgets(3));
     });
-  });
 }
