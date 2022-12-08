@@ -132,9 +132,9 @@ Visando auxiliar a definir quais são as funcionalidades de maior prioridade de 
 | RF015 | O usuário visualiza um gráfico de rosca com as despesas separadas por categoria do mês selecionado. | Alta |
 | RF016 | O usuário visualiza um gráfico de rosca com as receitas separadas por categoria do mês selecionado. | Alta |
 | RF017 | O usuário visualiza um gráfico de linha com a evolução dos receitas do mês selecionado. | Alta |
-| RF018 | O usuário visualiza um gráfico de linha com a evolução dos despesas do mês selecionado. | Alta |
-| RF019 | O usuário recebe notificação toda sexta-feira informando os gastos da semana. | Alta |
-| RF020 | O usuário recebe notificação toda 1º dia do mês informando que os relatórios do mês anterior estão prontos | Alta |
+| RF018 | O usuário visualiza um gráfico de barra com a evolução dos despesas do mês selecionado. | Alta |
+| RF019 | O usuário visualiza uma tabela no aplicativo web com a relação das transações realizadas no mês. | Alta |
+
 
 
 ## 2.2. Requisitos Não-Funcionais
