@@ -24,7 +24,7 @@ class _MetasPage extends State<MetasPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: size * 0.18,
+        preferredSize: size * 0.20,
         child: Container(
           height: double.infinity,
           margin: const EdgeInsetsDirectional.only(top: 30),
@@ -38,91 +38,93 @@ class _MetasPage extends State<MetasPage> {
               end: Alignment.centerRight,
             ),
           ),
-          child: Column(
-            children: [
-              AppBar(
-                backgroundColor: const Color(0xFFF4F4F4),
-                automaticallyImplyLeading: false,
-                flexibleSpace: const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 15),
-                  child: Text(
-                    'Metas',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF5B4BF8),
-                      fontSize: 30,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AppBar(
+                  backgroundColor: const Color(0xFFF4F4F4),
+                  automaticallyImplyLeading: false,
+                  flexibleSpace: const Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 15),
+                    child: Text(
+                      'Metas',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color(0xFF5B4BF8),
+                        fontSize: 30,
+                      ),
                     ),
                   ),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 7, 10, 10),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(const CircleBorder()),
+                          backgroundColor:
+                              MaterialStateProperty.all(const Color(0xFF5B4BF8)),
+                        ),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(AppRoutes.createMeta);
+                        },
+                      ),
+                    ),
+                  ],
+                  elevation: 0,
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 7, 10, 10),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(const CircleBorder()),
-                        backgroundColor:
-                            MaterialStateProperty.all(const Color(0xFF5B4BF8)),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 1.0, top: 0.0, right: 0.0, bottom: 0.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1B1C30),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(AppRoutes.createMeta);
-                      },
+                      fixedSize: const Size(200, 10),
                     ),
-                  ),
-                ],
-                elevation: 0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 1.0, top: 0.0, right: 0.0, bottom: 0.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1B1C30),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    fixedSize: const Size(200, 10),
-                  ),
-                  onPressed: () async {
-                    pickedDate = await showMonthYearPicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2050),
-                      builder: (context, child) {
-                        return SizedBox(
-                          child: Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: const ColorScheme.light(),
-                              textButtonTheme: TextButtonThemeData(
-                                  style: TextButton.styleFrom()),
+                    onPressed: () async {
+                      pickedDate = await showMonthYearPicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2050),
+                        builder: (context, child) {
+                          return SizedBox(
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.light(),
+                                textButtonTheme: TextButtonThemeData(
+                                    style: TextButton.styleFrom()),
+                              ),
+                              child: child!,
                             ),
-                            child: child!,
-                          ),
-                        );
-                      },
-                    );
-                    if (pickedDate != null) {
-                      setState(() {
-                        formattedDate =
-                            DateFormat("yyyy-MM").format(pickedDate!);
-                      });
-                      print(formattedDate);
-                    }
-                  },
-                  child: const Text(
-                    'Filtrar Data',
-                    style: TextStyle(
-                      fontSize: 14,
+                          );
+                        },
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          formattedDate =
+                              DateFormat("yyyy-MM").format(pickedDate!);
+                        });
+                        print(formattedDate);
+                      }
+                    },
+                    child: const Text(
+                      'Filtrar Data',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

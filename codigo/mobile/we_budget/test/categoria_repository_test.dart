@@ -67,4 +67,22 @@ void main() {
     final item = await categoryRepository.removeCategorySql(categoryDelete);
     expect(item['description'], categoryDelete.nameCategoria);
   });
+
+  test("inserir categoria", () async {
+    final categoryInsert =
+    CategoriaModel(id: '1', codeCategoria: '123', nameCategoria: 'delete');
+
+    final data = {
+      "description": categoryInsert.nameCategoria,
+      "iconCode": categoryInsert.codeCategoria,
+    };
+
+    final categoryRepository = RepositoryCategory('');
+    categoryRepository.client = MockClient((request) async {
+      return Response(jsonEncode(data), 200);
+    });
+    final item = await categoryRepository.insertCategorySql(categoryInsert);
+    expect(item['description'], categoryInsert.nameCategoria);
+  });
+
 }

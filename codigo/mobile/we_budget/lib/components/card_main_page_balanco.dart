@@ -43,24 +43,25 @@ class CardMainPageBalanco extends StatelessWidget {
               ),
               FutureBuilder(
                 future:
-                    Provider.of<RepositoryAccount>(context).valorBalancoMes(),
+                Provider.of<RepositoryAccount>(context).valorBalancoMes(),
                 builder: (context, snapshot) => snapshot.connectionState ==
-                        ConnectionState.waiting
+                    ConnectionState.waiting
                     ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                  child: CircularProgressIndicator(),
+                )
                     : Consumer<RepositoryAccount>(
-                        builder: (context, trasaction, child) => Container(
-                          margin: const EdgeInsetsDirectional.only(bottom: 7.0),
-                          child: Text(
-                            "R\$ ${trasaction.saldoBalancoMes.toStringAsFixed(2).replaceAll('.', ',')}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
+                  key: Key('balanço'),
+                  builder: (context, trasaction, child) => Container(
+                    margin: const EdgeInsetsDirectional.only(bottom: 7.0),
+                    child: Text(
+                      "R\$ ${trasaction.saldoBalancoMes.toStringAsFixed(2).replaceAll('.', ',')}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
                       ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

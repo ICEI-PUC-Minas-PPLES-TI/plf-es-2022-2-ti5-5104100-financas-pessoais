@@ -3,9 +3,6 @@ import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
-
-import 'package:we_budget/components/price_point.dart';
 import '../models/transactions.dart';
 
 class LineChartWidget extends StatefulWidget {
@@ -13,7 +10,7 @@ class LineChartWidget extends StatefulWidget {
   final List<TransactionModel> transactions;
   final String periodo;
 
-  const LineChartWidget(this.transactions, {Key? key, required this.periodo})
+  const LineChartWidget({Key? key, required this.periodo, required this.transactions,})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _LineChartWidgetState();
@@ -34,14 +31,14 @@ class _LineChartWidgetState extends State<LineChartWidget>{
                 color: const Color(0xff37434d),
                 strokeWidth: 1,
               );
-              },
+            },
             drawVerticalLine: true,
             getDrawingVerticalLine: (value) {
               return FlLine(
                 color: const Color(0xff37434d),
                 strokeWidth: 1,
               );
-              },
+            },
           ),
           borderData: FlBorderData(
             show: true,
@@ -90,10 +87,6 @@ class PricePoint {
 
 List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String periodo) {
   DateTime hoje = DateTime.now();
-  transactions.forEach((element) {
-    if(element.tipoTransacao==0)
-    print(element.data.toString() + '   ' + element.valor.toString());
-  });
   switch(periodo){
     case 'Máx':
       int index = 0;
@@ -106,10 +99,9 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
           DateTime data_transact = DateTime(ano,mes,dia);
-            if(trns.tipoTransacao == 0 && data_transact.year == anos[index]){
-              numbers[index] += trns.valor;
-              print('adicionar ' + trns.valor.toString() + ' no ano' + anos[index].toString() );
-            }
+          if(trns.tipoTransacao == 0 && data_transact.year == anos[index]){
+            numbers[index] += trns.valor;
+          }
         });
         index++;
       });
@@ -165,62 +157,52 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
         }
       });
 
-      print(dias);
-      print(meses);
-      print(meses_distintos);
       List<double> valores = List.filled(5, 0);
 
 
-        transactions.forEach((transact) {
-          int index = 0;
-          dias.forEach((dia) {
+      transactions.forEach((transact) {
+        int index = 0;
+        dias.forEach((dia) {
           List<String> campos = transact.data.split('-');
           int ano = int.parse(campos[0]);
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
           DateTime data_transact = DateTime(ano,mes,dia);
           DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
-            if(transact.tipoTransacao == 0){
-              if(!(index==0)){
-                print('oi');
-                print(data_param.difference(data_transact).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-                if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
-                  print(data_transact.difference(data_param).inDays);
-                  print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
-                  valores[index] += transact.valor;
-                }
-
-              }else{
-                DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
-                if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
+          if(transact.tipoTransacao == 0){
+            if(!(index==0)){
+              if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
                 valores[index] += transact.valor;
-                }
               }
-            }
-            index++;
-        });
-      });
 
-        int index2 = 0;
-        valores.forEach((element) {
-          if(index2 > 0){
-            if(element == 0.0){
-              if(meses[index2] == meses[index2-1]){
-                valores[index2] += valores[index2-1];
+            }else{
+              DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
+              if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
+                valores[index] += transact.valor;
               }
             }
           }
-          index2++;
+          index++;
         });
+      });
 
-        print(valores.mapIndexed(
-                (index, element) => PricePoint(x: index.toDouble(), y: element))
-            .toList().map((point) => FlSpot(point.x, point.y)).toList());
+      int index2 = 0;
+      valores.forEach((element) {
+        if(index2 > 0){
+          if(element == 0.0){
+            if(meses[index2] == meses[index2-1]){
+              valores[index2] += valores[index2-1];
+            }
+          }
+        }
+        index2++;
+      });
 
-        return valores
-            .mapIndexed(
-                (index, element) => PricePoint(x: index.toDouble(), y: element))
-            .toList();
+
+      return valores
+          .mapIndexed(
+              (index, element) => PricePoint(x: index.toDouble(), y: element))
+          .toList();
 
       break;
     case '3M':
@@ -271,9 +253,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
         }
       });
 
-      print(dias);
-      print(meses);
-      print(meses_distintos);
       List<double> valores = List.filled(5, 0);
 
 
@@ -288,10 +267,7 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
           if(transact.tipoTransacao == 0){
             if(!(index==0)){
-              print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 24).toString());
               if(data_transact.difference(data_param).inDays < 24 && data_param.month == data_transact.month){
-                print(data_transact.difference(data_param).inDays);
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                 valores[index] += transact.valor;
               }
 
@@ -299,7 +275,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
               DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
               if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
                 valores[index] += transact.valor;
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
               }
             }
           }
@@ -372,10 +347,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           meses_distintos.add(element);
         }
       });
-
-      print(dias);
-      print(meses);
-      print(meses_distintos);
       List<double> valores = List.filled(5, 0);
 
 
@@ -390,10 +361,7 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
           if(transact.tipoTransacao == 0){
             if(!(index==0)){
-              print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
               if(data_transact.difference(data_param).inDays < 8 && data_param.month == data_transact.month){
-                print(data_transact.difference(data_param).inDays);
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                 valores[index] += transact.valor;
               }
 
@@ -496,7 +464,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
       List<int> anos = [ano_um,ano_dois,ano_tres,ano_quatro,ano_cinco,ano_seis,ano_sete,ano_oito,ano_nove,ano_atual];
       List<int> meses_distintos = [];
 
-      print(ano_atual.toString() + 'anoa tual');
 
       meses.forEach((element) {
         if(!meses_distintos.contains(element)){
@@ -504,10 +471,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
         }
       });
 
-      print(dias);
-      print(meses);
-      print(meses_distintos);
-      print(anos);
       List<double> valores = List.filled(5, 0);
 
 
@@ -522,10 +485,7 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
           if(transact.tipoTransacao == 0){
             if(!(index==0)){
-              print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 32 && data_param.month == data_transact.month).toString());
               if(data_param.difference(data_transact).inDays < 32 && data_param.month == data_transact.month){
-                print(data_transact.difference(data_param).inDays);
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
                 valores[index] += transact.valor;
               }
 
@@ -533,7 +493,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
               DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
               if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
                 valores[index] += transact.valor;
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
               }
             }
           }
@@ -566,17 +525,17 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
   List<double> valores = List.filled(qtd_periodo, 0);
   List<String> anos = ['2018','2019','2018','2021','2022'];
   int index = 0;
-    anos.forEach((ano) {
-      transactions.forEach((element) {
-        String dataFormatada = element.data.substring(0,4);
-        if(dataFormatada==ano){
-          if(element.tipoTransacao==0){
-            valores[index]+=element.valor;
-          }
+  anos.forEach((ano) {
+    transactions.forEach((element) {
+      String dataFormatada = element.data.substring(0,4);
+      if(dataFormatada==ano){
+        if(element.tipoTransacao==0){
+          valores[index]+=element.valor;
         }
-      });
-      index++;
+      }
     });
+    index++;
+  });
   return valores
       .mapIndexed(
           (index, element) => PricePoint(x: index.toDouble(), y: element))
@@ -607,8 +566,6 @@ SideTitles _transforma(String periodo){
   }
 
   List<String> formatados = [];
-  print('o periodo é ' + periodo);
-  print(periodo!='1Y');
   if(periodo != '1Y'){
     final primeiro_dia = hoje.subtract(Duration(days: dayslongos));
     final primeiro_dia_f = formatador.format(primeiro_dia);
@@ -659,9 +616,6 @@ SideTitles _transforma(String periodo){
     formatados.add(nono_dia_f);
     formatados.add(formatador.format(hoje));
   }
-
-  print('LISTA DO LINE: ' + formatados.toString());
-
 
   return _bottomTitles(formatados);
 

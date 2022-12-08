@@ -1,25 +1,24 @@
-import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqlite_api.dart';
 import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:we_budget/components/menu_component.dart';
-import 'package:we_budget/components/pie_chart_widget.dart';
-import 'package:we_budget/components/pie_chart_widget2.dart';
 import 'package:we_budget/components/welcome_saldo.dart';
 import 'package:we_budget/models/auth.dart';
+import 'package:we_budget/models/transactions.dart';
+import 'package:we_budget/pages/welcome_page.dart';
 
 void main() {
-  testWidgets("Deve encontrar 1 CurvedNavBar no widget menu_component", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 9 Container`s na pagina de boas-vindas", (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+          create: (_) => RepositoryAccount('_token'),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryCategory('_token'),
         ),
         ChangeNotifierProvider(
           create: (_) => RepositoryTransaction('_token'),
@@ -29,19 +28,19 @@ void main() {
         ),
       ],
       child: const MaterialApp(
-        home: MenuPrincipal(),
+        home: WelcomePage(),
       ),
     ));
-    expect(find.byType(CurvedNavBar), findsOneWidget);
+    expect(find.byType(Container), findsNWidgets(18));
   });
-  testWidgets("Deve encontrar 7 Row's no widget menu_component", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 13 Padding`s na pagina de boas-vindas", (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+          create: (_) => RepositoryAccount('_token'),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryCategory('_token'),
         ),
         ChangeNotifierProvider(
           create: (_) => RepositoryTransaction('_token'),
@@ -51,9 +50,9 @@ void main() {
         ),
       ],
       child: const MaterialApp(
-        home: MenuPrincipal(),
+        home: WelcomePage(),
       ),
     ));
-    expect(find.byType(Row), findsNWidgets(7));
+    expect(find.byType(Padding), findsNWidgets(13));
   });
 }
