@@ -21,7 +21,7 @@ function realizarLogin(event){
     if(data.sucesso){
           console.log(data.accessToken)
           localStorage.setItem('userToken', JSON.stringify(data.accessToken));
-      window.location.href="/relatoriosAnuais.html"
+      window.location.href="relatoriosAnuais.html"
     }else{
       alert("email ou senha inválidos");
     }
