@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
 
 import '../models/transactions.dart';
 import 'menu_component.dart';
@@ -33,7 +32,7 @@ class PieChartWidget2 extends StatefulWidget {
   //De para-----------para cada item da lista, eu crio um Sector.
 
   // const
-  PieChartWidget2(this.listTransacion, {Key? key, required this.periodo})
+  PieChartWidget2({Key? key, required this.periodo, required this.listTransacion})
       : super(key: key);
 
   @override
@@ -55,7 +54,6 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
 
   @override
   Widget build(BuildContext context) {
-    print('oi');
     return Column(
       children: [
         AspectRatio(
@@ -89,7 +87,6 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
     final List<PieChartSectionData> list = [];
     switch (periodo) {
       case 'Máx':
-        print('passou no MAX');
         listTransacion.forEach((transact) {
           bool existe = false;
           categories.forEach((categoria) {
@@ -137,11 +134,11 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
             value: sector.value,
             radius: radius,
             title: (((sector.value / soma_total) * 100)
-                        .toStringAsPrecision(2) ==
-                    '1.0e+2')
+                .toStringAsPrecision(2) ==
+                '1.0e+2')
                 ? '100%'
                 : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                    '%',
+                '%',
           );
           list.add(data);
         }
@@ -156,7 +153,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(Sector2(
               color: Colors.grey,
               value: 0.0,
-              title: ('Nenhuma receita no período')));
+              title: ('N/A')));
         }
         return list;
         break;
@@ -219,11 +216,11 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
             value: sector.value,
             radius: radius,
             title: (((sector.value / soma_total) * 100)
-                        .toStringAsPrecision(2) ==
-                    '1.0e+2')
+                .toStringAsPrecision(2) ==
+                '1.0e+2')
                 ? '100%'
                 : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                    '%',
+                '%',
           );
           list.add(data);
         }
@@ -238,7 +235,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(Sector2(
               color: Colors.grey,
               value: 0.0,
-              title: ('Nenhuma receita no período')));
+              title: ('N/A')));
         }
         return list;
         break;
@@ -301,11 +298,11 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
             value: sector.value,
             radius: radius,
             title: (((sector.value / soma_total) * 100)
-                        .toStringAsPrecision(2) ==
-                    '1.0e+2')
+                .toStringAsPrecision(2) ==
+                '1.0e+2')
                 ? '100%'
                 : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                    '%',
+                '%',
           );
           list.add(data);
         }
@@ -320,7 +317,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(Sector2(
               color: Colors.grey,
               value: 0.0,
-              title: ('Nenhuma receita no período')));
+              title: ('N/A')));
         }
         return list;
         break;
@@ -383,11 +380,11 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
             value: sector.value,
             radius: radius,
             title: (((sector.value / soma_total) * 100)
-                        .toStringAsPrecision(2) ==
-                    '1.0e+2')
+                .toStringAsPrecision(2) ==
+                '1.0e+2')
                 ? '100%'
                 : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                    '%',
+                '%',
           );
           list.add(data);
         }
@@ -402,7 +399,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(Sector2(
               color: Colors.grey,
               value: 0.0,
-              title: ('Nenhuma receita no período')));
+              title: ('N/A')));
         }
         return list;
         break;
@@ -465,11 +462,11 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
             value: sector.value,
             radius: radius,
             title: (((sector.value / soma_total) * 100)
-                        .toStringAsPrecision(2) ==
-                    '1.0e+2')
+                .toStringAsPrecision(2) ==
+                '1.0e+2')
                 ? '100%'
                 : ((sector.value / soma_total) * 100).toStringAsPrecision(2) +
-                    '%',
+                '%',
           );
           list.add(data);
         }
@@ -484,7 +481,7 @@ class _PieChartWidgetState2 extends State<PieChartWidget2> {
           sectors.add(Sector2(
               color: Colors.grey,
               value: 0.0,
-              title: ('Nenhuma receita no período')));
+              title: ('N/A')));
         }
         return list;
         break;

@@ -10,16 +10,14 @@ namespace WeBudgetWebAPI.Services;
 public class MailService : IMailService
 {
     private readonly MailSettings _mailSettings;
-    
+
     public MailService(IOptions<MailSettings> mailSettings)
         =>_mailSettings = mailSettings.Value;
-    
-    
+
     public async Task SendEmailAsync(MailRequest mailRequest)
     {
-        MailMessage message = new MailMessage();
-        SmtpClient smtp = new SmtpClient();
-
+        var message = new MailMessage();
+        var smtp = new SmtpClient();
         message.From = new MailAddress(_mailSettings.Mail, _mailSettings.DisplayName);
         message.To.Add(new MailAddress(mailRequest.ToEmail));
         message.Subject = mailRequest.Subject;
@@ -32,6 +30,5 @@ public class MailService : IMailService
         smtp.Credentials = new NetworkCredential(_mailSettings.Mail, _mailSettings.Password);
         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
         await smtp.SendMailAsync(message);
-
     }
 }

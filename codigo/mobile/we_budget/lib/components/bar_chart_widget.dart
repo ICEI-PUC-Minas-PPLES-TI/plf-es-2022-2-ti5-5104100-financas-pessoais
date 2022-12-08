@@ -5,12 +5,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
-
-import 'package:we_budget/components/price_point.dart';
 import '../models/transactions.dart';
-
-import 'package:we_budget/components/price_point.dart';
 import 'package:we_budget/models/transactions.dart';
 
 class BarChartWidget extends StatefulWidget {
@@ -51,10 +46,6 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   List<BarChartGroupData> _chartGroups(
       List<TransactionModel> transactions, String periodo) {
     DateTime hoje = DateTime.now();
-    transactions.forEach((element) {
-      if (element.tipoTransacao == 1)
-        print(element.data.toString() + '   ' + element.valor.toString());
-    });
     switch (periodo) {
       case 'Máx':
         int qtd_total = transactions.length;
@@ -86,7 +77,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
 
         return points
             .map((point) => BarChartGroupData(
-                x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
+            x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
             .toList();
         break;
       case '1M':
@@ -135,10 +126,6 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             meses_distintos.add(element);
           }
         });
-
-        // print(dias);
-        // print(meses);
-        // print(meses_distintos);
         List<double> valores = List.filled(5, 0);
 
         transactions.forEach((transact) {
@@ -150,26 +137,18 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             int dia = int.parse(campos[2]);
             DateTime data_transact = DateTime(ano, mes, dia);
             DateTime data_param =
-                DateTime(anos[index], meses[index], dias[index]);
+            DateTime(anos[index], meses[index], dias[index]);
             if (transact.tipoTransacao == 1) {
               if (!(index == 0)) {
-                print(data_transact.difference(data_param).inDays.toString() +
-                    (data_param.difference(data_transact).inDays < 8)
-                        .toString());
                 if (data_transact.difference(data_param).inDays < 8 &&
                     data_param.month == data_transact.month) {
-                  print(data_transact.difference(data_param).inDays);
-                  print('adicionar ' +
-                      transact.valor.toString() +
-                      ' no dia' +
-                      data_param.toString());
                   valores[index] += transact.valor;
                 }
               } else {
                 DateTime dia_index =
-                    DateTime(anos[index], meses[index], dias[index]);
+                DateTime(anos[index], meses[index], dias[index]);
                 if (dia_index.difference(data_transact).inDays <
-                        data_transact.day &&
+                    data_transact.day &&
                     data_param.month == data_transact.month) {
                   valores[index] += transact.valor;
                 }
@@ -197,7 +176,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         });
         return points
             .map((point) => BarChartGroupData(
-                x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
+            x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
             .toList();
         break;
       case '3M':
@@ -246,10 +225,6 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             meses_distintos.add(element);
           }
         });
-
-        // print(dias);
-        // print(meses);
-        // print(meses_distintos);
         List<double> valores = List.filled(5, 0);
 
         transactions.forEach((transact) {
@@ -261,26 +236,18 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             int dia = int.parse(campos[2]);
             DateTime data_transact = DateTime(ano, mes, dia);
             DateTime data_param =
-                DateTime(anos[index], meses[index], dias[index]);
+            DateTime(anos[index], meses[index], dias[index]);
             if (transact.tipoTransacao == 1) {
               if (!(index == 0)) {
-                print(data_transact.difference(data_param).inDays.toString() +
-                    (data_param.difference(data_transact).inDays < 8)
-                        .toString());
                 if (data_transact.difference(data_param).inDays < 8 &&
                     data_param.month == data_transact.month) {
-                  print(data_transact.difference(data_param).inDays);
-                  print('adicionar ' +
-                      transact.valor.toString() +
-                      ' no dia' +
-                      data_param.toString());
                   valores[index] += transact.valor;
                 }
               } else {
                 DateTime dia_index =
-                    DateTime(anos[index], meses[index], dias[index]);
+                DateTime(anos[index], meses[index], dias[index]);
                 if (dia_index.difference(data_transact).inDays <
-                        data_transact.day &&
+                    data_transact.day &&
                     data_param.month == data_transact.month) {
                   valores[index] += transact.valor;
                 }
@@ -308,7 +275,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         });
         return points
             .map((point) => BarChartGroupData(
-                x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
+            x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
             .toList();
         break;
       case '6M':
@@ -357,10 +324,6 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             meses_distintos.add(element);
           }
         });
-
-        // print(dias);
-        // print(meses);
-        // print(meses_distintos);
         List<double> valores = List.filled(5, 0);
 
         transactions.forEach((transact) {
@@ -372,26 +335,18 @@ class _BarChartWidgetState extends State<BarChartWidget> {
             int dia = int.parse(campos[2]);
             DateTime data_transact = DateTime(ano, mes, dia);
             DateTime data_param =
-                DateTime(anos[index], meses[index], dias[index]);
+            DateTime(anos[index], meses[index], dias[index]);
             if (transact.tipoTransacao == 1) {
               if (!(index == 0)) {
-                print(data_transact.difference(data_param).inDays.toString() +
-                    (data_param.difference(data_transact).inDays < 8)
-                        .toString());
                 if (data_transact.difference(data_param).inDays < 8 &&
                     data_param.month == data_transact.month) {
-                  print(data_transact.difference(data_param).inDays);
-                  print('adicionar ' +
-                      transact.valor.toString() +
-                      ' no dia' +
-                      data_param.toString());
                   valores[index] += transact.valor;
                 }
               } else {
                 DateTime dia_index =
-                    DateTime(anos[index], meses[index], dias[index]);
+                DateTime(anos[index], meses[index], dias[index]);
                 if (dia_index.difference(data_transact).inDays <
-                        data_transact.day &&
+                    data_transact.day &&
                     data_param.month == data_transact.month) {
                   valores[index] += transact.valor;
                 }
@@ -419,7 +374,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         });
         return points
             .map((point) => BarChartGroupData(
-                x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
+            x: point.x.toInt(), barRods: [BarChartRodData(toY: point.y)]))
             .toList();
         break;
       case '1Y':
@@ -478,37 +433,36 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     final quarto_dia_f = formatador.format(quarto_dia);
     formatados.add(quarto_dia_f);
     formatados.add(formatador.format(hoje));
-    print('LISTA: ' + formatados.toString());
 
     return _bottomTitles(formatados);
   }
 
   SideTitles _bottomTitles(List<String> datas_formatadas) => SideTitles(
-        showTitles: true,
-        interval: 1,
-        getTitlesWidget: (value, meta) {
-          String text = ' ';
-          switch (value.toInt()) {
-            case 0:
-              text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-              break;
-            case 1:
-              text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-              break;
-            case 2:
-              text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-              break;
-            case 3:
-              text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-              break;
-            case 4:
-              text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-              break;
-          }
+    showTitles: true,
+    interval: 1,
+    getTitlesWidget: (value, meta) {
+      String text = ' ';
+      switch (value.toInt()) {
+        case 0:
+          text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+          break;
+        case 1:
+          text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+          break;
+        case 2:
+          text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+          break;
+        case 3:
+          text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+          break;
+        case 4:
+          text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+          break;
+      }
 
-          return Text(text);
-        },
-      );
+      return Text(text);
+    },
+  );
 }
 
 class PricePoint {

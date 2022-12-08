@@ -232,6 +232,35 @@ class RepositoryCategory with ChangeNotifier {
     return body;
   }
 
+  Future<Map<String, dynamic>> insertCategorySql(
+      CategoriaModel category) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'] ?? '123';
+
+    final id = category.id;
+    final url = 'https://webudgetpuc.azurewebsites.net/api/Category/$id';
+
+    final response = await client.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode >= 400) {
+      throw HttpException(
+        msg: 'Não foi possível inserir o produto.',
+        statusCode: response.statusCode,
+      );
+    }
+
+    Map<String, dynamic> body = json.decode(response.body);
+    print("Body is.....$body");
+    return body;
+  }
+
   Future<void> saveTransactionSql(Map<String, dynamic> categoryData) async {
     bool hasId = categoryData['Id'] != null;
 
