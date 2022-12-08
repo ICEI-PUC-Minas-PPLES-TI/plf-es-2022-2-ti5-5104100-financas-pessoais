@@ -1,19 +1,16 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WeBudgetWebAPI.Configurations;
 using WeBudgetWebAPI.Data;
-using WeBudgetWebAPI.DTOs;
 using WeBudgetWebAPI.DTOs.Request;
 using WeBudgetWebAPI.DTOs.Response;
 using WeBudgetWebAPI.Interfaces.Sevices;
 using WeBudgetWebAPI.Services;
 using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Generics;
-using WeBudgetWebAPI.Models;
 using WeBudgetWebAPI.Models.Entities;
 using WeBudgetWebAPI.Repository;
 using WeBudgetWebAPI.Repository.Generics;
@@ -21,7 +18,6 @@ using WeBudgetWebAPI.Repository.Generics;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -101,7 +97,7 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.AddSingleton(typeof(IGeneric<>),
     typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton(typeof(IMessageBrokerService<>),
-    typeof(MenssageBrokerService<>));
+    typeof(MessageBrokerService<>));
 builder.Services.AddScoped<IIdentityService,IdentityService>();
 builder.Services.AddSingleton<ICategory, RepositoryCategory>();
 builder.Services.AddSingleton<IBudget, RepositoryBudget>();

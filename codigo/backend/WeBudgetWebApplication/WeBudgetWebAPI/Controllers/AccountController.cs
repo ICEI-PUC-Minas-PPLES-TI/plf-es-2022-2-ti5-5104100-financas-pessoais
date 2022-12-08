@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeBudgetWebAPI.DTOs;
-using WeBudgetWebAPI.Interfaces;
 using WeBudgetWebAPI.Interfaces.Sevices;
 
 namespace WeBudgetWebAPI.Controllers;
@@ -22,20 +20,20 @@ public class AccountController: ControllerBase
     public async Task<ActionResult> List()
     {
         var userId = User.FindFirst("idUsuario")!.Value;
-        var accountList = await _accountService.ListByUser(userId);
-        if (accountList.Count == 0)
-            return NotFound("Contas não encontrada");
-        return Ok(accountList);
-        
+        var accountListResult = await _accountService.ListByUser(userId);
+        return accountListResult.IsFailure ? 
+            StatusCode(500, accountListResult.ErrorMenssage) : Ok(accountListResult.Data);
     }
 
     [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var account = await _accountService.GetEntityById(id);
-        if(account==null)
-            return NotFound("Conta não encontrado");
-        return Ok(account);
+        var accountResult = await _accountService.GetEntityById(id);
+        if (accountResult.IsFailure)
+            return StatusCode(500, accountResult.ErrorMenssage);
+        if (accountResult.NotFound)
+            return NotFound();
+        return Ok(accountResult.Data);
     }
 }

@@ -18,6 +18,7 @@ class TransacaoFormPage extends StatefulWidget {
 
 class _TransacaoFormPageState extends State<TransacaoFormPage> {
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   final Map<String, Object> _transactionData = {
     'IdTransaction': '',
@@ -27,8 +28,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     'TransactionDate': '',
     'PaymentValue': '',
     'PaymentType': '',
-    'Longitude': '',
-    'Latitude': '',
+    'Longitude': '-19.919052',
+    'Latitude': '-43.9386685',
     'Address': '',
   };
 
@@ -44,7 +45,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   String? dadosLoc;
 
   _recuperaDadosLocalizacao() async {
-    print("Entrou recupera dados localização");
     Map<String, dynamic> dados = await Store.getMap('localizacao');
     String latitude = dados['latitude'];
     String longitude = dados['longitude'];
@@ -53,19 +53,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     _transactionData['Longitude'] = longitude;
     _transactionData['Latitude'] = latitude;
     _transactionData['Address'] = address;
-
-    print("Dados....$latitude");
-    print("Dados....$longitude");
-    print("Dados....$address");
   }
 
   _recuperaDadosCategoria() async {
-    print("Entrou recupera dados categoria");
     Map<String, dynamic> dados = await Store.getMap('category');
     String category = dados['category'];
     _transactionData['Category'] = category;
 
-    print("Dados....$category");
     _submitForm();
   }
 
@@ -92,7 +86,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   Future<void> _submitForm() async {
-    print(_transactionData.toString());
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -101,11 +94,18 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
     _formKey.currentState?.save();
 
+    setState(
+      () => isLoading = true,
+    );
+
     RepositoryTransaction transaction = Provider.of(context, listen: false);
 
     try {
-      await transaction.saveTransactionSql(_transactionData);
+      await transaction.saveTransactionSql(_transactionData).then(
+          (value) => Navigator.of(context).pushNamed(AppRoutes.menuPrincipal));
     } on AuthException catch (error) {
+      print("Erro....");
+      print(error);
       _showErrorDialog(error.toString());
     } catch (error) {
       print("Erro....");
@@ -132,12 +132,9 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     //         address: _transactionData['Address'].toString()),
     //   ),
     // );
-
-    Navigator.of(context).pushNamed(AppRoutes.menuPrincipal);
   }
 
   void _loadFormData(TransactionModel transferencia) {
-    print(transferencia.idTransaction);
     _transactionData['IdTransaction'] = transferencia.idTransaction;
     _transactionData['Description'] = transferencia.name;
     _transactionData['Category'] = transferencia.categoria;
@@ -179,7 +176,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
-      print(data);
 
       if (page == 'listTransaction') {
         setState(() {
@@ -193,7 +189,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
       }
     } else {
       tipoTransaction = 0;
-      dropdownValue = list.first;
+      // dropdownValue = list.first;
       dateInput = TextEditingController();
     }
 
@@ -213,13 +209,13 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
         backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.only(right: 25, left: 25),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               Container(
-                margin: const EdgeInsetsDirectional.only(bottom: 20.0),
+                margin: const EdgeInsetsDirectional.only(bottom: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -241,7 +237,6 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       labels: const ['Receita', 'Despesa'],
                       radiusStyle: true,
                       onToggle: (index) {
-                        print(index);
                         if (index == 1) {
                           _transactionData['TransactionType'] = '1';
                         } else {
@@ -252,14 +247,22 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   ],
                 ),
               ),
-              TextButton(
+              ElevatedButton(
                 onPressed: () => {
                   Navigator.of(context).pushNamed(AppRoutes.listCategory,
                       arguments: "CreateTransaction"),
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 100,
+                    vertical: 10,
+                  ),
+                  fixedSize: const Size(290, 50),
+                  //backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 child: const Text(
                   "Selecionar categoria",
@@ -278,7 +281,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               // ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 9.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   initialValue: _transactionData['Description']?.toString(),
                   key: const ValueKey('Description'),
@@ -312,7 +315,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   controller: dateInput,
                   //initialValue: _transactionData['TransactionDate']?.toString(),
@@ -347,7 +350,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: TextFormField(
                   key: const ValueKey('PaymentValue'),
                   onChanged: (paymentValue) =>
@@ -383,7 +386,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 1.0, top: 25.0, right: 1.0, bottom: 0.0),
+                    left: 1.0, top: 20.0, right: 1.0, bottom: 0.0),
                 child: InputDecorator(
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -433,7 +436,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 textAlign: TextAlign.center,
               ),
               Container(
-                padding: const EdgeInsetsDirectional.only(top: 20.0),
+                padding: const EdgeInsetsDirectional.only(top: 25.0),
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
@@ -451,27 +454,29 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
               ),
               Container(
                 padding: const EdgeInsetsDirectional.only(top: 15.0),
-                child: ElevatedButton(
-                  // onPressed: _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 100,
-                      vertical: 20,
-                    ),
-                    fixedSize: const Size(290, 50),
-                    //backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  onPressed: () {
-                    _recuperaDadosLocalizacao();
-                    _recuperaDadosCategoria();
-                    //saveTransaction(_transactionData);
-                  },
-                  child: const Text('Registrar'),
-                ),
+                child: isLoading == true
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        // onPressed: _submit,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 100,
+                            vertical: 10,
+                          ),
+                          fixedSize: const Size(290, 50),
+                          //backgroundColor: Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          _recuperaDadosLocalizacao();
+                          _recuperaDadosCategoria();
+                          //saveTransaction(_transactionData);
+                        },
+                        child: const Text('Registrar'),
+                      ),
               ),
             ],
           ),

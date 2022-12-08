@@ -1,10 +1,12 @@
+using WeBudgetWebAPI.Models;
+
 namespace WeBudgetWebAPI.Interfaces.Generics;
 
 public interface IGeneric<T> where T : class
 {
-    Task<T> Add(T Objeto);
-    Task<T> Update(T Objeto);
-    Task Delete(T Objeto);
-    Task<T?> GetEntityById(int Id);
-    Task<List<T>> List();
+    Task<Result<T>> Add(T Objeto);
+    Task<Result<T>> Update(T Objeto);
+    Task<Result> Delete(T Objeto);
+    Task<Result<T>> GetEntityById(int Id);
+    Task<Result<List<T>>> List();
 }

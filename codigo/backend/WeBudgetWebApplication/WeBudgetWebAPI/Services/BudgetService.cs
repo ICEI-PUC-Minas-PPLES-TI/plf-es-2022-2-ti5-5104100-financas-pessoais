@@ -21,101 +21,109 @@ public class BudgetService:IBudgetService
         _messageBrokerService = messageBrokerService;
         _iTransaction = iTransaction;
     }
-
-    public async Task<Budget?> UpdateUsedValue(string userId, DateTime dateTime,
+    public async Task<Result<Budget>> UpdateUsedValue(string userId, DateTime dateTime,
         int categoryId, double value)
     {
-        var savedBudget = await _iBudget
+        var savedBudgetResult = await _iBudget
             .GetByUserTimeAndCategory(userId, dateTime, categoryId);
-        
-        if (savedBudget == null)
+        if (savedBudgetResult.IsFailure)
+            return savedBudgetResult;
+        if (savedBudgetResult.NotFound!)
         {
-            savedBudget = await CreateRecurrentBudget(userId, dateTime, categoryId);
-            
-            if (savedBudget == null)
-                return null;
+            savedBudgetResult = await CreateRecurrentBudget(userId, dateTime, categoryId);
+            if (savedBudgetResult.IsFailure)
+                return savedBudgetResult;
         }
-        savedBudget.BudgetValueUsed -= value;
-        
-        return await SendMenssage(OperationType.Update, 
-            await _iBudget.Update(savedBudget));
+        savedBudgetResult.Data!.BudgetValueUsed -= value;
+        var updatedBudgetResult = await _iBudget.Update(savedBudgetResult.Data!);
+        if (updatedBudgetResult.IsFailure)
+            return updatedBudgetResult;
+        await SendMessage(OperationType.Update, updatedBudgetResult.Data!);
+        return updatedBudgetResult;
     }
-
-    public async Task<Budget?> CreateRecurrentBudget(string userId, DateTime dateTime,
+    public async Task<Result<Budget>> CreateRecurrentBudget(string userId, DateTime dateTime,
         int categoryId)
     {
-        var lastMonthBudget = await _iBudget
+        var lastMonthBudgetResult = await _iBudget
             .GetByUserTimeAndCategory(userId, dateTime.AddMonths(-1),
                 categoryId);
-        
-        if (lastMonthBudget == null || lastMonthBudget.Active==false)
-            return null;
-        
-        return await SendMenssage(OperationType.Create,
-            await _iBudget.Add(new Budget()
+        if (lastMonthBudgetResult.IsFailure || lastMonthBudgetResult.NotFound)
+            return lastMonthBudgetResult;
+        if (lastMonthBudgetResult.Data!.Active == false)
+            return Result.NotFound<Budget>();
+        var cratedBudgetResult = await _iBudget.Add(new Budget()
         {
             UserId = userId,
             BudgetDate = dateTime,
             CategoryId = categoryId
 
-        }));
-
+        });
+        if (cratedBudgetResult.IsFailure)
+            return cratedBudgetResult;
+        await SendMessage(OperationType.Create,cratedBudgetResult.Data!);
+        return cratedBudgetResult;
     }
-
-    public async Task<Budget> Add(Budget budget)
+    public async Task<Result<Budget>> Add(Budget budget)
     {
-        var usedValue = await _iTransaction.SumTransaction(budget.UserId,
-            budget.BudgetDate);
-        budget.BudgetValueUsed = -usedValue;
-        return await SendMenssage(OperationType.Create,
-            await _iBudget.Add(budget));
+        var usedValueResult = await _iTransaction.SumTransaction(budget.UserId,
+            budget.BudgetDate, budget.CategoryId);
+        if (usedValueResult.IsFailure)
+            return Result.Fail<Budget>(usedValueResult.ErrorMenssage!);
+        budget.BudgetValueUsed = -usedValueResult.Data;
+        var addedBudgetResult = await _iBudget.Add(budget);
+        if (addedBudgetResult.IsFailure)
+            return Result.Fail<Budget>(addedBudgetResult.ErrorMenssage!);
+        await SendMessage(OperationType.Create, addedBudgetResult.Data!);
+        return addedBudgetResult;
     }
 
-    public async Task<Budget> Update(Budget budget)
+    public async Task<Result<Budget>> Update(Budget budget)
     {
-        return await SendMenssage(OperationType.Update,
-            await _iBudget.Update(budget));
+        var updatedBudgetResult = await _iBudget.Update(budget);
+        if (updatedBudgetResult.IsFailure)
+            return updatedBudgetResult;
+        await SendMessage(OperationType.Update, updatedBudgetResult.Data!);
+        return updatedBudgetResult;
     }
 
-    public async Task Delete(Budget budget)
+    public async Task<Result> Delete(Budget budget)
     {
-        await _iBudget.Delete(budget);
-        await SendMenssage(OperationType.Delete, budget);
+        var deleteResult = await _iBudget.Delete(budget);
+        if (deleteResult.IsFailure)
+            return deleteResult;
+        await SendMessage(OperationType.Delete, budget);
+        return deleteResult;
     }
 
-    public async Task<Budget?> GetEntityById(int id)
+    public async Task<Result<Budget>> GetEntityById(int id)
     {
         return await _iBudget.GetEntityById(id);
     }
 
-    public async Task<List<Budget>> List()
+    public async Task<Result<List<Budget>>> List()
     {
         return await _iBudget.List();
     }
 
-    public async Task<List<Budget>> ListByUser(string userId)
+    public async Task<Result<List<Budget>>> ListByUser(string userId)
     {
         return await _iBudget.ListByUser(userId);
     }
 
-    public async Task<List<Budget>> ListByUserAndTime(string userId, DateTime dateTime)
+    public async Task<Result<List<Budget>>> ListByUserAndTime(string userId, DateTime dateTime)
     {
         return await _iBudget.ListByUserAndTime(userId, dateTime);
     }
 
-    public async Task<Budget?> GetByUserTimeAndCategory(string userId, DateTime dateTime, int categoryId)
+    public async Task<Result<Budget>> GetByUserTimeAndCategory(string userId, DateTime dateTime,
+        int categoryId)
     {
         return await _iBudget.GetByUserTimeAndCategory(userId, dateTime, categoryId);
     }
 
-    private async Task<Budget> SendMenssage(OperationType operation, Budget budget)
+    private Task SendMessage(OperationType operation, Budget budget)
     {
-        return await _messageBrokerService.SendMenssage(new MenssageResponse<Budget>()
-        {
-            Table = TableType.Budget,
-            UserId = budget.UserId,
-            Operation = operation,
-            Object = budget
-        });
+        _messageBrokerService.SendMessage(TableType.Budget,operation,budget.UserId,budget);
+        return Task.CompletedTask;
     }
 }

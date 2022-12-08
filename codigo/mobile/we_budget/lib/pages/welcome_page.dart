@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
+import 'package:we_budget/components/app_drawer.dart';
 import 'package:we_budget/components/card_main_page_balanco.dart';
 import 'package:we_budget/components/card_main_page_receita.dart';
 import 'package:we_budget/models/auth.dart';
@@ -32,6 +33,27 @@ class _WelcomePageState extends State<WelcomePage> {
 
     final size = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.05),
+        child: AppBar(
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF923DF8),
+                  Color(0xFF4C94F8),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+            ),
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          elevation: 0.0,
+        ),
+      ),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -52,7 +74,7 @@ class _WelcomePageState extends State<WelcomePage> {
               height: double.infinity,
             ),
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(40, 65, 0, 5),
+              padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
               child: SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -61,27 +83,14 @@ class _WelcomePageState extends State<WelcomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        FutureBuilder(
-                          future: Provider.of<Auth>(context).nameUser(),
-                          builder: (context, snapshot) => snapshot
-                                      .connectionState ==
-                                  ConnectionState.waiting
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : Consumer<Auth>(
-                                  builder: (context, user, child) => Container(
-                                    margin: const EdgeInsetsDirectional.only(
-                                        bottom: 7.0),
-                                    child: Text(
-                                      'Olá ${user.name}!',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                        Consumer<Auth>(
+                          builder: (context, user, child) => Text(
+                            'Olá ${user.name}!',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -170,27 +179,20 @@ class _WelcomePageState extends State<WelcomePage> {
                           CardMainPageBalanco(title: "Balanço"),
                         ],
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(30, 0, 0, 5),
-                        child: Container(
-                          margin: const EdgeInsetsDirectional.only(top: 30),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text(
-                                    "Últimas transações",
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ],
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Últimas transações",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       )
                     ],
                   ),
@@ -198,7 +200,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 460),
+              padding: const EdgeInsets.only(top: 350),
               child: FutureBuilder(
                 future:
                     Provider.of<RepositoryTransaction>(context, listen: false)
@@ -254,6 +256,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       ),
+      drawer: const AppDrawer(),
     );
   }
 }

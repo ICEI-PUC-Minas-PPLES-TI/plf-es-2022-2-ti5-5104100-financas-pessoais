@@ -1,5 +1,3 @@
-import 'package:we_budget/pages/list_transactions_page.dart';
-
 class AppRoutes {
   static const authOrHome = '/';
   static const login = '/login';
@@ -11,4 +9,5 @@ class AppRoutes {
   static const listTransactions = 'transaction-page';
   static const createMeta = 'create-meta';
   static const menuPrincipal = 'menu-principal';
+  static const editDataUser = 'edit-user';
 }

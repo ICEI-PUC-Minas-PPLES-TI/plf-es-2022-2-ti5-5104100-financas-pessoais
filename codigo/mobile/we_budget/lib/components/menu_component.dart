@@ -2,20 +2,13 @@ import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:we_budget/components/pie_chart_widget.dart';
 import 'package:we_budget/components/pie_chart_widget2.dart';
-import 'package:we_budget/components/price_point.dart';
-
-import '../Repository/transaction_repository.dart';
-import '../models/transactions.dart';
 import '../pages/graficos_page.dart';
 import '../pages/list_transactions_page.dart';
 import '../pages/metas_page.dart';
 import '../pages/welcome_page.dart';
 import '../utils/app_routes.dart';
-import 'bar_chart_widget.dart';
-import 'line_chart_widget.dart';
 
 class MenuPrincipal extends StatelessWidget {
   const MenuPrincipal({
@@ -63,7 +56,7 @@ class MenuPrincipal extends StatelessWidget {
         FABBottomAppBarItem(
             activeIcon: const Icon(
               Icons.home,
-              color: const Color(0xFF923DF8),
+              color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
               Icons.home,
@@ -72,18 +65,18 @@ class MenuPrincipal extends StatelessWidget {
             text: 'Tela Inicial'),
         FABBottomAppBarItem(
             activeIcon: const Icon(
-              Icons.wallet_giftcard,
-              color: const Color(0xFF923DF8),
+              Icons.checklist_rounded,
+              color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
-              Icons.money_off,
+              Icons.checklist_rounded,
               color: Colors.white,
             ),
             text: 'Metas'),
         FABBottomAppBarItem(
             activeIcon: const Icon(
-              Icons.wallet_giftcard,
-              color: const Color(0xFF923DF8),
+              Icons.list,
+              color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
               Icons.list,
@@ -92,11 +85,11 @@ class MenuPrincipal extends StatelessWidget {
             text: 'Lista'),
         FABBottomAppBarItem(
             activeIcon: const Icon(
-              Icons.wallet_giftcard,
-              color: const Color(0xFF923DF8),
+              Icons.assessment_outlined,
+              color: Color(0xFF923DF8),
             ),
             inActiveIcon: const Icon(
-              Icons.wallet_giftcard,
+              Icons.assessment_outlined,
               color: Colors.white,
             ),
             text: 'Gráfico'),
@@ -115,8 +108,7 @@ class MenuPrincipal extends StatelessWidget {
           child: const ListTransactionsPage(),
         ),
         SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Graficos_page())
+            height: MediaQuery.of(context).size.height, child: Graficos_page())
       ],
       actionBarView: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -125,6 +117,7 @@ class MenuPrincipal extends StatelessWidget {
     );
   }
 }
+
 class SectorRow2 extends StatelessWidget {
   const SectorRow2(this.sector, {Key? key}) : super(key: key);
   final Sector2 sector;
@@ -139,7 +132,7 @@ class SectorRow2 extends StatelessWidget {
             backgroundColor: sector.color,
           ),
         ),
-        Padding(padding: EdgeInsets.only(left: 10.0)),
+        const Padding(padding: EdgeInsets.only(left: 10.0)),
         Text('R\$' + sector.value.toString() + '0'),
         const Spacer(),
         Text(sector.title),
@@ -147,7 +140,6 @@ class SectorRow2 extends StatelessWidget {
     );
   }
 }
-
 
 class SectorRow extends StatelessWidget {
   const SectorRow(this.sector, {Key? key}) : super(key: key);
@@ -163,7 +155,7 @@ class SectorRow extends StatelessWidget {
             backgroundColor: sector.color,
           ),
         ),
-        Padding(padding: EdgeInsets.only(left: 10.0)),
+        const Padding(padding: EdgeInsets.only(left: 10.0)),
         Text('R\$' + sector.value.toString() + '0'),
         const Spacer(),
         Text(sector.title),

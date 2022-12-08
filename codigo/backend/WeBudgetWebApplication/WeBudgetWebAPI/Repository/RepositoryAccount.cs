@@ -15,25 +15,45 @@ public class RepositoryAccount:RepositoryGenerics<Account>,IAccount
         _optionsBuilder = new DbContextOptions<IdentityDataContext>();
     }
 
-    public async Task<List<Account>> ListByUser(string userId)
+    public async Task<Result<List<Account>>> ListByUser(string userId)
     {
-        using (var data = new IdentityDataContext(_optionsBuilder))
+        try
         {
-            return await data.Set<Account>().Where(x => x.UserId == userId)
-                .ToListAsync();
+            await using (var data = new IdentityDataContext(_optionsBuilder))
+            {
+                var entityList = await data.Set<Account>()
+                    .Where(x => x.UserId == userId)
+                    .ToListAsync();
+                return Result.Ok<List<Account>>(entityList);
+            }
         }
+        catch (Exception e)
+        {
+            return Result.Fail<List<Account>>(e.Message);
+        }
+        
     }
 
-    public async Task<Account?> GetByUserAndTime(string userId, DateTime dateTime)
+    public async Task<Result<Account>> GetByUserAndTime(string userId, DateTime dateTime)
     {
-        using (var data = new IdentityDataContext(_optionsBuilder))
+        try
         {
-            return await data.Set<Account>()
-                .Where(x => x.UserId == userId 
-                            && x.AccountDateTime.Month == dateTime.Month 
-                            && x.AccountDateTime.Year == dateTime.Year)
-                .FirstOrDefaultAsync();
+            await using (var data = new IdentityDataContext(_optionsBuilder))
+            {
+                var entity = await data.Set<Account>()
+                    .Where(x => x.UserId == userId 
+                                && x.AccountDateTime.Month == dateTime.Month 
+                                && x.AccountDateTime.Year == dateTime.Year)
+                    .FirstOrDefaultAsync();
+                return entity == null ? 
+                    Result.NotFound<Account>() : Result.Ok(entity);
+            }
         }
+        catch (Exception e)
+        {
+            return Result.Fail<Account>(e.Message);
+        }
+        
     }
     
 }

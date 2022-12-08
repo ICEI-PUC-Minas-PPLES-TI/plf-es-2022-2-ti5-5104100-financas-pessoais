@@ -2,15 +2,15 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace WeBudgetWebAPI.Configurations;
 
-public class TokenJWT
+public class TokenJwt
 {
-    private JwtSecurityToken token;
-    internal  TokenJWT(JwtSecurityToken token)
+    private readonly JwtSecurityToken _token;
+    internal  TokenJwt(JwtSecurityToken token)
     {
-        this.token = token;
+        this._token = token;
     }
 
-    public DateTime ValidTo => token.ValidTo;
+    public DateTime ValidTo => _token.ValidTo;
 
-    public string value => new JwtSecurityTokenHandler().WriteToken(this.token);
+    public string value => new JwtSecurityTokenHandler().WriteToken(this._token);
 }
