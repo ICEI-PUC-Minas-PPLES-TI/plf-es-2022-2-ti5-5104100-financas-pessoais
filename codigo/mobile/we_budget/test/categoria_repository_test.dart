@@ -23,7 +23,7 @@ void main() {
       "iconCode": createCategoryData['codeCreateCategory'],
     };
 
-    final categoryRepository = RepositoryCategory('');
+    final categoryRepository = RepositoryCategory();
     categoryRepository.client = MockClient((request) async {
       return Response(jsonEncode(data), 200);
     });
@@ -43,7 +43,7 @@ void main() {
       "iconCode": categoryUpdate.codeCategoria,
     };
 
-    final categoryRepository = RepositoryCategory('');
+    final categoryRepository = RepositoryCategory();
     categoryRepository.client = MockClient((request) async {
       return Response(jsonEncode(data), 200);
     });
@@ -60,7 +60,7 @@ void main() {
       "iconCode": categoryDelete.codeCategoria,
     };
 
-    final categoryRepository = RepositoryCategory('');
+    final categoryRepository = RepositoryCategory();
     categoryRepository.client = MockClient((request) async {
       return Response(jsonEncode(data), 200);
     });
@@ -70,19 +70,18 @@ void main() {
 
   test("inserir categoria", () async {
     final categoryInsert =
-    CategoriaModel(id: '1', codeCategoria: '123', nameCategoria: 'delete');
+        CategoriaModel(id: '1', codeCategoria: '123', nameCategoria: 'delete');
 
     final data = {
       "description": categoryInsert.nameCategoria,
       "iconCode": categoryInsert.codeCategoria,
     };
 
-    final categoryRepository = RepositoryCategory('');
+    final categoryRepository = RepositoryCategory();
     categoryRepository.client = MockClient((request) async {
       return Response(jsonEncode(data), 200);
     });
     final item = await categoryRepository.insertCategorySql(categoryInsert);
     expect(item['description'], categoryInsert.nameCategoria);
   });
-
 }

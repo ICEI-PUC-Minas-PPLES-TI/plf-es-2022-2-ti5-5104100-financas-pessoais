@@ -8,7 +8,6 @@ import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
-
 import '../components/menu_component.dart';
 
 class Mqtt extends StatefulWidget {
@@ -32,7 +31,6 @@ class _MqttState extends State<Mqtt> {
 
   void _subscribeToTopic(String topic) {
     if (connectionState == MqttConnectionState.connected) {
-      // print('[MQTT 31 client] Subscribing to ${topic.trim()}');
       client!.subscribe(topic, MqttQos.exactlyOnce);
     }
   }
@@ -46,9 +44,6 @@ class _MqttState extends State<Mqtt> {
   String? userId;
   @override
   Widget build(BuildContext context) {
-    // Auth auth = Provider.of(context);
-    // userId = auth.userId;
-    // print("User id $userId");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tela inicial"),
@@ -58,17 +53,14 @@ class _MqttState extends State<Mqtt> {
   }
 
   void _connect() async {
-    // Auth auth = Provider.of(context);
-    // userId = auth.userId;
-    // print(userId);
     client!.port = port;
     client!.logging(on: true);
-    client!.keepAlivePeriod = 300;
+    client!.keepAlivePeriod = 3000;
     client!.onDisconnected = _onDisconnected;
     final MqttConnectMessage connMess = MqttConnectMessage()
         .withClientIdentifier(widget.userId)
         .startClean() // Non persistent session for testing
-        .withWillQos(MqttQos.atMostOnce);
+        .withWillQos(MqttQos.exactlyOnce);
     client!.connectionMessage = connMess;
 
     try {
@@ -77,9 +69,9 @@ class _MqttState extends State<Mqtt> {
       _disconnect();
     }
 
-    if (client!.connectionState == MqttConnectionState.connected) {
+    if (client!.connectionStatus!.state == MqttConnectionState.connected) {
       setState(() {
-        connectionState = client!.connectionState!;
+        connectionState = client!.connectionStatus!.state;
       });
     } else {
       _disconnect();
@@ -96,7 +88,7 @@ class _MqttState extends State<Mqtt> {
 
   void _onDisconnected() {
     setState(() {
-      connectionState = client!.connectionState!;
+      connectionState = client!.connectionStatus!.state;
       client = null;
       subscription!.cancel();
       subscription = null;
@@ -108,8 +100,8 @@ class _MqttState extends State<Mqtt> {
     final String message =
         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
     print('[MQTT client] MQTT message: topic is <${event[0].topic}>, '
-        'payload is <-- ${message} -->');
-    print(client!.connectionState);
+        'payload is <-- $message -->');
+    print(client!.connectionStatus!.state);
     print("[MQTT client] message with topic: ${event[0].topic}");
     print("[MQTT client] message with message: $message");
 

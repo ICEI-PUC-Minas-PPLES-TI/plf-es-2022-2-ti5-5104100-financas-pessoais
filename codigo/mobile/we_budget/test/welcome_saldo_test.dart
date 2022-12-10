@@ -11,17 +11,18 @@ import 'package:we_budget/models/transactions.dart';
 import 'package:we_budget/pages/welcome_page.dart';
 
 void main() {
-  testWidgets("Deve encontrar 9 Container`s na pagina de boas-vindas", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 9 Container`s na pagina de boas-vindas",
+      (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryAccount(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+          create: (_) => RepositoryCategory(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryTransaction('_token'),
+          create: (_) => RepositoryTransaction(),
         ),
         ChangeNotifierProvider(
           create: (_) => Auth(),
@@ -33,17 +34,18 @@ void main() {
     ));
     expect(find.byType(Container), findsNWidgets(18));
   });
-  testWidgets("Deve encontrar 13 Padding`s na pagina de boas-vindas", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 13 Padding`s na pagina de boas-vindas",
+      (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryAccount(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+          create: (_) => RepositoryCategory(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryTransaction('_token'),
+          create: (_) => RepositoryTransaction(),
         ),
         ChangeNotifierProvider(
           create: (_) => Auth(),

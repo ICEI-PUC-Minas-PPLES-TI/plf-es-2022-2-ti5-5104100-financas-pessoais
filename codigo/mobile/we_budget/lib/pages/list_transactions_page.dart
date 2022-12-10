@@ -69,9 +69,7 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
                 onToggle: (index) {
                   tipoTransferencia = index!;
                   //tipoTransferencia = index
-                  setState(() {
-                    print('switched to: $tipoTransferencia');
-                  });
+                  setState(() {});
                 },
               ),
               Padding(
@@ -168,128 +166,128 @@ class _FilterState extends State<Filter> {
     return FutureBuilder(
       future: Provider.of<RepositoryTransaction>(context, listen: false)
           .loadTransactionRepository2(
-          widget.tipoTransferencia, widget.filtroData),
+              widget.tipoTransferencia, widget.filtroData),
       builder: (ctx, snapshot) => snapshot.connectionState ==
-          ConnectionState.waiting
+              ConnectionState.waiting
           ? const Center(child: CircularProgressIndicator())
           : Consumer<RepositoryTransaction>(
-        child: const Center(
-          child: Text('Nenhum dado cadastrado!'),
-        ),
-        builder: (ctx, trasactionList, ch) =>
-        trasactionList.itemsCount == 0
-            ? ch!
-            : ListView.builder(
-          itemCount: trasactionList.itemsCount,
-          itemBuilder: (ctx, i) => Dismissible(
-            background: Container(
-              color: const Color(0xFF45CFF1),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const <Widget>[
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                    Text(
-                      " Editar",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                ),
+              child: const Center(
+                child: Text('Nenhum dado cadastrado!'),
               ),
+              builder: (ctx, trasactionList, ch) =>
+                  trasactionList.itemsCount == 0
+                      ? ch!
+                      : ListView.builder(
+                          itemCount: trasactionList.itemsCount,
+                          itemBuilder: (ctx, i) => Dismissible(
+                            background: Container(
+                              color: const Color(0xFF45CFF1),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const <Widget>[
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Text(
+                                      " Editar",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            secondaryBackground: Container(
+                              color: Colors.red,
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: const <Widget>[
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Text(
+                                      " Excluir",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onDismissed: (direction) async {
+                              if (direction == DismissDirection.endToStart) {
+                                Provider.of<RepositoryTransaction>(context,
+                                        listen: false)
+                                    .removeTransactionSql(trasactionList
+                                        .itemByIndex(i)
+                                        .idTransaction);
+                              } else {
+                                setState(() {
+                                  Map<String, dynamic> arguments = {
+                                    'page': 'listTransaction',
+                                    'itemByIndex':
+                                        trasactionList.itemByIndex(i),
+                                  };
+                                  Navigator.of(context).pushNamed(
+                                    AppRoutes.formTransaction,
+                                    arguments: arguments,
+                                  );
+                                });
+                              }
+                            },
+                            key: ValueKey(
+                                trasactionList.itemByIndex(i).idTransaction),
+                            child: ListTile(
+                              leading: Icon(
+                                IconData(
+                                    Provider.of<RepositoryCategory>(context,
+                                            listen: false)
+                                        .codeCategory(
+                                      trasactionList.itemByIndex(i).categoria,
+                                    ),
+                                    fontFamily: "MaterialIcons"),
+                              ),
+                              title: Text(trasactionList.itemByIndex(i).name),
+                              onTap: () {},
+                              subtitle: Text(
+                                DateFormat("dd/MM/yyyy").format(
+                                  DateTime.parse(
+                                      trasactionList.itemByIndex(i).data),
+                                ),
+                              ),
+                              trailing: Text(
+                                trasactionList
+                                    .itemByIndex(i)
+                                    .valor
+                                    .toStringAsFixed(2)
+                                    .replaceAll('.', ','),
+                              ),
+                            ),
+                          ),
+                        ),
             ),
-            secondaryBackground: Container(
-              color: Colors.red,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                    Text(
-                      " Excluir",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            onDismissed: (direction) async {
-              if (direction == DismissDirection.endToStart) {
-                Provider.of<RepositoryTransaction>(context,
-                    listen: false)
-                    .removeTransactionSql(trasactionList
-                    .itemByIndex(i)
-                    .idTransaction);
-              } else {
-                setState(() {
-                  Map<String, dynamic> arguments = {
-                    'page': 'listTransaction',
-                    'itemByIndex':
-                    trasactionList.itemByIndex(i),
-                  };
-                  Navigator.of(context).pushNamed(
-                    AppRoutes.formTransaction,
-                    arguments: arguments,
-                  );
-                });
-              }
-            },
-            key: ValueKey(
-                trasactionList.itemByIndex(i).idTransaction),
-            child: ListTile(
-              leading: Icon(
-                IconData(
-                    Provider.of<RepositoryCategory>(context,
-                        listen: false)
-                        .codeCategory(
-                      trasactionList.itemByIndex(i).categoria,
-                    ),
-                    fontFamily: "MaterialIcons"),
-              ),
-              title: Text(trasactionList.itemByIndex(i).name),
-              onTap: () {},
-              subtitle: Text(
-                DateFormat("dd/MM/yyyy").format(
-                  DateTime.parse(
-                      trasactionList.itemByIndex(i).data),
-                ),
-              ),
-              trailing: Text(
-                trasactionList
-                    .itemByIndex(i)
-                    .valor
-                    .toStringAsFixed(2)
-                    .replaceAll('.', ','),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

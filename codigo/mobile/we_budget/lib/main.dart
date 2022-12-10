@@ -12,6 +12,7 @@ import 'package:we_budget/pages/auth_or_home_page.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/create_meta.dart';
 import 'package:we_budget/pages/edit_data_login.dart';
+import 'package:we_budget/pages/init_page.dart';
 import 'package:we_budget/pages/list_category_page.dart';
 import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/location_form.dart';
@@ -19,7 +20,7 @@ import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/utils/app_routes.dart';
-import 'package:we_budget/utils/db_util.dart';
+import 'package:we_budget/utils/sqflite.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,10 +32,10 @@ class MyApp extends StatelessWidget {
     // await db.delete(DBHelper.tableCategoria);
     // await db.delete(DBHelper.tableTransaction);
     //await db.delete(DBHelper.tableMetas);
-    await RepositoryCategory('').selectCategoria();
-    await RepositoryTransaction('').selectTransaction();
+    await RepositoryCategory().selectCategoria();
+    await RepositoryTransaction().selectTransaction();
     await RepositoryMetas().selectMetas();
-    await RepositoryAccount('').selectAcount();
+    await RepositoryAccount().selectAcount();
   }
 
   const MyApp({Key? key}) : super(key: key);
@@ -42,28 +43,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Aplicação Inicial");
-    carregaBanco();
+    // carregaBanco();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryTransaction>(
-          create: (_) => RepositoryTransaction(''),
+          create: (_) => RepositoryTransaction(),
           update: (context, auth, previous) {
-            return RepositoryTransaction(auth.token ?? '');
+            return RepositoryTransaction();
           },
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryCategory>(
-          create: (_) => RepositoryCategory(''),
+          create: (_) => RepositoryCategory(),
           update: (context, auth, previous) {
-            return RepositoryCategory(auth.token ?? '');
+            return RepositoryCategory();
           },
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryAccount>(
-          create: (_) => RepositoryAccount(''),
+          create: (_) => RepositoryAccount(),
           update: (context, auth, previous) {
-            return RepositoryAccount(auth.token ?? '');
+            return RepositoryAccount();
           },
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryMetas>(
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
         ],
         debugShowCheckedModeBanner: false,
         routes: {
+          AppRoutes.initPage: (ctx) => const InitPage(),
           AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
           AppRoutes.login: (ctx) => const LoginPage(),
           AppRoutes.main: (ctx) => const MainPage(),

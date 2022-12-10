@@ -5,11 +5,12 @@ import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/components/card_main_page_balanco.dart';
 
 void main() {
-  testWidgets("Deve encontrar 4 Container's no widget card_main_page_balanco", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 4 Container's no widget card_main_page_balanco",
+      (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryAccount(),
         ),
       ],
       child: const MaterialApp(
@@ -19,4 +20,3 @@ void main() {
     expect(find.byType(Container), findsNWidgets(4));
   });
 }
-

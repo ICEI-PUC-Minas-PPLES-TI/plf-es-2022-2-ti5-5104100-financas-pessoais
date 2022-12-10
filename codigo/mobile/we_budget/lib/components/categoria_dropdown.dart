@@ -16,8 +16,6 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
   @override
   Widget build(BuildContext context) {
     Object? data = ModalRoute.of(context)!.settings.arguments;
-    print("Categoria selecioanda");
-    print(data);
 
     return InputDecorator(
       decoration: InputDecoration(

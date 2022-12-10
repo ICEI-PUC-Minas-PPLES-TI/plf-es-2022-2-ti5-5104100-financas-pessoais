@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:we_budget/components/auth_form.dart';
-
 import '../components/edit_auth_form.dart';
 
 class EditDataUser extends StatefulWidget {

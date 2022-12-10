@@ -72,7 +72,7 @@ class _LocationInputState extends State<LocationInput> {
           ),
           child: _previewImageUrl == null
               ? const Text('Localização não informada!')
-              : Container(
+              : SizedBox(
                   height: 350,
                   child: Image.network(
                     _previewImageUrl!,

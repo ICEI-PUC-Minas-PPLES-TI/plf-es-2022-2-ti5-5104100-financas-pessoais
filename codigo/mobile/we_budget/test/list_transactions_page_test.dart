@@ -8,21 +8,23 @@ import 'package:we_budget/components/card_main_page_balanco.dart';
 import 'package:we_budget/pages/list_transactions_page.dart';
 
 void main() {
-  testWidgets("Deve encontrar 12 Container`s na pagina de lista de transações", (WidgetTester tester) async {
-    await tester.pumpWidget(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+  testWidgets("Deve encontrar 12 Container`s na pagina de lista de transações",
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => RepositoryCategory(),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => RepositoryTransaction(),
+            ),
+          ],
+          child: const MaterialApp(
+            home: ListTransactionsPage(),
+          ),
         ),
-        ChangeNotifierProvider(
-          create: (_) => RepositoryTransaction('_token'),
-        ),
-      ],
-      child: const MaterialApp(
-        home: ListTransactionsPage(),
-      ),
-    ), Duration(seconds: 6));
+        Duration(seconds: 6));
     expect(find.byType(Container), findsNWidgets(12));
   });
 }
-

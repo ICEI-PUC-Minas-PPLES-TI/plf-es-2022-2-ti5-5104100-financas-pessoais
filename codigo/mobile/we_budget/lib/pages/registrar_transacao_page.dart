@@ -6,7 +6,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/models/transactions.dart';
 import '../Repository/transaction_repository.dart';
 import '../exceptions/auth_exception.dart';
-import '../models/store.dart';
+import '../utils/shared_preference.dart';
 import '../utils/app_routes.dart';
 
 class TransacaoFormPage extends StatefulWidget {
@@ -104,12 +104,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
       await transaction.saveTransactionSql(_transactionData).then(
           (value) => Navigator.of(context).pushNamed(AppRoutes.menuPrincipal));
     } on AuthException catch (error) {
-      print("Erro....");
-      print(error);
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Erro....");
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
 
@@ -298,8 +294,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                   textInputAction: TextInputAction.next,
                   onSaved: (description) =>
                       _transactionData['Description'] = description!,
-                  validator: (_name) {
-                    final name = _name ?? '';
+                  validator: (name2) {
+                    final name = name2 ?? '';
 
                     if (name.trim().isEmpty) {
                       return 'Nome é obrigatório.';

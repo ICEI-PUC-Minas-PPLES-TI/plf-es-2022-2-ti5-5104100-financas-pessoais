@@ -5,14 +5,11 @@ import 'package:http/http.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/categoria_model.dart';
 import '../exceptions/http_exception.dart';
-import '../models/store.dart';
-import '../utils/db_util.dart';
+import '../utils/shared_preference.dart';
+import '../utils/sqflite.dart';
 
 class RepositoryCategory with ChangeNotifier {
   List<CategoriaModel> _categories = [];
-  String _token;
-
-  RepositoryCategory(this._token);
 
   Client client = Client();
 
@@ -167,7 +164,6 @@ class RepositoryCategory with ChangeNotifier {
     );
 
     Map<String, dynamic> body = json.decode(response.body);
-    print("Body is.....$body");
     return body;
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
@@ -199,7 +195,6 @@ class RepositoryCategory with ChangeNotifier {
     );
 
     Map<String, dynamic> body = json.decode(response.body);
-    print("Body is.....$body");
     return body;
   }
 
@@ -228,7 +223,6 @@ class RepositoryCategory with ChangeNotifier {
     }
 
     Map<String, dynamic> body = json.decode(response.body);
-    print("Body is.....$body");
     return body;
   }
 
@@ -257,7 +251,6 @@ class RepositoryCategory with ChangeNotifier {
     }
 
     Map<String, dynamic> body = json.decode(response.body);
-    print("Body is.....$body");
     return body;
   }
 

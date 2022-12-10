@@ -3,13 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/transactions.dart';
 import '../exceptions/http_exception.dart';
-import '../models/store.dart';
-import '../utils/db_util.dart';
+import '../utils/shared_preference.dart';
+import '../utils/sqflite.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryTransaction with ChangeNotifier {
-  String _token;
-  RepositoryTransaction(this._token);
   List<TransactionModel> _items = [];
   double somaReceitas = 0;
   double somaDespesas = 0;
@@ -121,7 +119,6 @@ class RepositoryTransaction with ChangeNotifier {
         )
         .toList();
 
-    print("print 4: $filterDate");
     _items = _items
         .where((element) => element.tipoTransacao == typeTransaction)
         .toList();
@@ -223,9 +220,6 @@ class RepositoryTransaction with ChangeNotifier {
       ),
     );
 
-    print("Response.....");
-    int status = response.statusCode;
-    print("Response.....$status");
     // print(body);
     // final body = jsonDecode(response.body);
     // print(body);
@@ -237,8 +231,6 @@ class RepositoryTransaction with ChangeNotifier {
   Future<void> saveTransactionSql(Map<String, Object> transactionData) async {
     bool hasId = transactionData['IdTransaction'] != "";
     bool hasLatitude = transactionData['IdTransaction'] != "";
-    print(hasLatitude);
-    print(transactionData);
 
     final transaction = TransactionModel(
       idTransaction: hasId ? transactionData['IdTransaction'] as String : "",
@@ -258,8 +250,6 @@ class RepositoryTransaction with ChangeNotifier {
     if (hasId) {
       await updateTransactionSql(transaction);
     } else {
-      print("Entrou create");
-      print(transaction);
       await createTransactionSql(transaction);
     }
   }
@@ -293,8 +283,6 @@ class RepositoryTransaction with ChangeNotifier {
         },
       ),
     );
-
-    print(response.body);
   }
 
   Future<void> removeTransactionSql(String idTransaction) async {
@@ -313,12 +301,12 @@ class RepositoryTransaction with ChangeNotifier {
       },
     );
 
-    if (response.statusCode >= 400) {
-      throw HttpException(
-        msg: 'Não foi possível excluir o produto.',
-        statusCode: response.statusCode,
-      );
-    }
+    // if (response.statusCode >= 400) {
+    //   throw HttpException(
+    //     msg: 'Não foi possível excluir o produto.',
+    //     statusCode: response.statusCode,
+    //   );
+    // }
   }
 
   void saveTransactionSqflite(Map<String, dynamic> object, String operacao) {
