@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:we_budget/models/store.dart';
+import 'package:we_budget/utils/shared_preference.dart';
 
 import '../exceptions/auth_exception.dart';
 

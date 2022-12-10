@@ -7,8 +7,6 @@ import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/metas_repository.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
-import '../Repository/transaction_repository.dart';
-
 class MetasPage extends StatefulWidget {
   const MetasPage({super.key});
 
@@ -57,12 +55,14 @@ class _MetasPage extends State<MetasPage> {
                   ),
                   actions: [
                     Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(0, 7, 10, 10),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 7, 10, 10),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all(const CircleBorder()),
-                          backgroundColor:
-                              MaterialStateProperty.all(const Color(0xFF5B4BF8)),
+                          shape:
+                              MaterialStateProperty.all(const CircleBorder()),
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xFF5B4BF8)),
                         ),
                         child: const Icon(
                           Icons.add,
@@ -112,7 +112,6 @@ class _MetasPage extends State<MetasPage> {
                           formattedDate =
                               DateFormat("yyyy-MM").format(pickedDate!);
                         });
-                        print(formattedDate);
                       }
                     },
                     child: const Text(

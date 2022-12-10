@@ -124,8 +124,8 @@ class _AuthFormState extends State<AuthForm> {
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       onSaved: (name) => _authData['name'] = name ?? '',
-                      validator: (_name) {
-                        final name = _name ?? '';
+                      validator: (name2) {
+                        final name = name2 ?? '';
                         if (name.trim().isEmpty) {
                           return 'Dados inválidos';
                         }
@@ -146,8 +146,8 @@ class _AuthFormState extends State<AuthForm> {
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     onSaved: (email) => _authData['email'] = email ?? '',
-                    validator: (_email) {
-                      final email = _email ?? '';
+                    validator: (email2) {
+                      final email = email2 ?? '';
                       if (email.trim().isEmpty || !email.contains('@')) {
                         return 'Informe um e-mail válido';
                       }
@@ -170,8 +170,8 @@ class _AuthFormState extends State<AuthForm> {
                     controller: _passwordController,
                     onSaved: (password) =>
                         _authData['password'] = password ?? '',
-                    validator: (_password) {
-                      final password = _password ?? '';
+                    validator: (password2) {
+                      final password = password2 ?? '';
                       if (password.isEmpty || password.length < 3) {
                         return 'Informe uma senha válida';
                       }
@@ -192,8 +192,8 @@ class _AuthFormState extends State<AuthForm> {
                       obscureText: true,
                       validator: _isLogin()
                           ? null
-                          : (_password) {
-                              final password = _password ?? '';
+                          : (password2) {
+                              final password = password2 ?? '';
                               if (password != _passwordController.text) {
                                 return 'Senhas informadas não conferem.';
                               }

@@ -6,7 +6,7 @@ import 'package:we_budget/Repository/metas_repository.dart';
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/metas.dart';
-import '../models/store.dart';
+import '../utils/shared_preference.dart';
 import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
@@ -238,9 +238,9 @@ class _CreateMetasState extends State<CreateMeta> {
                   ),
                 ),
               ),
-              Container(
+              const SizedBox(
                 height: 20.0,
-                child: const Text("Transação recorrente"),
+                child: Text("Transação recorrente"),
               ),
               FlutterSwitch(
                 activeColor: const Color(0xFF45CFF1),

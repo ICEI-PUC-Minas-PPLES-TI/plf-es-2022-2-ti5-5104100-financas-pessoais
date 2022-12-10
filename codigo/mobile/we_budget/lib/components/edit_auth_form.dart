@@ -47,7 +47,6 @@ class _UpdateAuthDataState extends State<UpdateAuthData> {
     setState(
       () => _isLoading = true,
     );
-    print(_authData);
 
     try {
       await auth
@@ -60,8 +59,6 @@ class _UpdateAuthDataState extends State<UpdateAuthData> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Error...");
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
   }
@@ -94,8 +91,8 @@ class _UpdateAuthDataState extends State<UpdateAuthData> {
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   onSaved: (name) => _authData['name'] = name ?? '',
-                  validator: (_name) {
-                    final name = _name ?? '';
+                  validator: (name2) {
+                    final name = name2 ?? '';
                     if (name.trim().isEmpty) {
                       return 'Dados inválidos';
                     }

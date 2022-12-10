@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/metas.dart';
 import '../exceptions/http_exception.dart';
-import '../models/store.dart';
-import '../utils/db_util.dart';
+import '../utils/shared_preference.dart';
+import '../utils/sqflite.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryMetas with ChangeNotifier {
@@ -238,7 +238,6 @@ class RepositoryMetas with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print(body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
     // }

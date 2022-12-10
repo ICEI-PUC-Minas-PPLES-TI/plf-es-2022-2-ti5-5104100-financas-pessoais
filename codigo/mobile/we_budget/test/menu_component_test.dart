@@ -6,23 +6,21 @@ import 'package:we_budget/Repository/account_repository.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/components/menu_component.dart';
-import 'package:we_budget/components/pie_chart_widget.dart';
-import 'package:we_budget/components/pie_chart_widget2.dart';
-import 'package:we_budget/components/welcome_saldo.dart';
 import 'package:we_budget/models/auth.dart';
 
 void main() {
-  testWidgets("Deve encontrar 1 CurvedNavBar no widget menu_component", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 1 CurvedNavBar no widget menu_component",
+      (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+          create: (_) => RepositoryCategory(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryAccount(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryTransaction('_token'),
+          create: (_) => RepositoryTransaction(),
         ),
         ChangeNotifierProvider(
           create: (_) => Auth(),
@@ -34,17 +32,18 @@ void main() {
     ));
     expect(find.byType(CurvedNavBar), findsOneWidget);
   });
-  testWidgets("Deve encontrar 7 Row's no widget menu_component", (WidgetTester tester) async {
+  testWidgets("Deve encontrar 7 Row's no widget menu_component",
+      (WidgetTester tester) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RepositoryCategory('_token'),
+          create: (_) => RepositoryCategory(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryAccount('_token'),
+          create: (_) => RepositoryAccount(),
         ),
         ChangeNotifierProvider(
-          create: (_) => RepositoryTransaction('_token'),
+          create: (_) => RepositoryTransaction(),
         ),
         ChangeNotifierProvider(
           create: (_) => Auth(),

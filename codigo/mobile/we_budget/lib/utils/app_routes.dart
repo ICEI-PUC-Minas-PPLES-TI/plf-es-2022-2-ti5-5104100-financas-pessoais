@@ -1,5 +1,6 @@
 class AppRoutes {
-  static const authOrHome = '/';
+  static const initPage = '/';
+  static const authOrHome = 'auth-or-home';
   static const login = '/login';
   static const main = '/main';
   static const formTransaction = '/record-transactions';
