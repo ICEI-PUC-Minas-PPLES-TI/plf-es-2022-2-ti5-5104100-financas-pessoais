@@ -44,11 +44,8 @@ class _MqttState extends State<Mqtt> {
   String? userId;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tela inicial"),
-      ),
-      bottomNavigationBar: const MenuPrincipal(),
+    return const Scaffold(
+      bottomNavigationBar: MenuPrincipal(),
     );
   }
 
