@@ -21,6 +21,7 @@ import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
 import 'package:we_budget/utils/app_routes.dart';
 import 'package:we_budget/utils/sqflite.dart';
+import 'package:we_budget/utils/update_local_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,14 +29,16 @@ void main() {
 
 class MyApp extends StatelessWidget {
   void carregaBanco() async {
+    print("entrou");
     Database db = await DBHelper.instance.database;
-    // await db.delete(DBHelper.tableCategoria);
-    // await db.delete(DBHelper.tableTransaction);
-    //await db.delete(DBHelper.tableMetas);
-    await RepositoryCategory().selectCategoria();
-    await RepositoryTransaction().selectTransaction();
-    await RepositoryMetas().selectMetas();
-    await RepositoryAccount().selectAcount();
+    await db.delete(DBHelper.tableCategoria);
+    await db.delete(DBHelper.tableTransaction);
+    await db.delete(DBHelper.tableMetas);
+    await db.delete(DBHelper.tableAccount);
+    // await RepositoryCategory().selectCategoria();
+    // await RepositoryTransaction().selectTransaction();
+    // await RepositoryMetas().selectMetas();
+    // await RepositoryAccount().selectAcount();
   }
 
   const MyApp({Key? key}) : super(key: key);
@@ -71,6 +74,12 @@ class MyApp extends StatelessWidget {
           create: (_) => RepositoryMetas(),
           update: (context, auth, previous) {
             return RepositoryMetas();
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, UpdateLocalDatabase>(
+          create: (_) => UpdateLocalDatabase(),
+          update: (context, auth, previous) {
+            return UpdateLocalDatabase();
           },
         ),
       ],
