@@ -11,4 +11,5 @@ class AppRoutes {
   static const createMeta = 'create-meta';
   static const menuPrincipal = 'menu-principal';
   static const editDataUser = 'edit-user';
+  static const carroselTutorial = 'carrossel-tutorial';
 }

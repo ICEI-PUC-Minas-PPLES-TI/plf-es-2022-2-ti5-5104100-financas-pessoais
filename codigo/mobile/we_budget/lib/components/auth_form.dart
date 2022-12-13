@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../exceptions/auth_exception.dart';
 import '../models/auth.dart';
+import '../utils/app_routes.dart';
 
 enum AuthMode { signup, login }
 
@@ -124,8 +125,8 @@ class _AuthFormState extends State<AuthForm> {
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       onSaved: (name) => _authData['name'] = name ?? '',
-                      validator: (name2) {
-                        final name = name2 ?? '';
+                      validator: (_name) {
+                        final name = _name ?? '';
                         if (name.trim().isEmpty) {
                           return 'Dados inválidos';
                         }
@@ -146,8 +147,8 @@ class _AuthFormState extends State<AuthForm> {
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     onSaved: (email) => _authData['email'] = email ?? '',
-                    validator: (email2) {
-                      final email = email2 ?? '';
+                    validator: (_email) {
+                      final email = _email ?? '';
                       if (email.trim().isEmpty || !email.contains('@')) {
                         return 'Informe um e-mail válido';
                       }
@@ -170,8 +171,8 @@ class _AuthFormState extends State<AuthForm> {
                     controller: _passwordController,
                     onSaved: (password) =>
                         _authData['password'] = password ?? '',
-                    validator: (password2) {
-                      final password = password2 ?? '';
+                    validator: (_password) {
+                      final password = _password ?? '';
                       if (password.isEmpty || password.length < 3) {
                         return 'Informe uma senha válida';
                       }
@@ -192,8 +193,8 @@ class _AuthFormState extends State<AuthForm> {
                       obscureText: true,
                       validator: _isLogin()
                           ? null
-                          : (password2) {
-                              final password = password2 ?? '';
+                          : (_password) {
+                              final password = _password ?? '';
                               if (password != _passwordController.text) {
                                 return 'Senhas informadas não conferem.';
                               }
@@ -239,6 +240,26 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                 ),
+                if (!_isSignup())
+                  Container(
+                    margin: const EdgeInsetsDirectional.only(top: 15.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        fixedSize: const Size(200, 20),
+                        backgroundColor: Color(0xFF4C94F8),
+                      ),
+                      child: const Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          child: Text("TUTORIAL WEBUDGET")),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.carroselTutorial);
+                      },
+                    ),
+                  ),
               ],
             ),
           ),

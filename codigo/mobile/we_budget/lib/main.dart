@@ -9,6 +9,7 @@ import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/components/menu_component.dart';
 import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
+import 'package:we_budget/pages/carrossel_page.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/create_meta.dart';
 import 'package:we_budget/pages/edit_data_login.dart';
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.createMeta: (ctx) => const CreateMeta(),
           AppRoutes.menuPrincipal: (ctx) => const MenuPrincipal(),
           AppRoutes.editDataUser: (ctx) => const EditDataUser(),
+          AppRoutes.carroselTutorial: (ctx) => const CarroselTutorial(),
         },
       ),
     );
