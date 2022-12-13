@@ -28,7 +28,7 @@ class _InitPageState extends State<InitPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFF4F4F4),
       ),
       child: Center(
         child: Image.asset('assets/logo.jpeg'),

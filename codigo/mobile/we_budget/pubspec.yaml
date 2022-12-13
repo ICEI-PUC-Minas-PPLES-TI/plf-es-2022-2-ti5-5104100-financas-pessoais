@@ -48,6 +48,7 @@ dependencies:
   test: ^1.6.1
   mockito: ^5.3.2
   dio: ^4.0.6
+  carousel_images: ^1.1.2
 
   
   # The following adds the Cupertino Icons font to your application.
@@ -81,6 +82,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - imagens/1.png
+    - imagens/2.png
+    - imagens/3.png
+    - imagens/4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
