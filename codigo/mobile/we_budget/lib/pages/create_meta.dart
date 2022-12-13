@@ -6,7 +6,7 @@ import 'package:we_budget/Repository/metas_repository.dart';
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/metas.dart';
-import '../models/store.dart';
+import '../utils/shared_preference.dart';
 import '../utils/app_routes.dart';
 
 class CreateMeta extends StatefulWidget {
@@ -25,6 +25,7 @@ class _CreateMetasState extends State<CreateMeta> {
     'active': false,
   };
   int? codeCreateMeta = 984405;
+  bool isLoading = false;
 
   void _showErrorDialog(String msg) {
     showDialog(
@@ -43,23 +44,23 @@ class _CreateMetasState extends State<CreateMeta> {
   }
 
   _recuperaDadosCategoria() async {
-    print("Entrou recupera dados categoria");
     Map<String, dynamic> dados = await Store.getMap('category');
     String category = dados['category'];
     createMetasData['CategoryId'] = category;
-
-    print("Dados....$createMetasData");
 
     _submitCreateMeta();
   }
 
   Future<void> _submitCreateMeta() async {
     final isValid = _formKeyCreateMeta.currentState?.validate() ?? false;
-    print(createMetasData);
     if (!isValid) {
       return;
     }
     _formKeyCreateMeta.currentState?.save();
+
+    setState(
+      () => isLoading = true,
+    );
     RepositoryMetas metas = Provider.of(context, listen: false);
 
     try {
@@ -69,7 +70,6 @@ class _CreateMetasState extends State<CreateMeta> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Erro 123: $error");
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
   }
@@ -97,7 +97,6 @@ class _CreateMetasState extends State<CreateMeta> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
-      print("1: $data");
 
       if (page == 'listMeta') {
         _loadFormDataMeta(data as MetasModel);
@@ -154,7 +153,7 @@ class _CreateMetasState extends State<CreateMeta> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               Column(
                 children: const [
@@ -170,7 +169,7 @@ class _CreateMetasState extends State<CreateMeta> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Form(
                   key: _formKeyCreateMeta,
                   child: Column(
@@ -206,10 +205,10 @@ class _CreateMetasState extends State<CreateMeta> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
-                        height: 70,
+                        height: 10,
                       ),
                       Container(
-                        margin: const EdgeInsetsDirectional.only(bottom: 30.0),
+                        margin: const EdgeInsetsDirectional.only(bottom: 1.0),
                         child: TextFormField(
                           initialValue:
                               createMetasData['budgetValue'].toString(),
@@ -239,9 +238,9 @@ class _CreateMetasState extends State<CreateMeta> {
                   ),
                 ),
               ),
-              Container(
-                height: 40.0,
-                child: const Text("Transação recorrente"),
+              const SizedBox(
+                height: 20.0,
+                child: Text("Transação recorrente"),
               ),
               FlutterSwitch(
                 activeColor: const Color(0xFF45CFF1),
@@ -266,31 +265,34 @@ class _CreateMetasState extends State<CreateMeta> {
                 },
               ),
               const SizedBox(
-                height: 40,
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: _recuperaDadosCategoria,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                    if (isLoading)
+                      const CircularProgressIndicator()
+                    else
+                      ElevatedButton(
+                        onPressed: _recuperaDadosCategoria,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          fixedSize: const Size(290, 40),
+                          backgroundColor:
+                              const Color.fromARGB(255, 102, 91, 196),
                         ),
-                        fixedSize: const Size(290, 40),
-                        backgroundColor:
-                            const Color.fromARGB(255, 102, 91, 196),
-                      ),
-                      child: const Text(
-                        "Cadastrar",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
+                        child: const Text(
+                          "Cadastrar",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/metas.dart';
 import '../exceptions/http_exception.dart';
-import '../models/store.dart';
-import '../utils/db_util.dart';
+import '../utils/shared_preference.dart';
+import '../utils/sqflite.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryMetas with ChangeNotifier {
@@ -55,6 +55,57 @@ class RepositoryMetas with ChangeNotifier {
     return retorno;
   }
 
+  Future<int> getMetasSql() async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String token = userData['token'];
+    const url = 'https://webudgetpuc.azurewebsites.net/api/Budget';
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    List<dynamic> body = json.decode(response.body);
+
+    return body.length;
+  }
+
+  Future<List<MetasModel>> selectMetas2(String filterDate) async {
+    Database db = await DBHelper.instance.database;
+    List<Map> metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
+
+    if (metas.isEmpty) {
+      await _carregaTabela();
+    }
+    List<MetasModel> retorno = [];
+    metas = await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
+
+    for (var meta in metas) {
+      retorno.add(
+        MetasModel(
+          idMeta: meta[DBHelper.idMeta],
+          idCategoria: meta[DBHelper.idCategoria],
+          dataMeta: meta[DBHelper.dataMeta],
+          valorMeta: meta[DBHelper.valorMeta],
+          valorAtual: meta[DBHelper.valorAtual],
+          recorrente: meta[DBHelper.recorrente] == "false" ? false : true,
+        ),
+      );
+    }
+
+    _itemsMeta = retorno;
+
+    _itemsMeta = _itemsMeta
+        .where((element) => element.dataMeta.substring(0, 7) == filterDate)
+        .toList();
+
+    notifyListeners();
+    return retorno;
+  }
+
   Future<void> _carregaTabela() async {
     // MetasModel meta1 = MetasModel(
     //   idCategoria: "15",
@@ -88,32 +139,10 @@ class RepositoryMetas with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadMetasRepository2(String filterDate) async {
-    Database db = await DBHelper.instance.database;
-    List<Map> dataList =
-        await db.rawQuery("SELECT * FROM ${DBHelper.tableMetas}");
-    _itemsMeta = dataList
-        .map(
-          (item) => MetasModel(
-            idCategoria: item['idCategoria'],
-            idMeta: item['idMeta'],
-            dataMeta: item['dataMeta'],
-            valorMeta: item['valorMeta'],
-            valorAtual: item['valorAtual'],
-            recorrente: item['recorrente'],
-          ),
-        )
-        .toList();
-
-    _itemsMeta =
-        _itemsMeta.where((element) => element.dataMeta == filterDate).toList();
-    notifyListeners();
-  }
-
   Future<void> saveMetaSql(Map<String, dynamic> metasData) async {
     bool hasId = metasData['IdMeta'] != null;
     bool hasVarlorAtual = metasData['valorAtual'] != null;
-    print("Id....$hasId");
+
     final metas = MetasModel(
       idMeta: hasId ? metasData['IdMeta'].toString() : "",
       idCategoria: metasData['CategoryId'].toString(),
@@ -124,11 +153,8 @@ class RepositoryMetas with ChangeNotifier {
     );
 
     if (hasId) {
-      print("Entrou update");
       await updateMetaSql(metas);
     } else {
-      print("Entrou create");
-      print(metas);
       await createMetaSql(metas);
     }
   }
@@ -192,8 +218,6 @@ class RepositoryMetas with ChangeNotifier {
     Map<String, dynamic> userData = await Store.getMap('userData');
     String token = userData['token'];
     String userId = userData['userId'];
-
-    print("entrei Nataniel $meta");
     const url = 'https://webudgetpuc.azurewebsites.net/api/Budget/Add';
     final response = await http.post(
       Uri.parse(url),
@@ -213,8 +237,6 @@ class RepositoryMetas with ChangeNotifier {
       ),
     );
 
-    print("Entrou Nataniel 2");
-    print("Entrei Nataniel 3: ${response.body}");
     final body = jsonDecode(response.body);
     // if (body['sucesso'] != true) {
     //   throw AuthException(body['erros'].toString());
@@ -260,7 +282,7 @@ class RepositoryMetas with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
     );
-    print("Remove Meta Nataniel ------ $idMeta");
+
     if (response.statusCode >= 400) {
       throw HttpException(
         msg: 'Não foi possível excluir o produto.',

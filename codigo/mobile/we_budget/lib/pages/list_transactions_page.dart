@@ -46,86 +46,78 @@ class _ListTransactionsPageState extends State<ListTransactionsPage> {
               end: Alignment.centerRight,
             ),
           ),
-          margin: const EdgeInsetsDirectional.only(top: 20.0),
-          child: Container(
-            margin: const EdgeInsetsDirectional.only(top: 30.0),
-            child: Column(
-              children: [
-                ToggleSwitch(
-                  minWidth: 140.0,
-                  minHeight: 26.0,
-                  cornerRadius: 20.0,
-                  activeBgColors: const [
-                    [Color(0xFF1B1C30)],
-                    [Color(0xFF1B1C30)]
-                  ],
-                  borderWidth: 5,
-                  activeFgColor: Colors.white,
-                  inactiveBgColor: const Color.fromARGB(73, 158, 158, 158),
-                  inactiveFgColor: Colors.white,
-                  initialLabelIndex: tipoTransferencia,
-                  fontSize: 15,
-                  totalSwitches: 2,
-                  labels: const ['Receita', 'Despesa'],
-                  radiusStyle: true,
-                  onToggle: (index) {
-                    tipoTransferencia = index!;
-                    //tipoTransferencia = index
-                    setState(() {
-                      print('switched to: $tipoTransferencia');
-                    });
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 1.0, top: 0.0, right: 1.0, bottom: 5.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1B1C30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      fixedSize: const Size(200, 10),
+          margin: const EdgeInsetsDirectional.only(top: 9.0),
+          child: Column(
+            children: [
+              ToggleSwitch(
+                minWidth: 140.0,
+                minHeight: 26.0,
+                cornerRadius: 20.0,
+                activeBgColors: const [
+                  [Color(0xFF1B1C30)],
+                  [Color(0xFF1B1C30)]
+                ],
+                borderWidth: 5,
+                activeFgColor: Colors.white,
+                inactiveBgColor: const Color.fromARGB(73, 158, 158, 158),
+                inactiveFgColor: Colors.white,
+                initialLabelIndex: tipoTransferencia,
+                fontSize: 15,
+                totalSwitches: 2,
+                labels: const ['Receita', 'Despesa'],
+                radiusStyle: true,
+                onToggle: (index) {
+                  tipoTransferencia = index!;
+                  //tipoTransferencia = index
+                  setState(() {});
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 1.0, top: 0.0, right: 1.0, bottom: 10.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1B1C30),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    onPressed: () async {
-                      print("entrei");
-                      pickedDate = await showMonthYearPicker(
-                        context: context,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2050),
-                        builder: (context, child) {
-                          return SizedBox(
-                            child: Theme(
-                              data: Theme.of(context).copyWith(
-                                colorScheme: const ColorScheme.light(),
-                                textButtonTheme: TextButtonThemeData(
-                                    style: TextButton.styleFrom()),
-                              ),
-                              child: child!,
+                    fixedSize: const Size(200, 10),
+                  ),
+                  onPressed: () async {
+                    pickedDate = await showMonthYearPicker(
+                      context: context,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                      builder: (context, child) {
+                        return SizedBox(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: const ColorScheme.light(),
+                              textButtonTheme: TextButtonThemeData(
+                                  style: TextButton.styleFrom()),
                             ),
-                          );
-                        },
-                        initialDate: DateTime.now(),
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          print("Data selecionada: $dataSelecionada");
-                          formattedDate =
-                              DateFormat("yyyy-MM").format(pickedDate!);
-                        });
-                        print(formattedDate);
-                      }
-                    },
-                    child: const Text(
-                      'Filtrar Data',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
+                            child: child!,
+                          ),
+                        );
+                      },
+                      initialDate: DateTime.now(),
+                    );
+                    if (pickedDate != null) {
+                      setState(() {
+                        formattedDate =
+                            DateFormat("yyyy-MM").format(pickedDate!);
+                      });
+                    }
+                  },
+                  child: const Text(
+                    'Filtrar Data',
+                    style: TextStyle(
+                      fontSize: 14,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

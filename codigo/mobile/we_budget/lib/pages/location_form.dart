@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:we_budget/models/store.dart';
+import 'package:we_budget/utils/shared_preference.dart';
 import 'package:we_budget/utils/location_util.dart';
 import '../components/location_input.dart';
 
@@ -27,15 +27,12 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
 
   void _submitForm() async {
     if (!_isValidForm()) return;
-    print(_pickedPosition);
     /*Provider.of<TransactionsProviders>(context, listen: false).addTransaction(
       _titleController.text,
       _pickedImage!,
       _pickedPosition!,
     );*/
-    print("Endereço");
     String address = await LocationUtil.getAddressFrom(_pickedPosition!);
-    print(address);
 
     Store.saveMap(
       'localizacao',

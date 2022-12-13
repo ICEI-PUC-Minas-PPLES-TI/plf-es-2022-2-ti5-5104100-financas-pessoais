@@ -1,32 +1,13 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:intl/intl.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
 import 'package:we_budget/components/pie_chart_widget.dart';
-import 'package:we_budget/models/categoria_model.dart';
-import 'package:we_budget/models/categoria_model.dart';
 import 'package:we_budget/models/transactions.dart';
-import 'package:we_budget/pages/location_form.dart';
-
 import '../Repository/transaction_repository.dart';
 import '../components/bar_chart_widget.dart';
-import '../components/date_picker.dart';
-import '../components/forma_pagamento_dropdown.dart';
-
 import '../components/line_chart_widget.dart';
 import '../components/pie_chart_widget2.dart';
-import '../components/price_point.dart';
-import '../exceptions/auth_exception.dart';
-import '../models/store.dart';
-import '../utils/app_routes.dart';
 
 class Graficos_page extends StatefulWidget {
   Graficos_page({Key? key}) : super(key: key);
@@ -46,7 +27,6 @@ class _GraficosPageState extends State<Graficos_page> {
   @override
   Widget build(BuildContext context) {
     int id = widget.id_grafico;
-    print('ID:' + id.toString());
     RepositoryTransaction transaction = Provider.of(context);
     List<TransactionModel> listanova = transaction.getAll();
     List<TransactionModel> listaTrasaction = [];
@@ -73,20 +53,20 @@ class _GraficosPageState extends State<Graficos_page> {
           gradient:
               const LinearGradient(colors: [Colors.purple, Colors.blueAccent]),
           bottom: TabBar(
-            tabs: <Widget>[
-              const Tab(
+            tabs: const <Widget>[
+              Tab(
                 icon: Icon(Icons.pie_chart),
                 text: 'Despesas',
               ),
-              const Tab(
+              Tab(
                 icon: Icon(Icons.pie_chart),
                 text: 'Receitas',
               ),
-              const Tab(
+              Tab(
                 icon: Icon(Icons.bar_chart),
                 text: 'Despesas',
               ),
-              const Tab(
+              Tab(
                 icon: Icon(Icons.stacked_line_chart_outlined),
                 text: 'Receitas',
               )
@@ -187,8 +167,8 @@ class _GraficosPageState extends State<Graficos_page> {
                       ),
                       const Padding(padding: EdgeInsets.all(10)),
                       PieChartWidget(
-                        listaTrasaction,
                         periodo: widget.id_periodo_late,
+                        listTransacion: listaTrasaction,
                       ),
                     ])
                   : (id == 1)
@@ -203,8 +183,8 @@ class _GraficosPageState extends State<Graficos_page> {
                             ),
                             const Padding(padding: EdgeInsets.all(10)),
                             PieChartWidget2(
-                              listaTrasaction,
                               periodo: widget.id_periodo_late,
+                              listTransacion: listaTrasaction,
                             ),
                           ],
                         )
@@ -236,7 +216,8 @@ class _GraficosPageState extends State<Graficos_page> {
                                       ),
                                     ),
                                     const Padding(padding: EdgeInsets.all(10)),
-                                    LineChartWidget(listaTrasaction,
+                                    LineChartWidget(
+                                        transactions: listaTrasaction,
                                         periodo: widget.id_periodo_late),
                                   ],
                                 )

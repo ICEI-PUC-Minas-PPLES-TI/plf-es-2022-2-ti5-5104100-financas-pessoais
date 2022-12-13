@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/models/account.dart';
-import '../utils/db_util.dart';
+import '../utils/sqflite.dart';
 
 class RepositoryAccount with ChangeNotifier {
   List<AccountModel> _account = [];
-  String _token;
   double saldoContas = 0;
 
   double saldoBalancoMes = 0;
-
-  RepositoryAccount(this._token);
 
   insertAccount(AccountModel account) async {
     Database db = await DBHelper.instance.database;
@@ -116,10 +112,10 @@ class RepositoryAccount with ChangeNotifier {
   }
 
   Future<void> _carregaTabela() async {
-    AccountModel account1 =
-        AccountModel(id: "2", accountBalance: 0, accountDateTime: "2022-19-11");
+    // AccountModel account1 =
+    //     AccountModel(id: "2", accountBalance: 0, accountDateTime: "2022-19-11");
 
-    await insertAccount(account1);
+    // await insertAccount(account1);
   }
 
   void saveAccountSqflite(Map<String, dynamic> object, String operacao) {

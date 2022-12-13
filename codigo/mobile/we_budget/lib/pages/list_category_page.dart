@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/categoria_repository.dart';
 import 'package:we_budget/utils/app_routes.dart';
 
-import '../models/store.dart';
+import '../utils/shared_preference.dart';
 
 class ListCategoryPage extends StatefulWidget {
   const ListCategoryPage({super.key});
@@ -17,8 +17,6 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
   Widget build(BuildContext context) {
     String qualPaginaChamou =
         ModalRoute.of(context)?.settings.arguments as String;
-    print(qualPaginaChamou);
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Categoria"),
@@ -30,7 +28,6 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
             ),
             onPressed: () {
               Navigator.of(context).pushNamed(AppRoutes.createCategory);
-              print("Voltou botão");
             },
           )
         ],

@@ -24,100 +24,92 @@ public class TransactionService : ITransactionService
         _messageBrokerService = messageBrokerService;
     }
 
-    public async Task<Transaction> Add(Transaction transaction)
+    public async Task<Result<Transaction>> Add(Transaction transaction)
     {
-        var value = 0.0;
         
-        if (transaction.TansactionType == TansactionType.Expenses)
-        {
-            value = -1 * transaction.PaymentValue;
-        }
-        else
-        {
-            value = transaction.PaymentValue;
-        }
-        
-        await _accountService.UpdateBalance(transaction.TansactionDate,
-            value ,transaction.UserId);
-        await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
-            transaction.CategoryId, value);
-        
-        return await SendMenssage(OperationType.Create,
-            await _iTransaction.Add(transaction));
+        var addedTransactionResult = await _iTransaction.Add(transaction);
+        if (addedTransactionResult.IsFailure)
+            return addedTransactionResult;
+        await SendMessage(OperationType.Create,addedTransactionResult.Data!);
+        var value = transaction.TansactionType == TansactionType.Expenses?
+                -transaction.PaymentValue:transaction.PaymentValue;
+        var updateValuesResult = await UpdateValues(transaction, value);
+        return updateValuesResult.IsFailure ? 
+            Result.Fail<Transaction>(updateValuesResult.ErrorMenssage!) : addedTransactionResult;
     }
 
-    public async Task<Transaction> Update(Transaction transaction)
+    public async Task<Result<Transaction>> Update(Transaction transaction)
     {
+        var savedTransactionResult = await _iTransaction.GetEntityById(transaction.Id);
+        if (savedTransactionResult.IsFailure || savedTransactionResult.NotFound)
+            return savedTransactionResult;
+        var updatedTransactionResult = await _iTransaction.Update(transaction);
+        if (updatedTransactionResult.IsFailure)
+            return updatedTransactionResult;
+        await SendMessage(OperationType.Update,updatedTransactionResult.Data!);
         var value = 0.0;
-        var savedTrasacton = await _iTransaction.GetEntityById(transaction.Id);
-        
-        if (transaction.TansactionType == TansactionType.Expenses)
-        {
-            value = (-1 * transaction.PaymentValue)+savedTrasacton.PaymentValue;
-        }
+        if (transaction.TansactionType == savedTransactionResult.Data!.TansactionType)
+            value = transaction.TansactionType == TansactionType.Expenses
+                ? (savedTransactionResult.Data!.PaymentValue - transaction.PaymentValue)
+                : (transaction.PaymentValue - savedTransactionResult.Data!.PaymentValue);
         else
-        {
-            value = (-1 * savedTrasacton.PaymentValue)+transaction.PaymentValue;
-        }
-        
-        await _accountService.UpdateBalance(transaction.TansactionDate,
-            value ,transaction.UserId);
-        await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
-            transaction.CategoryId, value);
-        
-        return await SendMenssage(OperationType.Update, 
-            await _iTransaction.Update(transaction));
+            value = transaction.TansactionType == TansactionType.Expenses
+                ? -(savedTransactionResult.Data!.PaymentValue + transaction.PaymentValue)
+                : (savedTransactionResult.Data!.PaymentValue + transaction.PaymentValue);
+        var updateValuesResult = await UpdateValues(transaction, value);
+        return updateValuesResult.IsFailure ? 
+            Result.Fail<Transaction>(updateValuesResult.ErrorMenssage!) : updatedTransactionResult;
     }
 
-    public async Task Delete(Transaction transaction)
+    public async Task<Result> Delete(Transaction transaction)
     {
-        //TO-DO validation
-        var value = 0.0;
-        if (transaction.TansactionType == TansactionType.Expenses)
-        {
-            value = transaction.PaymentValue;
-        }
-        else
-        {
-            value = -1 * transaction.PaymentValue;
-        }
-        await _accountService.UpdateBalance(transaction.TansactionDate,
-            value ,transaction.UserId);
-        await _budgetService.UpdateUsedValue(transaction.UserId, transaction.TansactionDate,
-            transaction.CategoryId, value);
-
-        await _iTransaction.Delete(transaction);
-        await SendMenssage(OperationType.Delete, transaction);
+        var deletedTransactionResult = await _iTransaction.Delete(transaction);
+        if(deletedTransactionResult.IsFailure)
+            return deletedTransactionResult;
+        await SendMessage(OperationType.Delete, transaction);
+        var value = transaction.TansactionType == TansactionType.Expenses?
+            transaction.PaymentValue:-transaction.PaymentValue;
+        var updateValuesResult = await UpdateValues(transaction, value);
+        return updateValuesResult.IsFailure ? 
+            Result.Fail<Transaction>(updateValuesResult.ErrorMenssage!) : deletedTransactionResult;
     }
 
-    public async Task<Transaction?> GetEntityById(int id)
+    public async Task<Result<Transaction>> GetEntityById(int id)
     {
         return await _iTransaction.GetEntityById(id);
     }
 
-    public async Task<List<Transaction>> List()
+    public async Task<Result<List<Transaction>>> List()
     {
         return await _iTransaction.List();
     }
 
-    public async Task<List<Transaction>> ListByUser(string userId)
+    public async Task<Result<List<Transaction>>> ListByUser(string userId)
     {
         return await _iTransaction.ListByUser(userId);
     }
 
-    public  async Task<double> SumTransaction(string userId, DateTime dateTime)
+    public  async Task<Result<double>> SumTransaction(string userId, DateTime dateTime, int categoryId)
     {
-        return await _iTransaction.SumTransaction(userId, dateTime);
+        return await _iTransaction.SumTransaction(userId, dateTime, categoryId);
     }
 
-    private async Task<Transaction> SendMenssage(OperationType operation, Transaction transaction)
+    private Task SendMessage(OperationType operation, Transaction transaction)
     {
-        return await _messageBrokerService.SendMenssage(new MenssageResponse<Transaction>()
-        {
-            Table = TableType.Transaction,
-            UserId = transaction.UserId,
-            Operation = operation,
-            Object = transaction
-        });
+        _messageBrokerService.SendMessage(TableType.Transaction, operation,
+            transaction.UserId, transaction);
+        return Task.CompletedTask;
+    }
+
+    private async Task<Result> UpdateValues(Transaction transaction, double value)
+    {
+        var updateBalanceResult = await _accountService.UpdateBalance(transaction.TansactionDate,
+            value ,transaction.UserId);
+        if(updateBalanceResult.IsFailure)
+            return Result.Fail(updateBalanceResult.ErrorMenssage!);
+        var updatedBudgetUsedValue = await _budgetService.UpdateUsedValue(transaction.UserId,
+            transaction.TansactionDate, transaction.CategoryId, value);
+        return updatedBudgetUsedValue.IsFailure ? 
+            Result.Fail(updateBalanceResult.ErrorMenssage!) : Result.Ok();
     }
 }

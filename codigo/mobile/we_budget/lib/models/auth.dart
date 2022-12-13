@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:we_budget/models/store.dart';
+import 'package:we_budget/utils/shared_preference.dart';
 
 import '../exceptions/auth_exception.dart';
 
@@ -11,7 +11,8 @@ class Auth with ChangeNotifier {
   String? _token;
   String? _email;
   String? _userId;
-  String name = '';
+  String? _name;
+  // String name = '';
   DateTime? _expiryDate;
   Timer? _logoutTimer;
 
@@ -32,15 +33,18 @@ class Auth with ChangeNotifier {
     return isAuth ? _userId : null;
   }
 
-  Future<String> nameUser() async {
-    Map<String, dynamic> userData = await Store.getMap('userName');
-    name = userData['name'];
-    return name;
+  String? get name {
+    return isAuth ? _name : null;
   }
 
-  Future<void> _authenticateLogin(
+  // Future<String> nameUser() async {
+  //   Map<String, dynamic> userData = await Store.getMap('userName');
+  //   name = userData['name'];
+  //   return name;
+  // }
+
+  Future<Map<String, dynamic>> authenticateLogin(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou autenticação...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
@@ -56,14 +60,16 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print("Response....");
-    print(body);
+    // print("Retorno login....");
+    // print(body);
+
     if (body['sucesso'] != true) {
       throw AuthException(body['erros'].toString());
     } else {
       _token = body['accessToken'];
-      _email = body['email'];
+      _email = email;
       _userId = body['userId'];
+      _name = body['firstName'];
 
       _expiryDate = DateTime.now().add(
         Duration(
@@ -77,18 +83,61 @@ class Auth with ChangeNotifier {
           'token': _token,
           'email': _email,
           'userId': _userId,
+          'firstName': _name,
           'expiryDate': _expiryDate!.toIso8601String(),
         },
       );
 
       _autoLogout();
       notifyListeners();
+
+      return body;
+    }
+  }
+
+  Future<void> _editDataAuth(String name) async {
+    Map<String, dynamic> userData = await Store.getMap('userData');
+    String email = userData['email'];
+    print(email);
+    String token = userData['token'];
+    print(token);
+    print("Antes post");
+    const url = 'https://webudgetpuc.azurewebsites.net/api/User/updateName';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+        "Accept": email,
+      },
+      body: jsonEncode(
+        {
+          'firstName': name,
+          'lastName': name,
+          'email': 'nataniel@teste15.com.br',
+        },
+      ),
+    );
+
+    final body = jsonDecode(response.body);
+    print("Retorno login....");
+    print(body);
+
+    if (body['firstName'] != '') {
+      _name = body['firstName'];
+
+      // Store.saveMap(
+      //   'userData',
+      //   {
+      //     'firstName': _name,
+      //   },
+      // );
+      notifyListeners();
     }
   }
 
   Future<void> _authenticateCadastro(
       String name, String email, String password, String urlFragment) async {
-    print("Entrou cadastro...");
     final url = 'https://webudgetpuc.azurewebsites.net/api/User/$urlFragment';
     final response = await http.post(
       Uri.parse(url),
@@ -107,20 +156,15 @@ class Auth with ChangeNotifier {
       ),
     );
 
-    Store.saveMap(
-      'userName',
-      {
-        'name': name,
-      },
-    );
+    // Store.saveMap(
+    //   'userName',
+    //   {
+    //     'name': name,
+    //   },
+    // );
 
     final body = jsonDecode(response.body);
-    print("Response....${body['erros'].toString()}");
-    print(body['erros'].toString());
-    print(body);
     if (body['sucesso'] != true) {
-      print("o erro é:");
-      print(body['erros'].toString());
       throw AuthException(body['erros'].toString());
     }
 
@@ -131,15 +175,19 @@ class Auth with ChangeNotifier {
     return _authenticateCadastro(name, email, password, 'cadastro');
   }
 
-  Future<void> login(String name, String email, String password) async {
-    return _authenticateLogin(name, email, password, 'login');
+  Future<Map<String, dynamic>> login(
+      String name, String email, String password) async {
+    return authenticateLogin(name, email, password, 'login');
+  }
+
+  Future<void> editData(String name) async {
+    return _editDataAuth(name);
   }
 
   Future<void> tryAutoLogin() async {
     if (isAuth) return;
 
     final userData = await Store.getMap('userData');
-    print(userData);
 
     if (userData.isEmpty) return;
 
@@ -149,6 +197,7 @@ class Auth with ChangeNotifier {
     _token = userData['token'];
     _email = userData['email'];
     _userId = userData['userId'];
+    _name = userData['firstName'];
     _expiryDate = expiryDate;
 
     _autoLogout();
@@ -159,6 +208,7 @@ class Auth with ChangeNotifier {
     _token = null;
     _email = null;
     _userId = null;
+    _name = null;
     _expiryDate = null;
     _clearLogoutTimer();
     Store.remove('userData').then((_) {

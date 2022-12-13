@@ -6,6 +6,7 @@ namespace WeBudgetWebAPI.Interfaces;
 
 public interface ITransaction:IGeneric<Transaction>
 {
-    public Task<List<Transaction>> ListByUser(string userId);
-    public Task<double> SumTransaction(string userId, DateTime dateTime);
+    public Task<Result<List<Transaction>>> ListByUser(string userId);
+    public Task<Result<double>> SumTransaction(string userId, DateTime dateTime, 
+        int categoryId);
 }

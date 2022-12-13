@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../exceptions/auth_exception.dart';
 import '../models/auth.dart';
+import '../utils/app_routes.dart';
 
 enum AuthMode { signup, login }
 
@@ -84,11 +85,8 @@ class _AuthFormState extends State<AuthForm> {
         );
       }
     } on AuthException catch (error) {
-      print("Erro do AuthException");
       _showErrorDialog(error.toString());
     } catch (error) {
-      print("Erro do catch....");
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
 
@@ -242,6 +240,26 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                 ),
+                if (!_isSignup())
+                  Container(
+                    margin: const EdgeInsetsDirectional.only(top: 15.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        fixedSize: const Size(200, 20),
+                        backgroundColor: Color(0xFF4C94F8),
+                      ),
+                      child: const Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          child: Text("TUTORIAL WEBUDGET")),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.carroselTutorial);
+                      },
+                    ),
+                  ),
               ],
             ),
           ),

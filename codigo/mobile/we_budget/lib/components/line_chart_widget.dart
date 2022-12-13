@@ -1,11 +1,7 @@
-import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:we_budget/components/categoria_dropdown.dart';
-
-import 'package:we_budget/components/price_point.dart';
 import '../models/transactions.dart';
 
 class LineChartWidget extends StatefulWidget {
@@ -13,14 +9,16 @@ class LineChartWidget extends StatefulWidget {
   final List<TransactionModel> transactions;
   final String periodo;
 
-  const LineChartWidget(this.transactions, {Key? key, required this.periodo})
-      : super(key: key);
+  const LineChartWidget({
+    Key? key,
+    required this.periodo,
+    required this.transactions,
+  }) : super(key: key);
   @override
   State<StatefulWidget> createState() => _LineChartWidgetState();
-
 }
 
-class _LineChartWidgetState extends State<LineChartWidget>{
+class _LineChartWidgetState extends State<LineChartWidget> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -34,36 +32,39 @@ class _LineChartWidgetState extends State<LineChartWidget>{
                 color: const Color(0xff37434d),
                 strokeWidth: 1,
               );
-              },
+            },
             drawVerticalLine: true,
             getDrawingVerticalLine: (value) {
               return FlLine(
                 color: const Color(0xff37434d),
                 strokeWidth: 1,
               );
-              },
+            },
           ),
           borderData: FlBorderData(
             show: true,
             border: Border.all(color: const Color(0xff37434d), width: 1),
           ),
           titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(sideTitles: _transforma(widget.periodo), axisNameWidget: Center(child: Text(
-              'Data',
-              style: TextStyle(
-                fontSize: 17.0,
-                fontFamily: 'Poppins',
-              ),
-
-            ))),
+            bottomTitles: AxisTitles(
+                sideTitles: _transforma(widget.periodo),
+                axisNameWidget: const Center(
+                    child: Text(
+                  'Data',
+                  style: TextStyle(
+                    fontSize: 17.0,
+                    fontFamily: 'Poppins',
+                  ),
+                ))),
             topTitles: AxisTitles(sideTitles: null),
             rightTitles: AxisTitles(sideTitles: null),
             leftTitles: AxisTitles(sideTitles: null),
           ),
-
           lineBarsData: [
             LineChartBarData(
-              spots: _pricePoints(widget.transactions,widget.periodo).map((point) => FlSpot(point.x, point.y)).toList(),
+              spots: _pricePoints(widget.transactions, widget.periodo)
+                  .map((point) => FlSpot(point.x, point.y))
+                  .toList(),
               isCurved: true,
               curveSmoothness: 0.3,
               color: Colors.green,
@@ -78,9 +79,9 @@ class _LineChartWidgetState extends State<LineChartWidget>{
         ),
       ),
     );
-
   }
 }
+
 class PricePoint {
   final double x;
   final double y;
@@ -88,32 +89,29 @@ class PricePoint {
   PricePoint({required this.x, required this.y});
 }
 
-List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String periodo) {
+List<PricePoint> _pricePoints(
+    List<TransactionModel> transactions, String periodo) {
   DateTime hoje = DateTime.now();
-  transactions.forEach((element) {
-    if(element.tipoTransacao==0)
-    print(element.data.toString() + '   ' + element.valor.toString());
-  });
-  switch(periodo){
+  switch (periodo) {
     case 'Máx':
       int index = 0;
       List<double> numbers = List.filled(5, 0);
-      List<int> anos = [2018,2019,2020,2021,2022];
+      List<int> anos = [2018, 2019, 2020, 2021, 2022];
       anos.forEach((ano) {
         transactions.forEach((trns) {
           List<String> campos = trns.data.split('-');
           int ano = int.parse(campos[0]);
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
-          DateTime data_transact = DateTime(ano,mes,dia);
-            if(trns.tipoTransacao == 0 && data_transact.year == anos[index]){
-              numbers[index] += trns.valor;
-              print('adicionar ' + trns.valor.toString() + ' no ano' + anos[index].toString() );
-            }
+          DateTime data_transact = DateTime(ano, mes, dia);
+          if (trns.tipoTransacao == 0 && data_transact.year == anos[index]) {
+            numbers[index] += trns.valor;
+          }
         });
         index++;
       });
-      return numbers.mapIndexed(
+      return numbers
+          .mapIndexed(
               (index, element) => PricePoint(x: index.toDouble(), y: element))
           .toList();
       break;
@@ -153,72 +151,65 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
 
       // List<String> lista = [primeiro_dia_f,segundo_dia_f,terceiro_dia_f,quarto_dia_f,dia_atual_f];;
 
-
-      List<int> dias = [dia_um,dia_dois,dia_tres,dia_quatro,dia_atual];
-      List<int> meses = [mes_um,mes_dois,mes_tres,mes_quatro,mes_atual];
-      List<int> anos = [ano_um,ano_dois,ano_tres,ano_quatro,ano_atual];
+      List<int> dias = [dia_um, dia_dois, dia_tres, dia_quatro, dia_atual];
+      List<int> meses = [mes_um, mes_dois, mes_tres, mes_quatro, mes_atual];
+      List<int> anos = [ano_um, ano_dois, ano_tres, ano_quatro, ano_atual];
       List<int> meses_distintos = [];
 
       meses.forEach((element) {
-        if(!meses_distintos.contains(element)){
+        if (!meses_distintos.contains(element)) {
           meses_distintos.add(element);
         }
       });
 
-      print(dias);
-      print(meses);
-      print(meses_distintos);
       List<double> valores = List.filled(5, 0);
 
-
-        transactions.forEach((transact) {
-          int index = 0;
-          dias.forEach((dia) {
+      transactions.forEach((transact) {
+        int index = 0;
+        dias.forEach((dia) {
           List<String> campos = transact.data.split('-');
           int ano = int.parse(campos[0]);
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
-          DateTime data_transact = DateTime(ano,mes,dia);
-          DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
-            if(transact.tipoTransacao == 0){
-              if(!(index==0)){
-                print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-                if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
-                  print(data_transact.difference(data_param).inDays);
-                  print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
-                  valores[index] += transact.valor;
-                }
-
-              }else{
-                DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
-                if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
+          DateTime data_transact = DateTime(ano, mes, dia);
+          DateTime data_param =
+              DateTime(anos[index], meses[index], dias[index]);
+          if (transact.tipoTransacao == 0) {
+            if (!(index == 0)) {
+              if (data_transact.difference(data_param).inDays < 8 &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
-                }
               }
-            }
-            index++;
-        });
-      });
-        int index2 = 0;
-        valores.forEach((element) {
-          if(index2 > 0){
-            if(element == 0.0){
-              if(meses[index2] == meses[index2-1]){
-                valores[index2] += valores[index2-1];
+            } else {
+              DateTime dia_index =
+                  DateTime(anos[index], meses[index], dias[index]);
+              if (dia_index.difference(data_transact).inDays <
+                      data_transact.day &&
+                  data_param.month == data_transact.month) {
+                valores[index] += transact.valor;
               }
             }
           }
-          index2++;
+          index++;
         });
+      });
 
-        print(valores.mapIndexed(
-                (index, element) => PricePoint(x: index.toDouble(), y: element))
-            .toList().map((point) => FlSpot(point.x, point.y)).toList());
+      int index2 = 0;
+      valores.forEach((element) {
+        if (index2 > 0) {
+          if (element == 0.0) {
+            if (meses[index2] == meses[index2 - 1]) {
+              valores[index2] += valores[index2 - 1];
+            }
+          }
+        }
+        index2++;
+      });
 
-        return valores
-            .mapIndexed(
-                (index, element) => PricePoint(x: index.toDouble(), y: element))
-            .toList();
+      return valores
+          .mapIndexed(
+              (index, element) => PricePoint(x: index.toDouble(), y: element))
+          .toList();
 
       break;
     case '3M':
@@ -257,23 +248,18 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
 
       // List<String> lista = [primeiro_dia_f,segundo_dia_f,terceiro_dia_f,quarto_dia_f,dia_atual_f];;
 
-
-      List<int> dias = [dia_um,dia_dois,dia_tres,dia_quatro,dia_atual];
-      List<int> meses = [mes_um,mes_dois,mes_tres,mes_quatro,mes_atual];
-      List<int> anos = [ano_um,ano_dois,ano_tres,ano_quatro,ano_atual];
+      List<int> dias = [dia_um, dia_dois, dia_tres, dia_quatro, dia_atual];
+      List<int> meses = [mes_um, mes_dois, mes_tres, mes_quatro, mes_atual];
+      List<int> anos = [ano_um, ano_dois, ano_tres, ano_quatro, ano_atual];
       List<int> meses_distintos = [];
 
       meses.forEach((element) {
-        if(!meses_distintos.contains(element)){
+        if (!meses_distintos.contains(element)) {
           meses_distintos.add(element);
         }
       });
 
-      print(dias);
-      print(meses);
-      print(meses_distintos);
       List<double> valores = List.filled(5, 0);
-
 
       transactions.forEach((transact) {
         int index = 0;
@@ -282,22 +268,22 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           int ano = int.parse(campos[0]);
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
-          DateTime data_transact = DateTime(ano,mes,dia);
-          DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
-          if(transact.tipoTransacao == 0){
-            if(!(index==0)){
-              print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 24).toString());
-              if(data_param.difference(data_transact).inDays < 24 && data_param.month == data_transact.month){
-                print(data_transact.difference(data_param).inDays);
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
+          DateTime data_transact = DateTime(ano, mes, dia);
+          DateTime data_param =
+              DateTime(anos[index], meses[index], dias[index]);
+          if (transact.tipoTransacao == 0) {
+            if (!(index == 0)) {
+              if (data_transact.difference(data_param).inDays < 24 &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
               }
-
-            }else{
-              DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
-              if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
+            } else {
+              DateTime dia_index =
+                  DateTime(anos[index], meses[index], dias[index]);
+              if (dia_index.difference(data_transact).inDays <
+                      data_transact.day &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
               }
             }
           }
@@ -306,10 +292,10 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
       });
       int index2 = 0;
       valores.forEach((element) {
-        if(index2 > 0){
-          if(element == 0.0){
-            if(meses[index2] == meses[index2-1]){
-              valores[index2] += valores[index2-1];
+        if (index2 > 0) {
+          if (element == 0.0) {
+            if (meses[index2] == meses[index2 - 1]) {
+              valores[index2] += valores[index2 - 1];
             }
           }
         }
@@ -320,7 +306,6 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           .mapIndexed(
               (index, element) => PricePoint(x: index.toDouble(), y: element))
           .toList();
-
 
       break;
     case '6M':
@@ -359,23 +344,17 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
 
       // List<String> lista = [primeiro_dia_f,segundo_dia_f,terceiro_dia_f,quarto_dia_f,dia_atual_f];;
 
-
-      List<int> dias = [dia_um,dia_dois,dia_tres,dia_quatro,dia_atual];
-      List<int> meses = [mes_um,mes_dois,mes_tres,mes_quatro,mes_atual];
-      List<int> anos = [ano_um,ano_dois,ano_tres,ano_quatro,ano_atual];
+      List<int> dias = [dia_um, dia_dois, dia_tres, dia_quatro, dia_atual];
+      List<int> meses = [mes_um, mes_dois, mes_tres, mes_quatro, mes_atual];
+      List<int> anos = [ano_um, ano_dois, ano_tres, ano_quatro, ano_atual];
       List<int> meses_distintos = [];
 
       meses.forEach((element) {
-        if(!meses_distintos.contains(element)){
+        if (!meses_distintos.contains(element)) {
           meses_distintos.add(element);
         }
       });
-
-      print(dias);
-      print(meses);
-      print(meses_distintos);
       List<double> valores = List.filled(5, 0);
-
 
       transactions.forEach((transact) {
         int index = 0;
@@ -384,20 +363,21 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           int ano = int.parse(campos[0]);
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
-          DateTime data_transact = DateTime(ano,mes,dia);
-          DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
-          if(transact.tipoTransacao == 0){
-            if(!(index==0)){
-              print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 8).toString());
-              if(data_param.difference(data_transact).inDays < 8 && data_param.month == data_transact.month){
-                print(data_transact.difference(data_param).inDays);
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
+          DateTime data_transact = DateTime(ano, mes, dia);
+          DateTime data_param =
+              DateTime(anos[index], meses[index], dias[index]);
+          if (transact.tipoTransacao == 0) {
+            if (!(index == 0)) {
+              if (data_transact.difference(data_param).inDays < 8 &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
               }
-
-            }else{
-              DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
-              if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
+            } else {
+              DateTime dia_index =
+                  DateTime(anos[index], meses[index], dias[index]);
+              if (dia_index.difference(data_transact).inDays <
+                      data_transact.day &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
               }
             }
@@ -407,10 +387,10 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
       });
       int index2 = 0;
       valores.forEach((element) {
-        if(index2 > 0){
-          if(element == 0.0){
-            if(meses[index2] == meses[index2-1]){
-              valores[index2] += valores[index2-1];
+        if (index2 > 0) {
+          if (element == 0.0) {
+            if (meses[index2] == meses[index2 - 1]) {
+              valores[index2] += valores[index2 - 1];
             }
           }
         }
@@ -488,26 +468,51 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
 
       // List<String> lista = [primeiro_dia_f,segundo_dia_f,terceiro_dia_f,quarto_dia_f,dia_atual_f];;
 
-
-      List<int> dias = [dia_um,dia_dois,dia_tres,dia_quatro,dia_cinco,dia_seis,dia_sete,dia_oito,dia_nove,dia_atual];
-      List<int> meses = [mes_um,mes_dois,mes_tres,mes_quatro,mes_cinco,mes_seis,mes_sete,mes_oito,mes_nove,mes_atual];
-      List<int> anos = [ano_um,ano_dois,ano_tres,ano_quatro,ano_cinco,ano_seis,ano_sete,ano_oito,ano_nove,ano_atual];
+      List<int> dias = [
+        dia_um,
+        dia_dois,
+        dia_tres,
+        dia_quatro,
+        dia_cinco,
+        dia_seis,
+        dia_sete,
+        dia_oito,
+        dia_nove,
+        dia_atual
+      ];
+      List<int> meses = [
+        mes_um,
+        mes_dois,
+        mes_tres,
+        mes_quatro,
+        mes_cinco,
+        mes_seis,
+        mes_sete,
+        mes_oito,
+        mes_nove,
+        mes_atual
+      ];
+      List<int> anos = [
+        ano_um,
+        ano_dois,
+        ano_tres,
+        ano_quatro,
+        ano_cinco,
+        ano_seis,
+        ano_sete,
+        ano_oito,
+        ano_nove,
+        ano_atual
+      ];
       List<int> meses_distintos = [];
 
-      print(ano_atual.toString() + 'anoa tual');
-
       meses.forEach((element) {
-        if(!meses_distintos.contains(element)){
+        if (!meses_distintos.contains(element)) {
           meses_distintos.add(element);
         }
       });
 
-      print(dias);
-      print(meses);
-      print(meses_distintos);
-      print(anos);
       List<double> valores = List.filled(5, 0);
-
 
       transactions.forEach((transact) {
         int index = 0;
@@ -516,22 +521,22 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
           int ano = int.parse(campos[0]);
           int mes = int.parse(campos[1]);
           int dia = int.parse(campos[2]);
-          DateTime data_transact = DateTime(ano,mes,dia);
-          DateTime data_param = DateTime(anos[index],meses[index],dias[index]);
-          if(transact.tipoTransacao == 0){
-            if(!(index==0)){
-              print(data_transact.difference(data_param).inDays.toString() + (data_param.difference(data_transact).inDays < 32 && data_param.month == data_transact.month).toString());
-              if(data_param.difference(data_transact).inDays < 32 && data_param.month == data_transact.month){
-                print(data_transact.difference(data_param).inDays);
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
+          DateTime data_transact = DateTime(ano, mes, dia);
+          DateTime data_param =
+              DateTime(anos[index], meses[index], dias[index]);
+          if (transact.tipoTransacao == 0) {
+            if (!(index == 0)) {
+              if (data_param.difference(data_transact).inDays < 32 &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
               }
-
-            }else{
-              DateTime dia_index = DateTime(anos[index],meses[index],dias[index]);
-              if(dia_index.difference(data_transact).inDays < data_transact.day && data_param.month == data_transact.month){
+            } else {
+              DateTime dia_index =
+                  DateTime(anos[index], meses[index], dias[index]);
+              if (dia_index.difference(data_transact).inDays <
+                      data_transact.day &&
+                  data_param.month == data_transact.month) {
                 valores[index] += transact.valor;
-                print('adicionar ' + transact.valor.toString() + ' no dia' + data_param.toString());
               }
             }
           }
@@ -540,10 +545,10 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
       });
       int index2 = 0;
       valores.forEach((element) {
-        if(index2 > 0){
-          if(element == 0.0){
-            if(meses[index2] == meses[index2-1]){
-              valores[index2] += valores[index2-1];
+        if (index2 > 0) {
+          if (element == 0.0) {
+            if (meses[index2] == meses[index2 - 1]) {
+              valores[index2] += valores[index2 - 1];
             }
           }
         }
@@ -562,52 +567,54 @@ List<PricePoint>  _pricePoints(List<TransactionModel> transactions, String perio
   int qtd_total = transactions.length;
   int qtd_periodo = 5;
   List<double> valores = List.filled(qtd_periodo, 0);
-  List<String> anos = ['2018','2019','2018','2021','2022'];
+  List<String> anos = ['2018', '2019', '2018', '2021', '2022'];
   int index = 0;
-    anos.forEach((ano) {
-      transactions.forEach((element) {
-        String dataFormatada = element.data.substring(0,4);
-        if(dataFormatada==ano){
-          if(element.tipoTransacao==0){
-            valores[index]+=element.valor;
-          }
+  anos.forEach((ano) {
+    transactions.forEach((element) {
+      String dataFormatada = element.data.substring(0, 4);
+      if (dataFormatada == ano) {
+        if (element.tipoTransacao == 0) {
+          valores[index] += element.valor;
         }
-      });
-      index++;
+      }
     });
+    index++;
+  });
   return valores
       .mapIndexed(
           (index, element) => PricePoint(x: index.toDouble(), y: element))
       .toList();
 }
 
-SideTitles _transforma(String periodo){
+SideTitles _transforma(String periodo) {
   DateTime hoje = DateTime.now();
   List<double> numbers = List.filled(5, 0);
   final formatador = DateFormat('dd-MM');
   int dayslongos = 0;
   int dayscurtos = 0;
-  if(periodo == 'Máx'){
+  if (periodo == 'Máx') {
     List<String> listaAnual = [];
-    for(int i = 4; i >= 0; i--){
-      int ano = hoje.year.toInt()-i;
+    for (int i = 4; i >= 0; i--) {
+      int ano = hoje.year.toInt() - i;
       listaAnual.add(ano.toString());
     }
     return _bottomTitles(listaAnual);
-  }else if(periodo == '1M'){
-    dayslongos = 32; dayscurtos = 8;
-  }else if(periodo == '3M'){
-    dayslongos = 96; dayscurtos = 24;
-  }else if(periodo == '6M'){
-    dayslongos = 182; dayscurtos = 48;
-  }else if(periodo == '1Y'){
-    dayslongos = 365; dayscurtos = 31;
+  } else if (periodo == '1M') {
+    dayslongos = 32;
+    dayscurtos = 8;
+  } else if (periodo == '3M') {
+    dayslongos = 96;
+    dayscurtos = 24;
+  } else if (periodo == '6M') {
+    dayslongos = 182;
+    dayscurtos = 48;
+  } else if (periodo == '1Y') {
+    dayslongos = 365;
+    dayscurtos = 31;
   }
 
   List<String> formatados = [];
-  print('o periodo é ' + periodo);
-  print(periodo!='1Y');
-  if(periodo != '1Y'){
+  if (periodo != '1Y') {
     final primeiro_dia = hoje.subtract(Duration(days: dayslongos));
     final primeiro_dia_f = formatador.format(primeiro_dia);
     formatados.add(primeiro_dia_f);
@@ -624,7 +631,7 @@ SideTitles _transforma(String periodo){
     final quarto_dia_f = formatador.format(quarto_dia);
     formatados.add(quarto_dia_f);
     formatados.add(formatador.format(hoje));
-  }else{
+  } else {
     final primeiro_dia = hoje.subtract(Duration(days: dayslongos));
     final primeiro_dia_f = formatador.format(primeiro_dia);
     formatados.add(primeiro_dia_f);
@@ -658,52 +665,47 @@ SideTitles _transforma(String periodo){
     formatados.add(formatador.format(hoje));
   }
 
-  print('LISTA DO LINE: ' + formatados.toString());
-
-
   return _bottomTitles(formatados);
-
 }
 
 SideTitles _bottomTitles(List<String> datas_formatadas) => SideTitles(
-  showTitles: true,
-  interval: 1,
-  getTitlesWidget: (value, meta) {
-    String text = ' ';
-    switch (value.toInt()) {
+      showTitles: true,
+      interval: 1,
+      getTitlesWidget: (value, meta) {
+        String text = ' ';
+        switch (value.toInt()) {
+          case 0:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 1:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 2:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 3:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 4:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 5:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 6:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 7:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 8:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+          case 9:
+            text = datas_formatadas[value.toInt()].replaceAll('-', '/');
+            break;
+        }
 
-      case 0:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 1:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 2:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 3:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 4:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 5:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 6:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 7:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 8:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-      case 9:
-        text = datas_formatadas[value.toInt()].replaceAll('-', '/');
-        break;
-    }
-
-    return Text(text);
-  },
-);
+        return Text(text);
+      },
+    );

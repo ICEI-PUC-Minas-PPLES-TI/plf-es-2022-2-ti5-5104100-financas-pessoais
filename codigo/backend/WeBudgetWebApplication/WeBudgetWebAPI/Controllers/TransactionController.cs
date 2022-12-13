@@ -31,8 +31,10 @@ public class TransactionController:ControllerBase
     public async Task<ActionResult<TransactionResponse>> Add(TransactionRequest request)
     {
         var transaction = _iMapper.Map<Transaction>(request);
-        var savedTrasation = await _iTransactionService.Add(transaction);
-        var response = _iMapper.Map<TransactionResponse>(savedTrasation);
+        var savedTransactionResult = await _iTransactionService.Add(transaction);
+        if(savedTransactionResult.IsFailure)
+            return StatusCode(500, savedTransactionResult.ErrorMenssage);
+        var response = _iMapper.Map<TransactionResponse>(savedTransactionResult.Data);
         return Ok(response);
     }
     
@@ -41,10 +43,10 @@ public class TransactionController:ControllerBase
     public async Task<ActionResult> List()
     {
         var userId = User.FindFirst("idUsuario")!.Value;
-        var transactionList = await _iTransactionService.ListByUser(userId);
-        if(transactionList.Count == 0)
-            return NotFound("Transacões não encontradas");
-        var response = _iMapper.Map<List<TransactionResponse>>(transactionList);
+        var transactionListResult = await _iTransactionService.ListByUser(userId);
+        if(transactionListResult.IsFailure)
+            return StatusCode(500, transactionListResult.ErrorMenssage);
+        var response = _iMapper.Map<List<TransactionResponse>>(transactionListResult.Data);
         return Ok(response);
     }
 
@@ -52,10 +54,12 @@ public class TransactionController:ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var transaction = await _iTransactionService.GetEntityById(id);
-        if(transaction==null)
-            return NotFound("Transacão não encontrada");
-        var response = _iMapper.Map<TransactionResponse>(transaction);
+        var transactionResult = await _iTransactionService.GetEntityById(id);
+        if(transactionResult.IsFailure)
+            return StatusCode(500, transactionResult.ErrorMenssage);
+        if (transactionResult.NotFound)
+            return NotFound();
+        var response = _iMapper.Map<TransactionResponse>(transactionResult.Data);
         return Ok(response);
     }
     [Authorize]
@@ -63,22 +67,29 @@ public class TransactionController:ControllerBase
     public async Task<ActionResult> Update(TransactionRequest request)
     {
         var transaction = _iMapper.Map<Transaction>(request);
-        var savedTransaction = await _iTransactionService.GetEntityById(transaction.Id);
-        if (savedTransaction == null)
-            return NoContent();
-        var updatedTransaction = await _iTransactionService.Update(transaction);
-        var response = _iMapper.Map<TransactionResponse>(savedTransaction);
+        var savedTransactionResult = await _iTransactionService.GetEntityById(transaction.Id);
+        if(savedTransactionResult.IsFailure)
+            return StatusCode(500, savedTransactionResult.ErrorMenssage);
+        if (savedTransactionResult.NotFound)
+            return NotFound();
+        var updatedTransactionResult = await _iTransactionService.Update(transaction);
+        if(updatedTransactionResult.IsFailure)
+            return StatusCode(500, updatedTransactionResult.ErrorMenssage);
+        var response = _iMapper.Map<TransactionResponse>(updatedTransactionResult.Data);
         return Ok(response);
-
     }
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var transaction = await _iTransactionService.GetEntityById(id);
-        if(transaction==null)
-            return NotFound("Categoria não encontrada");
-        await _iTransactionService.Delete(transaction);
+        var transactionResult = await _iTransactionService.GetEntityById(id);
+        if(transactionResult.IsFailure)
+            return StatusCode(500, transactionResult.ErrorMenssage);
+        if (transactionResult.NotFound)
+            return NotFound();
+        var deleteResult = await _iTransactionService.Delete(transactionResult.Data!);
+        if(deleteResult.IsFailure)
+            return StatusCode(500, transactionResult.ErrorMenssage);
         return NoContent();
     }
 }

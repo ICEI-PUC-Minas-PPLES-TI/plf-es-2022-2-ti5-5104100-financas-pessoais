@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:we_budget/Repository/transaction_repository.dart';
 
-import '../Repository/account_repository.dart';
-
 class CardMainPageDespesa extends StatelessWidget {
   final String? title;
 

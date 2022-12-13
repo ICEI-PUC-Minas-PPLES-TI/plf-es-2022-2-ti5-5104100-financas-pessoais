@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:provider/provider.dart';
-import 'package:we_budget/utils/app_routes.dart';
-
 import '../Repository/categoria_repository.dart';
 import '../exceptions/auth_exception.dart';
 import '../models/categoria_model.dart';
@@ -21,6 +19,7 @@ class _CreateCategoryState extends State<CreateCategory> {
     'codeCreateCategory': '',
   };
   int? codigoCreateCategory = 984405;
+  bool isLoading = false;
 
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
@@ -49,13 +48,16 @@ class _CreateCategoryState extends State<CreateCategory> {
   }
 
   Future<void> _submitCreateCategory() async {
-    print("2: $_createCategoryData");
     final isValid = _formKeyCreateCategory.currentState?.validate() ?? false;
 
     if (!isValid) {
       return;
     }
     _formKeyCreateCategory.currentState?.save();
+
+    setState(
+      () => isLoading = true,
+    );
     RepositoryCategory category = Provider.of(context, listen: false);
 
     try {
@@ -65,7 +67,6 @@ class _CreateCategoryState extends State<CreateCategory> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      print(error);
       _showErrorDialog('Ocorreu um erro inesperado!');
     }
   }
@@ -87,7 +88,6 @@ class _CreateCategoryState extends State<CreateCategory> {
 
       String page = argument['page'] as String;
       Object data = argument['itemByIndex'];
-      print("1: $data");
 
       if (page == 'listCategory') {
         setState(() {
@@ -250,24 +250,27 @@ class _CreateCategoryState extends State<CreateCategory> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: _submitCreateCategory,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                      if (isLoading)
+                        const CircularProgressIndicator()
+                      else
+                        ElevatedButton(
+                          onPressed: _submitCreateCategory,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            fixedSize: const Size(290, 40),
+                            backgroundColor:
+                                const Color.fromARGB(255, 102, 91, 196),
                           ),
-                          fixedSize: const Size(290, 40),
-                          backgroundColor:
-                              const Color.fromARGB(255, 102, 91, 196),
-                        ),
-                        child: const Text(
-                          "Cadastrar",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
+                          child: const Text(
+                            "Cadastrar",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

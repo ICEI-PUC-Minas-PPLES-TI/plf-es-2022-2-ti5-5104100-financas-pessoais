@@ -132,9 +132,9 @@ Visando auxiliar a definir quais são as funcionalidades de maior prioridade de 
 | RF015 | O usuário visualiza um gráfico de rosca com as despesas separadas por categoria do mês selecionado. | Alta |
 | RF016 | O usuário visualiza um gráfico de rosca com as receitas separadas por categoria do mês selecionado. | Alta |
 | RF017 | O usuário visualiza um gráfico de linha com a evolução dos receitas do mês selecionado. | Alta |
-| RF018 | O usuário visualiza um gráfico de linha com a evolução dos despesas do mês selecionado. | Alta |
-| RF019 | O usuário recebe notificação toda sexta-feira informando os gastos da semana. | Alta |
-| RF020 | O usuário recebe notificação toda 1º dia do mês informando que os relatórios do mês anterior estão prontos | Alta |
+| RF018 | O usuário visualiza um gráfico de barra com a evolução dos despesas do mês selecionado. | Alta |
+| RF019 | O usuário visualiza uma tabela no aplicativo web com a relação das transações realizadas no mês. | Alta |
+
 
 
 ## 2.2. Requisitos Não-Funcionais
@@ -145,8 +145,8 @@ Visando auxiliar a definir quais são as funcionalidades de maior prioridade de 
 | RNF001 | O software deve ser compatível nas plataformas Android. |
 | RNF002 | O sistema deve prover serviços no ambiente web e móvel. |
 | RNF003 | O usuário deve estar autenticado. |
-| RNF004 | O sistema deve responder as requisições em até 500 milissegundos. |
-| RNF005 | O sistema deve ser aprovado em testes de integração. |
+| RNF004 | O sistema deve responder as requisições em até 2 segundos. |
+| RNF005 | O sistema deve ser aprovado em testes unitários. |
 | RNF006 | A parte mobile deve ter persistencia de dados local. |
 | RNF007 | O sistema deve estar disponível 98% do tempo. |
 
@@ -326,29 +326,33 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 
 ## 4.1. Cenários
 
-_Apresente os cenários de testes utilizados na realização dos testes da sua aplicação. Escolha cenários de testes que demonstrem os requisitos não funcionais sendo satisfeitos. Os requisitos a seguir são apenas exemplos de possíveis requisitos, devendo ser revistos, adequados a cada projeto e complementados de forma a terem uma especificação completa e auto-explicativa._
+**Cenário 1 - Capacidade para ser Instalado:** A aplicação mobile deve ser desenvolvida de modo a ser compatível com a plataforma Android. - RNF001
 
-**Cenário 1 - Acessibilidade:** Suspendisse consequat consectetur velit. Sed sem risus, dictum dictum facilisis vitae, commodo quis leo. Vivamus nulla sem, cursus a mollis quis, interdum at nulla. Nullam dictum congue mauris. Praesent nec nisi hendrerit, ullamcorper tortor non, rutrum sem. In non lectus tortor. Nulla vel tincidunt eros.
+**Cenário 2 - Adaptabilidade:** O software deve prover funcionalidades nas aplicações mobile e web. Na versão mobile, o usuário cadastra as transações financeiras, metas, categorias e visualiza gráficos. Na versão web o usuário visualiza os gráficos com as mesmas informações, bem como uma tabela com todas as transações cadastradas  - RNF002
 
-**Cenário 2 - Interoperabilidade:** Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ut accumsan erat. Pellentesque in enim tempus, iaculis sem in, semper arcu.
+**Cenário 3 – Segurança:** A aplicação deve garantir a segurança do usuário pela utilização de autenticação. No momento do login, é retornado o token JWT que por sua vez é armazenado no shared preference na versão mobile. Nas requisições HTTP, o token é enviado no header. Uma requisição com token de autenticação deve retornar o status 200, sem o token deve retornar o status 401 (unauthorized) - RNF003
 
-**Cenário 3 - Manutenibilidade:** Phasellus magna tellus, consectetur quis scelerisque eget, ultricies eu ligula. Sed rhoncus fermentum nisi, a ullamcorper leo fringilla id. Nulla lacinia sem vel magna ornare, non tincidunt ipsum rhoncus. Nam euismod semper ante id tristique. Mauris vel elit augue.
+**Cenário 4 – Desempenho:** O sistema deve prover um tempo de resposta adequado ao uso, com resposta de no máximo 2 segundos. - RNF004
 
-**Cenário 4 - Segurança:** Suspendisse consectetur porta tortor non convallis. Sed lobortis erat sed dignissim dignissim. Nunc eleifend elit et aliquet imperdiet. Ut eu quam at lacus tincidunt fringilla eget maximus metus. Praesent finibus, sapien eget molestie porta, neque turpis congue risus, vel porttitor sapien tortor ac nulla. Aliquam erat volutpat.
+**Cenário 5 – Testabilidade:** A aplicação deve ter cobertura de testes de no mínimo 60% para o código mobile e para a API. - RNF005
+
+**Cenário 6 – Recuperabilidade:** O sistema deve replicar as informações do usuário cadastradas no banco de dados remoto para a aplicação local. A sincronização durante o uso da aplicação é garantida pela mensageria. No caso de criação, edição ou exclusão de informações, a API é responsável por enviar os dados para serem salvos no SQL, bem como enviar uma mensagem para o "CloudAMQP - RabbitMQ as a Service", responsável por atualizar o banco local sqflite. - RNF006
+
+**Cenário 7 – Disponibilidade:** O sistema deve estar disponível para interação com o usuário no mínimo 98% do tempo. - RNF007
+
+
 
 ## 4.2. Avaliação
 
-_Apresente as medidas registradas na coleta de dados. O que não for possível quantificar apresente uma justificativa baseada em evidências qualitativas que suportam o atendimento do requisito não-funcional. Apresente uma avaliação geral da arquitetura indicando os pontos fortes e as limitações da arquitetura proposta._
-
-| **Atributo de Qualidade:** | Segurança |
+| **Atributo de Qualidade:** | Capacidade para ser instalado |
 | --- | --- |
-| **Requisito de Qualidade** | Acesso aos recursos restritos deve ser controlado |
-| **Preocupação:** | Os acessos de usuários devem ser controlados de forma que cada um tenha acesso apenas aos recursos condizentes as suas credenciais. |
-| **Cenários(s):** | Cenário 4 |
-| **Ambiente:** | Sistema em operação normal |
-| **Estímulo:** | Acesso do administrador do sistema as funcionalidades de cadastro de novos produtos e exclusão de produtos. |
-| **Mecanismo:** | O servidor de aplicação (Rails) gera um _token_ de acesso para o usuário que se autentica no sistema. Este _token_ é transferido para a camada de visualização (Angular) após a autenticação e o tratamento visual das funcionalidades podem ser tratados neste nível. |
-| **Medida de Resposta:** | As áreas restritas do sistema devem ser disponibilizadas apenas quando há o acesso de usuários credenciados. |
+| **Requisito de Qualidade** | Compatibilidade com a plataforma Android |
+| **Preocupação:** | O sistema deve ser instalado corretamente nos dispositivos móveis com sistema operacional Android. |
+| **Cenários(s):** | Cenário 1 |
+| **Ambiente:** | Sistema operacional Android. |
+| **Estímulo:** | Instalação do aplicativo no emulador com sistema operacional Android. |
+| **Mecanismo:** | Aplicação deve ser desenvolvida implementando o Material Design, responsável por estilizar os widgets de interface com base nos padrões do Google. |
+| **Medida de Resposta:** | No código fonte da aplicação mobile deve constar o "import 'package:flutter/material.dart'". |
 
 **Considerações sobre a arquitetura:**
 
@@ -357,9 +361,163 @@ _Apresente as medidas registradas na coleta de dados. O que não for possível q
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
-Evidências dos testes realizados
+Evidências do testes:
 
-_Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação._
+![CapacidadeSerInstalado](https://user-images.githubusercontent.com/72347093/207441032-eebe6f81-97dc-4bd0-a9ac-66ded368d4eb.jpg)
+
+![CapacidadeSerInstalado_2](https://user-images.githubusercontent.com/72347093/207452735-d79de16f-294a-4f3a-8750-9cc3a4617c5f.jpg)  
+
+
+
+| **Atributo de Qualidade:** | Adaptabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | Sistem deve prover serviços no ambiente móvel e web. |
+| **Preocupação:** | O sistema deve funcionar nos sistemas operacionais Android e nos navegadores chrome, mozila e edge. |
+| **Cenários(s):** | Cenário 2 |
+| **Ambiente:** | Sistema em operação |
+| **Estímulo:** | Login na aplicação por meio de um dispositivo móvel e na web. |
+| **Mecanismo:** | Cadastro de uma transação na software instaldao em um dispositivo móvel e visualização da mesma informação na tabela da versão web. |
+| **Medida de Resposta:** | A transação cadastrada na aplicação móvel foi visualizada na aplicação web, de acordo com o layout de cada dispositivo, não sendo necessário configurações adicionais. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+![Adaptabilidade](https://user-images.githubusercontent.com/72347093/207444948-a95fb29f-bd71-425b-bb42-7a83611a19bf.jpg)
+
+
+
+| **Atributo de Qualidade:** | Segurança |
+| --- | --- |
+| **Requisito de Qualidade** | A aplicação deve garantir a segurança dos dados do usuário |
+| **Preocupação:** | Somente usuários autenticados devem operar o sistema. |
+| **Cenários(s):** | Cenário 3 |
+| **Ambiente:** | Sistema em operação. |
+| **Estímulo:** | Utilização das rotas (endpoints) sem token de autenticação. |
+| **Mecanismo:** | Interação com os endpoints do Swagger. |
+| **Medida de Resposta:** | Nenhuma requisição que envolva informações sensíveis deve ser realizada sem a autenticação. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidências do testes:
+*Geração de token no login*
+
+![Segurança](https://user-images.githubusercontent.com/72347093/207447290-3211f443-fe5b-453d-8d05-7776cba48a74.jpg)
+
+*Operação GET sem autenticação*
+
+![Segurança_1](https://user-images.githubusercontent.com/72347093/207447419-a5f06af9-f794-470b-beb6-0f93173cffef.jpg)
+
+*Operação GET com autenticação*
+
+![Segurança_2](https://user-images.githubusercontent.com/72347093/207447486-f5ede831-ea0a-46d8-a32a-7e9399902c58.jpg)
+
+
+
+| **Atributo de Qualidade:** | Desempenho |
+| --- | --- |
+| **Requisito de Qualidade** | A aplicação deve ter um tempo de resposta de no máximo 2s |
+| **Preocupação:** | Os usuários devem ter uma boa experiência na utilização da aplicação. |
+| **Cenários(s):** | Cenário 4 |
+| **Ambiente:** | Sistema em operação com operações básicas. |
+| **Estímulo:** | Usuário utilizando a aplicação e com percepção de respostas rápidas. |
+| **Mecanismo:** | Consultar o tempo de resposta da API hospedade no "Serviço de Aplicativos" na Azure. |
+| **Medida de Resposta:** | Analisar e o tempo médio de resposta das requisições HTTP é superior a 2s. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+![Desempenho](https://user-images.githubusercontent.com/72347093/207447915-eaa8e049-8c0e-4940-a8b3-7e7325a34d4c.jpg)
+
+
+
+| **Atributo de Qualidade:** | Testabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | O backend do sistema deve ser cobertura de testes de no mínimo 60%. |
+| **Preocupação:** | Garantia de deploy em produção de um software minimamente testado. |
+| **Cenários(s):** | Cenário 5 |
+| **Ambiente:** | Microsoft Visual Studio. |
+| **Estímulo:** | Executar os testes unitários escritos para testar a robustez da aplicação. |
+| **Mecanismo:** | Avaliar se o percentual de testes que passaram foi de no mínimo 60%, por meio da biblioteca xUnit. |
+| **Medida de Resposta:** | A biblioteca utilizada deve informar que no mínimo 60% da aplicação foi testada . |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+*Teste flutter*
+
+![Teste_1](https://user-images.githubusercontent.com/72347093/207448411-87b7af3c-23d7-43a1-9a74-1daaeca0dedb.jpg)
+
+*Teste Backend - API*
+
+![Teste_2](https://user-images.githubusercontent.com/72347093/207448455-1705ba64-c943-4f93-a2eb-6d0c3a93ddbc.jpg)
+
+
+
+| **Atributo de Qualidade:** | Recuperabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | Deve haver consistência dos dados no banco de dados remoto e local. |
+| **Preocupação:** | O usuário deve ter acesso a mesma base de dados tanto no ambiente remoto quanto no ambiente virtual. |
+| **Cenários(s):** | Cenário 6 |
+| **Ambiente:** | Sistema em operação. |
+| **Estímulo:** | Usuário deve ter acesso as informações do banco de dados remoto caso desistale a aplicação mobile e posteriormente instale novamente . |
+| **Mecanismo:** | Cadastrar uma transação e uma categoria, desistalar a aplicação e instalar novamente. |
+| **Medida de Resposta:** | Após reinstalar a aplicação, o usuário deve ter acesso as mesmas informações que tinha antes de desinstalar o software. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+![Recuperabilidade](https://user-images.githubusercontent.com/72347093/207450268-2d3684bf-712d-47a0-a730-6512372caa96.jpg)
+
+
+
+| **Atributo de Qualidade:** | Disponibilidade |
+| --- | --- |
+| **Requisito de Qualidade** | A aplicação deve estar disponível 98% do tempo |
+| **Preocupação:** | Deve ser minimizado os efeitos da indisponibilidade do sistema para o usuário. |
+| **Cenários(s):** | Cenário 7 |
+| **Ambiente:** | Sistema em operação com operações básicas. |
+| **Estímulo:** | Usuário utilizando a aplicação com a percepção de que o sitema está disponível quase que em 100% do tempo. |
+| **Mecanismo:** | Consultar o tempo de disponibilidade do sistema no "Application Insights" na Azure. |
+| **Medida de Resposta:** | O sistema deve estar disponível no mínimo em 98% do tempo. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+![Recuperabilidade](https://user-images.githubusercontent.com/72347093/207450553-99c184b0-9f07-4463-9139-dd9aa7a5f7e5.jpg)
+
 
 <a name="referencias"></a>
 # 5. REFERÊNCIAS

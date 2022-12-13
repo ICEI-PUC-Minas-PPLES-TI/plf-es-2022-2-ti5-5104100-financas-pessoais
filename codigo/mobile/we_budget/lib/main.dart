@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:month_year_picker/month_year_picker.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/Repository/account_repository.dart';
@@ -11,17 +9,20 @@ import 'package:we_budget/Repository/transaction_repository.dart';
 import 'package:we_budget/components/menu_component.dart';
 import 'package:we_budget/models/auth.dart';
 import 'package:we_budget/pages/auth_or_home_page.dart';
+import 'package:we_budget/pages/carrossel_page.dart';
 import 'package:we_budget/pages/category_page.dart';
 import 'package:we_budget/pages/create_meta.dart';
+import 'package:we_budget/pages/edit_data_login.dart';
+import 'package:we_budget/pages/init_page.dart';
 import 'package:we_budget/pages/list_category_page.dart';
 import 'package:we_budget/pages/list_transactions_page.dart';
 import 'package:we_budget/pages/location_form.dart';
 import 'package:we_budget/pages/login_page.dart';
 import 'package:we_budget/pages/main_page.dart';
 import 'package:we_budget/pages/registrar_transacao_page.dart';
-import 'package:we_budget/providers/Transactions_providers.dart';
 import 'package:we_budget/utils/app_routes.dart';
-import 'package:we_budget/utils/db_util.dart';
+import 'package:we_budget/utils/sqflite.dart';
+import 'package:we_budget/utils/update_local_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,14 +30,16 @@ void main() {
 
 class MyApp extends StatelessWidget {
   void carregaBanco() async {
+    print("entrou");
     Database db = await DBHelper.instance.database;
-    // await db.delete(DBHelper.tableCategoria);
-    // await db.delete(DBHelper.tableTransaction);
-    //await db.delete(DBHelper.tableMetas);
-    await RepositoryCategory('').selectCategoria();
-    await RepositoryTransaction('').selectTransaction();
-    await RepositoryMetas().selectMetas();
-    await RepositoryAccount('').selectAcount();
+    await db.delete(DBHelper.tableCategoria);
+    await db.delete(DBHelper.tableTransaction);
+    await db.delete(DBHelper.tableMetas);
+    await db.delete(DBHelper.tableAccount);
+    // await RepositoryCategory().selectCategoria();
+    // await RepositoryTransaction().selectTransaction();
+    // await RepositoryMetas().selectMetas();
+    // await RepositoryAccount().selectAcount();
   }
 
   const MyApp({Key? key}) : super(key: key);
@@ -44,37 +47,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Aplicação Inicial");
-    carregaBanco();
+    // carregaBanco();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => TransactionsProviders(),
-        ),
         ChangeNotifierProxyProvider<Auth, RepositoryTransaction>(
-          create: (_) => RepositoryTransaction(''),
+          create: (_) => RepositoryTransaction(),
           update: (context, auth, previous) {
-            return RepositoryTransaction(auth.token ?? '');
+            return RepositoryTransaction();
           },
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryCategory>(
-          create: (_) => RepositoryCategory(''),
+          create: (_) => RepositoryCategory(),
           update: (context, auth, previous) {
-            return RepositoryCategory(auth.token ?? '');
+            return RepositoryCategory();
           },
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryAccount>(
-          create: (_) => RepositoryAccount(''),
+          create: (_) => RepositoryAccount(),
           update: (context, auth, previous) {
-            return RepositoryAccount(auth.token ?? '');
+            return RepositoryAccount();
           },
         ),
         ChangeNotifierProxyProvider<Auth, RepositoryMetas>(
           create: (_) => RepositoryMetas(),
           update: (context, auth, previous) {
             return RepositoryMetas();
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, UpdateLocalDatabase>(
+          create: (_) => UpdateLocalDatabase(),
+          update: (context, auth, previous) {
+            return UpdateLocalDatabase();
           },
         ),
       ],
@@ -92,6 +98,7 @@ class MyApp extends StatelessWidget {
         ],
         debugShowCheckedModeBanner: false,
         routes: {
+          AppRoutes.initPage: (ctx) => const InitPage(),
           AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
           AppRoutes.login: (ctx) => const LoginPage(),
           AppRoutes.main: (ctx) => const MainPage(),
@@ -102,6 +109,8 @@ class MyApp extends StatelessWidget {
           AppRoutes.listTransactions: (ctx) => const ListTransactionsPage(),
           AppRoutes.createMeta: (ctx) => const CreateMeta(),
           AppRoutes.menuPrincipal: (ctx) => const MenuPrincipal(),
+          AppRoutes.editDataUser: (ctx) => const EditDataUser(),
+          AppRoutes.carroselTutorial: (ctx) => const CarroselTutorial(),
         },
       ),
     );
