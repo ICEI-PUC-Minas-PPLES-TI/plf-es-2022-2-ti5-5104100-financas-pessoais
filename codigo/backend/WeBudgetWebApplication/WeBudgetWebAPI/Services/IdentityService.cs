@@ -84,7 +84,7 @@ public class IdentityService:IIdentityService
         if (token == null)
             return Result.Fail("Problemas para gerar o token");
         //Url de recuperacao
-        var resetUrl = "token= " + token;
+        var resetUrl = "https://webudgetpucminas.netlify.app/resetsenha.html?token=" + token + "&email=" + forgotPassword.Email;
         MailRequest request = new MailRequest()
         {
             ToEmail = forgotPassword.Email,
