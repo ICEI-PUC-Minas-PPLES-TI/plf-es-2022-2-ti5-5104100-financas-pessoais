@@ -29,7 +29,87 @@ O sistema terá uma versão mobile e uma versão web.
 
 ## Instruções de utilização
 
-A primeira versão do sistema ainda não está disponível. Assim que possível, as instruções serão disponibilizadas.
+Seguindo o passo a passo, será possível estar realizando uma cópia do projeto rodando em sua máquina local com o próprosito de estar testando e desenvolvendo.
+
+### Passo a passo de: como iniciar a aplicação
+
+Pré-requisito:
+- Ter instalado [Flutter na versão 2.18.5](https://docs.flutter.dev/development/tools/sdk/releases)
+- Ter instalado [VsCode](https://code.visualstudio.com/download)
+- Ter instalado [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
+- Ter instalado [SQL Server Management Studio](https://learn.microsoft.com/pt-br/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+
+<br>
+
+### Passo 1: Clonar o repositório
+```bash
+$ git clone https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2022-2-ti5-5104100-financas-pessoais.git
+```
+<br>
+
+### Passo 2: Configurar o backend
+
+- Entrar na pasta do backend:
+```bash
+$ cd plf-es-2022-2-ti5-5104100-financas-pessoais\codigo\backend\WeBudgetWebApplication
+```
+
+- Criar um banco local no SSMS  
+
+  Seguir o passo a passo [criando um banco de dados local](https://learn.microsoft.com/pt-br/sql/ssms/download-sql-server-management-studio-ssms)
+
+- alterar a configuração no appsettings do backend
+```bash
+altere a string de conexão do banco de dados da Azure para o seu banco criado 
+```
+- Carregar as tabelas para o seu banco local
+
+```bash
+Na liha de comando do Visual Studio insrida: database update
+```
+<br>
+
+### Passo 3: Configurar o frontEnd
+
+- Entrar na pasta do frontend:
+
+```bash
+$ cd plf-es-2022-2-ti5-5104100-financas-pessoais\codigo\web\WeBudget\HTML
+```
+
+- Comando de abertura do código:
+
+```bash
+$ code .
+```
+<br>
+
+### Passo 4: Configurar o Flutter (Frontend mobile)
+
+
+- Entrar na pasta do frontend mobile:
+
+```bash
+$ cd plf-es-2022-2-ti5-5104100-financas-pessoais\codigo\mobile\we_budget
+```
+
+- Instalar as dependências do projeto Flutter:
+
+```bash
+$ flutter pub get
+```
+
+- Iniciar o Flutter no navegaodr Chrome:
+
+```bash
+$ flutter run -d chrome
+```
+- Iniciar o Flutter no emulador:
+```bash
+No visualCode você deverá se conectar em um dispositivo e logo em seguida estar executando sem depuração o programa. 
+Para o AndroidSudio será necessário a criação de um emulador para estar executando
+```
+
 
 ## Histórico de versões
 
