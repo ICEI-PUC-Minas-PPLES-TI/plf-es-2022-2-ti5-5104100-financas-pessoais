@@ -29,25 +29,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  void carregaBanco() async {
-    print("entrou");
-    Database db = await DBHelper.instance.database;
-    await db.delete(DBHelper.tableCategoria);
-    await db.delete(DBHelper.tableTransaction);
-    await db.delete(DBHelper.tableMetas);
-    await db.delete(DBHelper.tableAccount);
-    // await RepositoryCategory().selectCategoria();
-    // await RepositoryTransaction().selectTransaction();
-    // await RepositoryMetas().selectMetas();
-    // await RepositoryAccount().selectAcount();
-  }
-
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     print("Aplicação Inicial");
-    // carregaBanco();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

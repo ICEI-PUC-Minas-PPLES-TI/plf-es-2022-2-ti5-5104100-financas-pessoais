@@ -173,7 +173,7 @@ function desenharBarraTransacoes() {
 
   let opcoes = {
     'height': 500,
-    'width': 1200,
+    'width': 1000,
   };
 
   let grafico = new google.visualization.ColumnChart(document.getElementById('gastosCategoria'));

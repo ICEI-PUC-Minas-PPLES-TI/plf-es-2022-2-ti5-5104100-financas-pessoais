@@ -38,8 +38,43 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
 | **[31/08/2022]** | [Helen] | [Estruturação inicial da Apresentação e Requisitos do projeto] | [1.0.0] |
-| **[14/09/2022]** | [Helen] | [Correções da Apresentação e Requisitos do projeto] | [2.0.0] |
-| **[17/09/2022]** | [Izabella] | [Estruturação inicial da modelagem e projeto arquitetural] | [2.1.0] |
+| **[14/09/2022]** | [Helen] | [Correções da Apresentação e Requisitos do projeto] | [1.0.1] |
+| **[17/09/2022]** | [Izabella] | [Estruturação inicial da modelagem e projeto arquitetural] | [1.0.2] |
+| **[17/09/2022]** | [Nataniel] | [Estrutura inicial de código mobile da aplicação] | [1.0.3] |
+| **[17/09/2022]** | [Izabella] | [Criação dos protótipos de tela da aplicação] | [1.0.4] |
+| **[18/09/2022]** | [Nataniel] | [Implementação login] | [1.0.5] |
+| **[21/09/2022]** | [Pedro Campos] | [Estrutura inicial do código backend da aplicação] | [1.0.6] |
+| **[21/09/2022]** | [Izabella] | [Estrutura inicial do código web da aplicação] | [1.0.7] |
+| **[27/09/2022]** | [Nataniel] | [Criação de novas telas e barra de navegação] | [1.0.8] |
+| **[03/10/2022]** | [Izabella] | [Implementação tela de cadastro de transações e metas] | [1.0.9] |
+| **[09/10/2022]** | [Pedro Campos] | [Implementação da tela de mapas] | [1.1.0] |
+| **[09/10/2022]** | [Izabella] | [Criação conexão banco de dados SQFLite na aplicação mobile] | [1.1.1] |
+| **[09/10/2022]** | [Izabella] | [Implementação lista de transações aplicação mobile] | [1.1.2] |
+| **[11/10/2022]** | [Nataniel] | [Implementação cadastro de categoria] | [1.1.3] |
+| **[22/10/2022]** | [Pedro Campos] | [Criação de novos controllers no código backend] | [1.1.4] |
+| **[25/10/2022]** | [Pedro Campos] | [Configuração CORS no código backend] | [1.1.5] |
+| **[08/11/2022]** | [Izabella] | [Revisão layout da aplicação mobile] | [1.1.6] |
+| **[08/11/2022]** | [Pedro Campos] | [Implementação backend lógica de autenticação e token] | [1.1.7] |
+| **[09/11/2022]** | [Nataniel] | [Implementação mensageria na aplicação mobile] | [1.1.8] |
+| **[09/11/2022]** | [Pedro Henrique] | [Criação gráficos aplicação mobile] | [1.1.9] |
+| **[12/11/2022]** | [Pedro Campos] | [Implementaçaõ mensageria no código backend] | [1.2.0] |
+| **[13/11/2022]** | [Izabella] | [Criação de filtros nas telas da aplicação mobile] | [1.2.1] |
+| **[14/11/2022]** | [Nataniel] | [Implementação código na versão mobile de conexão ao banco de dados remoto] | [1.2.2] |
+| **[15/11/2022]** | [Nataniel e Pedro Campos] | [Hospedagem API no Azure] | [1.2.3] |
+| **[17/11/2022]** | [Nataniel] | [Sincronização entre mensageria e aplicação mobile] | [1.2.4] |
+| **[20/11/2022]** | [Nataniel] | [Implementação apuração de saldos na tela principal da aplicação mobile] | [1.2.5] |
+| **[21/11/2022]** | [Pedro Campos] | [Implementação lógica de recuperação de senha na versão web] | [1.2.6] |
+| **[22/11/2022]** | [Helen] | [Criação gráficos na aplicação web] | [1.2.7] |
+| **[27/11/2022]** | [Pedro Campos] | [Criação de testes do código backend] | [1.2.8] |
+| **[30/11/2022]** | [Nataniel] | [Implementação lógica de edição dados usuário na aplicação mobile] | [1.2.9] |
+| **[01/12/2022]** | [Pedro Henrique] | [Criação de testes do código flutter (versão mobile)] | [1.3.0] |
+| **[03/12/2022]** | [Pedro Campos] | [Implementação de lógica no backend de envio de email de recuperação de senha] | [1.3.1] |
+| **[08/12/2022]** | [Helen] | [Correções gráficos aplicação web] | [1.3.2] |
+| **[11/12/2022]** | [Nataniel] | [Implementação de recuperação de dados na nuvem após login na aplicação mobile] | [1.3.3] |
+| **[13/12/2022]** | [Nataniel] | [Avaliação arquitetura pelo método ATAM] | [1.3.4] |
+| **[13/12/2022]** | [Helen] | [Ajustes gerais na aplicação web] | [1.3.5] |
+| **[14/12/2022]** | [Izabella] | [Implementação de tutorial da aplicação na versão mobile] | [1.3.6] |
+
 
 ## SUMÁRIO
 
@@ -145,8 +180,8 @@ Visando auxiliar a definir quais são as funcionalidades de maior prioridade de 
 | RNF001 | O software deve ser compatível nas plataformas Android. |
 | RNF002 | O sistema deve prover serviços no ambiente web e móvel. |
 | RNF003 | O usuário deve estar autenticado. |
-| RNF004 | O sistema deve responder as requisições em até 500 milissegundos. |
-| RNF005 | O sistema deve ser aprovado em testes de integração. |
+| RNF004 | O sistema deve responder as requisições em até 2 segundos. |
+| RNF005 | O sistema deve ser aprovado em testes unitários. |
 | RNF006 | A parte mobile deve ter persistencia de dados local. |
 | RNF007 | O sistema deve estar disponível 98% do tempo. |
 
@@ -326,29 +361,33 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 
 ## 4.1. Cenários
 
-_Apresente os cenários de testes utilizados na realização dos testes da sua aplicação. Escolha cenários de testes que demonstrem os requisitos não funcionais sendo satisfeitos. Os requisitos a seguir são apenas exemplos de possíveis requisitos, devendo ser revistos, adequados a cada projeto e complementados de forma a terem uma especificação completa e auto-explicativa._
+**Cenário 1 - Capacidade para ser Instalado:** A aplicação mobile deve ser desenvolvida de modo a ser compatível com a plataforma Android. - RNF001
 
-**Cenário 1 - Acessibilidade:** Suspendisse consequat consectetur velit. Sed sem risus, dictum dictum facilisis vitae, commodo quis leo. Vivamus nulla sem, cursus a mollis quis, interdum at nulla. Nullam dictum congue mauris. Praesent nec nisi hendrerit, ullamcorper tortor non, rutrum sem. In non lectus tortor. Nulla vel tincidunt eros.
+**Cenário 2 - Interoperabilidade:** O software deve prover funcionalidades nas aplicações mobile e web. Na versão mobile, o usuário cadastra as transações financeiras, metas, categorias e visualiza gráficos. Na versão web o usuário visualiza os gráficos com as mesmas informações, bem como uma tabela com todas as transações cadastradas  - RNF002
 
-**Cenário 2 - Interoperabilidade:** Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ut accumsan erat. Pellentesque in enim tempus, iaculis sem in, semper arcu.
+**Cenário 3 – Segurança:** A aplicação deve garantir a segurança do usuário pela utilização de autenticação. No momento do login, é retornado o token JWT que por sua vez é armazenado no shared preference na versão mobile. Nas requisições HTTP, o token é enviado no header. Uma requisição com token de autenticação deve retornar o status 200, sem o token deve retornar o status 401 (unauthorized) - RNF003
 
-**Cenário 3 - Manutenibilidade:** Phasellus magna tellus, consectetur quis scelerisque eget, ultricies eu ligula. Sed rhoncus fermentum nisi, a ullamcorper leo fringilla id. Nulla lacinia sem vel magna ornare, non tincidunt ipsum rhoncus. Nam euismod semper ante id tristique. Mauris vel elit augue.
+**Cenário 4 – Desempenho:** O sistema deve prover um tempo de resposta adequado ao uso, com resposta de no máximo 2 segundos. - RNF004
 
-**Cenário 4 - Segurança:** Suspendisse consectetur porta tortor non convallis. Sed lobortis erat sed dignissim dignissim. Nunc eleifend elit et aliquet imperdiet. Ut eu quam at lacus tincidunt fringilla eget maximus metus. Praesent finibus, sapien eget molestie porta, neque turpis congue risus, vel porttitor sapien tortor ac nulla. Aliquam erat volutpat.
+**Cenário 5 – Testabilidade:** A aplicação deve ter cobertura de testes de no mínimo 60% para o código mobile e para a API. - RNF005
+
+**Cenário 6 – Recuperabilidade:** O sistema deve replicar as informações do usuário cadastradas no banco de dados remoto para a aplicação local. A sincronização durante o uso da aplicação é garantida pela mensageria. No caso de criação, edição ou exclusão de informações, a API é responsável por enviar os dados para serem salvos no SQL, bem como enviar uma mensagem para o "CloudAMQP - RabbitMQ as a Service", responsável por atualizar o banco local sqflite. - RNF006
+
+**Cenário 7 – Disponibilidade:** O sistema deve estar disponível para interação com o usuário no mínimo 98% do tempo. - RNF007
+
+
 
 ## 4.2. Avaliação
 
-_Apresente as medidas registradas na coleta de dados. O que não for possível quantificar apresente uma justificativa baseada em evidências qualitativas que suportam o atendimento do requisito não-funcional. Apresente uma avaliação geral da arquitetura indicando os pontos fortes e as limitações da arquitetura proposta._
-
-| **Atributo de Qualidade:** | Segurança |
+| **Atributo de Qualidade:** | Capacidade para ser instalado |
 | --- | --- |
-| **Requisito de Qualidade** | Acesso aos recursos restritos deve ser controlado |
-| **Preocupação:** | Os acessos de usuários devem ser controlados de forma que cada um tenha acesso apenas aos recursos condizentes as suas credenciais. |
-| **Cenários(s):** | Cenário 4 |
-| **Ambiente:** | Sistema em operação normal |
-| **Estímulo:** | Acesso do administrador do sistema as funcionalidades de cadastro de novos produtos e exclusão de produtos. |
-| **Mecanismo:** | O servidor de aplicação (Rails) gera um _token_ de acesso para o usuário que se autentica no sistema. Este _token_ é transferido para a camada de visualização (Angular) após a autenticação e o tratamento visual das funcionalidades podem ser tratados neste nível. |
-| **Medida de Resposta:** | As áreas restritas do sistema devem ser disponibilizadas apenas quando há o acesso de usuários credenciados. |
+| **Requisito de Qualidade** | Compatibilidade com a plataforma Android |
+| **Preocupação:** | O sistema deve ser instalado corretamente nos dispositivos móveis com sistema operacional Android. |
+| **Cenários(s):** | Cenário 1 |
+| **Ambiente:** | Sistema operacional Android. |
+| **Estímulo:** | Instalação do aplicativo no emulador com sistema operacional Android. |
+| **Mecanismo:** | Aplicação deve ser desenvolvida implementando o Material Design, responsável por estilizar os widgets de interface com base nos padrões do Google. |
+| **Medida de Resposta:** | No código fonte da aplicação mobile deve constar o "import 'package:flutter/material.dart'". |
 
 **Considerações sobre a arquitetura:**
 
@@ -357,9 +396,163 @@ _Apresente as medidas registradas na coleta de dados. O que não for possível q
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
-Evidências dos testes realizados
+Evidências do testes:
 
-_Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação._
+![CapacidadeSerInstalado](https://user-images.githubusercontent.com/72347093/207441032-eebe6f81-97dc-4bd0-a9ac-66ded368d4eb.jpg)
+
+![CapacidadeSerInstalado_2](https://user-images.githubusercontent.com/72347093/207452735-d79de16f-294a-4f3a-8750-9cc3a4617c5f.jpg)  
+
+
+
+| **Atributo de Qualidade:** | Interoperabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | Sistem deve prover serviços no ambiente móvel e web. |
+| **Preocupação:** | O sistema deve funcionar nos sistemas operacionais Android e nos navegadores chrome, mozila e edge. |
+| **Cenários(s):** | Cenário 2 |
+| **Ambiente:** | Sistema em operação |
+| **Estímulo:** | Login na aplicação por meio de um dispositivo móvel e na web. |
+| **Mecanismo:** | Cadastro de uma transação na software instaldao em um dispositivo móvel e visualização da mesma informação na tabela da versão web. |
+| **Medida de Resposta:** | A transação cadastrada na aplicação móvel foi visualizada na aplicação web, de acordo com o layout de cada dispositivo, não sendo necessário configurações adicionais. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+![Interoperabilidade](https://user-images.githubusercontent.com/72347093/207486926-689a2352-e0ef-4dad-994b-792e5aca8230.jpg)
+
+
+
+| **Atributo de Qualidade:** | Segurança |
+| --- | --- |
+| **Requisito de Qualidade** | A aplicação deve garantir a segurança dos dados do usuário |
+| **Preocupação:** | Somente usuários autenticados devem operar o sistema. |
+| **Cenários(s):** | Cenário 3 |
+| **Ambiente:** | Sistema em operação. |
+| **Estímulo:** | Utilização das rotas (endpoints) sem token de autenticação. |
+| **Mecanismo:** | Interação com os endpoints do Swagger. |
+| **Medida de Resposta:** | Nenhuma requisição que envolva informações sensíveis deve ser realizada sem a autenticação. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidências do testes:
+*Geração de token no login*
+
+![Segurança](https://user-images.githubusercontent.com/72347093/207447290-3211f443-fe5b-453d-8d05-7776cba48a74.jpg)
+
+*Operação GET sem autenticação*
+
+![Segurança_1](https://user-images.githubusercontent.com/72347093/207447419-a5f06af9-f794-470b-beb6-0f93173cffef.jpg)
+
+*Operação GET com autenticação*
+
+![Segurança_2](https://user-images.githubusercontent.com/72347093/207447486-f5ede831-ea0a-46d8-a32a-7e9399902c58.jpg)
+
+
+
+| **Atributo de Qualidade:** | Desempenho |
+| --- | --- |
+| **Requisito de Qualidade** | A aplicação deve ter um tempo de resposta de no máximo 2s |
+| **Preocupação:** | Os usuários devem ter uma boa experiência na utilização da aplicação. |
+| **Cenários(s):** | Cenário 4 |
+| **Ambiente:** | Sistema em operação com operações básicas. |
+| **Estímulo:** | Usuário utilizando a aplicação e com percepção de respostas rápidas. |
+| **Mecanismo:** | Consultar o tempo de resposta da API hospedade no "Serviço de Aplicativos" na Azure. |
+| **Medida de Resposta:** | Analisar e o tempo médio de resposta das requisições HTTP é superior a 2s. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+![Desempenho](https://user-images.githubusercontent.com/72347093/207447915-eaa8e049-8c0e-4940-a8b3-7e7325a34d4c.jpg)
+
+
+
+| **Atributo de Qualidade:** | Testabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | O backend do sistema deve ser cobertura de testes de no mínimo 60%. |
+| **Preocupação:** | Garantia de deploy em produção de um software minimamente testado. |
+| **Cenários(s):** | Cenário 5 |
+| **Ambiente:** | Microsoft Visual Studio. |
+| **Estímulo:** | Executar os testes unitários escritos para testar a robustez da aplicação. |
+| **Mecanismo:** | Avaliar se o percentual de testes que passaram foi de no mínimo 60%, por meio da biblioteca xUnit. |
+| **Medida de Resposta:** | A biblioteca utilizada deve informar que no mínimo 60% da aplicação foi testada . |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+*Teste flutter*
+
+![Teste_1](https://user-images.githubusercontent.com/72347093/207448411-87b7af3c-23d7-43a1-9a74-1daaeca0dedb.jpg)
+
+*Teste Backend - API*
+
+![Teste_2](https://user-images.githubusercontent.com/72347093/207448455-1705ba64-c943-4f93-a2eb-6d0c3a93ddbc.jpg)
+
+
+
+| **Atributo de Qualidade:** | Recuperabilidade |
+| --- | --- |
+| **Requisito de Qualidade** | Deve haver consistência dos dados no banco de dados remoto e local. |
+| **Preocupação:** | O usuário deve ter acesso a mesma base de dados tanto no ambiente remoto quanto no ambiente virtual. |
+| **Cenários(s):** | Cenário 6 |
+| **Ambiente:** | Sistema em operação. |
+| **Estímulo:** | Usuário deve ter acesso as informações do banco de dados remoto caso desistale a aplicação mobile e posteriormente instale novamente . |
+| **Mecanismo:** | Cadastrar uma transação e uma categoria, desistalar a aplicação e instalar novamente. |
+| **Medida de Resposta:** | Após reinstalar a aplicação, o usuário deve ter acesso as mesmas informações que tinha antes de desinstalar o software. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+![Recuperabilidade](https://user-images.githubusercontent.com/72347093/207450268-2d3684bf-712d-47a0-a730-6512372caa96.jpg)
+
+
+
+| **Atributo de Qualidade:** | Disponibilidade |
+| --- | --- |
+| **Requisito de Qualidade** | A aplicação deve estar disponível 98% do tempo |
+| **Preocupação:** | Deve ser minimizado os efeitos da indisponibilidade do sistema para o usuário. |
+| **Cenários(s):** | Cenário 7 |
+| **Ambiente:** | Sistema em operação com operações básicas. |
+| **Estímulo:** | Usuário utilizando a aplicação com a percepção de que o sitema está disponível quase que em 100% do tempo. |
+| **Mecanismo:** | Consultar o tempo de disponibilidade do sistema no "Application Insights" na Azure. |
+| **Medida de Resposta:** | O sistema deve estar disponível no mínimo em 98% do tempo. |
+
+**Considerações sobre a arquitetura:**
+
+| **Riscos:** | Não existe |
+| --- | --- |
+| **Pontos de Sensibilidade:** | Não existe |
+| _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+![Disponibilidade](https://user-images.githubusercontent.com/72347093/207487001-d12a219b-5174-4f25-b80f-e217601546f3.jpg)
+
 
 <a name="referencias"></a>
 # 5. REFERÊNCIAS
@@ -373,4 +566,4 @@ _Apresente imagens, descreva os testes de tal forma que se comprove a realizaç�
 <a name="apendices"></a>
 # 6. APÊNDICES
 
-_Inclua o URL do repositório (Github, Bitbucket, etc) onde você armazenou o código da sua prova de conceito/protótipo arquitetural da aplicação como anexos. A inclusão da URL desse repositório de código servirá como base para garantir a autenticidade dos trabalhos._
+https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2022-2-ti5-5104100-financas-pessoais
