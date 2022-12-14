@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sqflite/sqflite.dart';
 import 'package:we_budget/utils/shared_preference.dart';
 
 import '../exceptions/auth_exception.dart';
+import '../utils/sqflite.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
@@ -204,7 +206,13 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  void logout() async {
+    Database db = await DBHelper.instance.database;
+    await db.delete(DBHelper.tableCategoria);
+    await db.delete(DBHelper.tableTransaction);
+    await db.delete(DBHelper.tableMetas);
+    await db.delete(DBHelper.tableAccount);
+
     _token = null;
     _email = null;
     _userId = null;

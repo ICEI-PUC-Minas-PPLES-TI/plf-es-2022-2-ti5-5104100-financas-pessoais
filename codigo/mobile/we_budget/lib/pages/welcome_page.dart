@@ -200,7 +200,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 350),
+              padding: const EdgeInsets.only(top: 300),
               child: FutureBuilder(
                 future:
                     Provider.of<RepositoryTransaction>(context, listen: false)
