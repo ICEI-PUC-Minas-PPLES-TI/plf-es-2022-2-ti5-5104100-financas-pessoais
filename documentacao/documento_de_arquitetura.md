@@ -328,7 +328,7 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 
 **Cenário 1 - Capacidade para ser Instalado:** A aplicação mobile deve ser desenvolvida de modo a ser compatível com a plataforma Android. - RNF001
 
-**Cenário 2 - Adaptabilidade:** O software deve prover funcionalidades nas aplicações mobile e web. Na versão mobile, o usuário cadastra as transações financeiras, metas, categorias e visualiza gráficos. Na versão web o usuário visualiza os gráficos com as mesmas informações, bem como uma tabela com todas as transações cadastradas  - RNF002
+**Cenário 2 - Interoperabilidade:** O software deve prover funcionalidades nas aplicações mobile e web. Na versão mobile, o usuário cadastra as transações financeiras, metas, categorias e visualiza gráficos. Na versão web o usuário visualiza os gráficos com as mesmas informações, bem como uma tabela com todas as transações cadastradas  - RNF002
 
 **Cenário 3 – Segurança:** A aplicação deve garantir a segurança do usuário pela utilização de autenticação. No momento do login, é retornado o token JWT que por sua vez é armazenado no shared preference na versão mobile. Nas requisições HTTP, o token é enviado no header. Uma requisição com token de autenticação deve retornar o status 200, sem o token deve retornar o status 401 (unauthorized) - RNF003
 
@@ -369,7 +369,7 @@ Evidências do testes:
 
 
 
-| **Atributo de Qualidade:** | Adaptabilidade |
+| **Atributo de Qualidade:** | Interoperabilidade |
 | --- | --- |
 | **Requisito de Qualidade** | Sistem deve prover serviços no ambiente móvel e web. |
 | **Preocupação:** | O sistema deve funcionar nos sistemas operacionais Android e nos navegadores chrome, mozila e edge. |
@@ -386,7 +386,7 @@ Evidências do testes:
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
-![Adaptabilidade](https://user-images.githubusercontent.com/72347093/207444948-a95fb29f-bd71-425b-bb42-7a83611a19bf.jpg)
+![Interoperabilidade](https://user-images.githubusercontent.com/72347093/207486926-689a2352-e0ef-4dad-994b-792e5aca8230.jpg)
 
 
 
@@ -516,7 +516,7 @@ Evidência de teste:
 
 Evidência de teste:
 
-![Recuperabilidade](https://user-images.githubusercontent.com/72347093/207450553-99c184b0-9f07-4463-9139-dd9aa7a5f7e5.jpg)
+![Disponibilidade](https://user-images.githubusercontent.com/72347093/207487001-d12a219b-5174-4f25-b80f-e217601546f3.jpg)
 
 
 <a name="referencias"></a>
@@ -531,4 +531,4 @@ Evidência de teste:
 <a name="apendices"></a>
 # 6. APÊNDICES
 
-_Inclua o URL do repositório (Github, Bitbucket, etc) onde você armazenou o código da sua prova de conceito/protótipo arquitetural da aplicação como anexos. A inclusão da URL desse repositório de código servirá como base para garantir a autenticidade dos trabalhos._
+https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2022-2-ti5-5104100-financas-pessoais
