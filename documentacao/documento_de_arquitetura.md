@@ -38,8 +38,43 @@ mostrar algum resultado relevante do trabalho (até 10 linhas)._
 | **Data** | **Autor** | **Descrição** | **Versão** |
 | --- | --- | --- | --- |
 | **[31/08/2022]** | [Helen] | [Estruturação inicial da Apresentação e Requisitos do projeto] | [1.0.0] |
-| **[14/09/2022]** | [Helen] | [Correções da Apresentação e Requisitos do projeto] | [2.0.0] |
-| **[17/09/2022]** | [Izabella] | [Estruturação inicial da modelagem e projeto arquitetural] | [2.1.0] |
+| **[14/09/2022]** | [Helen] | [Correções da Apresentação e Requisitos do projeto] | [1.0.1] |
+| **[17/09/2022]** | [Izabella] | [Estruturação inicial da modelagem e projeto arquitetural] | [1.0.2] |
+| **[17/09/2022]** | [Nataniel] | [Estrutura inicial de código mobile da aplicação] | [1.0.3] |
+| **[17/09/2022]** | [Izabella] | [Criação dos protótipos de tela da aplicação] | [1.0.4] |
+| **[18/09/2022]** | [Nataniel] | [Implementação login] | [1.0.5] |
+| **[21/09/2022]** | [Pedro Campos] | [Estrutura inicial do código backend da aplicação] | [1.0.6] |
+| **[21/09/2022]** | [Izabella] | [Estrutura inicial do código web da aplicação] | [1.0.7] |
+| **[27/09/2022]** | [Nataniel] | [Criação de novas telas e barra de navegação] | [1.0.8] |
+| **[03/10/2022]** | [Izabella] | [Implementação tela de cadastro de transações e metas] | [1.0.9] |
+| **[09/10/2022]** | [Pedro Campos] | [Implementação da tela de mapas] | [1.1.0] |
+| **[09/10/2022]** | [Izabella] | [Criação conexão banco de dados SQFLite na aplicação mobile] | [1.1.1] |
+| **[09/10/2022]** | [Izabella] | [Implementação lista de transações aplicação mobile] | [1.1.2] |
+| **[11/10/2022]** | [Nataniel] | [Implementação cadastro de categoria] | [1.1.3] |
+| **[22/10/2022]** | [Pedro Campos] | [Criação de novos controllers no código backend] | [1.1.4] |
+| **[25/10/2022]** | [Pedro Campos] | [Configuração CORS no código backend] | [1.1.5] |
+| **[08/11/2022]** | [Izabella] | [Revisão layout da aplicação mobile] | [1.1.6] |
+| **[08/11/2022]** | [Pedro Campos] | [Implementação backend lógica de autenticação e token] | [1.1.7] |
+| **[09/11/2022]** | [Nataniel] | [Implementação mensageria na aplicação mobile] | [1.1.8] |
+| **[09/11/2022]** | [Pedro Henrique] | [Criação gráficos aplicação mobile] | [1.1.9] |
+| **[12/11/2022]** | [Pedro Campos] | [Implementaçaõ mensageria no código backend] | [1.2.0] |
+| **[13/11/2022]** | [Izabella] | [Criação de filtros nas telas da aplicação mobile] | [1.2.1] |
+| **[14/11/2022]** | [Nataniel] | [Implementação código na versão mobile de conexão ao banco de dados remoto] | [1.2.2] |
+| **[15/11/2022]** | [Nataniel e Pedro Campos] | [Hospedagem API no Azure] | [1.2.3] |
+| **[17/11/2022]** | [Nataniel] | [Sincronização entre mensageria e aplicação mobile] | [1.2.4] |
+| **[20/11/2022]** | [Nataniel] | [Implementação apuração de saldos na tela principal da aplicação mobile] | [1.2.5] |
+| **[21/11/2022]** | [Pedro Campos] | [Implementação lógica de recuperação de senha na versão web] | [1.2.6] |
+| **[22/11/2022]** | [Helen] | [Criação gráficos na aplicação web] | [1.2.7] |
+| **[27/11/2022]** | [Pedro Campos] | [Criação de testes do código backend] | [1.2.8] |
+| **[30/11/2022]** | [Nataniel] | [Implementação lógica de edição dados usuário na aplicação mobile] | [1.2.9] |
+| **[01/12/2022]** | [Pedro Henrique] | [Criação de testes do código flutter (versão mobile)] | [1.3.0] |
+| **[03/12/2022]** | [Pedro Campos] | [Implementação de lógica no backend de envio de email de recuperação de senha] | [1.3.1] |
+| **[08/12/2022]** | [Helen] | [Correções gráficos aplicação web] | [1.3.2] |
+| **[11/12/2022]** | [Nataniel] | [Implementação de recuperação de dados na nuvem após login na aplicação mobile] | [1.3.3] |
+| **[13/12/2022]** | [Nataniel] | [Avaliação arquitetura pelo método ATAM] | [1.3.4] |
+| **[13/12/2022]** | [Helen] | [Ajustes gerais na aplicação web] | [1.3.5] |
+| **[14/12/2022]** | [Izabella] | [Implementação de tutorial da aplicação na versão mobile] | [1.3.6] |
+
 
 ## SUMÁRIO
 
