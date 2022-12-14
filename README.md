@@ -59,14 +59,16 @@ $ cd plf-es-2022-2-ti5-5104100-financas-pessoais\codigo\backend\WeBudgetWebAppli
   Seguir o passo a passo [criando um banco de dados local](https://learn.microsoft.com/pt-br/sql/ssms/download-sql-server-management-studio-ssms)
 
 - alterar a configuração no appsettings do backend
-```bash
-altere a string de conexão do banco de dados da Azure para o seu banco criado 
-```
+
+  Altere a string de conexão do banco de dados da Azure para o seu banco criado 
+
 - Carregar as tabelas para o seu banco local
 
-```bash
-Na liha de comando do Visual Studio insrida: database update
-```
+  Na liha de comando do Visual Studio inserida: 
+  ```bash
+  database update
+   ```
+
 <br>
 
 ### Passo 3: Configurar o frontEnd
@@ -105,10 +107,10 @@ $ flutter pub get
 $ flutter run -d chrome
 ```
 - Iniciar o Flutter no emulador:
-```bash
-No visualCode você deverá se conectar em um dispositivo e logo em seguida estar executando sem depuração o programa. 
-Para o AndroidSudio será necessário a criação de um emulador para estar executando
-```
+
+    No visualCode você deverá se conectar em um dispositivo e logo em seguida estar executando sem depuração o programa. 
+    Para o AndroidSudio será necessário a criação de um emulador para estar executando
+
 
 
 ## Histórico de versões
