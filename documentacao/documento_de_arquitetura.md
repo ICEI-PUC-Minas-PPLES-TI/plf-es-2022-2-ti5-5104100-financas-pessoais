@@ -328,15 +328,15 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 
 **Cenário 1 - Capacidade para ser Instalado:** A aplicação mobile deve ser desenvolvida de modo a ser compatível com a plataforma Android. - RNF001
 
-**Cenário 2 - Adaptabilidade:** O software deve prover funcionalidades nas aplicações móveis e web . - RNF002
+**Cenário 2 - Adaptabilidade:** O software deve prover funcionalidades nas aplicações mobile e web. Na versão mobile, o usuário cadastra as transações financeiras, metas, categorias e visualiza gráficos. Na versão web o usuário visualiza os gráficos com as mesmas informações, bem como uma tabela com todas as transações cadastradas  - RNF002
 
-**Cenário 3 – Segurança:** A aplicação deve garantir a segurança do usuário pela utilização de autenticação. No momento do login, é retornado o token JWT que por sua vez é armazenado no shared preference na versão mobile. Nas requisições HTTP, o token é enviado no header. - RNF003
+**Cenário 3 – Segurança:** A aplicação deve garantir a segurança do usuário pela utilização de autenticação. No momento do login, é retornado o token JWT que por sua vez é armazenado no shared preference na versão mobile. Nas requisições HTTP, o token é enviado no header. Uma requisição com token de autenticação deve retornar o status 200, sem o token deve retornar o status 401 (unauthorized) - RNF003
 
 **Cenário 4 – Desempenho:** O sistema deve prover um tempo de resposta adequado ao uso, com resposta de no máximo 2 segundos. - RNF004
 
-**Cenário 5 – Testabilidade:** O backend da aplicação deve ser cobertura de testes de no mínimo 60%. - RNF005
+**Cenário 5 – Testabilidade:** A aplicação deve ter cobertura de testes de no mínimo 60% para o código mobile e para a API. - RNF005
 
-**Cenário 6 – Recuperabilidade:** O sistema deve replicar as informações do usuário cadastradas no banco de dados remoto para a aplicação local. - RNF006
+**Cenário 6 – Recuperabilidade:** O sistema deve replicar as informações do usuário cadastradas no banco de dados remoto para a aplicação local. A sincronização durante o uso da aplicação é garantida pela mensageria. No caso de criação, edição ou exclusão de informações, a API é responsável por enviar os dados para serem salvos no SQL, bem como enviar uma mensagem para o "CloudAMQP - RabbitMQ as a Service", responsável por atualizar o banco local sqflite. - RNF006
 
 **Cenário 7 – Disponibilidade:** O sistema deve estar disponível para interação com o usuário no mínimo 98% do tempo. - RNF007
 
@@ -361,6 +361,12 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
+Evidências do testes:
+
+![CapacidadeSerInstalado](https://user-images.githubusercontent.com/72347093/207441032-eebe6f81-97dc-4bd0-a9ac-66ded368d4eb.jpg)
+
+![CapacidadeSerInstalado_2](https://user-images.githubusercontent.com/72347093/207452735-d79de16f-294a-4f3a-8750-9cc3a4617c5f.jpg)  
+
 
 
 | **Atributo de Qualidade:** | Adaptabilidade |
@@ -370,7 +376,7 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | **Cenários(s):** | Cenário 2 |
 | **Ambiente:** | Sistema em operação |
 | **Estímulo:** | Login na aplicação por meio de um dispositivo móvel e na web. |
-| **Mecanismo:** | Cadastro de uma transação na software instaldao em um dispositivo móvel e visualização da mesma informação na versão web. |
+| **Mecanismo:** | Cadastro de uma transação na software instaldao em um dispositivo móvel e visualização da mesma informação na tabela da versão web. |
 | **Medida de Resposta:** | A transação cadastrada na aplicação móvel foi visualizada na aplicação web, de acordo com o layout de cada dispositivo, não sendo necessário configurações adicionais. |
 
 **Considerações sobre a arquitetura:**
@@ -379,6 +385,8 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | --- | --- |
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
+
+![Adaptabilidade](https://user-images.githubusercontent.com/72347093/207444948-a95fb29f-bd71-425b-bb42-7a83611a19bf.jpg)
 
 
 
@@ -390,7 +398,7 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | **Ambiente:** | Sistema em operação. |
 | **Estímulo:** | Utilização das rotas (endpoints) sem token de autenticação. |
 | **Mecanismo:** | Interação com os endpoints do Swagger. |
-| **Medida de Resposta:** | Nenhuma requisição que envolva informações sensíveis foi realizada sem a autenticação. |
+| **Medida de Resposta:** | Nenhuma requisição que envolva informações sensíveis deve ser realizada sem a autenticação. |
 
 **Considerações sobre a arquitetura:**
 
@@ -398,6 +406,19 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | --- | --- |
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
+
+Evidências do testes:
+*Geração de token no login*
+
+![Segurança](https://user-images.githubusercontent.com/72347093/207447290-3211f443-fe5b-453d-8d05-7776cba48a74.jpg)
+
+*Operação GET sem autenticação*
+
+![Segurança_1](https://user-images.githubusercontent.com/72347093/207447419-a5f06af9-f794-470b-beb6-0f93173cffef.jpg)
+
+*Operação GET com autenticação*
+
+![Segurança_2](https://user-images.githubusercontent.com/72347093/207447486-f5ede831-ea0a-46d8-a32a-7e9399902c58.jpg)
 
 
 
@@ -418,6 +439,10 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
+Evidência de teste:
+
+![Desempenho](https://user-images.githubusercontent.com/72347093/207447915-eaa8e049-8c0e-4940-a8b3-7e7325a34d4c.jpg)
+
 
 
 | **Atributo de Qualidade:** | Testabilidade |
@@ -436,6 +461,16 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | --- | --- |
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
+
+Evidência de teste:
+
+*Teste flutter*
+
+![Teste_1](https://user-images.githubusercontent.com/72347093/207448411-87b7af3c-23d7-43a1-9a74-1daaeca0dedb.jpg)
+
+*Teste Backend - API*
+
+![Teste_2](https://user-images.githubusercontent.com/72347093/207448455-1705ba64-c943-4f93-a2eb-6d0c3a93ddbc.jpg)
 
 
 
@@ -456,6 +491,10 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
+Evidência de teste:
+
+![Recuperabilidade](https://user-images.githubusercontent.com/72347093/207450268-2d3684bf-712d-47a0-a730-6512372caa96.jpg)
+
 
 
 | **Atributo de Qualidade:** | Disponibilidade |
@@ -475,9 +514,10 @@ _Esta seção descreve a avaliação da arquitetura apresentada, baseada no mét
 | **Pontos de Sensibilidade:** | Não existe |
 | _ **Tradeoff** _ **:** | Não existe |
 
-Evidências dos testes realizados
+Evidência de teste:
 
-_Apresente imagens, descreva os testes de tal forma que se comprove a realização da avaliação._
+![Recuperabilidade](https://user-images.githubusercontent.com/72347093/207450553-99c184b0-9f07-4463-9139-dd9aa7a5f7e5.jpg)
+
 
 <a name="referencias"></a>
 # 5. REFERÊNCIAS
