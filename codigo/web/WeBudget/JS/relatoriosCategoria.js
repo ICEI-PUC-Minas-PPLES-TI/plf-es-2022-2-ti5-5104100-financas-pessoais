@@ -15,7 +15,7 @@ function getCategorias() {
     listaCategorias.push(element.id)
   });
 
-
+  
   return listaCategorias;
 }
 console.log(categorias);
@@ -34,9 +34,9 @@ function getValoresTrasacoes() {
   var valoresReceita = 0;
 
   retornoTrasaction.forEach(element => {
-    if (element.tansactionType == 1) {
+    if(element.tansactionType == 1){
       valoresDespesa += element.paymentValue;
-    } else {
+    }else{
       valoresReceita += element.paymentValue
     }
   });
@@ -109,75 +109,72 @@ function desenharBarraTransacoes() {
 
 
   var tiposTrasacao = ["Crédito", "Débito", "Cheque", "Pix", "Dinheiro"]
+  
+for (let i = 0; i < transacoes.length; i++) {
 
-  for (let i = 0; i < transacoes.length; i++) {
+  if(transacoes[i].paymentType == tiposTrasacao[0]){
+    valorTotalCredito += parseInt(transacoes[i].paymentValue);
+  }  
 
-    if (transacoes[i].tansactionType == 1) {
+  if(transacoes[i].paymentType == tiposTrasacao[1]){
+    valorTotalDebito += parseInt(transacoes[i].paymentValue);
+  } 
 
-      if (transacoes[i].paymentType == tiposTrasacao[0]) {
-        valorTotalCredito += parseInt(transacoes[i].paymentValue);
-      }
+  if(transacoes[i].paymentType == tiposTrasacao[2]){
+    valorTotalCheque += parseInt(transacoes[i].paymentValue);
+  } 
 
-      if (transacoes[i].paymentType == tiposTrasacao[1]) {
-        valorTotalDebito += parseInt(transacoes[i].paymentValue);
-      }
+  if(transacoes[i].paymentType == tiposTrasacao[3]){
+    valorTotalPix += parseInt(transacoes[i].paymentValue);
+  } 
 
-      if (transacoes[i].paymentType == tiposTrasacao[2]) {
-        valorTotalCheque += parseInt(transacoes[i].paymentValue);
-      }
+  if(transacoes[i].paymentType == tiposTrasacao[4]){
+    valorTotalDinheiro += parseInt(transacoes[i].paymentValue);
+  } 
+}
 
-      if (transacoes[i].paymentType == tiposTrasacao[3]) {
-        valorTotalPix += parseInt(transacoes[i].paymentValue);
-      }
-
-      if (transacoes[i].paymentType == tiposTrasacao[4]) {
-        valorTotalDinheiro += parseInt(transacoes[i].paymentValue);
-      }
-    }
-  }
-
-  console.log(valorTotalCredito);
-  console.log(valorTotalDebito);
-  console.log(valorTotalCheque);
-  console.log(valorTotalPix);
-  console.log(valorTotalDinheiro);
+console.log(valorTotalCredito);
+console.log(valorTotalDebito);
+console.log(valorTotalCheque);
+console.log(valorTotalPix);
+console.log(valorTotalDinheiro);
 
 
-  let tabela = new google.visualization.DataTable();
-  tabela.addColumn('string', 'Categorias');
-  tabela.addColumn('number', 'Valores');
-  tabela.addRows([
+let tabela = new google.visualization.DataTable();
+tabela.addColumn('string', 'Categorias');
+tabela.addColumn('number', 'Valores');
+tabela.addRows([
 
-  ]);
+]);
 
-  tabela.addRows([
+tabela.addRows([
     [tiposTrasacao[0], valorTotalCredito]
-  ])
+])    
 
-  tabela.addRows([
+tabela.addRows([
     [tiposTrasacao[1], valorTotalDebito]
-  ])
+])
 
-  tabela.addRows([
+tabela.addRows([
     [tiposTrasacao[2], valorTotalCheque]
-  ])
+])
 
-  tabela.addRows([
-    [tiposTrasacao[3], valorTotalPix]
-  ])
+tabela.addRows([
+  [tiposTrasacao[3], valorTotalPix]
+])
 
-  tabela.addRows([
-    [tiposTrasacao[4], valorTotalDinheiro]
-  ])
+tabela.addRows([
+  [tiposTrasacao[4], valorTotalDinheiro]
+])
 
 
-  let opcoes = {
+let opcoes = {
     'height': 500,
-    'width': 1000,
-  };
+    'width':1000,
+};
 
-  let grafico = new google.visualization.ColumnChart(document.getElementById('gastosCategoria'));
-  grafico.draw(tabela, opcoes)
+let grafico = new google.visualization.ColumnChart(document.getElementById('gastosCategoria'));
+grafico.draw(tabela, opcoes)
 
 }
 google.charts.setOnLoadCallback(desenharBarraTransacoes);
