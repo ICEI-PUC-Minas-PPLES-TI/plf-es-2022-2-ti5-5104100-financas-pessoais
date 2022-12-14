@@ -20,6 +20,20 @@ class _ListTransactionsPageState extends State<ListCategoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Categoria"),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF923DF8),
+                Color(0xFF4C94F8),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+          width: double.infinity,
+          height: double.infinity,
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(

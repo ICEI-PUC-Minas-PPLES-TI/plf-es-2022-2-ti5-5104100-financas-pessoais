@@ -110,13 +110,13 @@ class _CreateCategoryState extends State<CreateCategory> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Color(0xFFC84CF4),
-                    Color.fromARGB(255, 41, 19, 236),
-                    Color(0xFF923DF8),
-                  ]),
+                colors: [
+                  Color(0xFF923DF8),
+                  Color(0xFF4C94F8),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
             ),
           ),
         ),
@@ -125,12 +125,11 @@ class _CreateCategoryState extends State<CreateCategory> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFC84CF4),
-              Color.fromARGB(255, 41, 19, 236),
               Color(0xFF923DF8),
+              Color(0xFF4C94F8),
             ],
-            begin: Alignment.bottomLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
         child: SingleChildScrollView(

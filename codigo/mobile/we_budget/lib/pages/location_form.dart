@@ -50,7 +50,21 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Novo Lugar'),
+        title: const Text('Localização da Transação'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF923DF8),
+                Color(0xFF4C94F8),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+          width: double.infinity,
+          height: double.infinity,
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,8 +75,8 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     LocationInput(_selectPosition),
                   ],
                 ),
@@ -71,10 +85,13 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
           ),
           ElevatedButton.icon(
             icon: const Icon(Icons.add),
-            label: const Text('Adicionar'),
+            label: const Text('Adicionar Lozalização'),
             style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.only(
+                  left: 0.0, top: 20.0, right: 0.0, bottom: 0.0),
               elevation: 0,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              backgroundColor: Color(0xFF4C94F8),
             ),
             onPressed: (() async {
               if (_isValidForm()) {

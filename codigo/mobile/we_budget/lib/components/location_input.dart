@@ -61,7 +61,7 @@ class _LocationInputState extends State<LocationInput> {
     return Column(
       children: [
         Container(
-          height: 350,
+          height: 500,
           width: double.infinity,
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -73,7 +73,7 @@ class _LocationInputState extends State<LocationInput> {
           child: _previewImageUrl == null
               ? const Text('Localização não informada!')
               : SizedBox(
-                  height: 350,
+                  height: 500,
                   child: Image.network(
                     _previewImageUrl!,
                     fit: BoxFit.cover,
