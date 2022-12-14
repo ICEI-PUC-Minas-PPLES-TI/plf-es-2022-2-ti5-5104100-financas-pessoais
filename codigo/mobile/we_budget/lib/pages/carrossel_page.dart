@@ -55,7 +55,8 @@ class _CarroselTutorialState extends State<CarroselTutorial> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.login);
+                      Navigator.of(context)
+                          .pushReplacementNamed(AppRoutes.authOrHome);
                     },
                   ),
                 ],
