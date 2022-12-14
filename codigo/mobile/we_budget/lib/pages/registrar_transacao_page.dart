@@ -142,7 +142,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
   }
 
   TextEditingController dateInput = TextEditingController();
-  int tipoTransaction = 0;
+  int tipoTransaction = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +184,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
         });
       }
     } else {
-      tipoTransaction = 0;
+      tipoTransaction = 1;
       // dropdownValue = list.first;
       dateInput = TextEditingController();
     }
@@ -201,8 +201,21 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrar transação'),
-        backgroundColor: Colors.blueAccent,
+        title: const Text('Registrar Transação'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF923DF8),
+                Color(0xFF4C94F8),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+          width: double.infinity,
+          height: double.infinity,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(right: 25, left: 25),
@@ -221,8 +234,8 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       minHeight: 25.0,
                       cornerRadius: 20.0,
                       activeBgColors: const [
-                        [Colors.blueAccent],
-                        [Colors.blueAccent],
+                        [Color(0xFF1B1C30)],
+                        [Color(0xFF1B1C30)],
                       ],
                       borderWidth: 5,
                       activeFgColor: Colors.white,
@@ -249,7 +262,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                       arguments: "CreateTransaction"),
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Color(0xFF1B1C30),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -321,7 +334,9 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     labelText: "Insira a data",
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          width: 0.8, color: Colors.blueAccent), //<-- SEE HERE
+                          width: 0.8,
+                          color:
+                              Color.fromARGB(200, 27, 28, 48)), //<-- SEE HERE
                       borderRadius: BorderRadius.circular(50.0),
                     ),
                   ),
@@ -436,7 +451,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                 child: ElevatedButton(
                   // onPressed: _submit,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Color(0xFF1B1C30),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -455,7 +470,7 @@ class _TransacaoFormPageState extends State<TransacaoFormPage> {
                     : ElevatedButton(
                         // onPressed: _submit,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Color(0xFF4CB3F4),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
