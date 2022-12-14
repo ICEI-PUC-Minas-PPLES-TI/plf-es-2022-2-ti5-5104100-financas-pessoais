@@ -112,15 +112,6 @@ $ flutter run -d chrome
     Para o AndroidSudio será necessário a criação de um emulador para estar executando
 
 
-
-## Histórico de versões
-
-* 1.0.0
-    * Estruturação inicial da Apresentação e Requisitos do projeto
-* 1.x.x
-    * Adicionado Diagrama de componentes
-
-    
 ## Referências
 
 SOUZA, Ludmilla. Pesquisa revela que 58% dos brasileiros não se dedicam às próprias finanças. 2018. Agência Brasil. Disponível em: https://agenciabrasil.ebc.com.br/economia/noticia/2018-03/pesquisa-revela-que-58-dos-brasileiros-nao-se-dedicam-proprias-financas
