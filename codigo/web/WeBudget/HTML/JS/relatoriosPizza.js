@@ -14,22 +14,51 @@ function  getValoresTrasacoes() {
 getValoresTrasacoes()
 
 function desenharBarraDespesas() {
-
   let transacoes = getValoresTrasacoes();
-  var ListaCategorias = new Array;
-  var ListaValorDespesas = new Array;
   console.log(transacoes)
+  var categorias=[];
+  var index=0
+  console.log(typeof categorias)
   for (i = 0; i < transacoes.length; i++) {
-    if(transacoes[i].tansactionType==1    ){
+    var existe = Boolean (false)
+    if(transacoes[i].tansactionType==1){
 
-    ListaCategorias.push(transacoes[i].categoryDescription);
-    ListaValorDespesas.push(transacoes[i].paymentValue);
+      console.log(categorias.includes(transacoes[i].categoryDescription))
+      if(categorias.length==0 || categorias.includes(transacoes[i].categoryDescription)==false){
+        categorias.push(transacoes[i].categoryDescription)
+        console.log(categorias)
+      }else{
+        for (j = 0; j < categorias.length; j++){
+          if(transacoes[i].categoryDescription == categorias[j]){
+         console.log("teste")
+          }
+        }
+      }
+    
+      }
     }
-  
-}
+    console.log(categorias) 
+var payment= [];
+var index=0;
+categorias.forEach(element=>{
+  payment[index]=0;
+  index++;
+})
+index=0
+
+categorias.forEach(element => {
+ transacoes.forEach(data =>{
+ if(data.categoryDescription==element && data.tansactionType==1){
+  payment[index]+=data.paymentValue;
+  console.log(data.paymentValue);
+ }
+ })
+ index++;
+});
+console.log(payment)
 
 let tabela = new google.visualization.DataTable();
-tabela.addColumn('string', 'Ano');
+tabela.addColumn('string', 'Categoria');
 tabela.addColumn('number', 'Valor despesas');
 tabela.addRows([
 
@@ -38,7 +67,7 @@ tabela.addRows([
 
 for (i = 0; i <transacoes.length; i++) {
   tabela.addRows([
-      [ListaCategorias[i], ListaValorDespesas[i]]
+      [categorias[i], payment[i]]
   ]) 
  
 } 
@@ -81,16 +110,42 @@ getValoresTrasacoes()
 function desenharRoscaReceitas() {
 
   let transacoes = getValoresTrasacoes();
-  var ListaCategorias = new Array;
-  var ListaValorReceitas = new Array;
-  console.log(transacoes)
+  var categorias2=[];
+  console.log(typeof categorias2)
   for (i = 0; i < transacoes.length; i++) {
-    if(transacoes[i].tansactionType==0    ){
-    ListaCategorias.push(transacoes[i].categoryDescription);
-    ListaValorReceitas.push(transacoes[i].paymentValue);
+    var existe = Boolean (false)
+    if(transacoes[i].tansactionType==0){
+      if(categorias2.length==0 || categorias2.includes(transacoes[i].categoryDescription)==false){
+        categorias2.push(transacoes[i].categoryDescription)
+      }else{
+        for (j = 0; j < categorias2.length; j++){
+          if(transacoes[i].categoryDescription == categorias2[j]){
+          }
+        }
+      }
+    
+      }
     }
-  
-}
+    console.log(categorias2) 
+var payment2= [];
+var index2=0;
+categorias2.forEach(element=>{
+  payment2[index2]=0;
+  index2++;
+})
+index2=0
+
+categorias2.forEach(element => {
+ transacoes.forEach(data =>{
+ if(data.categoryDescription==element && data.tansactionType==0){
+  payment2[index2]+=data.paymentValue;
+  console.log(data.paymentValue);
+ }
+ })
+ index2++;
+});
+console.log(payment2)
+
 
 let tabela = new google.visualization.DataTable();
 tabela.addColumn('string', 'Categoria');
@@ -102,7 +157,7 @@ tabela.addRows([
 
 for (i = 0; i <transacoes.length; i++) {
   tabela.addRows([
-      [ListaCategorias[i], ListaValorReceitas[i]]
+      [categorias2[i], payment2[i]]
   ]) 
  
 }
