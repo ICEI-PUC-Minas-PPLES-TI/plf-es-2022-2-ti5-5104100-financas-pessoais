@@ -207,7 +207,7 @@ As restrições impostas ao projeto que afetam sua arquitetura são :
 | Negócio | Back-end | C# |
 | Teste de Software | Framework | XUnit |
 | Deploy | API | Azure |
-| Integração | Rest | Heroku |
+| Integração | Rest | Netlify |
 
 <a name="modelagem"></a>
 # 3. Modelagem e projeto arquitetural
